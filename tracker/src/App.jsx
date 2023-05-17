@@ -1,4 +1,4 @@
-import { ChakraProvider, Box, Button} from "@chakra-ui/react"
+import { ChakraProvider, Box, Button, Flex} from "@chakra-ui/react"
 import {AuthContext} from "./context/AuthContext"
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -7,6 +7,8 @@ import userimage from "./assets/user.png"
 import Navigation from "./components/Navigation/Navigation";
 import Home from "./views/Home/Home"
 import NotFound from "./views/NotFound/NotFound";
+import Login from "./views/Authentication/Login/Login";
+import Register from "./views/Authentication/Register/Register"
 
 
 function App() {
@@ -49,13 +51,21 @@ function App() {
       }}
     >
       <ChakraProvider>
-        <div className="App">
+        <Flex className="App">
           <Navigation />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
+          <Flex
+            as="main"
+            flexGrow={1}
+            justifyContent="center" // Center horizontally
+            alignItems="center" // Center vertically
+            p={5} // Add some padding
+          >
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Flex>
+        </Flex>
       </ChakraProvider>
     </AuthContext.Provider>
   )
