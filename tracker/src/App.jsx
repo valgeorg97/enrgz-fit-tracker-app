@@ -9,6 +9,7 @@ import Home from "./views/Home/Home"
 import NotFound from "./views/NotFound/NotFound";
 import Login from "./views/Authentication/Login/Login";
 import Register from "./views/Authentication/Register/Register"
+import Landing from "./views/LandingPage/LandingPage"
 
 
 function App() {
@@ -61,8 +62,9 @@ function App() {
             p={5} // Add some padding
           >
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Landing />} />
               <Route path="*" element={<NotFound />} />
+              <Route path="Register" elemet={<Register />} />
             </Routes>
           </Flex>
         </Flex>
