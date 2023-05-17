@@ -14,6 +14,7 @@ import {
     useColorModeValue,
     Link,
   } from '@chakra-ui/react';
+  import { Link as RouterLink} from "react-router-dom";
   import { useState } from 'react';
   import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
   
@@ -88,7 +89,10 @@ const Register = () => {
               </Stack>
               <Stack pt={6}>
                 <Text align={'center'}>
-                  Already a user? <Link color={'blue.400'}>Login</Link>
+                  Already a user? 
+                  <RouterLink to="/login">
+                    <Link color={'blue.400'}> Login</Link>
+                    </RouterLink>
                 </Text>
               </Stack>
             </Stack>

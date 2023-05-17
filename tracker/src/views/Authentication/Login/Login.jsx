@@ -61,7 +61,7 @@ const Login = () => {
               </Button>
               <Box>
                   <Text align={'center'}>
-                    Don't have an account? Please{" "}
+                    Don't have an account?{" "}
                     <RouterLink to="/register">
                       <Link color={'blue.400'}>Register</Link>
                     </RouterLink>

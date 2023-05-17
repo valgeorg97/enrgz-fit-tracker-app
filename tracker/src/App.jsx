@@ -14,6 +14,7 @@ import Profile from "./views/Profile/Profile";
 import Exercises from "./views/Exercises/Exercises";
 import Goals from "./views/Goals/Goals";
 import Community from "./views/Community/Community";
+import Login from "./views/Authentication/Login/Login";
 
 
 function App() {
@@ -71,6 +72,8 @@ function App() {
               <Route path="goals" element={<Goals />} />
               <Route path="community" element={<Community />} />
               <Route path="profile" element={<Profile />} />
+              <Route path="register" element={<Register />} />
+              <Route path="login" element={<Login />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Flex>
