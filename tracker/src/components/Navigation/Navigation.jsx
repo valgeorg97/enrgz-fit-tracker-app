@@ -1,11 +1,12 @@
 import { useState, useContext } from 'react'
 import { Flex, Text, IconButton, Divider, Avatar, Heading, Box, Image } from '@chakra-ui/react'
-import { FiMenu, FiHome} from 'react-icons/fi'
+import { FiMenu, FiHome } from 'react-icons/fi'
 import { motion } from "framer-motion";
-import {GiStairsGoal, GiWeightLiftingUp} from 'react-icons/gi'
-import{CgProfile} from 'react-icons/cg'
+import { GiStairsGoal, GiWeightLiftingUp } from 'react-icons/gi'
+import { CgProfile } from 'react-icons/cg'
 import { FaUsers } from 'react-icons/fa'
 import { AuthContext } from "../../context/AuthContext"
+import { useLocation } from 'react-router-dom';
 
 import logo from '../../assets/logo.png'
 import NavItem from './NavItem'
@@ -13,6 +14,7 @@ import NavItem from './NavItem'
 const MotionBox = motion(Box);
 const Navigation = () => {
     const { name, family, isAdmin } = useContext(AuthContext);
+    const location = useLocation();
 
     const [navSize, changeNavSize] = useState("large")
     return (
@@ -56,11 +58,11 @@ const Navigation = () => {
                             changeNavSize("small")
                     }}
                 />
-                <NavItem link='/' navSize={navSize} icon={FiHome} title="Dashboard" description="This is the description for the dashboard." />
-                <NavItem link='/exercises' navSize={navSize} icon={GiWeightLiftingUp} title="Exercises" active />
-                <NavItem link='/goals' navSize={navSize} icon={GiStairsGoal} title="Goals" />
-                <NavItem link='/users' navSize={navSize} icon={FaUsers} title="Community" />
-                <NavItem link='/profile' navSize={navSize} icon={CgProfile} title="Profile" />
+                <NavItem link='/' navSize={navSize} icon={FiHome} title="Dashboard" active={location.pathname === '/'} />
+                <NavItem link='/exercises' navSize={navSize} icon={GiWeightLiftingUp} title="Exercises" active={location.pathname === '/exercises'} />
+                <NavItem link='/goals' navSize={navSize} icon={GiStairsGoal} title="Goals" active={location.pathname === '/goals'} />
+                <NavItem link='/community' navSize={navSize} icon={FaUsers} title="Community" active={location.pathname === '/community'} />
+                <NavItem link='/profile' navSize={navSize} icon={CgProfile} title="Profile" active={location.pathname === '/profile'} />
             </Flex>
 
             <Flex

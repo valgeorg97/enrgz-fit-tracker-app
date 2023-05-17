@@ -3,13 +3,17 @@ import {AuthContext} from "./context/AuthContext"
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import userimage from "./assets/user.png"
+import React from "react";
 
 import Navigation from "./components/Navigation/Navigation";
 import Home from "./views/Home/Home"
 import NotFound from "./views/NotFound/NotFound";
-import Login from "./views/Authentication/Login/Login";
 import Register from "./views/Authentication/Register/Register"
 import Landing from "./views/LandingPage/LandingPage"
+import Profile from "./views/Profile/Profile";
+import Exercises from "./views/Exercises/Exercises";
+import Goals from "./views/Goals/Goals";
+import Community from "./views/Community/Community";
 
 
 function App() {
@@ -62,9 +66,12 @@ function App() {
             p={5} // Add some padding
           >
             <Routes>
-              <Route path="/" element={<Landing />} />
+              <Route path="/" element={<Landing />} /> 
+              <Route path="exercises" element={<Exercises />} />
+              <Route path="goals" element={<Goals />} />
+              <Route path="community" element={<Community />} />
+              <Route path="profile" element={<Profile />} />
               <Route path="*" element={<NotFound />} />
-              <Route path="Register" elemet={<Register />} />
             </Routes>
           </Flex>
         </Flex>
