@@ -1,12 +1,14 @@
 import { useState, useContext } from 'react'
-import {Flex,Text,IconButton,Divider,Avatar,Heading} from '@chakra-ui/react'
-import {FiMenu,FiHome,FiCalendar,FiSettings, FiActivity} from 'react-icons/fi'
+import { Flex, Text, IconButton, Divider, Avatar, Heading, Box, Image } from '@chakra-ui/react'
+import { FiMenu, FiHome, FiCalendar, FiSettings, FiActivity } from 'react-icons/fi'
+import { motion } from "framer-motion";
 // import { IoPawOutline } from 'react-icons/io5'
-import{FaUsers} from'react-icons/fa' 
+import logo from '../../assets/logo.png'
+import { FaUsers } from 'react-icons/fa'
 import NavItem from './NavItem'
-import {AuthContext} from "../../context/AuthContext"
+import { AuthContext } from "../../context/AuthContext"
 
-
+const MotionBox = motion(Box);
 const Navigation = () => {
     const { name, family, isAdmin } = useContext(AuthContext);
 
@@ -30,6 +32,17 @@ const Navigation = () => {
                 alignItems={navSize == "small" ? "center" : "flex-start"}
                 as="nav"
             >
+                <MotionBox
+                    as={Image}
+                    src={logo}
+                    alt="Logo"
+                    w="150px"
+                    h="auto"
+                    // Animation properties
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1 }}
+                />
                 <IconButton
                     background="none"
                     mt={5}
