@@ -1,23 +1,15 @@
-import React, { useState } from 'react'
-import {
-    Flex,
-    Text,
-    IconButton,
-    Divider,
-    Avatar,
-    Heading
-} from '@chakra-ui/react'
-import {
-    FiMenu,
-    FiHome,
-    FiCalendar,
-    FaUsers,
-    FiSettings
-} from 'react-icons/fi'
-import { IoPawOutline } from 'react-icons/io5'
+import { useState, useContext } from 'react'
+import {Flex,Text,IconButton,Divider,Avatar,Heading} from '@chakra-ui/react'
+import {FiMenu,FiHome,FiCalendar,FiSettings, FiActivity} from 'react-icons/fi'
+// import { IoPawOutline } from 'react-icons/io5'
+import{FaUsers} from'react-icons/fa' 
 import NavItem from './NavItem'
+import {AuthContext} from "../../context/AuthContext"
+
 
 const Navigation = () => {
+    const { name, family, isAdmin } = useContext(AuthContext);
+
     const [navSize, changeNavSize] = useState("large")
     return (
         <Flex
@@ -50,11 +42,11 @@ const Navigation = () => {
                             changeNavSize("small")
                     }}
                 />
-                <NavItem navSize={navSize} icon={FiHome} title="Dashboard" description="This is the description for the dashboard." />
-                <NavItem navSize={navSize} icon={FiCalendar} title="Exercises" active />
-                <NavItem navSize={navSize} icon={null} title="Goals" />
-                <NavItem navSize={navSize} icon={FaUsers} title="Users" />
-                <NavItem navSize={navSize} icon={FiSettings} title="Profile" />
+                <NavItem link='/' navSize={navSize} icon={FiHome} title="Dashboard" description="This is the description for the dashboard." />
+                <NavItem link='/exercises' navSize={navSize} icon={FiCalendar} title="Exercises" active />
+                <NavItem link='/goals' navSize={navSize} icon={FiActivity} title="Goals" />
+                <NavItem link='/users' navSize={navSize} icon={FaUsers} title="Users" />
+                <NavItem link='/profile' navSize={navSize} icon={FiSettings} title="Profile" />
             </Flex>
 
             <Flex
@@ -68,8 +60,9 @@ const Navigation = () => {
                 <Flex mt={4} align="center">
                     <Avatar size="sm" src="avatar-1.jpg" />
                     <Flex flexDir="column" ml={4} display={navSize == "small" ? "none" : "flex"}>
+                        {/* <Heading as="h3" size="sm">{`${name} ${family}`}</Heading> */}
                         <Heading as="h3" size="sm">Pesho Burziq</Heading>
-                        <Text color="gray">Admin</Text>
+                        <Text color="gray">{isAdmin ? 'Admin' : 'User'}</Text>
                     </Flex>
                 </Flex>
             </Flex>
