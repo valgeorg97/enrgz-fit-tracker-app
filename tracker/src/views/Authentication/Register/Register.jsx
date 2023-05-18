@@ -1,5 +1,5 @@
 import { Flex, Box, FormControl, FormLabel, Input, InputGroup, HStack, InputRightElement, Stack, Button, Heading, Text, useColorModeValue, Link } from '@chakra-ui/react';
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink, Link as ChakraLink, useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { db, auth } from "../../../services/firebase";
@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { email, setEmail, password, setPassword, name, setName, family, setFamily, phoneNumber, setPhoneNumber, username, setUsername} = useContext(AuthContext);
+  const { email, setEmail, password, setPassword, name, setName, family, setFamily, phoneNumber, setPhoneNumber, username, setUsername } = useContext(AuthContext);
   let navigate = useNavigate();
   const usersCollection = collection(db, "users")
 
@@ -143,9 +143,9 @@ const Register = () => {
             <Stack pt={6}>
               <Text align={'center'}>
                 Already a user?
-                <RouterLink to="/login">
-                  <Link color={'blue.400'}> Login</Link>
-                </RouterLink>
+                <ChakraLink as={RouterLink} to="/login" style={{ color: '#3182CE' }}>
+                  {" "}Login
+                </ChakraLink>
               </Text>
             </Stack>
           </Stack>

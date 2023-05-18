@@ -1,9 +1,9 @@
-import {Flex,FormControl,FormLabel,Input,Checkbox,Stack,Link,Button,Heading,Text,useColorModeValue,Box,} from '@chakra-ui/react';
-import { Link as RouterLink, Link as ChakraLink,useNavigate } from "react-router-dom";
+import { Flex, FormControl, FormLabel, Input, Checkbox, Stack, Link, Button, Heading, Text, useColorModeValue, Box, } from '@chakra-ui/react';
+import { Link as RouterLink, Link as ChakraLink, useNavigate } from "react-router-dom";
 import { auth } from "../../../services/firebase";
-import { AuthContext }  from "../../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { useContext} from "react";
+import { useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
@@ -48,41 +48,41 @@ const Login = () => {
           boxShadow={'lg'}
           p={8}>
           <Stack spacing={4}>
-          <form onSubmit={signIn}>
-            <FormControl id="email">
-              <FormLabel>Email address</FormLabel>
-              <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            </FormControl>
-            <FormControl id="password">
-              <FormLabel>Password</FormLabel>
-              <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            </FormControl>
-            <Stack spacing={10}>
-              <Stack
-                direction={{ base: 'column', sm: 'row' }}
-                align={'start'}
-                justify={'space-between'}>
-                <Checkbox>Remember me</Checkbox>
-                <Link color={'blue.400'}>Forgot password?</Link>
-              </Stack>
-              <Button
-                type="submit"
-                bg={'blue.400'}
-                color={'white'}
-                _hover={{
-                  bg: 'blue.500',
-                }}>
-                Sign in
-              </Button>
-              <Box>
+            <form onSubmit={signIn}>
+              <FormControl id="email">
+                <FormLabel>Email address</FormLabel>
+                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              </FormControl>
+              <FormControl id="password">
+                <FormLabel>Password</FormLabel>
+                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+              </FormControl>
+              <Stack spacing={10}>
+                <Stack
+                  direction={{ base: 'column', sm: 'row' }}
+                  align={'start'}
+                  justify={'space-between'}>
+                  <Checkbox>Remember me</Checkbox>
+                  <Link color={'blue.400'}>Forgot password?</Link>
+                </Stack>
+                <Button
+                  type="submit"
+                  bg={'blue.400'}
+                  color={'white'}
+                  _hover={{
+                    bg: 'blue.500',
+                  }}>
+                  Sign in
+                </Button>
+                <Box>
                   <Text align={'center'}>
                     Don't have an account?{" "}
-                    <RouterLink to="/register">
-                      <Link  to={"/register"} color={'blue.400'}>Register now !</Link>
-                    </RouterLink>
+                    <ChakraLink as={RouterLink} to="/register" style={{ color: '#3182CE' }}>
+                      Register now!
+                    </ChakraLink>
                   </Text>
                 </Box>
-            </Stack>
+              </Stack>
             </form>
           </Stack>
         </Box>
