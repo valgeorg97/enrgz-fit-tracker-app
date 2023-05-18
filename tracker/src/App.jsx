@@ -8,7 +8,6 @@ import { auth, db } from "./services/firebase";
 import { useNavigate } from "react-router-dom";
 
 import Navigation from "./components/Navigation/Navigation";
-import Home from "./views/Home/Home"
 import NotFound from "./views/NotFound/NotFound";
 import Register from "./views/Authentication/Register/Register"
 import Landing from "./views/LandingPage/LandingPage"
