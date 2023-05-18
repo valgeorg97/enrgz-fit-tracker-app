@@ -1,23 +1,26 @@
 import { useState, useContext } from 'react'
-import { Flex, Text, IconButton, Divider, Avatar, Heading, Box, Image } from '@chakra-ui/react'
+import { Flex, Text, IconButton, Divider, Avatar, Heading, Box, Image, Menu, MenuButton, MenuList, MenuItem, MenuDivider } from '@chakra-ui/react'
 import { FiMenu, FiHome } from 'react-icons/fi'
+import { ChevronDownIcon } from "@chakra-ui/icons"
 import { motion } from "framer-motion";
 import { GiStairsGoal, GiWeightLiftingUp } from 'react-icons/gi'
 import { CgProfile } from 'react-icons/cg'
 import { FaUsers } from 'react-icons/fa'
 import { AuthContext } from "../../context/AuthContext"
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import logo from '../../assets/logo.png'
 import NavItem from './NavItem'
 
 const MotionBox = motion(Box);
+
 const Navigation = () => {
     const { name, isAdmin, signOut } = useContext(AuthContext);
     const location = useLocation();
     const handleSignOut = () => {
-        signOut(); 
-      }
+        signOut();
+    }
+    const navigate = useNavigate()
 
     const [navSize, changeNavSize] = useState("large")
     return (
@@ -77,8 +80,17 @@ const Navigation = () => {
             >
                 <Divider display={navSize == "small" ? "none" : "flex"} />
                 <Flex mt={4} align="center">
-                    <Avatar size="sm" src="avatar-1.jpg" onClick={handleSignOut}/>
-                    <Flex flexDir="column" ml={4} display={navSize == "small" ? "none" : "flex"}>
+                    <Menu>
+                        <MenuButton as={Avatar} size="sm" src="avatar-1.jpg">
+                            <ChevronDownIcon />
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem onClick={() => navigate('/profile')}>Profile</MenuItem>
+                            <MenuDivider />
+                            <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+                        </MenuList>
+                    </Menu>
+                    <Flex flexDir="column" ml={4} display={navSize === "small" ? "none" : "flex"}>
                         <Heading as="h3" size="sm">{name}</Heading>
                         <Text color="gray">{isAdmin ? 'Admin' : 'User'}</Text>
                     </Flex>
