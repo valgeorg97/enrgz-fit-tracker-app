@@ -1,21 +1,5 @@
-import {
-  Flex,
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  InputGroup,
-  HStack,
-  InputRightElement,
-  Stack,
-  Button,
-  Heading,
-  Text,
-  useColorModeValue,
-  Link,
-} from '@chakra-ui/react';
-
-import { Link as RouterLink } from "react-router-dom";
+import {Flex,Box,FormControl,FormLabel,Input,InputGroup,HStack,InputRightElement,Stack,Button,Heading,Text,useColorModeValue,Link} from '@chakra-ui/react';
+import { Link as RouterLink, useNavigate} from "react-router-dom";
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { db, auth } from "../../../services/firebase";
@@ -25,19 +9,17 @@ import { AuthContext } from "../../../context/AuthContext";
 import { useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
 
 
 const Register = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const { email, setEmail, password, setPassword, name, setName, family, setFamily } = useContext(AuthContext);
-  let navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+    const { email, setEmail, password, setPassword, name, setName, family, setFamily } = useContext(AuthContext);
+    let navigate = useNavigate();
+    const usersCollection = collection(db, "users")
 
-
-  const usersCollection = collection(db, "users")
-  const addUser = async () => {
-    await addDoc(usersCollection, { name: name, family: family, role: "user", isBlocked: false, email: email, password: password, id: auth.currentUser.uid });
-  }
+    const addUser = async () => {
+        await addDoc(usersCollection, { name: name, family: family, role: "user", isBlocked: false, email: email, password: password, id: auth.currentUser.uid });
+    }
 
 
   const updateName = () => {

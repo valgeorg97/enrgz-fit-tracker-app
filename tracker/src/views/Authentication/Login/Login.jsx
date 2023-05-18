@@ -1,19 +1,15 @@
 import {Flex,FormControl,FormLabel,Input,Checkbox,Stack,Link,Button,Heading,Text,useColorModeValue,Box,} from '@chakra-ui/react';
-import { Link as RouterLink, Link as ChakraLink } from "react-router-dom";
-
-import { auth, provider } from "../../../services/firebase";
+import { Link as RouterLink, Link as ChakraLink,useNavigate } from "react-router-dom";
+import { auth } from "../../../services/firebase";
 import { AuthContext }  from "../../../context/AuthContext";
-import { signInWithEmailAndPassword, signInWithPopup, onAuthStateChanged, signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import { useState, useEffect, useContext} from "react";
-import { FcGoogle } from 'react-icons/fc';
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { useContext} from "react";
 import { ToastContainer, toast } from "react-toastify";
-import React from 'react';
 
 const Login = () => {
 
-  const { isLoggedIn, setIsLoggedIn, email, setEmail, password, setPassword } = useContext(AuthContext);
-  const [user, setUser] = useState("{}")
+  const { setIsLoggedIn, email, setEmail, password, setPassword } = useContext(AuthContext);
+  // const [user, setUser] = useState("{}")
   let navigate = useNavigate();
 
   // onAuthStateChanged(auth, (currentUser) =>{
@@ -23,12 +19,10 @@ const Login = () => {
   const signIn = (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log(userCredential);
+      .then(() => {
         localStorage.setItem("isAuth", true);
         setIsLoggedIn(true);
         navigate("/profile");
-        console.log(userCredential.user.email);
       })
       .catch((error) => {
         console.log(error);

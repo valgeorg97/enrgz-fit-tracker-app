@@ -19,9 +19,9 @@ export const auth = getAuth(app)
 export const provider = new GoogleAuthProvider()
 const storage = getStorage()
 
-// export async function uploadPhoto(file, currentUser) {
-//   const fileRef = ref(storage, currentUser,+".png")
-//   const snapshot = await uploadBytes(fileRef, file)
-//   const photoURL = await getDownloadURL(fileRef)
-//   const changeAvatar = await updateProfile(auth.currentUser, {photoURL: photoURL})
-// }
+export async function uploadPhoto(file, currentUser) {
+  const fileRef = ref(storage, currentUser,+".png")
+  const snapshot = await uploadBytes(fileRef, file)
+  const photoURL = await getDownloadURL(fileRef)
+  const changeAvatar = await updateProfile(auth.currentUser, {photoURL: photoURL})
+}

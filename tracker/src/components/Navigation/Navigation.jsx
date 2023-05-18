@@ -76,8 +76,8 @@ const Navigation = () => {
                 <Flex mt={4} align="center">
                     <Avatar size="sm" src="avatar-1.jpg" />
                     <Flex flexDir="column" ml={4} display={navSize == "small" ? "none" : "flex"}>
-                        {/* <Heading as="h3" size="sm">{`${name} ${family}`}</Heading> */}
-                        <Heading as="h3" size="sm">Pesho Burziq</Heading>
+                        <Heading as="h3" size="sm">{name}</Heading>
+                        {/* <Heading as="h3" size="sm">Pesho Burziq</Heading> */}
                         <Text color="gray">{isAdmin ? 'Admin' : 'User'}</Text>
                     </Flex>
                 </Flex>
