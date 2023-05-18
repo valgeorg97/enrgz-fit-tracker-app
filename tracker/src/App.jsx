@@ -17,6 +17,8 @@ import Exercises from "./views/Exercises/Exercises";
 import Goals from "./views/Goals/Goals";
 import Community from "./views/Community/Community";
 import Login from "./views/Authentication/Login/Login";
+import LandingPage from "./views/LandingPage/LandingPage";
+import Dashboard from "./views/Dashboard/Dashboard";
 
 
 function App() {
@@ -118,7 +120,8 @@ function App() {
           <Navigation />
           <Flex as="main" flexGrow={1} justifyContent="center" alignItems="center" p={5}>
             <Routes>
-              <Route path="/" element={<Landing />} /> 
+              <Route path="/" element={<LandingPage />} /> 
+              <Route path="/dashboard" element={<Dashboard />} /> 
               <Route path="exercises" element={<Exercises />} />
               <Route path="goals" element={<Goals />} />
               <Route path="community" element={<Community />} />
