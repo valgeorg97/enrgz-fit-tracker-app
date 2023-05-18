@@ -1,7 +1,7 @@
 import { db } from "../../services/firebase";
 import { getDocs, collection, query, where, deleteDoc,doc,updateDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
-import "./Community.css"
+import { Box, Button, FormControl, FormLabel, Input, Select } from '@chakra-ui/react';
 // import {refreshPage} from "../../services/Services"
 
 
@@ -65,36 +65,93 @@ const Community = () =>{
   
   
     return (
-      <div className="userscontainer">
-        <form>
-          <label className="searchby">
-            Search by:
-            <select value={searchType} onChange={handleSearchTypeChange}>
-              <option value="name">Name</option>
-              <option value="username">Username</option>
-              <option value="email">Email</option>
-            </select>
-          </label>
-          <label>
-            Search term:
-            <input className="inputt" type="text" value={searchTerm} onChange={handleSearchTermChange} />
-          </label>
-        </form>
-        {userList.map((user) => {
-          return (
-            <div className="singlepost" key={user.id}>
-              <h2>{user.name}</h2>
-              <p>{user.username}</p>
-              <p>{user.email}</p>
-              <button className="deleteuser" onClick={() => handleDeleteUser(user.id)}>Delete</button>
-              {user.isBlocked===true
-              ? <button className="unblockuser" onClick={() => handleUnblockUser(user.id)}>Unblock</button>
-              : <button className="blockuser" onClick={() => handleBlockUser(user.id)}>Block</button>
-              }
-            </div>
-          )
-        })}
-      </div>
+      
+
+<Box className="userscontainer" bg="gray.100" p={4} borderRadius="md">
+  <form>
+    <FormControl mb={4}>
+      <FormLabel htmlFor="searchType" fontWeight="bold" fontSize="sm" mb={2}>
+        Search by:
+      </FormLabel>
+      <Select id="searchType" value={searchType} onChange={handleSearchTypeChange} bg="white">
+        <option value="name">Name</option>
+        <option value="username">Username</option>
+        <option value="email">Email</option>
+      </Select>
+    </FormControl>
+    <FormControl>
+      <FormLabel htmlFor="searchTerm" fontWeight="bold" fontSize="sm" mb={2}>
+        Search term:
+      </FormLabel>
+      <Input
+        className="inputt"
+        type="text"
+        id="searchTerm"
+        value={searchTerm}
+        onChange={handleSearchTermChange}
+        bg="white"
+        borderRadius="sm"
+        borderColor="gray.300"
+        _focus={{ borderColor: "blue.500", boxShadow: "outline" }}
+        _placeholder={{ color: "gray.400" }}
+      />
+    </FormControl>
+  </form>
+  {userList.map((user) => (
+    <Box
+      className="singlepost"
+      key={user.id}
+      boxShadow="md"
+      p={4}
+      mb={4}
+      bg="white"
+      borderRadius="md"
+    >
+      <h2 fontSize="lg" fontWeight="bold" mb={2}>
+        {user.name}
+      </h2>
+      <p fontSize="sm" color="gray.600" mb={2}>
+        {user.username}
+      </p>
+      <p fontSize="sm" color="gray.600" mb={2}>
+        {user.email}
+      </p>
+      <Button
+        className="deleteuser"
+        onClick={() => handleDeleteUser(user.id)}
+        colorScheme="red"
+        size="sm"
+        mt={2}
+      >
+        Delete
+      </Button>
+      {user.isBlocked ? (
+        <Button
+          className="unblockuser"
+          onClick={() => handleUnblockUser(user.id)}
+          colorScheme="green"
+          size="sm"
+          mt={2}
+          ml={2}
+        >
+          Unblock
+        </Button>
+      ) : (
+        <Button
+          className="blockuser"
+          onClick={() => handleBlockUser(user.id)}
+          colorScheme="red"
+          size="sm"
+          mt={2}
+          ml={2}
+        >
+          Block
+        </Button>
+      )}
+    </Box>
+  ))}
+</Box>
+
     )
   }
 
