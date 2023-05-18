@@ -13,8 +13,11 @@ import NavItem from './NavItem'
 
 const MotionBox = motion(Box);
 const Navigation = () => {
-    const { name, isAdmin } = useContext(AuthContext);
+    const { name, isAdmin, signOut } = useContext(AuthContext);
     const location = useLocation();
+    const handleSignOut = () => {
+        signOut(); 
+      }
 
     const [navSize, changeNavSize] = useState("large")
     return (
@@ -74,7 +77,7 @@ const Navigation = () => {
             >
                 <Divider display={navSize == "small" ? "none" : "flex"} />
                 <Flex mt={4} align="center">
-                    <Avatar size="sm" src="avatar-1.jpg" />
+                    <Avatar size="sm" src="avatar-1.jpg" onClick={handleSignOut}/>
                     <Flex flexDir="column" ml={4} display={navSize == "small" ? "none" : "flex"}>
                         <Heading as="h3" size="sm">{name}</Heading>
                         <Text color="gray">{isAdmin ? 'Admin' : 'User'}</Text>

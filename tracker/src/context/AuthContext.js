@@ -1,5 +1,6 @@
 import { createContext } from "react";
 
+
 export const AuthContext = createContext({
     isLoggedIn: false,
     setIsLoggedIn: () => {},
@@ -8,8 +9,6 @@ export const AuthContext = createContext({
     signOut: () => {},
     isBlocked: "",
     setIsBlocked: () => {},
-
-    
     userID: "",
     setUserID: () => {},
     name: "",
@@ -23,5 +22,7 @@ export const AuthContext = createContext({
     photoURL: "",
     setPhotoURL: () => {},
     password: "",
-    setPassword: () => {}
+    setPassword: () => {},
 });
+
+

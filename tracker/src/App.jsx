@@ -6,6 +6,7 @@ import userimage from "./assets/user.png"
 import { getDocs, collection, where, query } from "firebase/firestore";
 import { auth, db } from "./services/firebase";
 import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
 
 import Navigation from "./components/Navigation/Navigation";
 import NotFound from "./views/NotFound/NotFound";
@@ -22,10 +23,25 @@ import Dashboard from "./views/Dashboard/Dashboard";
 
 function App() {
   const navigate = useNavigate();
-
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth") === "true");
   const [isAdmin, setAdmin] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
+
+  const PrivateRoute = ({ children, ...props }) => {
+    const authContext = React.useContext(AuthContext);
+    return (
+      <Route
+        {...props}
+        render={({ location }) =>
+          authContext.isLoggedIn ? (
+            children
+          ) : (
+            <Navigate to="/" state={{ from: location }} />
+          )
+        }
+      />
+    );
+  }
 
   const [userID, setUserID] = useState("");
   const [name, setName] = useState("");
@@ -97,7 +113,6 @@ function App() {
         signOut: signUserOut,
         isBlocked,
         setIsBlocked,
-
         userID,
         setUserID,
         name,
@@ -116,11 +131,11 @@ function App() {
     >
       <ChakraProvider>
         <Flex className="App">
-          <Navigation />
+          {isAuth && <Navigation />}
           <Flex as="main" flexGrow={1} justifyContent="center" alignItems="center" p={5}>
             <Routes>
-              <Route path="/" element={<LandingPage />} /> 
-              <Route path="/dashboard" element={<Dashboard />} /> 
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="exercises" element={<Exercises />} />
               <Route path="goals" element={<Goals />} />
               <Route path="community" element={<Community />} />

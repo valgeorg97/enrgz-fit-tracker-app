@@ -22,7 +22,7 @@ const Login = () => {
       .then(() => {
         localStorage.setItem("isAuth", true);
         setIsLoggedIn(true);
-        navigate("/profile");
+        navigate("/dashboard");
       })
       .catch((error) => {
         console.log(error);
