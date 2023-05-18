@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import userimage from "./assets/user.png"
 import { getDocs, collection, where, query } from "firebase/firestore";
 import { auth, db } from "./services/firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { signOut } from "firebase/auth";
 
 import Navigation from "./components/Navigation/Navigation";
@@ -19,6 +19,7 @@ import Login from "./views/Authentication/Login/Login";
 import LandingPage from "./views/LandingPage/LandingPage";
 import Dashboard from "./views/Dashboard/Dashboard";
 import UserMenu from "./components/UserMenu/UserMenu";
+
 
 
 function App() {
@@ -134,8 +135,8 @@ function App() {
     >
       <ChakraProvider>
         <Flex className="App" position="relative">
-          {isAuth && <Navigation />}
-          {isAuth && <UserMenu />}
+        {isAuth && location.pathname !== "/register" && location.pathname !== "/login" && <Navigation />}
+          {isAuth && location.pathname !== "/register" && location.pathname !== "/login" && <UserMenu />}
           <Flex as="main" flexGrow={1} justifyContent="center" alignItems="center" p={5}>
             <Routes>
               <Route path="/" element={<LandingPage />} />

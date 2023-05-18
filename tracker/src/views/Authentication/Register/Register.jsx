@@ -61,7 +61,7 @@ const Register = () => {
         updateName();
       })
       .then(() => addUser())
-      .then(navigate("/"))
+      .then(navigate("/login"))
       .catch((error) => console.log(error))
   }
 
