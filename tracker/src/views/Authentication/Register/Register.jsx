@@ -1,5 +1,5 @@
-import {Flex,Box,FormControl,FormLabel,Input,InputGroup,HStack,InputRightElement,Stack,Button,Heading,Text,useColorModeValue,Link} from '@chakra-ui/react';
-import { Link as RouterLink, useNavigate} from "react-router-dom";
+import { Flex, Box, FormControl, FormLabel, Input, InputGroup, HStack, InputRightElement, Stack, Button, Heading, Text, useColorModeValue, Link } from '@chakra-ui/react';
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { db, auth } from "../../../services/firebase";
@@ -12,15 +12,14 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 const Register = () => {
-    const [showPassword, setShowPassword] = useState(false);
-    const { email, setEmail, password, setPassword, name, setName, family, setFamily } = useContext(AuthContext);
-    let navigate = useNavigate();
-    const usersCollection = collection(db, "users")
+  const [showPassword, setShowPassword] = useState(false);
+  const { email, setEmail, password, setPassword, name, setName, family, setFamily, phoneNumber, setPhoneNumber, username, setUsername} = useContext(AuthContext);
+  let navigate = useNavigate();
+  const usersCollection = collection(db, "users")
 
-    const addUser = async () => {
-        await addDoc(usersCollection, { name: name, family: family, role: "user", isBlocked: false, email: email, password: password, id: auth.currentUser.uid });
-    }
-
+  const addUser = async () => {
+    await addDoc(usersCollection, { name: name, family: family, role: "user", username: username, isBlocked: false, email: email, password: password, phoneNumber: phoneNumber, id: auth.currentUser.uid });
+  }
 
   const updateName = () => {
     updateProfile(auth.currentUser, {
@@ -44,8 +43,14 @@ const Register = () => {
       return false;
     }
 
+    if (phoneNumber.trim() === '') {
+      toast.error('Please enter your phone number!');
+      return false;
+    }
+
     return true;
   };
+
   const signUp = (e) => {
     e.preventDefault()
     if (!validateInputs()) {
@@ -89,15 +94,23 @@ const Register = () => {
                 </FormControl>
               </Box>
               <Box>
-                <FormControl id="lastName">
+                <FormControl id="lastName" isRequired>
                   <FormLabel>Last Name</FormLabel>
                   <Input type="text" onChange={(e) => setFamily(e.target.value)} />
                 </FormControl>
               </Box>
             </HStack>
+            <FormControl id="username" isRequired>
+              <FormLabel>Username</FormLabel>
+              <Input type="username" onChange={(e) => setUsername(e.target.value)} />
+            </FormControl>
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
               <Input type="email" onChange={(e) => setEmail(e.target.value)} />
+            </FormControl>
+            <FormControl id="phoneNumber" isRequired>
+              <FormLabel>Phone number</FormLabel>
+              <Input type="tel" onChange={(e) => setPhoneNumber(e.target.value)} />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>

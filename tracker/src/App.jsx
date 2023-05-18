@@ -50,6 +50,7 @@ function App() {
   const [email, setEmail] = useState("");
   const [photoURL, setPhotoURL] = useState(userimage);
   const [password, setPassword] = useState("")
+  const [phoneNumber, setPhoneNumber] = useState("")
 
   const usersCollection = collection(db, "users");
 
@@ -126,7 +127,9 @@ function App() {
         photoURL,
         setPhotoURL,
         password,
-        setPassword
+        setPassword,
+        phoneNumber,
+        setPhoneNumber
       }}
     >
       <ChakraProvider>
