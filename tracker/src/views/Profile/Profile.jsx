@@ -52,7 +52,7 @@ const Profile = () => {
 
         <FormControl id="email">
           <FormLabel>Email</FormLabel>
-          <Input type="email" onChange={(e) => handleChangeEmail(e.target.value)} />
+          <Input type="email" value={email} onChange={(e) => handleChangeEmail(e.target.value)} />
           <Button onClick={() => changeTheEmail()} colorScheme="blue">Update Email</Button>
 
         </FormControl>
