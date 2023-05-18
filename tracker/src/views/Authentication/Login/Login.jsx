@@ -110,6 +110,15 @@ const Login = () => {
           </Stack>
         </Box>
       </Stack>
+      <ToastContainer
+        position="top-center"
+        toastStyle={{
+          position: 'relative',
+          top: '40%',
+          left: '30%',
+          marginTop: '-10px',
+        }}
+      />
     </Flex>
   );
 }
