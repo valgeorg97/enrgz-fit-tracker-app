@@ -4,11 +4,12 @@ export const AuthContext = createContext({
     isLoggedIn: false,
     setIsLoggedIn: () => {},
     isAdmin: false,
-    setIsAdmin: () => {},
+    setAdmin: () => {},
     signOut: () => {},
     isBlocked: "",
     setIsBlocked: () => {},
 
+    
     userID: "",
     setUserID: () => {},
     name: "",
@@ -23,6 +24,4 @@ export const AuthContext = createContext({
     setPhotoURL: () => {},
     password: "",
     setPassword: () => {}
-    // currentUserEmail: "",
-    // setCurrentUserEmail: () => {},
 });

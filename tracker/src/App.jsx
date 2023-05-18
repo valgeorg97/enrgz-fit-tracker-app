@@ -1,9 +1,8 @@
-import { ChakraProvider, Box, Button, Flex} from "@chakra-ui/react"
+import { ChakraProvider, Flex} from "@chakra-ui/react"
 import {AuthContext} from "./context/AuthContext"
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import userimage from "./assets/user.png"
-// import React from "react";
 import { getDocs, collection, where, query } from "firebase/firestore";
 import { auth, db } from "./services/firebase";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +20,6 @@ import Login from "./views/Authentication/Login/Login";
 
 
 function App() {
-  const adminEmail = 'samuil_mnt@abv.bg'
   const navigate = useNavigate();
 
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth") === "true");
@@ -61,10 +59,10 @@ function App() {
         setName(user.displayName)
         setEmail(user.email);
         setIsAuth(true);
-        setAdmin(user.email === adminEmail);
         setPhotoURL(user.photoURL || photoURL);
         setUserID(user.uid);
       } else {
+        setName('')
         setEmail("");
         setIsAuth(false);
         setAdmin(false);
@@ -72,7 +70,7 @@ function App() {
       }
     });
     return unsubscribe;
-  }, [adminEmail,photoURL]);
+  }, [photoURL]);
 
   const signUserOut = () => {
     signOut(auth)
@@ -94,8 +92,7 @@ function App() {
       value={{
         isLoggedIn: isAuth,
         setIsLoggedIn: setIsAuth,
-        isAdmin: false,
-        setIsAdmin: setAdmin,
+        isAdmin,
         signOut: signUserOut,
         isBlocked,
         setIsBlocked,
@@ -119,13 +116,7 @@ function App() {
       <ChakraProvider>
         <Flex className="App">
           <Navigation />
-          <Flex
-            as="main"
-            flexGrow={1}
-            justifyContent="center" // Center horizontally
-            alignItems="center" // Center vertically
-            p={5} // Add some padding
-          >
+          <Flex as="main" flexGrow={1} justifyContent="center" alignItems="center" p={5}>
             <Routes>
               <Route path="/" element={<Landing />} /> 
               <Route path="exercises" element={<Exercises />} />
