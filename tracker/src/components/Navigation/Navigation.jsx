@@ -78,7 +78,7 @@ const Navigation = () => {
                 alignItems={navSize == "small" ? "center" : "flex-start"}
                 mb={4}
             >
-                <Divider display={navSize == "small" ? "none" : "flex"} />
+                {/* <Divider display={navSize == "small" ? "none" : "flex"} />
                 <Flex mt={4} align="center">
                     <Menu>
                         <MenuButton as={Avatar} size="sm" src="avatar-1.jpg">
@@ -94,7 +94,7 @@ const Navigation = () => {
                         <Heading as="h3" size="sm">{name}</Heading>
                         <Text color="gray">{isAdmin ? 'Admin' : 'User'}</Text>
                     </Flex>
-                </Flex>
+                </Flex> */}
             </Flex>
         </Flex>
     )

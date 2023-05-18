@@ -11,7 +11,6 @@ import { signOut } from "firebase/auth";
 import Navigation from "./components/Navigation/Navigation";
 import NotFound from "./views/NotFound/NotFound";
 import Register from "./views/Authentication/Register/Register"
-import Landing from "./views/LandingPage/LandingPage"
 import Profile from "./views/Profile/Profile";
 import Exercises from "./views/Exercises/Exercises";
 import Goals from "./views/Goals/Goals";
@@ -19,6 +18,7 @@ import Community from "./views/Community/Community";
 import Login from "./views/Authentication/Login/Login";
 import LandingPage from "./views/LandingPage/LandingPage";
 import Dashboard from "./views/Dashboard/Dashboard";
+import UserMenu from "./components/UserMenu/UserMenu";
 
 
 function App() {
@@ -130,8 +130,9 @@ function App() {
       }}
     >
       <ChakraProvider>
-        <Flex className="App">
+        <Flex className="App" position="relative">
           {isAuth && <Navigation />}
+          {isAuth && <UserMenu />}
           <Flex as="main" flexGrow={1} justifyContent="center" alignItems="center" p={5}>
             <Routes>
               <Route path="/" element={<LandingPage />} />
