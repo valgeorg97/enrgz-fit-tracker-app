@@ -15,12 +15,9 @@ import NavItem from './NavItem'
 const MotionBox = motion(Box);
 
 const Navigation = () => {
-    const { name, isAdmin, signOut } = useContext(AuthContext);
     const location = useLocation();
-    const handleSignOut = () => {
-        signOut();
-    }
     const navigate = useNavigate()
+    
 
     const [navSize, changeNavSize] = useState("large")
     return (
@@ -51,6 +48,8 @@ const Navigation = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1 }}
+                    cursor="pointer"
+                    onClick={() => navigate('/dashboard')}
                 />
                 <IconButton
                     background="none"
