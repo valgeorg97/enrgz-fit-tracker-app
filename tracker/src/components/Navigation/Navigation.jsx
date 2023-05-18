@@ -78,23 +78,6 @@ const Navigation = () => {
                 alignItems={navSize == "small" ? "center" : "flex-start"}
                 mb={4}
             >
-                {/* <Divider display={navSize == "small" ? "none" : "flex"} />
-                <Flex mt={4} align="center">
-                    <Menu>
-                        <MenuButton as={Avatar} size="sm" src="avatar-1.jpg">
-                            <ChevronDownIcon />
-                        </MenuButton>
-                        <MenuList>
-                            <MenuItem onClick={() => navigate('/profile')}>Profile</MenuItem>
-                            <MenuDivider />
-                            <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
-                        </MenuList>
-                    </Menu>
-                    <Flex flexDir="column" ml={4} display={navSize === "small" ? "none" : "flex"}>
-                        <Heading as="h3" size="sm">{name}</Heading>
-                        <Text color="gray">{isAdmin ? 'Admin' : 'User'}</Text>
-                    </Flex>
-                </Flex> */}
             </Flex>
         </Flex>
     )
