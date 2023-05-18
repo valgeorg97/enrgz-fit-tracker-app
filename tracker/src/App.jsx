@@ -3,7 +3,10 @@ import {AuthContext} from "./context/AuthContext"
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import userimage from "./assets/user.png"
-import React from "react";
+// import React from "react";
+import { getDocs, collection, where, query } from "firebase/firestore";
+import { auth, db } from "./services/firebase";
+import { useNavigate } from "react-router-dom";
 
 import Navigation from "./components/Navigation/Navigation";
 import Home from "./views/Home/Home"
@@ -18,6 +21,10 @@ import Login from "./views/Authentication/Login/Login";
 
 
 function App() {
+  const adminEmail = 'samuil_mnt@abv.bg'
+  const navigate = useNavigate();
+
+
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth") === "true");
   const [isAdmin, setAdmin] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
@@ -28,6 +35,58 @@ function App() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [photoURL, setPhotoURL] = useState(userimage);
+  const [password, setPassword] = useState("")
+
+  // const usersCollection = collection(db, "users");
+
+
+
+  // useEffect(() => {
+  //   const getUsers = async () => {
+  //     const q = query(usersCollection, where("id", "==", userID));
+  //     const querySnapshot = await getDocs(q);
+  //     querySnapshot.forEach((doc) => {
+  //       if (doc.data().isBlocked === true) {
+  //         console.log(doc.data().isBlocked);
+  //         setIsBlocked(true);
+  //       }
+  //     });
+  //   };
+  //   getUsers();
+  // }, [userID]);
+
+  // Check if user is authenticated
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setEmail(user.email);
+        setIsAuth(true);
+        setAdmin(user.email === adminEmail);
+        setPhotoURL(user.photoURL || photoURL);
+        setUserID(user.uid);
+      } else {
+        setEmail("");
+        setIsAuth(false);
+        setAdmin(false);
+        setIsBlocked(false);
+      }
+    });
+    return unsubscribe;
+  }, [adminEmail,photoURL]);
+
+
+  // const signUserOut = () => {
+  //   signOut(auth)
+  //     .then(() => {
+  //       localStorage.setItem("isAuth", false);
+  //       setIsAuth(false);
+  //       setEmail("");
+  //       navigate("/");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
 
 
@@ -54,6 +113,8 @@ function App() {
         setEmail,
         photoURL,
         setPhotoURL,
+        password,
+        setPassword
       }}
     >
       <ChakraProvider>

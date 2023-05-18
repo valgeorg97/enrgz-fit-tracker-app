@@ -20,7 +20,9 @@ export const AuthContext = createContext({
     email: "",
     setEmail: () => {},
     photoURL: "",
-    setPhotoURL: () => {}
+    setPhotoURL: () => {},
+    password: "",
+    setPassword: () => {}
     // currentUserEmail: "",
     // setCurrentUserEmail: () => {},
 });
