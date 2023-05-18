@@ -13,7 +13,7 @@ import NavItem from './NavItem'
 
 const MotionBox = motion(Box);
 const Navigation = () => {
-    const { name, family, isAdmin } = useContext(AuthContext);
+    const { name, isAdmin } = useContext(AuthContext);
     const location = useLocation();
 
     const [navSize, changeNavSize] = useState("large")
@@ -77,7 +77,6 @@ const Navigation = () => {
                     <Avatar size="sm" src="avatar-1.jpg" />
                     <Flex flexDir="column" ml={4} display={navSize == "small" ? "none" : "flex"}>
                         <Heading as="h3" size="sm">{name}</Heading>
-                        {/* <Heading as="h3" size="sm">Pesho Burziq</Heading> */}
                         <Text color="gray">{isAdmin ? 'Admin' : 'User'}</Text>
                     </Flex>
                 </Flex>
