@@ -27,21 +27,21 @@ function App() {
   const [isAdmin, setAdmin] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
 
-  const PrivateRoute = ({ children, ...props }) => {
-    const authContext = React.useContext(AuthContext);
-    return (
-      <Route
-        {...props}
-        render={({ location }) =>
-          authContext.isLoggedIn ? (
-            children
-          ) : (
-            <Navigate to="/" state={{ from: location }} />
-          )
-        }
-      />
-    );
-  }
+  // const PrivateRoute = ({ children, ...props }) => {
+  //   const authContext = React.useContext(AuthContext);
+  //   return (
+  //     <Route
+  //       {...props}
+  //       render={({ location }) =>
+  //         authContext.isLoggedIn ? (
+  //           children
+  //         ) : (
+  //           <Navigate to="/" state={{ from: location }} />
+  //         )
+  //       }
+  //     />
+  //   );
+  // }
 
   const [userID, setUserID] = useState("");
   const [name, setName] = useState("");

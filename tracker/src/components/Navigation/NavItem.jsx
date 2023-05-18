@@ -33,7 +33,6 @@ export default function NavItem({ icon, title, description, active, navSize, lin
                     h={200}
                     ml={5}
                 >
-                    {/* <NavHoverBox title={title} icon={icon} description={description} /> */}
                 </MenuList>
             </Menu>
         </Flex>

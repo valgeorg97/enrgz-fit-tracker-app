@@ -9,12 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 const Login = () => {
 
   const { setIsLoggedIn, email, setEmail, password, setPassword } = useContext(AuthContext);
-  // const [user, setUser] = useState("{}")
   let navigate = useNavigate();
-
-  // onAuthStateChanged(auth, (currentUser) =>{
-  //   setUser(currentUser)
-  // })
 
   const signIn = (e) => {
     e.preventDefault();
@@ -33,18 +28,6 @@ const Login = () => {
         }
       });
   };
-
-  // const signInWithGoogle = () => {
-  //   signInWithPopup(auth, provider)
-  //     .then((result) => {
-  //       localStorage.setItem("isAuth", true);
-  //       setIsLoggedIn(true);
-  //       navigate("/");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   return (
     <Flex

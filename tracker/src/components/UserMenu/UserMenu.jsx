@@ -5,7 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from 'react-router-dom';
 
 const UserMenu = () => {
-  const { name, isAdmin, signOut } = useContext(AuthContext);
+  const { name, isAdmin, signOut,photoURL } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSignOut = () => {
@@ -19,7 +19,7 @@ const UserMenu = () => {
         <Text color="gray">{isAdmin ? 'Admin' : 'User'}</Text>
       </Box>
       <Menu>
-        <MenuButton as={Avatar} size="sm" src="avatar-1.jpg" _hover={{cursor: 'pointer'}}>
+        <MenuButton as={Avatar} size="sm" src={photoURL} _hover={{cursor: 'pointer'}}>
           <ChevronDownIcon />
         </MenuButton>
         <MenuList>
