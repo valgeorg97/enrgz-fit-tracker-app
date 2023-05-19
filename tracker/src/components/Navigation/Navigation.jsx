@@ -64,7 +64,7 @@ const Navigation = () => {
                     }}
                 />
                 <NavItem link='/dashboard' navSize={navSize} icon={FiHome} title="Dashboard" active={location.pathname === '/dashboard'} />
-                <NavItem link='/exercises' navSize={navSize} icon={GiWeightLiftingUp} title="Exercises" active={location.pathname === '/exercises'} />
+                <NavItem link='/workouts' navSize={navSize} icon={GiWeightLiftingUp} title="Workouts" active={location.pathname === '/workouts'} />
                 <NavItem link='/goals' navSize={navSize} icon={GiStairsGoal} title="Goals" active={location.pathname === '/goals'} />
                 <NavItem link='/community' navSize={navSize} icon={FaUsers} title="Community" active={location.pathname === '/community'} />
                 <NavItem link='/profile' navSize={navSize} icon={CgProfile} title="Profile" active={location.pathname === '/profile'} />

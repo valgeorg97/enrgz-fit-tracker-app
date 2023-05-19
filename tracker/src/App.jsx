@@ -12,7 +12,7 @@ import Navigation from "./components/Navigation/Navigation";
 import NotFound from "./views/NotFound/NotFound";
 import Register from "./views/Authentication/Register/Register"
 import Profile from "./views/Profile/Profile";
-import Exercises from "./views/Exercises/Exercises";
+import Workouts from "./views/Workouts/Workouts";
 import Goals from "./views/Goals/Goals";
 import Community from "./views/Community/Community";
 import Login from "./views/Authentication/Login/Login";
@@ -141,7 +141,7 @@ function App() {
             <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="exercises" element={<Exercises />} />
+              <Route path="workouts" element={<Workouts />} />
               <Route path="goals" element={<Goals />} />
               <Route path="community" element={<Community />} />
               <Route path="profile" element={<Profile />} />

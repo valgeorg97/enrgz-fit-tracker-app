@@ -3,7 +3,7 @@ import React from "react";
 const Exercises = () =>{
     return(
         <>
-        Exercises
+        Create Workout!
         </>
     )
 }
