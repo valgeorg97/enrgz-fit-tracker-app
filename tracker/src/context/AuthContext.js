@@ -23,7 +23,9 @@ export const AuthContext = createContext({
   password: "",
   setPassword: () => {},
   phoneNumber: "",
-  setPhoneNumber: () => {}, 
+  setPhoneNumber: () => {},
+  userDocID: "",
+  setUserDocID: () => {},
 });
 
 

@@ -45,6 +45,7 @@ function App() {
   // }
 
   const [userID, setUserID] = useState("");
+  const [userDocID, setUserDocID] = useState("")
   const [name, setName] = useState("");
   const [family, setFamily] = useState("");
   const [username, setUsername] = useState("");
@@ -66,6 +67,7 @@ function App() {
         if (doc.data().role === 'admin') {
           setAdmin(true);
         }
+        setUserDocID(doc.data().docID)
       });
     };
     getUsers();
@@ -130,7 +132,8 @@ function App() {
         password,
         setPassword,
         phoneNumber,
-        setPhoneNumber
+        setPhoneNumber,
+        userDocID
       }}
     >
       <ChakraProvider>
