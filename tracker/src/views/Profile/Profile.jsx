@@ -35,12 +35,21 @@ export default function Profile() {
       uploadPhoto(changedPhoto, userID);
     }
     if (changedEmail) {
-      updateEmail(auth.currentUser, changedEmail).then(() => {
-        setEmail(changedEmail);
-      });
+      updateEmail(auth.currentUser, changedEmail)
+      .then(() => {
+        const userRef = doc(db, "users", userDocID);
+          updateDoc(userRef, { email: changedEmail })
+            .then(() => {
+              setEmail(changedEmail);
+            })
+            .catch((error) => {
+              console.log("Error updating email:", error);
+            });
+        })
     }
     if (changedName) {
-      updateProfile(auth.currentUser, { displayName: changedName })
+      let fixname = `${changedName} ${family}`
+      updateProfile(auth.currentUser, { displayName: fixname })
       .then(() => {
         const userRef = doc(db, "users", userDocID);
           updateDoc(userRef, { name: changedName })
@@ -56,7 +65,8 @@ export default function Profile() {
         });
     }
     if (changedFamily) {
-      updateProfile(auth.currentUser, { displayName: `${name} ${changedFamily}` })
+      let fixfamily = `${name} ${changedFamily}`
+      updateProfile(auth.currentUser, { displayName: fixfamily })
         .then(() => {
           const userRef = doc(db, "users", userDocID);
           updateDoc(userRef, { family: changedFamily })
