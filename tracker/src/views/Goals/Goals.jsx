@@ -1,5 +1,5 @@
-import React, { useState,useContext } from "react";
-import {getDocs,collection,where,query,addDoc,serverTimestamp,} from "firebase/firestore";
+import { useState,useContext } from "react";
+import {collection,addDoc,serverTimestamp,} from "firebase/firestore";
 import { auth, db } from "../../services/firebase";
 import {Box,Button,FormControl,FormLabel,Input,Stack,Text,} from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
@@ -27,48 +27,30 @@ const Goals = () => {
          setGoalName("");
          setGoalFrom("");
          setGoalTo("");
-         console.log("Goal created successfully!");
+         toast.success("Goal created successfully!");
        } catch (error) {
-         console.error("Error creating goal:", error);
+         toast.error("Error creating goal:", error);
        }
-     } else {
-       console.error("User not logged in.");
      }
    };
 
   return (
     <Box>
-      <Text mb={4} fontSize="xl" fontWeight="bold">
-        Exercises
-      </Text>
+      <Text mb={4} fontSize="xl" fontWeight="bold">Exercises</Text>
       <Stack spacing={3}>
         <FormControl>
           <FormLabel>Goal Name</FormLabel>
-          <Input
-            type="text"
-            value={goalName}
-            onChange={(e) => setGoalName(e.target.value)}
-          />
+          <Input type="text" value={goalName} onChange={(e) => setGoalName(e.target.value)}/>
         </FormControl>
         <FormControl>
           <FormLabel>From</FormLabel>
-          <Input
-            type="date"
-            value={goalFrom}
-            onChange={(e) => setGoalFrom(e.target.value)}
-          />
+          <Input type="date" value={goalFrom} onChange={(e) => setGoalFrom(e.target.value)}/>
         </FormControl>
         <FormControl>
           <FormLabel>To</FormLabel>
-          <Input
-            type="date"
-            value={goalTo}
-            onChange={(e) => setGoalTo(e.target.value)}
-          />
+          <Input type="date" value={goalTo} onChange={(e) => setGoalTo(e.target.value)}/>
         </FormControl>
-        <Button colorScheme="teal" onClick={createGoal}>
-          Create Goal
-        </Button>
+        <Button colorScheme="teal" onClick={createGoal}>Create Goal</Button>
       </Stack>
       <ToastContainer position="top-center" style={{ zIndex: 2001, top: 30 }} />
     </Box>

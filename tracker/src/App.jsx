@@ -80,8 +80,6 @@ function App() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        // setName(user.displayName)
-        // setEmail(user.email);
         setIsAuth(true);
         setPhotoURL(user.photoURL || photoURL);
         setUserID(user.uid);

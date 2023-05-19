@@ -2,18 +2,20 @@ import {Container,Avatar,Box,Text,Stack,InputGroup,Input,InputLeftElement,Icon,F
 import { FaRegEnvelope, FaLock, FaRegUser } from "react-icons/fa";
 import PageContainer from "./PageContainer";
 import PageContent from "./PageContent";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { updateProfile, updateEmail } from "firebase/auth";
 import { uploadPhoto, auth, db } from "../../services/firebase";
 import { AuthContext } from "../../context/AuthContext";
 import { updateDoc,doc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 export default function Profile() {
-  const { name, setName, email, setEmail, photoURL, userID, family,setFamily,userDocID } = useContext(AuthContext);
+  const { name, setName, email, setEmail, photoURL, setPhotoURL, userID, family,setFamily,userDocID } = useContext(AuthContext);
   const [changedName, setChangedName] = useState("");
   const [changedFamily, setChangedFamily] = useState("");
   const [changedEmail, setChangedEmail] = useState("");
   const [changedPhoto, setChangedPhoto] = useState(null);
+  const avatarInputRef = useRef(null)
 
   const handleChangeName = (event) => {
     setChangedName(event.target.value);
@@ -31,8 +33,18 @@ export default function Profile() {
   const updateInfo = (event) => {
     event.preventDefault();
 
+    if (!changedPhoto && !changedEmail && !changedName && !changedFamily) {
+      toast.error("No information to update");
+      return;
+    }
+
     if (changedPhoto) {
-      uploadPhoto(changedPhoto, userID);
+      uploadPhoto(changedPhoto, userID)
+      .then(() => {
+        setPhotoURL(changedPhoto)
+        avatarInputRef.current.value = null
+      })
+
     }
     if (changedEmail) {
       updateEmail(auth.currentUser, changedEmail)
@@ -262,6 +274,7 @@ export default function Profile() {
                       type="file"
                       accept="image/*"
                       onChange={handleChangeAvatar}
+                      ref={avatarInputRef}
                     />
                   </InputGroup>
                 </FormControl>
