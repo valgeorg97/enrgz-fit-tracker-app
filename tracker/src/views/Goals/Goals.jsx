@@ -56,41 +56,47 @@ const Goals = () => {
   };
 
   return (
-<Box display="flex" flexDirection="column">
-  <Text mb={4} ml={100} fontSize="2xl" fontWeight="bold">
-    Goals
-  </Text>
-  <Box
-    display="flex"
-    flexWrap="wrap"
-    justifyContent="left"
-    mb={3}
-    marginLeft="80px"
-  >
-    {goals.map((goal, index) => (
-      <Box key={index} mr={4} width="240px" height="250px">
-        <Card>
-          <CardHeader>
-            <Heading size="md">{goal.name}</Heading>
-          </CardHeader>
-          <CardBody>
-            <Text>
-              <strong>From:</strong> {goal.from}
-            </Text>
-            <Text>
-              <strong>To:</strong> {goal.to}
-            </Text>
-          </CardBody>
-          <CardFooter>
-            <Button>View here</Button>
-          </CardFooter>
-        </Card>
+<Box display="flex" flexDirection="row" ml={32}>
+  <Box display="flex" flexDirection="column" mt={30}>
+    <Text mb={4} ml={100} fontSize="2xl" fontWeight="bold">
+      Goals
+    </Text>
+    <Box display="flex" flexWrap="wrap" justifyContent="left" mb={3}>
+      {goals.map((goal, index) => (
+        <Box key={index} mr={4} width="240px" height="250px">
+          <Card>
+            <CardHeader>
+              <Heading
+                size="md"
+                style={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  maxWidth: '100%',
+                }}
+              >
+                {goal.name}
+              </Heading>
+            </CardHeader>
+            <CardBody>
+              <Text>
+                <strong>From:</strong> {goal.from}
+              </Text>
+              <Text>
+                <strong>To:</strong> {goal.to}
+              </Text>
+            </CardBody>
+            <CardFooter>
+              <Button>View here</Button>
+            </CardFooter>
+          </Card>
         </Box>
-    ))}
+      ))}
+    </Box>
   </Box>
 
-  <Box flex="1" marginLeft="20px">
-    <Stack spacing={3} width="200px" height="200px">
+  <Box flex="1" marginLeft="auto" mt={430} mr={50}>
+    <Stack spacing={2} width="200px" height="200px">
       <FormControl>
         <FormLabel>Goal Name</FormLabel>
         <Input
@@ -122,6 +128,7 @@ const Goals = () => {
   </Box>
   <ToastContainer position="top-center" style={{ zIndex: 2001, top: 30 }} />
 </Box>
+
 
 
   );
