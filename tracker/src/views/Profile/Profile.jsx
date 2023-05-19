@@ -1,34 +1,36 @@
-import React from "react";
 import {Container,Avatar,Box,Text,Stack,InputGroup,Input,InputLeftElement,Icon,FormLabel,Checkbox,Link,Button,Divider,FormControl,Heading} from "@chakra-ui/react";
 import { FaRegEnvelope, FaLock, FaRegUser } from "react-icons/fa";
 import PageContainer from "./PageContainer";
 import PageContent from "./PageContent";
 import { useState, useContext } from "react";
 import { updateProfile, updateEmail } from "firebase/auth";
-import { uploadPhoto, auth } from "../../services/firebase";
+import { uploadPhoto, auth, db } from "../../services/firebase";
 import { AuthContext } from "../../context/AuthContext";
+import { updateDoc,doc } from "firebase/firestore";
 
 export default function Profile() {
-  const { name, setName, email, setEmail, photoURL, userID } = useContext(AuthContext);
+  const { name, setName, email, setEmail, photoURL, userID, family,setFamily,userDocID } = useContext(AuthContext);
   const [changedName, setChangedName] = useState("");
+  const [changedFamily, setChangedFamily] = useState("");
   const [changedEmail, setChangedEmail] = useState("");
   const [changedPhoto, setChangedPhoto] = useState(null);
 
   const handleChangeName = (event) => {
     setChangedName(event.target.value);
   };
-
+  const handleChangeFamily = (event) => {
+    setChangedFamily(event.target.value);
+  };
   const handleChangeEmail = (event) => {
     setChangedEmail(event.target.value);
   };
-
   const handleChangeAvatar = (event) => {
     setChangedPhoto(event.target.files[0]);
   };
 
   const updateInfo = (event) => {
     event.preventDefault();
-  
+
     if (changedPhoto) {
       uploadPhoto(changedPhoto, userID);
     }
@@ -38,9 +40,36 @@ export default function Profile() {
       });
     }
     if (changedName) {
-      updateProfile(auth.currentUser, { displayName: changedName }).then(() => {
-        setName(changedName);
-      });
+      updateProfile(auth.currentUser, { displayName: changedName })
+      .then(() => {
+        const userRef = doc(db, "users", userDocID);
+          updateDoc(userRef, { name: changedName })
+            .then(() => {
+              setName(changedName);
+            })
+            .catch((error) => {
+              console.log("Error updating name:", error);
+            });
+        })
+        .catch((error) => {
+          console.log("Error updating profile:", error);
+        });
+    }
+    if (changedFamily) {
+      updateProfile(auth.currentUser, { displayName: `${name} ${changedFamily}` })
+        .then(() => {
+          const userRef = doc(db, "users", userDocID);
+          updateDoc(userRef, { family: changedFamily })
+            .then(() => {
+              setFamily(changedFamily);
+            })
+            .catch((error) => {
+              console.log("Error updating family:", error);
+            });
+        })
+        .catch((error) => {
+          console.log("Error updating profile:", error);
+        });
     }
   };
 
@@ -55,7 +84,7 @@ export default function Profile() {
               <Avatar size="2xl" name={name} src={photoURL} />
               <Stack spacing={4} marginBottom="1rem">
                 <FormControl>
-                  <FormLabel htmlFor="name">Your name</FormLabel>
+                  <FormLabel htmlFor="name">Your first name</FormLabel>
                   <InputGroup>
                     <InputLeftElement
                       children={
@@ -72,6 +101,27 @@ export default function Profile() {
                     />
                   </InputGroup>
                 </FormControl>
+
+                <FormControl>
+                  <FormLabel htmlFor="family">Your family name</FormLabel>
+                  <InputGroup>
+                    <InputLeftElement
+                      children={
+                        <Icon as={FaRegUser} color="secondary.inputHelper" />
+                      }
+                    />
+                    <Input
+                      focusBorderColor="main.500"
+                      type="text"
+                      name="family"
+                      id="family"
+                      placeholder={family}
+                      onChange={handleChangeFamily}
+                    />
+                  </InputGroup>
+                </FormControl>
+
+
                 <FormControl>
                   <FormLabel htmlFor="email">Email Address</FormLabel>
                   <InputGroup>

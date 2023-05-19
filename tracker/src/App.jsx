@@ -68,6 +68,9 @@ function App() {
           setAdmin(true);
         }
         setUserDocID(doc.data().docID)
+        setName(doc.data().name)
+        setFamily(doc.data().family)
+        setEmail(doc.data().email);
       });
     };
     getUsers();
@@ -77,8 +80,8 @@ function App() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        setName(user.displayName)
-        setEmail(user.email);
+        // setName(user.displayName)
+        // setEmail(user.email);
         setIsAuth(true);
         setPhotoURL(user.photoURL || photoURL);
         setUserID(user.uid);

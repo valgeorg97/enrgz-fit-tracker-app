@@ -20,15 +20,12 @@ const Register = () => {
   const addUser = async () => {
     const docRef = await addDoc(usersCollection, { name: name, family: family, role: "user", username: username, isBlocked: false, email: email, password: password, phoneNumber: phoneNumber, id: auth.currentUser.uid });
     const docID = docRef.id;
-  
     // Add the docID to the addUser data
     const dataWithDocID = { ...addUser, docID: docID };
-  
     // Update the document with the docID
     await updateDoc(docRef, dataWithDocID);
   }
   
-
   const updateName = () => {
     updateProfile(auth.currentUser, {
       displayName: `${name} ${family}`

@@ -4,8 +4,9 @@ import { useContext } from 'react';
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from 'react-router-dom';
 
+
 const UserMenu = () => {
-  const { name, isAdmin, signOut,photoURL } = useContext(AuthContext);
+  const { name,family, isAdmin, signOut,photoURL } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSignOut = () => {
@@ -15,7 +16,7 @@ const UserMenu = () => {
   return (
     <Flex position="absolute" top={4} right={4}>
       <Box>
-        <Heading as="h3" size="sm">{name}</Heading>
+        <Heading as="h3" size="sm">{`${name} ${family}`}</Heading>
         <Text color="gray">{isAdmin ? 'Admin' : 'User'}</Text>
       </Box>
       <Menu>
