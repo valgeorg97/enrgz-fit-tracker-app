@@ -3,6 +3,8 @@ import {getFirestore} from "firebase/firestore";
 import {getAuth, GoogleAuthProvider, updateProfile} from "firebase/auth"
 import { getDownloadURL, getStorage,ref,uploadBytes} from "firebase/storage"
 
+
+//turin profile
 const firebaseConfig = {
   apiKey: "AIzaSyDVZEjFbpPWKYsGkxJcvRW4pUlNKTqsaM4",
   authDomain: "tracker-46d44.firebaseapp.com",
