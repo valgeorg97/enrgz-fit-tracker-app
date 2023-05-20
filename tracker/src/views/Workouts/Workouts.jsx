@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { Box, Heading, Divider, Button } from "@chakra-ui/react";
 import CreateWorkout from "./CreateWorkout";
-import { collection, getDocs, query, where, onSnapshot } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
 import { db } from "../../services/firebase";
 
@@ -9,34 +9,22 @@ const Workouts = () => {
   const [showForm, setShowForm] = useState(false);
   const [exercises, setExercises] = useState([]);
   const [workouts, setWorkouts] = useState([]);
-  // const [isLoading, setIsLoading] = useState(true);
+  const [workoutsCollection, setWorkoutsCollection] = useState(null);
   const { userID, userDocID } = useContext(AuthContext);
 
-  let workoutsCollection;
-
-  if (userDocID) {
-    workoutsCollection = collection(db, `users/${userDocID}/workouts`);
-  }
+  useEffect(() => {
+    if (userDocID) {
+      setWorkoutsCollection(collection(db, `users/${userDocID}/workouts`));
+    }
+  }, [userDocID]);
 
   const handleCreateWorkoutClick = () => {
     setShowForm(true);
   };
 
   useEffect(() => {
-    if (workoutsCollection) {
-      const unsubscribe = onSnapshot(workoutsCollection, (snapshot) => {
-        let workouts = [];
-        snapshot.forEach((doc) => workouts.push({ ...doc.data(), id: doc.id }));
-        setWorkouts(workouts); 
-      });
-  
-      return () => unsubscribe();
-    }
-  }, [workoutsCollection]);
-
-  useEffect(() => {
     const fetchWorkouts = async () => {
-      if (userDocID) {
+      if (userDocID && workoutsCollection) {
         try {
           const q = query(
             collection(db, `users/${userDocID}/workouts`),
@@ -55,7 +43,7 @@ const Workouts = () => {
     };
 
     fetchWorkouts();
-  }, [userDocID, userID]);
+  }, [userDocID, userID, workoutsCollection]);
 
   return (
     <Box m={5}>
@@ -83,8 +71,8 @@ const Workouts = () => {
             </Heading>
             {workout.exercises.map((exercise, i) => (
               <p key={i}>
-                {exercise.name}: {exercise.reps} reps
-              </p>
+              {exercise.name}: {exercise.reps.toString()} reps
+            </p>
             ))}
           </Box>
         ))}
