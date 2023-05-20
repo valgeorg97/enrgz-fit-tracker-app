@@ -1,40 +1,65 @@
-import { useState, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Box, Heading, Divider, Button } from "@chakra-ui/react";
 import CreateWorkout from "./CreateWorkout";
+import { collection, getDocs, query, where, onSnapshot } from "firebase/firestore";
+import { AuthContext } from "../../context/AuthContext";
+import { db } from "../../services/firebase";
 
 const Workouts = () => {
   const [showForm, setShowForm] = useState(false);
   const [exercises, setExercises] = useState([]);
   const [workouts, setWorkouts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
+  const { userID, userDocID } = useContext(AuthContext);
+
+  let workoutsCollection;
+
+  if (userDocID) {
+    workoutsCollection = collection(db, `users/${userDocID}/workouts`);
+  }
 
   const handleCreateWorkoutClick = () => {
     setShowForm(true);
   };
 
   useEffect(() => {
-    const fetchExercises = async () => {
-      setIsLoading(true);
-      const response = await fetch(
-        "https://api.api-ninjas.com/v1/exercises?muscle=biceps",
-        {
-          method: "GET",
-          headers: {
-            "X-Api-Key": "AfAWwp+nw89/859EX9kTYA==FXcxQwZhBYqX3BIK",
-          },
+    if (workoutsCollection) {
+      const unsubscribe = onSnapshot(workoutsCollection, (snapshot) => {
+        let workouts = [];
+        snapshot.forEach((doc) => workouts.push({ ...doc.data(), id: doc.id }));
+        setWorkouts(workouts); 
+      });
+  
+      return () => unsubscribe();
+    }
+  }, [workoutsCollection]);
+
+  useEffect(() => {
+    const fetchWorkouts = async () => {
+      if (userDocID) {
+        try {
+          const q = query(
+            collection(db, `users/${userDocID}/workouts`),
+            where("owner", "==", userID)
+          );
+          const querySnapshot = await getDocs(q);
+          const workoutData = [];
+          querySnapshot.forEach((doc) => {
+            workoutData.push({ id: doc.id, ...doc.data() });
+          });
+          setWorkouts(workoutData);
+        } catch (error) {
+          console.error("Error fetching workouts:", error);
         }
-      );
-      const data = await response.json();
-      setExercises(data);
-      setIsLoading(false);
+      }
     };
 
-    fetchExercises();
-  }, []);
+    fetchWorkouts();
+  }, [userDocID, userID]);
 
   return (
     <Box m={5}>
-      <Heading as="h1" size="xl" mb={5} textAlign="center">
+      <Heading as="h1" size="xl" mb={5} textAlign="left">
         Workouts
       </Heading>
       <Divider mb={5} />

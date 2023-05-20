@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
 import { Button, Stack, FormControl, FormLabel, Input, Select, NumberInput, NumberInputField, UnorderedList, ListItem } from '@chakra-ui/react';
+import { useState, useContext, useEffect } from "react";
+import {collection, addDoc } from "firebase/firestore";
+import { AuthContext } from "../../context/AuthContext";
+import { db } from "../../services/firebase";
 
 const muscles = ['abdominals', 'abductors', 'adductors', 'biceps', 'calves', 'chest', 'forearms', 'glutes', 'hamstrings', 'lats', 'lower_back', 'middle_back', 'neck', 'quadriceps', 'traps', 'triceps'];
 
-const CreateWorkout = ({ addWorkout, showForm, setShowForm }) => {
+const CreateWorkout = ({ showForm, setShowForm }) => {
   const [selectedMuscle, setSelectedMuscle] = useState('');
   const [exercises, setExercises] = useState([]);
   const [selectedExercise, setSelectedExercise] = useState('');
@@ -12,6 +15,9 @@ const CreateWorkout = ({ addWorkout, showForm, setShowForm }) => {
   const [workout, setWorkout] = useState([]);
   const [workoutName, setWorkoutName] = useState('');
   const [relatedExercises, setRelatedExercises] = useState([]);
+  const { userID, userDocID } = useContext(AuthContext);
+
+  
 
   const handleMuscleChange = (e) => {
     setSelectedMuscle(e.target.value);
@@ -32,12 +38,22 @@ const CreateWorkout = ({ addWorkout, showForm, setShowForm }) => {
     }
   }, [selectedMuscle]);
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    addWorkout({ name: workoutName, exercises: workout });
-    setWorkout([]);
-    setShowForm(false);
-  }
+  
+    try {
+      const workoutObj = { name: workoutName, exercises: workout, owner: userID };
+    
+      // Add workout to firestore
+      await addDoc(collection(db, `users/${userDocID}/workouts`), workoutObj);
+    
+      setWorkout([]);
+      setShowForm(false);
+    } catch (e) {
+      console.error("Error adding workout: ", e);
+    }
+  };
 
   const handleExerciseChange = (e) => {
     setSelectedExercise(e.target.value);
@@ -118,7 +134,7 @@ const CreateWorkout = ({ addWorkout, showForm, setShowForm }) => {
                 <ListItem key={i}>{exercise.name}: {exercise.reps} reps, {exercise.weight} kg</ListItem>
               ))}
             </UnorderedList>
-
+               
             <Button type="submit" colorScheme="blue">Submit Workout</Button>
           </Stack>
         </form>
