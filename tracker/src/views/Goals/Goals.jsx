@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { collection, addDoc, serverTimestamp, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "../../services/firebase";
-import { Box, Button, FormControl, FormLabel, Input, Stack, Text,SimpleGrid,Card,CardHeader,Heading,CardBody,CardFooter } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Input, Stack, Text,Card,CardHeader,Heading,CardBody,CardFooter } from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
