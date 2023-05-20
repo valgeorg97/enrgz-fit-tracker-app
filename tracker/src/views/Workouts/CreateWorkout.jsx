@@ -8,7 +8,6 @@ const muscles = ['abdominals', 'abductors', 'adductors', 'biceps', 'calves', 'ch
 
 const CreateWorkout = ({ showForm, setShowForm }) => {
   const [selectedMuscle, setSelectedMuscle] = useState('');
-  const [exercises, setExercises] = useState([]);
   const [selectedExercise, setSelectedExercise] = useState('');
   const [reps, setReps] = useState(0);
   const [weight, setWeight] = useState(0);
@@ -16,12 +15,6 @@ const CreateWorkout = ({ showForm, setShowForm }) => {
   const [workoutName, setWorkoutName] = useState('');
   const [relatedExercises, setRelatedExercises] = useState([]);
   const { userID, userDocID } = useContext(AuthContext);
-
-  
-
-  const handleMuscleChange = (e) => {
-    setSelectedMuscle(e.target.value);
-  }
 
   useEffect(() => {
     if (selectedMuscle !== '') {
@@ -33,7 +26,6 @@ const CreateWorkout = ({ showForm, setShowForm }) => {
         const data = await response.json();
         setRelatedExercises(data);
       };
-
       fetchRelatedExercises();
     }
   }, [selectedMuscle]);
@@ -41,49 +33,44 @@ const CreateWorkout = ({ showForm, setShowForm }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
     try {
-      const workoutObj = { name: workoutName, exercises: workout, owner: userID };
-    
-      // Add workout to firestore
+      const workoutObj = {owner: userID, name: workoutName, type: selectedExercise, reps: reps, weight: weight, muscle: selectedMuscle};
       await addDoc(collection(db, `users/${userDocID}/workouts`), workoutObj);
-    
       setWorkout([]);
+      setSelectedExercise('');
+      setReps(0);
+      setWeight(0);
+      setSelectedMuscle('')
       setShowForm(false);
     } catch (e) {
       console.error("Error adding workout: ", e);
     }
   };
 
+  const handleMuscleChange = (e) => {
+    setSelectedMuscle(e.target.value);
+  }
   const handleExerciseChange = (e) => {
     setSelectedExercise(e.target.value);
   }
-
   const handleRepsChange = (valueString, valueNumber) => {
     setReps(valueNumber);
   }
-
   const handleWeightChange = (valueString, valueNumber) => {
     setWeight(valueNumber);
   }
-
   const handleWorkoutNameChange = (e) => {
     setWorkoutName(e.target.value);
   }
 
   const handleAddExercise = (e) => {
     e.preventDefault();
-    setWorkout([...workout, { name: selectedExercise, reps, weight }]);
-    setSelectedExercise('');
-    setReps(0);
-    setWeight(0);
+    setWorkout([...workout, { type: selectedExercise, reps, weight, muscle: selectedMuscle }]);
   }
 
-  const handleClick = (e) => {
+  const handleClick = () => {
     setShowForm(true);
   }
-
-  const filteredExercises = exercises.filter(exercise => exercise.muscle === selectedMuscle);
 
   return (
     <>
@@ -131,7 +118,7 @@ const CreateWorkout = ({ showForm, setShowForm }) => {
 
             <UnorderedList>
               {workout.map((exercise, i) => (
-                <ListItem key={i}>{exercise.name}: {exercise.reps} reps, {exercise.weight} kg</ListItem>
+                <ListItem key={i}>{exercise.type}: {exercise.muscle} muscle, {exercise.reps} reps, {exercise.weight} kg</ListItem>
               ))}
             </UnorderedList>
                

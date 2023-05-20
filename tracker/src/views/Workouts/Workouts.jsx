@@ -7,7 +7,6 @@ import { db } from "../../services/firebase";
 
 const Workouts = () => {
   const [showForm, setShowForm] = useState(false);
-  const [exercises, setExercises] = useState([]);
   const [workouts, setWorkouts] = useState([]);
   const [workoutsCollection, setWorkoutsCollection] = useState(null);
   const { userID, userDocID } = useContext(AuthContext);
@@ -41,39 +40,27 @@ const Workouts = () => {
         }
       }
     };
-
     fetchWorkouts();
   }, [userDocID, userID, workoutsCollection]);
 
   return (
     <Box m={5}>
-      <Heading as="h1" size="xl" mb={5} textAlign="left">
-        Workouts
-      </Heading>
+      <Heading as="h1" size="xl" mb={5} textAlign="left">Workouts</Heading>
       <Divider mb={5} />
       {showForm ? (
-        <CreateWorkout
-          exercises={exercises}
-          addWorkout={(workout) => setWorkouts([...workouts, workout])}
-          showForm={showForm}
-          setShowForm={setShowForm}
-        />
+        <CreateWorkout showForm={showForm} setShowForm={setShowForm}/>
       ) : (
-        <Button colorScheme="teal" onClick={handleCreateWorkoutClick}>
-          Create Workout!
-        </Button>
-      )}
+        <Button colorScheme="teal" onClick={handleCreateWorkoutClick}>Create Workout!</Button>)}
       <Box mt={5}>
         {workouts.map((workout, index) => (
           <Box key={index} p={5} boxShadow="md" borderWidth="1px">
             <Heading as="h2" size="md" mb={3}>
               {workout.name}
             </Heading>
-            {workout.exercises.map((exercise, i) => (
-              <p key={i}>
-              {exercise.name}: {exercise.reps.toString()} reps
-            </p>
-            ))}
+              <p>{workout.type}:</p>
+              <p>{workout.muscle}</p>
+              <p>{workout.reps} reps</p>
+              <p>{workout.weight} weight</p>
           </Box>
         ))}
       </Box>
