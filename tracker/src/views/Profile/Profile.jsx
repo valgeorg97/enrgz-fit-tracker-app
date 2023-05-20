@@ -4,11 +4,13 @@ import { FaRegEnvelope, FaLock, FaRegUser } from "react-icons/fa";
 import PageContainer from "./PageContainer";
 import PageContent from "./PageContent";
 import { useState, useContext, useRef } from "react";
-import { updateProfile, updateEmail } from "firebase/auth";
+import { updateProfile, updateEmail, deleteUser } from "firebase/auth";
 import { uploadPhoto, auth, db } from "../../services/firebase";
 import { AuthContext } from "../../context/AuthContext";
-import { updateDoc, doc } from "firebase/firestore";
+import { updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import DeleteUserDialog from "./DeleteUserDialog";
 
 export default function Profile() {
   const {name,setName,email,setEmail,photoURL,setPhotoURL,userID,family,setFamily,userDocID,} = useContext(AuthContext);
@@ -16,6 +18,8 @@ export default function Profile() {
   const [changedFamily, setChangedFamily] = useState("");
   const [changedEmail, setChangedEmail] = useState("");
   const [changedPhoto, setChangedPhoto] = useState(null);
+  let navigate = useNavigate();
+
 
   const avatarInputRef = useRef(null);
   const nameInputRef = useRef(null);
@@ -35,6 +39,20 @@ export default function Profile() {
   const handleChangeAvatar = (event) => {
     setChangedPhoto(event.target.files[0]);
   };
+
+  const handleDeleteUser = () => {
+    deleteUser(auth.currentUser)
+    .then(() => {
+      deleteDoc(doc(db, "users", userDocID));
+      toast.success("User successfully deleted !")
+    })
+    .then(() => {
+      navigate('/login')
+    }).catch((error) => {
+      console.error("Error with deleting user :" + error)
+    });
+  }
+
   const handleCancel = () => {
     avatarInputRef.current.value = null;
     nameInputRef.current.value = null;
@@ -287,9 +305,7 @@ export default function Profile() {
               </Text>
             </Stack>
             <Stack spacing={4} marginBottom="1rem">
-              <Button colorScheme="red" variant="outline">
-                Delete your account
-              </Button>
+            <DeleteUserDialog handleDeleteUser={handleDeleteUser} />
             </Stack>
           </Box>
         </Container>

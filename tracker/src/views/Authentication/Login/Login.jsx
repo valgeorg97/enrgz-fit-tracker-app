@@ -3,7 +3,7 @@ import { Link as RouterLink, Link as ChakraLink, useNavigate } from "react-route
 import { auth } from "../../../services/firebase";
 import { AuthContext } from "../../../context/AuthContext";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { useContext } from "react";
+import { useContext,useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
@@ -51,11 +51,11 @@ const Login = () => {
             <form onSubmit={signIn}>
               <FormControl id="email">
                 <FormLabel>Email address</FormLabel>
-                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <Input type="email" onChange={(e) => setEmail(e.target.value)} />
               </FormControl>
               <FormControl id="password">
                 <FormLabel>Password</FormLabel>
-                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <Input type="password" onChange={(e) => setPassword(e.target.value)} />
               </FormControl>
               <Stack spacing={10}>
                 <Stack
