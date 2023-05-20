@@ -147,6 +147,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="workouts" element={<Workouts />} />
               <Route path="goals" element={<Goals />} />
+              {/* <Route path="goals/:id" element={<SingleGoal />} /> */}
               <Route path="community" element={<Community />} />
               <Route path="profile" element={<Profile />} />
               <Route path="register" element={<Register />} />
