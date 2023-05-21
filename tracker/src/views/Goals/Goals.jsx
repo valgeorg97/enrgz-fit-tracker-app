@@ -7,6 +7,7 @@ import {
   query,
   where,
   updateDoc,
+  deleteDoc,
   doc,
 } from "firebase/firestore";
 import { auth, db } from "../../services/firebase";
@@ -38,8 +39,12 @@ import {
   ButtonGroup,
   IconButton,
   Flex,
+  Select,
 } from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
+import { FaTrashAlt } from "react-icons/fa";
+
+// import DeleteButton from "../../components/DeleteButton/DeleteButton";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
@@ -51,6 +56,8 @@ const Goals = () => {
   const [goalFrom, setGoalFrom] = useState("");
   const [goalTo, setGoalTo] = useState("");
   const [goals, setGoals] = useState([]);
+  const [goalCategory, setGoalCategory] = useState("");
+  const [goalProgress, setGoalProgress] = useState(0);
   const [selectedGoal, setSelectedGoal] = useState(null); // Track the selected goal
   const [isModalOpen, setIsModalOpen] = useState(false); // Track the modal state
 
@@ -91,6 +98,8 @@ const Goals = () => {
             owner: userID,
             from: goalFrom,
             to: goalTo,
+            category: goalCategory,
+            progress: goalProgress,
             createdAt: serverTimestamp(),
           }
         );
@@ -98,12 +107,23 @@ const Goals = () => {
         setGoalNote("");
         setGoalFrom("");
         setGoalTo("");
+        setGoalCategory(""); // Reset category after goal creation
         toast.success("Goal created successfully!");
       } catch (error) {
         toast.error("Error creating goal:", error);
       }
     }
   };
+
+  // const updateGoalProgress = async (goalId, newProgress) => {
+  //   try {
+  //     const goalRef = doc(db, `users/${userDocID}/goals`, goalId);
+  //     await updateDoc(goalRef, { progress: newProgress });
+  //     toast.success("Progress updated successfully!");
+  //   } catch (error) {
+  //     toast.error("Error updating progress:", error);
+  //   }
+  // };
 
   const openModal = (goal) => {
     setSelectedGoal(goal);
@@ -135,6 +155,17 @@ const Goals = () => {
     }
   };
 
+  const handleDeleteGoal = async (goal) => { // pass goal as an argument
+    try {
+      const goalRef = doc(db, `users/${userDocID}/goals`, goal.id);
+      await deleteDoc(goalRef);
+      closeModal();
+      toast.success("Goal deleted successfully!");
+    } catch (error) {
+      toast.error("Error deleting goal:", error);
+    }
+  };
+
   const EditableControlsExample = () => {
     const {
       isEditing,
@@ -149,24 +180,36 @@ const Goals = () => {
         <IconButton mt={1} icon={<CloseIcon />} {...getCancelButtonProps()} />
       </ButtonGroup>
     ) : (
-      <Flex >
+      <Flex>
         <IconButton size="sm" icon={<EditIcon />} {...getEditButtonProps()} />
       </Flex>
     );
   };
 
   return (
-    <Box display="flex" flexDirection="row" ml={32}>
+    <Box display="flex" justifyContent="center" w="1500px">
       <Box display="flex" flexDirection="column" mt={30}>
         <Text mb={4} ml={100} fontSize="2xl" fontWeight="bold">
           Goals
         </Text>
-        <Box display="flex" flexWrap="wrap" justifyContent="left" mb={2}>
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          justifyContent="left"
+          ml="100px"
+          mb={2}
+        >
           {goals.map((goal, index) => (
-            <Box key={index} mr={4} width="240px" height="250px">
-              <Card boxShadow='dark-lg' rounded='md' borderColor='gray.50'>
+            <Box key={index} mr={4} mb="70px" width="240px" height="250px">
+              <Card
+                background="linear-gradient(20deg, #DECBA4, #3E5151)"
+                boxShadow="dark-lg"
+                rounded="md"
+                borderColor="gray.50"
+              >
                 <CardHeader>
                   <Heading
+                    color="white"
                     size="md"
                     p="1px"
                     mb={2}
@@ -191,6 +234,9 @@ const Goals = () => {
                   >
                     {goal.text}
                   </Text>
+                  <Text mt={2}>
+                    <strong>Category:</strong> {goal.category}
+                  </Text>
                   <Text mt={6}>
                     <strong>From:</strong> {goal.from}
                   </Text>
@@ -198,8 +244,25 @@ const Goals = () => {
                     <strong>To:</strong> {goal.to}
                   </Text>
                 </CardHeader>
+
                 <CardFooter justifyContent="end">
-                  <Button size="md" colorScheme="linkedin" onClick={() => openModal(goal)}>View</Button>
+                  <Button
+                    size="md"
+                    colorScheme="linkedin"
+                    onClick={() => openModal(goal)}
+                  >
+                    View
+                  </Button>
+                  <Button
+                    colorScheme="red"
+                    size="md"
+                    w="10px"
+                    onClick={() => handleDeleteGoal(goal)}
+                  >
+                    <Flex align="center">
+                      <FaTrashAlt />
+                    </Flex>
+                  </Button>
                 </CardFooter>
               </Card>
             </Box>
@@ -207,8 +270,17 @@ const Goals = () => {
         </Box>
       </Box>
 
-      <Box flex="1" marginLeft="auto" position="fixed" right="50px">
-        <Stack spacing={2} width="220px" height="460px" border='2px'boxShadow='dark-lg' p='6' rounded='md' borderColor='gray.50'>
+      <Box mr="10px" position="relative" mt="82px">
+        <Stack
+          spacing={2}
+          width="260px"
+          height="540px"
+          border="2px"
+          boxShadow="dark-lg"
+          p="6"
+          rounded="md"
+          borderColor="gray.50"
+        >
           <FormControl>
             <FormLabel>Goal Title</FormLabel>
             <Input
@@ -230,6 +302,20 @@ const Goals = () => {
           </FormControl>
 
           <FormControl>
+            <FormLabel>Goal Category</FormLabel>
+            <Select
+              placeholder="Select category"
+              value={goalCategory}
+              onChange={(e) => setGoalCategory(e.target.value)}
+            >
+              <option value="Weight Loss">Weight Loss</option>
+              <option value="Muscle Gain">Muscle Gain</option>
+              <option value="Cardio">Cardio</option>
+              <option value="Flexibility">Flexibility</option>
+            </Select>
+          </FormControl>
+
+          <FormControl>
             <FormLabel>From</FormLabel>
             <Input
               type="date"
@@ -237,11 +323,11 @@ const Goals = () => {
               onChange={(e) => setGoalFrom(e.target.value)}
             />
           </FormControl>
-          
+
           <FormControl>
             <FormLabel>To</FormLabel>
             <Input
-            mb={1}
+              mb={1}
               type="date"
               value={goalTo}
               onChange={(e) => setGoalTo(e.target.value)}
@@ -255,7 +341,12 @@ const Goals = () => {
       </Box>
 
       {selectedGoal && (
-        <Modal isOpen={isModalOpen} autoFocus={false} onClose={closeModal} size="sm">
+        <Modal
+          isOpen={isModalOpen}
+          autoFocus={false}
+          onClose={closeModal}
+          size="sm"
+        >
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>
@@ -278,23 +369,24 @@ const Goals = () => {
                 overflowWrap="break-word"
                 wordBreak="break-word"
                 defaultValue={selectedGoal.text}
-                onSubmit={(newText) =>
-                  updateGoalText(selectedGoal.id, newText)
-                }
+                onSubmit={(newText) => updateGoalText(selectedGoal.id, newText)}
               >
                 <EditablePreview />
                 <EditableTextarea />
                 <EditableControlsExample />
               </Editable>
               <Text mt={5}>
-              <strong>From:</strong> {selectedGoal?.from}
-            </Text>
-            <Text>
-              <strong>To:</strong> {selectedGoal?.to}
-            </Text>
+                <strong>Category:</strong> {selectedGoal?.category}
+              </Text>
+              <Text mt={5}>
+                <strong>From:</strong> {selectedGoal?.from}
+              </Text>
+              <Text>
+                <strong>To:</strong> {selectedGoal?.to}
+              </Text>
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme="linkedin"  onClick={closeModal}>
+              <Button colorScheme="linkedin" onClick={closeModal}>
                 Close
               </Button>
             </ModalFooter>
@@ -307,3 +399,37 @@ const Goals = () => {
 };
 
 export default Goals;
+
+
+
+// return (
+//   <Box display="flex" flexDirection="row" ml={32}>
+//     <Box display="flex" flexDirection="column" mt={30}>
+//       {/* ... (existing code) */}
+//       <Box display="flex" flexWrap="wrap" justifyContent="left" mb={2}>
+//         {goals.map((goal, index) => (
+//           <Box key={index} mr={4} width="240px" height="250px">
+//             {/* ... (existing code) */}
+//             <CardFooter justifyContent="end">
+//               <Button
+//                 size="md"
+//                 colorScheme="linkedin"
+//                 onClick={() => openModal(goal)}
+//               >
+//                 View
+//               </Button>
+//               <Text mt={2}>
+//                 <strong>Progress:</strong> {goal.progress}%
+//               </Text>
+//               {/* Progress update */}
+//               <Input
+//                 type="number"
+//                 min={0}
+//                 max={100}
+//                 value={goal.progress}
+//                 onChange={(e) =>
+//                   updateGoalProgress(goal.id, parseInt(e.target.value, 10))
+//                 }
+//               />
+//             </CardFooter>
+//           </Box>

@@ -33,7 +33,7 @@ const Navigation = () => {
             justifyContent="space-between"
         >
             <Flex
-                p="5%"
+                p="5px"
                 flexDir="column"
                 w="100%"
                 alignItems={navSize == "small" ? "center" : "flex-start"}
