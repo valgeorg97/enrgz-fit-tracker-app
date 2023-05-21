@@ -1,5 +1,7 @@
+import React from 'react';
 import CallToActionWithVideo from "./CallToActionWithVideo";
 import { useNavigate } from "react-router-dom";
+import Statistics from "./Statistics"
 
 const LandingPage = () => {
     const navigate = useNavigate();
@@ -9,7 +11,10 @@ const LandingPage = () => {
     };
 
     return (
-        <CallToActionWithVideo onGetStartedClick={navigateToLogin} />
+        <div>
+            <CallToActionWithVideo onGetStartedClick={navigateToLogin} />
+            <Statistics />
+        </div>
     );
 };
 

@@ -50,17 +50,21 @@ const Workouts = () => {
       {showForm ? (
         <CreateWorkout showForm={showForm} setShowForm={setShowForm}/>
       ) : (
-        <Button colorScheme="teal" onClick={handleCreateWorkoutClick}>Create Workout!</Button>)}
+        <Button colorScheme="teal" onClick={handleCreateWorkoutClick}>Create Workout!</Button>
+      )}
       <Box mt={5}>
         {workouts.map((workout, index) => (
           <Box key={index} p={5} boxShadow="md" borderWidth="1px">
             <Heading as="h2" size="md" mb={3}>
               {workout.name}
             </Heading>
-              <p>{workout.type}:</p>
-              <p>{workout.muscle}</p>
-              <p>{workout.reps} reps</p>
-              <p>{workout.weight} weight</p>
+            <Box>
+              <p>Exercise {index + 1}:</p>
+              <p>Muscle: {workout.muscle}</p>
+              <p>Type: {workout.type}</p>
+              <p>Reps: {workout.reps}</p>
+              <p>Weight: {workout.weight} kg</p>
+            </Box>
           </Box>
         ))}
       </Box>
