@@ -70,6 +70,7 @@ function App() {
         setUserDocID(doc.data().docID)
         setName(doc.data().name)
         setFamily(doc.data().family)
+        setUsername(doc.data().username)
         setEmail(doc.data().email);
       });
     };

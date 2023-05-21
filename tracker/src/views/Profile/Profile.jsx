@@ -8,22 +8,23 @@ import { updateProfile, updateEmail, deleteUser } from "firebase/auth";
 import { uploadPhoto, auth, db } from "../../services/firebase";
 import { AuthContext } from "../../context/AuthContext";
 import { updateDoc, doc, deleteDoc } from "firebase/firestore";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import DeleteUserDialog from "./DeleteUserDialog";
 
 export default function Profile() {
-  const {name,setName,email,setEmail,photoURL,setPhotoURL,userID,family,setFamily,userDocID,} = useContext(AuthContext);
+  const {name,setName,email,setEmail,photoURL,setPhotoURL,userID,family,setFamily,userDocID,username,setUsername} = useContext(AuthContext);
   const [changedName, setChangedName] = useState("");
+  const [changedUsername, setChangedUsername] = useState("");
   const [changedFamily, setChangedFamily] = useState("");
   const [changedEmail, setChangedEmail] = useState("");
   const [changedPhoto, setChangedPhoto] = useState(null);
   let navigate = useNavigate();
 
-
   const avatarInputRef = useRef(null);
   const nameInputRef = useRef(null);
   const familyInputRef = useRef(null);
+  const usernameInputRef = useRef(null);
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
 
@@ -32,6 +33,9 @@ export default function Profile() {
   };
   const handleChangeFamily = (event) => {
     setChangedFamily(event.target.value);
+  };
+  const handleChangeUsername = (event) => {
+    setChangedUsername(event.target.value);
   };
   const handleChangeEmail = (event) => {
     setChangedEmail(event.target.value);
@@ -56,6 +60,7 @@ export default function Profile() {
   const handleCancel = () => {
     avatarInputRef.current.value = null;
     nameInputRef.current.value = null;
+    usernameInputRef.current.value = null;
     familyInputRef.current.value = null;
     emailInputRef.current.value = null;
     passwordInputRef.current.value = null;
@@ -64,7 +69,7 @@ export default function Profile() {
   const updateInfo = (event) => {
     event.preventDefault();
 
-    if (!changedPhoto && !changedEmail && !changedName && !changedFamily) {
+    if (!changedPhoto && !changedEmail && !changedName && !changedFamily && !changedUsername) {
       toast.error("No information to update");
       return;
     }
@@ -87,6 +92,16 @@ export default function Profile() {
           });
       });
     }
+    if (changedUsername) {
+        const userRef = doc(db, "users", userDocID);
+        updateDoc(userRef, { username: changedUsername })
+          .then(() => {
+            setUsername(changedUsername);
+          })
+          .catch((error) => {
+            console.log("Error updating username:", error);
+          });
+      }
     if (changedName) {
       let fixname = `${changedName} ${family}`;
       updateProfile(auth.currentUser, { displayName: fixname })
@@ -121,6 +136,7 @@ export default function Profile() {
           console.log("Error updating profile:", error);
         });
     }
+    toast.success("User information updated !")
   };
 
   return (
@@ -160,6 +176,22 @@ export default function Profile() {
                     placeholder={family}
                     onChange={handleChangeFamily}
                     ref={familyInputRef}
+                  />
+                </InputGroup>
+              </FormControl>
+
+              <FormControl>
+                <FormLabel htmlFor="family">Username</FormLabel>
+                <InputGroup>
+                  <InputLeftElement  children={<Icon as={FaRegUser} color="secondary.inputHelper" />}/>
+                  <Input
+                    focusBorderColor="main.500"
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder={username}
+                    onChange={handleChangeUsername}
+                    ref={usernameInputRef}
                   />
                 </InputGroup>
               </FormControl>
@@ -307,6 +339,7 @@ export default function Profile() {
             <Stack spacing={4} marginBottom="1rem">
             <DeleteUserDialog handleDeleteUser={handleDeleteUser} />
             </Stack>
+            <ToastContainer />
           </Box>
         </Container>
       </PageContent>

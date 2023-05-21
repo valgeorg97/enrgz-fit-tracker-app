@@ -164,10 +164,12 @@ const Goals = () => {
         <Box display="flex" flexWrap="wrap" justifyContent="left" mb={2}>
           {goals.map((goal, index) => (
             <Box key={index} mr={4} width="240px" height="250px">
-              <Card>
+              <Card boxShadow='dark-lg' rounded='md' borderColor='gray.50'>
                 <CardHeader>
                   <Heading
                     size="md"
+                    p="1px"
+                    mb={2}
                     style={{
                       overflow: "hidden",
                       textOverflow: "ellipsis",
@@ -189,17 +191,15 @@ const Goals = () => {
                   >
                     {goal.text}
                   </Text>
-                </CardHeader>
-                <CardBody>
-                  <Text>
+                  <Text mt={6}>
                     <strong>From:</strong> {goal.from}
                   </Text>
                   <Text>
                     <strong>To:</strong> {goal.to}
                   </Text>
-                </CardBody>
-                <CardFooter>
-                  <Button onClick={() => openModal(goal)}>View here</Button>
+                </CardHeader>
+                <CardFooter justifyContent="end">
+                  <Button size="md" colorScheme="linkedin" onClick={() => openModal(goal)}>View</Button>
                 </CardFooter>
               </Card>
             </Box>
@@ -260,6 +260,8 @@ const Goals = () => {
           <ModalContent>
             <ModalHeader>
               <Editable
+                overflowWrap="break-word"
+                wordBreak="break-word"
                 defaultValue={selectedGoal.name}
                 onSubmit={(newTitle) =>
                   updateGoalTitle(selectedGoal.id, newTitle)
@@ -273,6 +275,8 @@ const Goals = () => {
             <ModalCloseButton />
             <ModalBody>
               <Editable
+                overflowWrap="break-word"
+                wordBreak="break-word"
                 defaultValue={selectedGoal.text}
                 onSubmit={(newText) =>
                   updateGoalText(selectedGoal.id, newText)
