@@ -145,11 +145,11 @@ const Goals = () => {
 
     return isEditing ? (
       <ButtonGroup justifyContent="center" size="sm">
-        <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
-        <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
+        <IconButton mt={1} icon={<CheckIcon />} {...getSubmitButtonProps()} />
+        <IconButton mt={1} icon={<CloseIcon />} {...getCancelButtonProps()} />
       </ButtonGroup>
     ) : (
-      <Flex justifyContent="center">
+      <Flex >
         <IconButton size="sm" icon={<EditIcon />} {...getEditButtonProps()} />
       </Flex>
     );
@@ -208,11 +208,12 @@ const Goals = () => {
       </Box>
 
       <Box flex="1" marginLeft="auto" position="fixed" right="50px">
-        <Stack spacing={2} width="200px" height="200px">
+        <Stack spacing={2} width="220px" height="460px" border='2px'boxShadow='dark-lg' p='6' rounded='md' borderColor='gray.50'>
           <FormControl>
             <FormLabel>Goal Title</FormLabel>
             <Input
               type="text"
+              placeholder="Goal name"
               value={goalName}
               onChange={(e) => setGoalName(e.target.value)}
             />
@@ -236,24 +237,25 @@ const Goals = () => {
               onChange={(e) => setGoalFrom(e.target.value)}
             />
           </FormControl>
+          
           <FormControl>
             <FormLabel>To</FormLabel>
             <Input
+            mb={1}
               type="date"
               value={goalTo}
               onChange={(e) => setGoalTo(e.target.value)}
             />
           </FormControl>
 
-          <Button colorScheme="teal" onClick={createGoal}>
+          <Button colorScheme="teal" size="lg" onClick={createGoal}>
             Create Goal
           </Button>
         </Stack>
       </Box>
 
-      {/* Modal */}
       {selectedGoal && (
-        <Modal isOpen={isModalOpen} onClose={closeModal} size="lg">
+        <Modal isOpen={isModalOpen} autoFocus={false} onClose={closeModal} size="sm">
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>
@@ -280,7 +282,7 @@ const Goals = () => {
                 <EditableTextarea />
                 <EditableControlsExample />
               </Editable>
-              <Text>
+              <Text mt={5}>
               <strong>From:</strong> {selectedGoal?.from}
             </Text>
             <Text>
@@ -288,7 +290,7 @@ const Goals = () => {
             </Text>
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={closeModal}>
+              <Button colorScheme="linkedin"  onClick={closeModal}>
                 Close
               </Button>
             </ModalFooter>
