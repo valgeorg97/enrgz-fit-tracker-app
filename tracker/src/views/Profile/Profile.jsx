@@ -13,11 +13,12 @@ import { useNavigate } from "react-router-dom";
 import DeleteUserDialog from "./DeleteUserDialog";
 
 export default function Profile() {
-  const {name,setName,email,setEmail,photoURL,setPhotoURL,userID,family,setFamily,userDocID,username,setUsername} = useContext(AuthContext);
+  const {name,setName,email,setEmail,photoURL,setPhotoURL,userID,family,setFamily,userDocID,username,setUsername,phoneNumber,setPhoneNumber} = useContext(AuthContext);
   const [changedName, setChangedName] = useState("");
   const [changedUsername, setChangedUsername] = useState("");
   const [changedFamily, setChangedFamily] = useState("");
   const [changedEmail, setChangedEmail] = useState("");
+  const [changedPhone, setChangedPhone] = useState("");
   const [changedPhoto, setChangedPhoto] = useState(null);
   let navigate = useNavigate();
 
@@ -27,6 +28,7 @@ export default function Profile() {
   const usernameInputRef = useRef(null);
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
+  const phoneInputRef = useRef(null);
 
   const handleChangeName = (event) => {
     setChangedName(event.target.value);
@@ -36,6 +38,9 @@ export default function Profile() {
   };
   const handleChangeUsername = (event) => {
     setChangedUsername(event.target.value);
+  };
+  const handleChangePhone = (event) => {
+    setChangedPhone(event.target.value);
   };
   const handleChangeEmail = (event) => {
     setChangedEmail(event.target.value);
@@ -64,12 +69,13 @@ export default function Profile() {
     familyInputRef.current.value = null;
     emailInputRef.current.value = null;
     passwordInputRef.current.value = null;
+    phoneInputRef.current.value = null;
   };
 
   const updateInfo = (event) => {
     event.preventDefault();
 
-    if (!changedPhoto && !changedEmail && !changedName && !changedFamily && !changedUsername) {
+    if (!changedPhoto && !changedEmail && !changedName && !changedFamily && !changedUsername && !changedPhone) {
       toast.error("No information to update");
       return;
     }
@@ -102,6 +108,16 @@ export default function Profile() {
             console.log("Error updating username:", error);
           });
       }
+    if (changedPhone) {
+      const userRef = doc(db, "users", userDocID);
+      updateDoc(userRef, { phoneNumber: changedPhone })
+        .then(() => {
+          setPhoneNumber(changedPhone);
+        })
+        .catch((error) => {
+          console.log("Error updating phone number:", error);
+        });
+    }
     if (changedName) {
       let fixname = `${changedName} ${family}`;
       updateProfile(auth.currentUser, { displayName: fixname })
@@ -181,7 +197,7 @@ export default function Profile() {
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor="family">Username</FormLabel>
+                <FormLabel htmlFor="username">Username</FormLabel>
                 <InputGroup>
                   <InputLeftElement  children={<Icon as={FaRegUser} color="secondary.inputHelper" />}/>
                   <Input
@@ -211,6 +227,23 @@ export default function Profile() {
                   />
                 </InputGroup>
               </FormControl>
+
+              <FormControl>
+                <FormLabel htmlFor="phone">Phone Number</FormLabel>
+                <InputGroup>
+                  <InputLeftElement  children={<Icon as={FaRegUser} color="secondary.inputHelper" />}/>
+                  <Input
+                    focusBorderColor="main.500"
+                    type="number"
+                    name="phone"
+                    id="phone"
+                    placeholder={phoneNumber}
+                    onChange={handleChangePhone}
+                    ref={phoneInputRef}
+                  />
+                </InputGroup>
+              </FormControl>
+
             </Stack>
             <Stack justifyContent="space-between" isInline marginBottom="1rem">
               <Stack isInline>
