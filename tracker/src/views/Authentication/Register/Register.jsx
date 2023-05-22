@@ -1,9 +1,9 @@
 import { useState,useContext } from 'react';
-import { Flex, Box, Progress, Image, Radio, RadioGroup, FormControl, FormLabel, Input, InputGroup, Button, Heading, Stack, useColorModeValue, Link, ButtonGroup, SimpleGrid, InputRightElement, FormHelperText, Select, InputLeftAddon, Textarea, Text } from '@chakra-ui/react';
+import { Flex, Box, Progress, Image, Radio, RadioGroup, FormControl, FormLabel, Input, InputGroup, Button, Heading, Stack, useColorModeValue, Link, ButtonGroup,Spinner, SimpleGrid, InputRightElement, FormHelperText, Select, InputLeftAddon, Textarea, Text } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { db, auth } from "../../../services/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { addDoc, collection, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, updateDoc,doc } from 'firebase/firestore';
 import { useToast } from '@chakra-ui/react';
 import { Link as RouterLink, Link as ChakraLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -18,6 +18,7 @@ import Form5 from './Forms/Form5';
 import Form6 from './Forms/Form6';
 import Form7 from './Forms/Form7';
 import Form8 from './Forms/Form8';
+import Loading from '../../../components/Loading/Loading';
 
 
 const Register = () => {
@@ -27,6 +28,10 @@ const Register = () => {
   const toast = useToast();
   let navigate = useNavigate();
   const [countryCode, setCountryCode] = useState("");
+  const [calorieCalculation, setCalorieCalculation] = useState(null);
+  const [mainGoals, setMainGoals] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const [regName, setRegName] = useState()
   const [regFamily, setRegFamily] = useState("")
@@ -41,6 +46,48 @@ const Register = () => {
   const [regUsername, setRegUsername] = useState("")
   const [regEmail, setRegEmail] = useState("")
   const [regPassword, setRegPassword] = useState("")
+
+  const calculateAge = (birthdate) => {
+    const diffMs = Date.now() - birthdate.getTime();
+    const ageDt = new Date(diffMs);
+    return Math.abs(ageDt.getUTCFullYear() - 1970);
+  }
+
+  const calculateCalories = async () => {
+    const age = calculateAge(new Date(regYear));
+  
+    let apiActivityLevel;
+    switch (regActivityLevel) {
+      case 'lightly-active':
+        apiActivityLevel = 'level_2';
+        break;
+      case 'active':
+        apiActivityLevel = 'level_3';
+        break;
+      case 'very-active':
+        apiActivityLevel = 'level_4';
+        break;
+      default:
+        apiActivityLevel = 'level_1'; // or some other default value
+    }
+  
+    const response = await fetch(`https://fitness-calculator.p.rapidapi.com/dailycalorie?age=${age}&gender=${regGender}&height=${regHeight}&weight=${regWeight}&activitylevel=${apiActivityLevel}`, {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': 'c8f88b8e37mshbbcacf51c255978p133a69jsn48d57aca2db6',
+        'X-RapidAPI-Host': 'fitness-calculator.p.rapidapi.com'
+      }
+    });
+  
+    if (response.ok) {
+      const data = await response.json();
+      setCalorieCalculation(data.data.BMR);
+      setMainGoals(data.data.goals)
+    } else {
+      console.error('Failed to calculate calories', response.status);
+    }
+  };
+
 
   const handleName = (event) => {
     setRegName(event);
@@ -121,7 +168,16 @@ const Register = () => {
     });
     const docID = docRef.id;
     const dataWithDocID = { ...addUser, docID: docID };
+    const userBmrUpdate = { ...addUser, bmr: calorieCalculation };
     await updateDoc(docRef, dataWithDocID);
+    await updateDoc(docRef, userBmrUpdate);
+    
+    const userDocRef = doc(db, "users", docRef.id);
+    const userMainGoalsUpdate = { mainGoals: mainGoals };
+    const mainGoalsCollection = collection(userDocRef, "mainGoals");
+    await addDoc(mainGoalsCollection, userMainGoalsUpdate);
+
+  
   }
   const updateName = () => {
     updateProfile(auth.currentUser, {
@@ -181,19 +237,31 @@ const Register = () => {
     return true;
   };
 
-  const signUp = (e) => {
-    e.preventDefault()
+const signUp = async (e) => {
+    e.preventDefault();
     if (!validateInputs()) {
       return;
     }
-    createUserWithEmailAndPassword(auth, regEmail, regPassword)
-      .then(() => {
-        updateName();
-      })
-      .then(() => addUser())
-      .then(navigate("/login"))
-      .catch((error) => console.log(error))
-  }
+    try {
+      setIsLoading(true)
+      await createUserWithEmailAndPassword(auth, regEmail, regPassword);
+      updateName();
+      await calculateCalories();
+      await addUser();
+      // const userData = {
+      //   calorieCalculation,
+      //   goal: regGoal,
+      //   // Add any other user data you want to include
+      // };
+      // navigate("/BMR", { state: { user: userData } });
+
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   return (
     <Flex
@@ -205,6 +273,7 @@ const Register = () => {
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
           <Image src={Logo} alt="Energize Logo" w={64} />
+          {isLoading && <Loading size="xl" color="teal.500" />}
         </Stack>
         <Box
           rounded={'lg'}
@@ -212,6 +281,7 @@ const Register = () => {
           boxShadow={'lg'}
           p={8}
         >
+
           <Stack spacing={4}>
             <Progress
               hasStripe
@@ -220,7 +290,7 @@ const Register = () => {
               mx="5%"
               isAnimated
             ></Progress>
-            {step === 1 ? <Form1 /> 
+            { step === 1 ? <Form1 /> 
             : step === 2 ? <Form2 handleName={handleName} handleFamily={handleFamily}/> 
             : step === 3 ? <Form3 handleGoal={handleGoal} regGoal={regGoal} regName={regName} regFamily={regFamily} /> 
             : step === 4 ? <Form4 /> 
