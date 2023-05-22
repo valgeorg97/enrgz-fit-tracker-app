@@ -155,7 +155,7 @@ const Goals = () => {
     }
   };
 
-  const handleDeleteGoal = async (goal) => { // pass goal as an argument
+  const handleDeleteGoal = async (goal) => {
     try {
       const goalRef = doc(db, `users/${userDocID}/goals`, goal.id);
       await deleteDoc(goalRef);
@@ -389,6 +389,16 @@ const Goals = () => {
               <Button colorScheme="linkedin" onClick={closeModal}>
                 Close
               </Button>
+              <Button
+                    colorScheme="red"
+                    size="md"
+                    w="10px"
+                    onClick={() => handleDeleteGoal(selectedGoal)}
+                  >
+                    <Flex align="center">
+                      <FaTrashAlt />
+                    </Flex>
+                  </Button>
             </ModalFooter>
           </ModalContent>
         </Modal>

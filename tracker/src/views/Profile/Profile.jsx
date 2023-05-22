@@ -1,6 +1,6 @@
 /* eslint-disable react/no-children-prop */
 import {Container,Avatar,Box,Text,Stack,InputGroup,Input,InputLeftElement,Icon,FormLabel,Checkbox,Button,Divider,FormControl,Heading,} from "@chakra-ui/react";
-import { FaRegEnvelope, FaLock, FaRegUser } from "react-icons/fa";
+import { FaRegEnvelope, FaLock, FaRegUser,FaPhoneAlt } from "react-icons/fa";
 import PageContainer from "./PageContainer";
 import PageContent from "./PageContent";
 import { useState, useContext, useRef } from "react";
@@ -231,7 +231,7 @@ export default function Profile() {
               <FormControl>
                 <FormLabel htmlFor="phone">Phone Number</FormLabel>
                 <InputGroup>
-                  <InputLeftElement  children={<Icon as={FaRegUser} color="secondary.inputHelper" />}/>
+                  <InputLeftElement  children={<Icon as={FaPhoneAlt} color="secondary.inputHelper" />}/>
                   <Input
                     focusBorderColor="main.500"
                     type="number"
