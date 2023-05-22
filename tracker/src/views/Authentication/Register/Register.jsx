@@ -22,14 +22,14 @@ import Loading from '../../../components/Loading/Loading';
 
 
 const Register = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(0);
   const toast = useToast();
   let navigate = useNavigate();
   const [countryCode, setCountryCode] = useState("");
-  const [calorieCalculation, setCalorieCalculation] = useState(null);
-  const [mainGoals, setMainGoals] = useState(null);
+  // const [calorieCalculation, setCalorieCalculation] = useState(null);
+  // const [mainGoals, setMainGoals] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
 
@@ -68,7 +68,7 @@ const Register = () => {
         apiActivityLevel = 'level_4';
         break;
       default:
-        apiActivityLevel = 'level_1'; // or some other default value
+        apiActivityLevel = 'level_1'; 
     }
   
     const response = await fetch(`https://fitness-calculator.p.rapidapi.com/dailycalorie?age=${age}&gender=${regGender}&height=${regHeight}&weight=${regWeight}&activitylevel=${apiActivityLevel}`, {
@@ -81,10 +81,10 @@ const Register = () => {
   
     if (response.ok) {
       const data = await response.json();
-      setCalorieCalculation(data.data.BMR);
-      setMainGoals(data.data.goals)
+      return { bmr: data.data.BMR, goals: data.data.goals};
     } else {
       console.error('Failed to calculate calories', response.status);
+      return null;
     }
   };
 
@@ -145,7 +145,7 @@ const Register = () => {
     setCountryCode(value)
   }
 
-  const addUser = async () => {
+  const addUser = async (bmr, goals) => {
   const usersCollection = collection(db, "users")
 
     const docRef = await addDoc(usersCollection, {
@@ -168,12 +168,12 @@ const Register = () => {
     });
     const docID = docRef.id;
     const dataWithDocID = { ...addUser, docID: docID };
-    const userBmrUpdate = { ...addUser, bmr: calorieCalculation };
+    const userBmrUpdate = { ...addUser, bmr: bmr };
     await updateDoc(docRef, dataWithDocID);
     await updateDoc(docRef, userBmrUpdate);
     
     const userDocRef = doc(db, "users", docRef.id);
-    const userMainGoalsUpdate = { mainGoals: mainGoals };
+    const userMainGoalsUpdate = { mainGoals: goals }
     const mainGoalsCollection = collection(userDocRef, "mainGoals");
     await addDoc(mainGoalsCollection, userMainGoalsUpdate);
 
@@ -237,30 +237,29 @@ const Register = () => {
     return true;
   };
 
-const signUp = async (e) => {
+  const signUp = (e) => {
     e.preventDefault();
     if (!validateInputs()) {
       return;
     }
-    try {
-      setIsLoading(true)
-      await createUserWithEmailAndPassword(auth, regEmail, regPassword);
-      updateName();
-      await calculateCalories();
-      await addUser();
-      // const userData = {
-      //   calorieCalculation,
-      //   goal: regGoal,
-      //   // Add any other user data you want to include
-      // };
-      // navigate("/BMR", { state: { user: userData } });
-
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
+    setIsLoading(true);
+    createUserWithEmailAndPassword(auth, regEmail, regPassword)
+      .then(() => {
+        updateName();
+        return calculateCalories();
+      })
+      .then(({ bmr, goals }) => {
+        return addUser(bmr, goals);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        navigate("/profile")
+      });
   };
+  
 
 
   return (
