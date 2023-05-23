@@ -77,6 +77,7 @@ function App() {
         setIsBlocked(false);
         setPhotoURL(userimage)
         setUserID("");
+        setUserGoal("")
       }
     });
     return unsubscribe;

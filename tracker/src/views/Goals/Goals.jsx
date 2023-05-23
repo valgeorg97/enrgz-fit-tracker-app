@@ -1,13 +1,14 @@
 import { useState, useContext, useEffect } from "react";
 import {collection,addDoc,serverTimestamp,getDocs,query,where,updateDoc,deleteDoc,doc,} from "firebase/firestore";
 import { auth, db } from "../../services/firebase";
-import {Box,Button,Text,Card,CardHeader,Heading,CardFooter,Modal,ModalOverlay,Menu,MenuButton,MenuList,MenuItem,ModalContent,ModalHeader,ModalFooter,ModalBody,ModalCloseButton,Editable,EditablePreview,EditableInput,EditableTextarea,ButtonGroup,IconButton,Flex,useEditableControls} from "@chakra-ui/react";
+import {Box,Button,Text,Card,CardHeader,Heading,Spacer,VStack,CardFooter,Modal,ModalOverlay,Menu,MenuButton,MenuList,MenuItem,ModalContent,ModalHeader,ModalFooter,ModalBody,ModalCloseButton,Editable,EditablePreview,EditableInput,EditableTextarea,ButtonGroup,IconButton,Flex,useEditableControls} from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt,FaCheck } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import { CheckIcon, CloseIcon, EditIcon,ChevronDownIcon } from "@chakra-ui/icons";
 import "react-toastify/dist/ReactToastify.css";
 import GoalForm from "./GoalForm";
+import { BsArrowReturnRight } from 'react-icons/bs';
 
 
 const Goals = () => {
@@ -50,33 +51,56 @@ const Goals = () => {
 
   useEffect(() => {
     const fetchMainGoals = async () => {
-      
       if (userDocID) {
         try {
           const qu = query(
             collection(db, "mainGoals"), 
             where("owner", "==", userID)
           );
-          
           const querySnapshot = await getDocs(qu);
           const mainGoalsData = [];
           querySnapshot.forEach((doc) => {
             mainGoalsData.push({ id: doc.id, ...doc.data() });
           });
-          setMainGoals(mainGoalsData[0]);
+          setMainGoals(mainGoalsData[0]); //set mainGoals
           if (mainGoalsData[0]) {
             const mainGoalsDocRef = doc(db, "mainGoals", mainGoalsData[0].id);
-            setDocRef(mainGoalsDocRef);
-            setCurrentGoal(mainGoalsData[0].currentGoal)
+            setDocRef(mainGoalsDocRef); //set mainGoals doc ref
+
+            if (!mainGoalsData[0].currentGoal) {
+              if (userGoal === "Extreme weight gain") {
+                updateCurrentGoal(mainGoalsData[0].extremeGain);
+              } else if (userGoal === "Extreme weight loss") {
+                updateCurrentGoal(mainGoalsData[0].extremeLoss)
+              } else if (userGoal === "Mild weight gain") {
+                updateCurrentGoal(mainGoalsData[0].mildGain);
+              } else if (userGoal === "Mild weight loss") {
+                updateCurrentGoal(mainGoalsData[0].mildLoss);
+              } else if (userGoal === "Weight gain") {
+                updateCurrentGoal(mainGoalsData[0].gain);
+              } else if (userGoal === "Weight loss") {
+                updateCurrentGoal(mainGoalsData[0].loss);
+              } else if (userGoal === "Maintain weight") {
+                updateCurrentGoal(mainGoalsData[0].maintain);
+              }
+            } else {
+              setCurrentGoal(mainGoalsData[0].currentGoal)
+            }
           }
         } catch (error) {
           console.error("Error fetching main goals:", error);
         }
       }
     };
+    console.log('yes');
     fetchMainGoals();
-  }, [userID,userDocID]);
+  }, [userID,userDocID,userGoal]);
 
+  const updateCurrentGoal = async (goal) => {
+    setCurrentGoal(goal);
+    const dataWithDocID = { currentGoal: goal };
+    await updateDoc(docRef, dataWithDocID);
+  };
 
   const createGoal = async () => {
     if (user) {
@@ -146,6 +170,17 @@ const Goals = () => {
     }
   };
 
+  const handleFinishGoal = async (goal) => {
+    try {
+      const goalRef = doc(db, `users/${userDocID}/goals`, goal.id);
+      await updateDoc(goalRef, { finished: true }); // Update the document with the finished property
+      closeModal();
+      toast.success("Goal finished successfully!");
+    } catch (error) {
+      toast.error("Error finishing goal:", error);
+    }
+  };
+
   const EditableControlsExample = () => {
     const {
       isEditing,
@@ -164,12 +199,6 @@ const Goals = () => {
         <IconButton size="sm" icon={<EditIcon />} {...getEditButtonProps()} />
       </Flex>
     );
-  };
-
-  const updateCurrentGoal = async (goal) => {
-    setCurrentGoal(goal);
-    const dataWithDocID = { currentGoal: goal };
-    await updateDoc(docRef, dataWithDocID);
   };
   
 
@@ -207,7 +236,6 @@ const Goals = () => {
                     key={key}
                     minH="70px"
                     onClick={() => updateCurrentGoal(goal)}
-
                   >
                     <Box>
                       <Heading>{goal.name}</Heading>
@@ -320,66 +348,74 @@ const Goals = () => {
 
       {selectedGoal && (
         <Modal
-          isOpen={isModalOpen}
-          autoFocus={false}
-          onClose={closeModal}
-          size="sm"
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>
-              <Editable
-                overflowWrap="break-word"
-                wordBreak="break-word"
-                defaultValue={selectedGoal.name}
-                onSubmit={(newTitle) =>
-                  updateGoalTitle(selectedGoal.id, newTitle)
-                }
-              >
-                <EditablePreview />
-                <EditableInput />
-                <EditableControlsExample />
-              </Editable>
-            </ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Editable
-                overflowWrap="break-word"
-                wordBreak="break-word"
-                defaultValue={selectedGoal.text}
-                onSubmit={(newText) => updateGoalText(selectedGoal.id, newText)}
-              >
-                <EditablePreview />
-                <EditableTextarea />
-                <EditableControlsExample />
-              </Editable>
-              <Text mt={5}>
-                <strong>Category:</strong> {selectedGoal?.category}
-              </Text>
-              <Text mt={5}>
-                <strong>From:</strong> {selectedGoal?.from}
-              </Text>
-              <Text>
-                <strong>To:</strong> {selectedGoal?.to}
-              </Text>
-            </ModalBody>
-            <ModalFooter>
-              <Button colorScheme="linkedin" onClick={closeModal}>
-                Close
-              </Button>
-              <Button
-                colorScheme="red"
-                size="md"
-                w="10px"
-                onClick={() => handleDeleteGoal(selectedGoal)}
-              >
+        isOpen={isModalOpen}
+        autoFocus={false}
+        onClose={closeModal}
+        size="sm"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <Editable
+              overflowWrap="break-word"
+              wordBreak="break-word"
+              defaultValue={selectedGoal.name}
+              onSubmit={(newTitle) =>
+                updateGoalTitle(selectedGoal.id, newTitle)
+              }
+            >
+              <EditablePreview />
+              <EditableInput w="300px"/>
+              <EditableControlsExample />
+            </Editable>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Editable
+              overflowWrap="break-word"
+              wordBreak="break-word"
+              defaultValue={selectedGoal.text}
+              onSubmit={(newText) => updateGoalText(selectedGoal.id, newText)}
+            >
+              <VStack spacing={2} float="right" alignItems="flex-end">
+                <Button colorScheme="green" size="md" onClick={() => handleFinishGoal(selectedGoal)}>
+                  <Flex align="center">
+                    <FaCheck />
+                  </Flex>
+                </Button>
+                <Button colorScheme="red" size="md" onClick={() => handleDeleteGoal(selectedGoal)}>
+                  <Flex align="center">
+                    <FaTrashAlt />
+                  </Flex>
+                </Button>
+                <Button colorScheme="linkedin" size="md" onClick={closeModal}>
                 <Flex align="center">
-                  <FaTrashAlt />
-                </Flex>
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+                    <BsArrowReturnRight />
+                  </Flex>
+                </Button>
+              </VStack>
+              
+              <EditablePreview />
+              <EditableTextarea w="250px"/>
+              <EditableControlsExample />
+            </Editable >
+      
+            <Text mt={5}>
+              <strong>Category:</strong> {selectedGoal?.category}
+            </Text>
+      
+            <Text mt={5}>
+              <strong>From:</strong> {selectedGoal?.from}
+            </Text>
+            <Text>
+              <strong>To:</strong> {selectedGoal?.to}
+            </Text>
+          </ModalBody>
+          <ModalFooter>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      
       )}
       <ToastContainer />
     </Box>
@@ -443,70 +479,3 @@ export default Goals;
   // };
 
   // const [goalProgress, setGoalProgress] = useState(0);
-
-
-
-          {/* <Box
-          display="flex"
-          flexWrap="wrap"
-          justifyContent="left"
-          ml="100px"
-          mb={2}
-        >
-          {Object.keys(mainGoals).map((key) => {
-            if (key !== "owner" && key !== "id" && key !== "maintain") {
-              const goal = mainGoals[key];
-              return (
-                <Box key={key} mr={4} mb="70px" width="240px" height="250px">
-                  <Card
-                    background="linear-gradient(20deg, #DECBA4, #3E5151)"
-                    boxShadow="dark-lg"
-                    rounded="md"
-                    borderColor="gray.50"
-                  >
-                    <CardHeader>
-                      <Heading
-                        color="white"
-                        size="md"
-                        p="1px"
-                        mb={2}
-                        style={{
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                          maxWidth: "100%",
-                        }}
-                      >
-                        {goal.name}
-                      </Heading>
-                      <Text textAlign="center">
-                        You must consume {goal.calory} a day
-                      </Text>
-                    </CardHeader>
-                    <CardFooter justifyContent="end"></CardFooter>
-                  </Card>
-                </Box>
-              );
-            } else return null;
-          })}
-        </Box> */}
-
-
-        // if (mainGoalsData[0] && !mainGoalsData[0].currentGoal) {
-        //   if (userGoal === "Extreme weight gain") {
-        //     setCurrentGoal(mainGoalsData[0].extremeGain);
-        //   } else if (userGoal === "Extreme weight loss") {
-        //     setCurrentGoal(mainGoalsData[0].extremeLoss);
-        //   } else if (userGoal === "Mild weight gain") {
-        //     setCurrentGoal(mainGoalsData[0].mildGain);
-        //   } else if (userGoal === "Mild weight loss") {
-        //     setCurrentGoal(mainGoalsData[0].mildLoss);
-        //   } else if (userGoal === "Weight gain") {
-        //     setCurrentGoal(mainGoalsData[0].gain);
-        //   } else if (userGoal === "Weight loss") {
-        //     setCurrentGoal(mainGoalsData[0].loss);
-        //   } else if (userGoal === "Maintain weight") {
-        //     setCurrentGoal(mainGoalsData[0].maintain);
-        //   }
-        //   console.log(currentGoal);
-        // }
