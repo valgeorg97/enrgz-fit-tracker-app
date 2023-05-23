@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import {collection,addDoc,serverTimestamp,getDocs,query,where,updateDoc,deleteDoc,doc,} from "firebase/firestore";
 import { auth, db } from "../../services/firebase";
-import {Box,Button,Text,Card,CardHeader,Heading,Spacer,VStack,CardFooter,Modal,ModalOverlay,Menu,MenuButton,MenuList,MenuItem,ModalContent,ModalHeader,ModalFooter,ModalBody,ModalCloseButton,Editable,EditablePreview,EditableInput,EditableTextarea,ButtonGroup,IconButton,Flex,useEditableControls} from "@chakra-ui/react";
+import {Box,Button,Text,Card,CardHeader,Heading,Image,Tooltip,Popover,PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverBody,VStack,CardFooter,Modal,ModalOverlay,Menu,MenuButton,MenuList,MenuItem,ModalContent,ModalHeader,ModalFooter,ModalBody,ModalCloseButton,Editable,EditablePreview,EditableInput,EditableTextarea,ButtonGroup,IconButton,Flex,useEditableControls} from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
 import { FaTrashAlt,FaCheck } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
@@ -9,6 +9,8 @@ import { CheckIcon, CloseIcon, EditIcon,ChevronDownIcon } from "@chakra-ui/icons
 import "react-toastify/dist/ReactToastify.css";
 import GoalForm from "./GoalForm";
 import { BsArrowReturnRight } from 'react-icons/bs';
+import {HiOutlinePencilAlt} from 'react-icons/hi'
+import {AiOutlineQuestion} from 'react-icons/ai'
 
 
 const Goals = () => {
@@ -203,134 +205,137 @@ const Goals = () => {
   
 
   return (
-    <Box display="flex" justifyContent="center" w="1500px">
-      <Box display="flex" px={20} flexDirection="column" mt={30}>
-        <Menu>
-          <MenuButton
-            as={Button}
-            bg="gray.100"
-            borderRadius="md"
-            p={12}
-            boxShadow="md"
-            textAlign="center"
-            _hover={{ bg: "gray.200" }}
-            rightIcon={<ChevronDownIcon />}
+    <Box display="flex" justifyContent="center" mt="50px" ml="70px" w="1600px">
+      <Box
+        flexDirection="column"
+        display="flex"
+        justifyContent="center"
+        w="1600px"
+      >
+        <Box ml="100px" display="flex" flexDirection="column">
+          <Menu >
+            <MenuButton
+              as={Button}
+              w="400px"
+              bg="gray.100"
+              borderRadius="md"
+              p="50px"
+              boxShadow="md"
+              textAlign="center"
+              _hover={{ bg: "gray.200" }}
+              rightIcon={<ChevronDownIcon />}
+              
+            >
+              <Text fontSize="sm" color="gray.500">
+                This is your current main goal based on BMR
+              </Text>
+              <Heading size="md" mt={2}>
+                {currentGoal ? currentGoal.name : "Choose Main Goal"}
+              </Heading>
+              <Text fontSize="md" mt={2}>
+                Daily calory intake to reach goal:{" "}
+                {currentGoal && currentGoal.calory.toFixed(0)} cal
+              </Text>
+            </MenuButton>
+
+            <MenuList w="400px">
+              {Object.keys(mainGoals).map((key) => {
+                if (key !== "owner" && key !== "id" && key !== "maintain") {
+                  const goal = mainGoals[key];
+                  return (
+                    <MenuItem
+                      key={key}
+                      minH="60px"
+                      onClick={() => updateCurrentGoal(goal)}
+                      _hover={{ bg: "gray.200" }}
+                    >
+                      <Box>
+                        <Heading size="md" marginLeft="70px"style={{ textTransform: 'uppercase' }}>{goal.name}</Heading>
+                      </Box>
+                    </MenuItem>
+                  );
+                } else return null;
+              })}
+            </MenuList>
+          </Menu>
+        </Box>
+
+        <Box display="flex" flexDirection="column" mt={30}>
+          <Text mb={4} ml={100} fontSize="2xl" fontWeight="bold">
+            Personal Goals
+          </Text>
+          <Box
+            display="flex"
+            flexWrap="wrap"
+            justifyContent="left"
+            ml="100px"
+            mb={2}
           >
-            <Text fontSize="sm" color="gray.500">
-              This is your current main goal based on BMR
-            </Text>
-            <Heading size="md" mt={2}>
-              {currentGoal ? currentGoal.name : "Choose Main Goal"}
-            </Heading>
-            <Text fontSize="lg" fontWeight="bold" mt={2}>
-              {currentGoal && currentGoal.calory}
-            </Text>
-          </MenuButton>
-
-          <MenuList>
-            {Object.keys(mainGoals).map((key) => {
-              if (key !== "owner" && key !== "id" && key !== "maintain") {
-                const goal = mainGoals[key];
-                return (
-                  <MenuItem
-                    key={key}
-                    minH="70px"
-                    onClick={() => updateCurrentGoal(goal)}
-                  >
-                    <Box>
-                      <Heading>{goal.name}</Heading>
-                    </Box>
-                  </MenuItem>
-                );
-              } else return null;
-            })}
-          </MenuList>
-        </Menu>
-      </Box>
-
-      <Box display="flex" flexDirection="column" mt={30}>
-        <Text mb={4} ml={100} fontSize="2xl" fontWeight="bold">
-          Personal Goals
-        </Text>
-        <Box
-          display="flex"
-          flexWrap="wrap"
-          justifyContent="left"
-          ml="100px"
-          mb={2}
-        >
-          {goals.map((goal, index) => (
-            <Box key={index} mr={4} mb="70px" width="240px" height="250px">
-              <Card
-                background="linear-gradient(20deg, #DECBA4, #3E5151)"
-                boxShadow="dark-lg"
-                rounded="md"
-                borderColor="gray.50"
-              >
-                <CardHeader>
-                  <Heading
-                    color="white"
-                    size="md"
-                    p="1px"
-                    mb={2}
-                    style={{
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                      maxWidth: "100%",
-                    }}
-                  >
-                    {goal.name}
-                  </Heading>
-                  <Text
-                    noOfLines={2}
-                    overflow="hidden"
-                    textOverflow="ellipsis"
-                    display="-webkit-box"
-                    style={{
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: "vertical",
-                    }}
-                  >
-                    {goal.text}
-                  </Text>
-                  <Text mt={2}>
-                    <strong>Category:</strong> {goal.category}
-                  </Text>
-                  <Text mt={6}>
-                    <strong>From:</strong> {goal.from}
-                  </Text>
-                  <Text>
-                    <strong>To:</strong> {goal.to}
-                  </Text>
-                </CardHeader>
-
-                <CardFooter justifyContent="end">
-                  <Button
-                    size="md"
-                    colorScheme="linkedin"
-                    onClick={() => openModal(goal)}
-                  >
-                    View
-                  </Button>
-                  <Button
-                    colorScheme="red"
-                    size="md"
-                    w="10px"
-                    onClick={() => handleDeleteGoal(goal)}
-                  >
-                    <Flex align="center">
-                      <FaTrashAlt />
-                    </Flex>
-                  </Button>
-                </CardFooter>
-              </Card>
-            </Box>
-          ))}
+            {goals.map((goal, index) => (
+              <Box key={index} mr={4} mb="70px" width="240px" height="250px">
+                <Card
+                  background="linear-gradient(20deg, #DECBA4, #3E5151)"
+                  boxShadow="dark-lg"
+                  rounded="md"
+                  borderColor="gray.50"
+                >
+                  <CardHeader>
+                    <Heading
+                      color="white"
+                      size="md"
+                      p="1px"
+                      mb={2}
+                      style={{
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        maxWidth: "100%",
+                      }}
+                    >
+                      {goal.name}
+                    </Heading>
+                    <Text
+                      noOfLines={2}
+                      overflow="hidden"
+                      textOverflow="ellipsis"
+                      display="-webkit-box"
+                      style={{
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                      }}
+                    >
+                      {goal.text}
+                    </Text>
+                    <Text mt={2}>
+                      <strong>Category:</strong> {goal.category}
+                    </Text>
+                    <Text mt={6}>
+                      <strong>From:</strong> {goal.from}
+                    </Text>
+                    <Text>
+                      <strong>To:</strong> {goal.to}
+                    </Text>
+                  </CardHeader>
+                  <CardFooter justifyContent="end">
+                    <Button
+                      colorScheme="linkedin"
+                      w="10px"
+                      size="md"
+                      onClick={() => openModal(goal)}
+                    >
+                      <Flex align="center">
+                        <HiOutlinePencilAlt />
+                      </Flex>
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </Box>
+            ))}
+          </Box>
         </Box>
       </Box>
 
-      <Box mr="10px" position="relative" mt="82px">
+      <Box mr="10px" display="flex" mt="178px">
         <GoalForm
           createGoal={createGoal}
           goalName={goalName}
@@ -348,74 +353,80 @@ const Goals = () => {
 
       {selectedGoal && (
         <Modal
-        isOpen={isModalOpen}
-        autoFocus={false}
-        onClose={closeModal}
-        size="sm"
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <Editable
-              overflowWrap="break-word"
-              wordBreak="break-word"
-              defaultValue={selectedGoal.name}
-              onSubmit={(newTitle) =>
-                updateGoalTitle(selectedGoal.id, newTitle)
-              }
-            >
-              <EditablePreview />
-              <EditableInput w="300px"/>
-              <EditableControlsExample />
-            </Editable>
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Editable
-              overflowWrap="break-word"
-              wordBreak="break-word"
-              defaultValue={selectedGoal.text}
-              onSubmit={(newText) => updateGoalText(selectedGoal.id, newText)}
-            >
-              <VStack spacing={2} float="right" alignItems="flex-end">
-                <Button colorScheme="green" size="md" onClick={() => handleFinishGoal(selectedGoal)}>
-                  <Flex align="center">
-                    <FaCheck />
-                  </Flex>
-                </Button>
-                <Button colorScheme="red" size="md" onClick={() => handleDeleteGoal(selectedGoal)}>
-                  <Flex align="center">
-                    <FaTrashAlt />
-                  </Flex>
-                </Button>
-                <Button colorScheme="linkedin" size="md" onClick={closeModal}>
-                <Flex align="center">
-                    <BsArrowReturnRight />
-                  </Flex>
-                </Button>
-              </VStack>
-              
-              <EditablePreview />
-              <EditableTextarea w="250px"/>
-              <EditableControlsExample />
-            </Editable >
-      
-            <Text mt={5}>
-              <strong>Category:</strong> {selectedGoal?.category}
-            </Text>
-      
-            <Text mt={5}>
-              <strong>From:</strong> {selectedGoal?.from}
-            </Text>
-            <Text>
-              <strong>To:</strong> {selectedGoal?.to}
-            </Text>
-          </ModalBody>
-          <ModalFooter>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-      
+          isOpen={isModalOpen}
+          autoFocus={false}
+          onClose={closeModal}
+          size="sm"
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>
+              <Editable
+                overflowWrap="break-word"
+                wordBreak="break-word"
+                defaultValue={selectedGoal.name}
+                onSubmit={(newTitle) =>
+                  updateGoalTitle(selectedGoal.id, newTitle)
+                }
+              >
+                <EditablePreview />
+                <EditableInput w="300px" />
+                <EditableControlsExample />
+              </Editable>
+            </ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Editable
+                overflowWrap="break-word"
+                wordBreak="break-word"
+                defaultValue={selectedGoal.text}
+                onSubmit={(newText) => updateGoalText(selectedGoal.id, newText)}
+              >
+                <VStack spacing={2} float="right" alignItems="flex-end">
+                  <Button
+                    colorScheme="green"
+                    size="md"
+                    onClick={() => handleFinishGoal(selectedGoal)}
+                  >
+                    <Flex align="center">
+                      <FaCheck />
+                    </Flex>
+                  </Button>
+                  <Button
+                    colorScheme="red"
+                    size="md"
+                    onClick={() => handleDeleteGoal(selectedGoal)}
+                  >
+                    <Flex align="center">
+                      <FaTrashAlt />
+                    </Flex>
+                  </Button>
+                  <Button colorScheme="linkedin" size="md" onClick={closeModal}>
+                    <Flex align="center">
+                      <BsArrowReturnRight />
+                    </Flex>
+                  </Button>
+                </VStack>
+
+                <EditablePreview w="280px" />
+                <EditableTextarea w="250px" />
+                <EditableControlsExample />
+              </Editable>
+
+              <Text mt={5}>
+                <strong>Category:</strong> {selectedGoal?.category}
+              </Text>
+
+              <Text mt={5}>
+                <strong>From:</strong> {selectedGoal?.from}
+              </Text>
+              <Text>
+                <strong>To:</strong> {selectedGoal?.to}
+              </Text>
+            </ModalBody>
+            <ModalFooter></ModalFooter>
+          </ModalContent>
+        </Modal>
       )}
       <ToastContainer />
     </Box>

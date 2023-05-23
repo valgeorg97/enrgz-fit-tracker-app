@@ -4,7 +4,7 @@ const GoalForm = ({createGoal,goalName,setGoalName,goalNote,setGoalNote,goalFrom
     return (
       <Stack
         spacing={2}
-        width="260px"
+        width="290px"
         height="540px"
         border="2px"
         boxShadow="dark-lg"
