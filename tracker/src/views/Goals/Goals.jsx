@@ -1,51 +1,14 @@
 import { useState, useContext, useEffect } from "react";
-import {
-  collection,
-  addDoc,
-  serverTimestamp,
-  getDocs,
-  query,
-  where,
-  updateDoc,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
+import {collection,addDoc,serverTimestamp,getDocs,query,where,updateDoc,deleteDoc,doc,} from "firebase/firestore";
 import { auth, db } from "../../services/firebase";
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-  Text,
-  Card,
-  CardHeader,
-  Heading,
-  CardFooter,
-  Textarea,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Editable,
-  EditablePreview,
-  EditableInput,
-  EditableTextarea,
-  ButtonGroup,
-  IconButton,
-  Flex,
-  Select,
-  useEditableControls
-} from "@chakra-ui/react";
+import {Box,Button,Text,Card,CardHeader,Heading,CardFooter,Modal,ModalOverlay,Menu,MenuButton,MenuList,MenuItem,ModalContent,ModalHeader,ModalFooter,ModalBody,ModalCloseButton,Editable,EditablePreview,EditableInput,EditableTextarea,ButtonGroup,IconButton,Flex,useEditableControls} from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
 import { FaTrashAlt } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
+import { CheckIcon, CloseIcon, EditIcon,ChevronDownIcon } from "@chakra-ui/icons";
 import "react-toastify/dist/ReactToastify.css";
-import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
+import GoalForm from "./GoalForm";
+
 
 const Goals = () => {
   const [goalName, setGoalName] = useState("");
@@ -57,8 +20,10 @@ const Goals = () => {
   const [goalCategory, setGoalCategory] = useState("");
   const [selectedGoal, setSelectedGoal] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentGoal, setCurrentGoal] = useState(null)
+  const [docRef, setDocRef] = useState(null);
 
-  const { userID, userDocID } = useContext(AuthContext);
+  const { userID, userDocID,userGoal } = useContext(AuthContext);
   const user = auth.currentUser;
 
   useEffect(() => {
@@ -84,27 +49,34 @@ const Goals = () => {
   }, [userID, userDocID]);
 
   useEffect(() => {
-  const fetchMainGoals = async () => {
-    
-    if (userDocID) {
-      try {
-        const qu = query(
-          collection(db, "mainGoals"), 
-          where("owner", "==", userID)
-        );
-        const querySnapshot = await getDocs(qu);
-        const mainGoalsData = [];
-        querySnapshot.forEach((doc) => {
-          mainGoalsData.push({ id: doc.id, ...doc.data() });
-        });
-        setMainGoals(mainGoalsData);
-      } catch (error) {
-        console.error("Error fetching main goals:", error);
+    const fetchMainGoals = async () => {
+      
+      if (userDocID) {
+        try {
+          const qu = query(
+            collection(db, "mainGoals"), 
+            where("owner", "==", userID)
+          );
+          
+          const querySnapshot = await getDocs(qu);
+          const mainGoalsData = [];
+          querySnapshot.forEach((doc) => {
+            mainGoalsData.push({ id: doc.id, ...doc.data() });
+          });
+          setMainGoals(mainGoalsData[0]);
+          if (mainGoalsData[0]) {
+            const mainGoalsDocRef = doc(db, "mainGoals", mainGoalsData[0].id);
+            setDocRef(mainGoalsDocRef);
+            setCurrentGoal(mainGoalsData[0].currentGoal)
+          }
+        } catch (error) {
+          console.error("Error fetching main goals:", error);
+        }
       }
-    }
-  };
-  fetchMainGoals();
-}, [userID,userDocID]);
+    };
+    fetchMainGoals();
+  }, [userID,userDocID]);
+
 
   const createGoal = async () => {
     if (user) {
@@ -194,60 +166,58 @@ const Goals = () => {
     );
   };
 
+  const updateCurrentGoal = async (goal) => {
+    setCurrentGoal(goal);
+    const dataWithDocID = { currentGoal: goal };
+    await updateDoc(docRef, dataWithDocID);
+  };
+  
+
   return (
     <Box display="flex" justifyContent="center" w="1500px">
-      <Box display="flex" flexDirection="column" mt={30}>
-        <Text mb={4} ml={100} fontSize="2xl" fontWeight="bold">
-          Main Goals based on BMR
-        </Text>
-        <Box
-          display="flex"
-          flexWrap="wrap"
-          justifyContent="left"
-          ml="100px"
-          mb={2}
-        >
-          {mainGoals.map((item, index) => (
-            <Box key={index} mr={4} mb="70px" width="240px" height="250px">
-              <Card
-                background="linear-gradient(20deg, #DECBA4, #3E5151)"
-                boxShadow="dark-lg"
-                rounded="md"
-                borderColor="gray.50"
-              >
-                <CardHeader>
-                  <Heading
-                    color="white"
-                    size="md"
-                    p="1px"
-                    mb={2}
-                    style={{
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                      maxWidth: "100%",
-                    }}
+      <Box display="flex" px={20} flexDirection="column" mt={30}>
+        <Menu>
+          <MenuButton
+            as={Button}
+            bg="gray.100"
+            borderRadius="md"
+            p={12}
+            boxShadow="md"
+            textAlign="center"
+            _hover={{ bg: "gray.200" }}
+            rightIcon={<ChevronDownIcon />}
+          >
+            <Text fontSize="sm" color="gray.500">
+              This is your current main goal based on BMR
+            </Text>
+            <Heading size="md" mt={2}>
+              {currentGoal ? currentGoal.name : "Choose Main Goal"}
+            </Heading>
+            <Text fontSize="lg" fontWeight="bold" mt={2}>
+              {currentGoal && currentGoal.calory}
+            </Text>
+          </MenuButton>
+
+          <MenuList>
+            {Object.keys(mainGoals).map((key) => {
+              if (key !== "owner" && key !== "id" && key !== "maintain") {
+                const goal = mainGoals[key];
+                return (
+                  <MenuItem
+                    key={key}
+                    minH="70px"
+                    onClick={() => updateCurrentGoal(goal)}
+
                   >
-                    {item.extremeGain.calory}
-                  </Heading>
-                  <Text
-                    noOfLines={2}
-                    overflow="hidden"
-                    textOverflow="ellipsis"
-                    display="-webkit-box"
-                    style={{
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: "vertical",
-                    }}
-                  >
-                    {/* {mainGoals.mainGoals[item].calory} */}
-                  </Text>
-                </CardHeader>
-                <CardFooter justifyContent="end"></CardFooter>
-              </Card>
-            </Box>
-          ))}
-        </Box>
+                    <Box>
+                      <Heading>{goal.name}</Heading>
+                    </Box>
+                  </MenuItem>
+                );
+              } else return null;
+            })}
+          </MenuList>
+        </Menu>
       </Box>
 
       <Box display="flex" flexDirection="column" mt={30}>
@@ -333,73 +303,19 @@ const Goals = () => {
       </Box>
 
       <Box mr="10px" position="relative" mt="82px">
-        <Stack
-          spacing={2}
-          width="260px"
-          height="540px"
-          border="2px"
-          boxShadow="dark-lg"
-          p="6"
-          rounded="md"
-          borderColor="gray.50"
-        >
-          <FormControl>
-            <FormLabel>Goal Title</FormLabel>
-            <Input
-              type="text"
-              placeholder="Goal name"
-              value={goalName}
-              onChange={(e) => setGoalName(e.target.value)}
-            />
-          </FormControl>
-
-          <FormControl>
-            <FormLabel>Note</FormLabel>
-            <Textarea
-              value={goalNote}
-              placeholder="Note about the goal"
-              size="sm"
-              onChange={(e) => setGoalNote(e.target.value)}
-            />
-          </FormControl>
-
-          <FormControl>
-            <FormLabel>Goal Category</FormLabel>
-            <Select
-              placeholder="Select category"
-              value={goalCategory}
-              onChange={(e) => setGoalCategory(e.target.value)}
-            >
-              <option value="Weight Loss">Weight Loss</option>
-              <option value="Muscle Gain">Muscle Gain</option>
-              <option value="Cardio">Cardio</option>
-              <option value="Flexibility">Flexibility</option>
-            </Select>
-          </FormControl>
-
-          <FormControl>
-            <FormLabel>From</FormLabel>
-            <Input
-              type="date"
-              value={goalFrom}
-              onChange={(e) => setGoalFrom(e.target.value)}
-            />
-          </FormControl>
-
-          <FormControl>
-            <FormLabel>To</FormLabel>
-            <Input
-              mb={1}
-              type="date"
-              value={goalTo}
-              onChange={(e) => setGoalTo(e.target.value)}
-            />
-          </FormControl>
-
-          <Button colorScheme="teal" size="lg" onClick={createGoal}>
-            Create Goal
-          </Button>
-        </Stack>
+        <GoalForm
+          createGoal={createGoal}
+          goalName={goalName}
+          setGoalName={setGoalName}
+          goalNote={goalNote}
+          setGoalNote={setGoalNote}
+          goalFrom={goalFrom}
+          setGoalFrom={setGoalFrom}
+          goalTo={goalTo}
+          setGoalTo={setGoalTo}
+          goalCategory={goalCategory}
+          setGoalCategory={setGoalCategory}
+        />
       </Box>
 
       {selectedGoal && (
@@ -528,3 +444,69 @@ export default Goals;
 
   // const [goalProgress, setGoalProgress] = useState(0);
 
+
+
+          {/* <Box
+          display="flex"
+          flexWrap="wrap"
+          justifyContent="left"
+          ml="100px"
+          mb={2}
+        >
+          {Object.keys(mainGoals).map((key) => {
+            if (key !== "owner" && key !== "id" && key !== "maintain") {
+              const goal = mainGoals[key];
+              return (
+                <Box key={key} mr={4} mb="70px" width="240px" height="250px">
+                  <Card
+                    background="linear-gradient(20deg, #DECBA4, #3E5151)"
+                    boxShadow="dark-lg"
+                    rounded="md"
+                    borderColor="gray.50"
+                  >
+                    <CardHeader>
+                      <Heading
+                        color="white"
+                        size="md"
+                        p="1px"
+                        mb={2}
+                        style={{
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                          maxWidth: "100%",
+                        }}
+                      >
+                        {goal.name}
+                      </Heading>
+                      <Text textAlign="center">
+                        You must consume {goal.calory} a day
+                      </Text>
+                    </CardHeader>
+                    <CardFooter justifyContent="end"></CardFooter>
+                  </Card>
+                </Box>
+              );
+            } else return null;
+          })}
+        </Box> */}
+
+
+        // if (mainGoalsData[0] && !mainGoalsData[0].currentGoal) {
+        //   if (userGoal === "Extreme weight gain") {
+        //     setCurrentGoal(mainGoalsData[0].extremeGain);
+        //   } else if (userGoal === "Extreme weight loss") {
+        //     setCurrentGoal(mainGoalsData[0].extremeLoss);
+        //   } else if (userGoal === "Mild weight gain") {
+        //     setCurrentGoal(mainGoalsData[0].mildGain);
+        //   } else if (userGoal === "Mild weight loss") {
+        //     setCurrentGoal(mainGoalsData[0].mildLoss);
+        //   } else if (userGoal === "Weight gain") {
+        //     setCurrentGoal(mainGoalsData[0].gain);
+        //   } else if (userGoal === "Weight loss") {
+        //     setCurrentGoal(mainGoalsData[0].loss);
+        //   } else if (userGoal === "Maintain weight") {
+        //     setCurrentGoal(mainGoalsData[0].maintain);
+        //   }
+        //   console.log(currentGoal);
+        // }

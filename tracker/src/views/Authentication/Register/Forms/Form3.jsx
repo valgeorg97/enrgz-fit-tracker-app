@@ -17,10 +17,14 @@ const Form3 = ({ handleGoal,regGoal,regName,regFamily }) => {
   
           <RadioGroup onChange={handleGoalChange} value={regGoal}>
             <Stack spacing={5} direction={"column"} align={'start'}>
-              <Radio value="Lose Weight">Lose Weight</Radio>
-              <Radio value="Maintain Weight">Maintain Weight</Radio>
-              <Radio value="Gain Weight">Gain Weight</Radio>
-              <Radio value="Increase step count">Increase step count</Radio>
+              <Radio value="Extreme weight gain">Extreme weight gain</Radio>
+              <Radio value="Extreme weight loss">Extreme weight loss</Radio>
+              <Radio value="Mild weight gain">Mild weight gain</Radio>
+              <Radio value="Mild weight loss">Mild weight loss</Radio>
+              <Radio value="Weight gain">Weight gain</Radio>
+              <Radio value="Weight loss">Weight loss</Radio>
+              <Radio value="Maintain weight">Maintain weight</Radio>
+
             </Stack>
           </RadioGroup>
         </Box>

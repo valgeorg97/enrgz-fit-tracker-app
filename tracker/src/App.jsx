@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import userimage from "./assets/user.png"
 import { getDocs, collection, where, query } from "firebase/firestore";
 import { auth, db } from "./services/firebase";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 
 import Navigation from "./components/Navigation/Navigation";
@@ -20,30 +20,11 @@ import LandingPage from "./views/LandingPage/LandingPage";
 import Dashboard from "./views/Dashboard/Dashboard";
 import UserMenu from "./components/UserMenu/UserMenu";
 
-
-
 function App() {
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth") === "true");
   const [isAdmin, setAdmin] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
-
-  // const PrivateRoute = ({ children, ...props }) => {
-  //   const authContext = React.useContext(AuthContext);
-  //   return (
-  //     <Route
-  //       {...props}
-  //       render={({ location }) =>
-  //         authContext.isLoggedIn ? (
-  //           children
-  //         ) : (
-  //           <Navigate to="/" state={{ from: location }} />
-  //         )
-  //       }
-  //     />
-  //   );
-  // }
-
   const [userID, setUserID] = useState("");
   const [userDocID, setUserDocID] = useState("")
   const [name, setName] = useState("");
@@ -53,6 +34,8 @@ function App() {
   const [photoURL, setPhotoURL] = useState(userimage);
   const [password, setPassword] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
+  const [userGoal, setUserGoal] = useState("")
+
 
   const usersCollection = collection(db, "users");
 
@@ -73,6 +56,7 @@ function App() {
         setUsername(doc.data().username)
         setPhoneNumber(doc.data().phoneNumber)
         setEmail(doc.data().email);
+        setUserGoal(doc.data().goal)
       });
     };
     getUsers();
@@ -95,7 +79,7 @@ function App() {
     });
     return unsubscribe;
   }, [photoURL]);
-
+  
   const signUserOut = () => {
     signOut(auth)
       .then(() => {
@@ -108,8 +92,6 @@ function App() {
         console.log(error);
       });
   };
-
-
 
   return (
     <AuthContext.Provider
@@ -136,7 +118,8 @@ function App() {
         setPassword,
         phoneNumber,
         setPhoneNumber,
-        userDocID
+        userDocID,
+        userGoal,
       }}
     >
       <ChakraProvider>
