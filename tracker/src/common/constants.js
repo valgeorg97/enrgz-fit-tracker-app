@@ -47,6 +47,10 @@ export const countryCodes = [
     { code: "+379", country: "Vatican City" },
   ];
   
-  // Add more country codes as needed
+  export const difficulties = [
+    { label: 'Easy', value: 'easy', color: 'green.500' },
+    { label: 'Medium', value: 'medium', color: 'yellow.500' },
+    { label: 'Hard', value: 'hard', color: 'red.500' },
+  ];
   
   

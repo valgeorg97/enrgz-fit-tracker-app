@@ -1,7 +1,8 @@
 import { Button, Stack, FormControl, FormLabel, Input, Select, NumberInput, NumberInputField, UnorderedList, ListItem } from '@chakra-ui/react';
 import { useState, useContext, useEffect } from "react";
-import {collection, addDoc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
+import { difficulties } from '../../common/constants';
 import { db } from "../../services/firebase";
 
 const muscles = ['abdominals', 'abductors', 'adductors', 'biceps', 'calves', 'chest', 'forearms', 'glutes', 'hamstrings', 'lats', 'lower_back', 'middle_back', 'neck', 'quadriceps', 'traps', 'triceps'];
@@ -15,13 +16,14 @@ const CreateWorkout = ({ showForm, setShowForm }) => {
   const [workoutName, setWorkoutName] = useState('');
   const [relatedExercises, setRelatedExercises] = useState([]);
   const { userID, userDocID } = useContext(AuthContext);
+  const [selectedDifficulty, setSelectedDifficulty] = useState('');
 
   useEffect(() => {
     if (selectedMuscle !== '') {
       const fetchRelatedExercises = async () => {
         const response = await fetch(`https://api.api-ninjas.com/v1/exercises?muscle=${selectedMuscle}`, {
           method: 'GET',
-          headers: { 'X-Api-Key': 'AfAWwp+nw89/859EX9kTYA==FXcxQwZhBYqX3BIK'},
+          headers: { 'X-Api-Key': 'AfAWwp+nw89/859EX9kTYA==FXcxQwZhBYqX3BIK' },
         });
         const data = await response.json();
         setRelatedExercises(data);
@@ -30,11 +32,14 @@ const CreateWorkout = ({ showForm, setShowForm }) => {
     }
   }, [selectedMuscle]);
 
+  const handleDifficultyChange = (e) => {
+    setSelectedDifficulty(e.target.value);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const workoutObj = {owner: userID, name: workoutName, type: selectedExercise, reps: reps, weight: weight, muscle: selectedMuscle};
+      const workoutObj = { owner: userID, name: workoutName, type: selectedExercise, reps: reps, weight: weight, muscle: selectedMuscle, difficulty: selectedDifficulty  };
       await addDoc(collection(db, `users/${userDocID}/workouts`), workoutObj);
       setWorkout([]);
       setSelectedExercise('');
@@ -113,15 +118,23 @@ const CreateWorkout = ({ showForm, setShowForm }) => {
                 <NumberInputField />
               </NumberInput>
             </FormControl>
+            <FormControl id="difficulty">
+              <FormLabel>Select a difficulty level</FormLabel>
+              <Select placeholder="Select a difficulty level" value={selectedDifficulty} onChange={handleDifficultyChange}>
+                {difficulties.map((difficulty, i) => (
+                  <option key={i} value={difficulty.value} style={{ color: difficulty.color }}>{difficulty.label}</option>
+                ))}
+              </Select>
+            </FormControl>
 
             <Button onClick={handleAddExercise}>Add Exercise</Button>
 
-            <UnorderedList>
+            {/* <UnorderedList>
               {workout.map((exercise, i) => (
-                <ListItem key={i}>{exercise.type}: {exercise.muscle} muscle, {exercise.reps} reps, {exercise.weight} kg</ListItem>
+                <ListItem key={i}>{i + 1}. {exercise.type}: {exercise.muscle} muscle, {exercise.reps} reps, {exercise.weight} kg</ListItem>
               ))}
-            </UnorderedList>
-               
+            </UnorderedList> */}
+
             <Button type="submit" colorScheme="blue">Submit Workout</Button>
           </Stack>
         </form>

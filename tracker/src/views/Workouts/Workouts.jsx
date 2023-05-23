@@ -64,6 +64,7 @@ const Workouts = () => {
               <p>Type: {workout.type}</p>
               <p>Reps: {workout.reps}</p>
               <p>Weight: {workout.weight} kg</p>
+              <p>Difficulty: {workout.difficulty}</p>
             </Box>
           </Box>
         ))}
