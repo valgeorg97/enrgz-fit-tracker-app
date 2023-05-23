@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { db} from '../../services/firebase';
+import { db } from '../../services/firebase';
 import { doc, getDoc } from "firebase/firestore";
 import { AuthContext } from '../../context/AuthContext';
+import { Box, Input, Heading, Progress, Text, VStack } from "@chakra-ui/react";
 
 const WaterCalculator = () => {
   const [weight, setWeight] = useState(null);
@@ -41,29 +42,29 @@ const WaterCalculator = () => {
   }
 
   return (
-    <div>
-      <h2>Water Intake</h2>
-      <div>
-        <p>Your weight: {weight ? weight + ' kg' : 'Loading...'}</p>
-      </div>
-      <div>
-        <p>Your recommended water intake is: {calculateWaterIntake()} liters</p>
-      </div>
-      <div>
-        <label>Water consumed today (in liters): </label>
-        <input 
+    <VStack spacing={5} width="sm">
+      <Heading>Water Intake</Heading>
+      <Box>
+        <Text>Your weight: {weight ? weight + ' kg' : 'Loading...'}</Text>
+      </Box>
+      <Box>
+        <Text>Your recommended water intake is: {calculateWaterIntake()} liters</Text>
+      </Box>
+      <Box>
+        <Text>Water consumed today (in liters): </Text>
+        <Input 
           type="number" 
           value={consumedWater}
           min="0"
           onChange={(e) => setConsumedWater(parseFloat(e.target.value))}
         />
-      </div>
-      <div>
-        <h3>Progress:</h3>
-        <progress value={calculatePercentage()} max="100" />
-        <p>{calculatePercentage()}%</p>
-      </div>
-    </div>
+      </Box>
+      <Box>
+        <Text>Progress:</Text>
+        <Progress value={calculatePercentage()} max="100" />
+        <Text>{calculatePercentage()}%</Text>
+      </Box>
+    </VStack>
   );
 }
 
