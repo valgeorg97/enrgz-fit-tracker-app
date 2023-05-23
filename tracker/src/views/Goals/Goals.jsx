@@ -1,16 +1,14 @@
 import { useState, useContext, useEffect } from "react";
 import {collection,addDoc,serverTimestamp,getDocs,query,where,updateDoc,deleteDoc,doc,} from "firebase/firestore";
 import { auth, db } from "../../services/firebase";
-import {Box,Button,Text,Card,CardHeader,Heading,Image,Tooltip,Popover,PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverBody,VStack,CardFooter,Modal,ModalOverlay,Menu,MenuButton,MenuList,MenuItem,ModalContent,ModalHeader,ModalFooter,ModalBody,ModalCloseButton,Editable,EditablePreview,EditableInput,EditableTextarea,ButtonGroup,IconButton,Flex,useEditableControls} from "@chakra-ui/react";
+import {Box,Button,Text,Card,CardHeader,Heading,CardFooter,Menu,MenuButton,MenuList,MenuItem,Flex} from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
-import { FaTrashAlt,FaCheck } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
-import { CheckIcon, CloseIcon, EditIcon,ChevronDownIcon } from "@chakra-ui/icons";
-import "react-toastify/dist/ReactToastify.css";
-import GoalForm from "./GoalForm";
-import { BsArrowReturnRight } from 'react-icons/bs';
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import {HiOutlinePencilAlt} from 'react-icons/hi'
-import {AiOutlineQuestion} from 'react-icons/ai'
+import GoalForm from "./GoalForm";
+import SingleGoal from "./SingleGoal";
+import "react-toastify/dist/ReactToastify.css";
 
 
 const Goals = () => {
@@ -64,10 +62,10 @@ const Goals = () => {
           querySnapshot.forEach((doc) => {
             mainGoalsData.push({ id: doc.id, ...doc.data() });
           });
-          setMainGoals(mainGoalsData[0]); //set mainGoals
+          setMainGoals(mainGoalsData[0]);
           if (mainGoalsData[0]) {
             const mainGoalsDocRef = doc(db, "mainGoals", mainGoalsData[0].id);
-            setDocRef(mainGoalsDocRef); //set mainGoals doc ref
+            setDocRef(mainGoalsDocRef);
 
             if (!mainGoalsData[0].currentGoal) {
               if (userGoal === "Extreme weight gain") {
@@ -175,7 +173,7 @@ const Goals = () => {
   const handleFinishGoal = async (goal) => {
     try {
       const goalRef = doc(db, `users/${userDocID}/goals`, goal.id);
-      await updateDoc(goalRef, { finished: true }); // Update the document with the finished property
+      await updateDoc(goalRef, { finished: true });
       closeModal();
       toast.success("Goal finished successfully!");
     } catch (error) {
@@ -183,33 +181,12 @@ const Goals = () => {
     }
   };
 
-  const EditableControlsExample = () => {
-    const {
-      isEditing,
-      getSubmitButtonProps,
-      getCancelButtonProps,
-      getEditButtonProps,
-    } = useEditableControls();
-
-    return isEditing ? (
-      <ButtonGroup justifyContent="center" size="sm">
-        <IconButton mt={1} icon={<CheckIcon />} {...getSubmitButtonProps()} />
-        <IconButton mt={1} icon={<CloseIcon />} {...getCancelButtonProps()} />
-      </ButtonGroup>
-    ) : (
-      <Flex>
-        <IconButton size="sm" icon={<EditIcon />} {...getEditButtonProps()} />
-      </Flex>
-    );
-  };
-  
-
   return (
     <Box display="flex" justifyContent="center" mt="50px" ml="70px" w="1600px">
       <Box
         flexDirection="column"
-        display="flex"
-        justifyContent="center"
+        // display="flex"
+        // justifyContent="center"
         w="1600px"
       >
         <Box ml="100px" display="flex" flexDirection="column">
@@ -352,81 +329,15 @@ const Goals = () => {
       </Box>
 
       {selectedGoal && (
-        <Modal
-          isOpen={isModalOpen}
-          autoFocus={false}
-          onClose={closeModal}
-          size="sm"
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>
-              <Editable
-                overflowWrap="break-word"
-                wordBreak="break-word"
-                defaultValue={selectedGoal.name}
-                onSubmit={(newTitle) =>
-                  updateGoalTitle(selectedGoal.id, newTitle)
-                }
-              >
-                <EditablePreview />
-                <EditableInput w="300px" />
-                <EditableControlsExample />
-              </Editable>
-            </ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Editable
-                overflowWrap="break-word"
-                wordBreak="break-word"
-                defaultValue={selectedGoal.text}
-                onSubmit={(newText) => updateGoalText(selectedGoal.id, newText)}
-              >
-                <VStack spacing={2} float="right" alignItems="flex-end">
-                  <Button
-                    colorScheme="green"
-                    size="md"
-                    onClick={() => handleFinishGoal(selectedGoal)}
-                  >
-                    <Flex align="center">
-                      <FaCheck />
-                    </Flex>
-                  </Button>
-                  <Button
-                    colorScheme="red"
-                    size="md"
-                    onClick={() => handleDeleteGoal(selectedGoal)}
-                  >
-                    <Flex align="center">
-                      <FaTrashAlt />
-                    </Flex>
-                  </Button>
-                  <Button colorScheme="linkedin" size="md" onClick={closeModal}>
-                    <Flex align="center">
-                      <BsArrowReturnRight />
-                    </Flex>
-                  </Button>
-                </VStack>
-
-                <EditablePreview w="280px" />
-                <EditableTextarea w="250px" />
-                <EditableControlsExample />
-              </Editable>
-
-              <Text mt={5}>
-                <strong>Category:</strong> {selectedGoal?.category}
-              </Text>
-
-              <Text mt={5}>
-                <strong>From:</strong> {selectedGoal?.from}
-              </Text>
-              <Text>
-                <strong>To:</strong> {selectedGoal?.to}
-              </Text>
-            </ModalBody>
-            <ModalFooter></ModalFooter>
-          </ModalContent>
-        </Modal>
+        <SingleGoal
+        isModalOpen={isModalOpen}
+        closeModal={closeModal}
+        selectedGoal={selectedGoal}
+        updateGoalTitle={updateGoalTitle}
+        updateGoalText={updateGoalText}
+        handleFinishGoal={handleFinishGoal}
+        handleDeleteGoal={handleDeleteGoal}
+      />
       )}
       <ToastContainer />
     </Box>
