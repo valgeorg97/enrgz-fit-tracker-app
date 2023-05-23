@@ -2,13 +2,16 @@ import React, { useEffect, useState, useContext } from 'react';
 import { db } from '../../services/firebase';
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { AuthContext } from '../../context/AuthContext';
-import { Box, Input, Heading, Progress, Text, VStack, Button } from "@chakra-ui/react";
+import { Box, Input, Heading, Progress, Text, VStack, Button, Collapse } from "@chakra-ui/react";
 
 const WaterCalculator = () => {
   const [weight, setWeight] = useState(null);
   const [consumedWater, setConsumedWater] = useState(0);
   const [savedWater, setSavedWater] = useState(0);
   const { userID, userDocID } = useContext(AuthContext);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleToggle = () => setIsOpen(!isOpen);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -70,16 +73,41 @@ const WaterCalculator = () => {
     }
   }
 
+  
   return (
     <Box shadow="lg" p={2} bg="white" borderRadius="md" maxW="md" mx="auto" my={8}>
-      <VStack spacing={4} width="sm">
-        <Heading size="md">Water Intake</Heading>
+    <VStack spacing={4} width="sm">
+      <Heading size="md">Water Intake</Heading>
+
+      {calculatePercentage() < 100 ? 
+        <>
+          <Box>
+            <Text fontSize="sm">Your recommended water intake is: {calculateWaterIntake()} liters</Text>
+          </Box>
+          <Box>
+            <Text fontSize="sm">Your water intake today: {savedWater} liters</Text>
+          </Box>
+          <Box>
+            <Text fontSize="sm">Progress:</Text>
+            <Progress size="sm" value={calculatePercentage()} max="100" />
+            <Text fontSize="sm">{calculatePercentage()}%</Text>
+          </Box>
+        </>
+        :
         <Box>
-          <Text fontSize="sm">Your weight: {weight ? weight + ' kg' : 'Loading...'}</Text>
+          <Text fontSize="sm" color="green.500" fontWeight="bold">You have reached your goal!</Text>
         </Box>
-        <Box>
-          <Text fontSize="sm">Your recommended water intake is: {calculateWaterIntake()} liters</Text>
-        </Box>
+      }
+
+      <Button size="sm" onClick={handleToggle}>{isOpen ? 'Show Less' : 'Show More'}</Button>
+      
+      <Collapse in={isOpen}>
+      <Box>
+            <Text fontSize="sm">Your recommended water intake is: {calculateWaterIntake()} liters</Text>
+          </Box>
+          <Box>
+            <Text fontSize="sm">Your water intake today: {savedWater} liters</Text>
+          </Box>
         <Box>
           <Text fontSize="sm">Add water consumed today (in liters): </Text>
           <Input 
@@ -93,19 +121,9 @@ const WaterCalculator = () => {
         <Box>
           <Button size="sm" onClick={saveWaterIntake}>Save Water Intake</Button>
         </Box>
-        <Box>
-          <Text fontSize="sm">Your water intake today: {savedWater} liters</Text>
-        </Box>
-        <Box>
-          <Text fontSize="sm">Progress:</Text>
-          <Progress size="sm" value={calculatePercentage()} max="100" />
-          <Text fontSize="sm">{calculatePercentage()}%</Text>
-        </Box>
-        <Box>
-          {calculatePercentage() === 100 ? <Text fontSize="sm" color="green.500">You have reached your goal!</Text> : null}
-        </Box>
-      </VStack>
-    </Box>
+      </Collapse>
+    </VStack>
+  </Box>
   );
   
   
