@@ -22,7 +22,6 @@ import {
   Card,
   CardHeader,
   Heading,
-  CardBody,
   CardFooter,
   Textarea,
   Modal,
@@ -40,15 +39,13 @@ import {
   IconButton,
   Flex,
   Select,
+  useEditableControls
 } from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
 import { FaTrashAlt } from "react-icons/fa";
-
-// import DeleteButton from "../../components/DeleteButton/DeleteButton";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
-import { useEditableControls } from "@chakra-ui/react";
 
 const Goals = () => {
   const [goalName, setGoalName] = useState("");
@@ -56,10 +53,10 @@ const Goals = () => {
   const [goalFrom, setGoalFrom] = useState("");
   const [goalTo, setGoalTo] = useState("");
   const [goals, setGoals] = useState([]);
+  const [mainGoals, setMainGoals] = useState([]);
   const [goalCategory, setGoalCategory] = useState("");
-  const [goalProgress, setGoalProgress] = useState(0);
-  const [selectedGoal, setSelectedGoal] = useState(null); // Track the selected goal
-  const [isModalOpen, setIsModalOpen] = useState(false); // Track the modal state
+  const [selectedGoal, setSelectedGoal] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { userID, userDocID } = useContext(AuthContext);
   const user = auth.currentUser;
@@ -83,15 +80,36 @@ const Goals = () => {
         }
       }
     };
-
     fetchGoals();
-  }, [user, userID, userDocID]);
+  }, [userID, userDocID]);
+
+  useEffect(() => {
+  const fetchMainGoals = async () => {
+    
+    if (userDocID) {
+      try {
+        const qu = query(
+          collection(db, "mainGoals"), 
+          where("owner", "==", userID)
+        );
+        const querySnapshot = await getDocs(qu);
+        const mainGoalsData = [];
+        querySnapshot.forEach((doc) => {
+          mainGoalsData.push({ id: doc.id, ...doc.data() });
+        });
+        setMainGoals(mainGoalsData);
+      } catch (error) {
+        console.error("Error fetching main goals:", error);
+      }
+    }
+  };
+  fetchMainGoals();
+}, [userID,userDocID]);
 
   const createGoal = async () => {
     if (user) {
       try {
-        const goalDocRef = await addDoc(
-          collection(db, `users/${userDocID}/goals`),
+        const goalDocRef = await addDoc(collection(db, `users/${userDocID}/goals`),
           {
             name: goalName,
             text: goalNote,
@@ -99,7 +117,7 @@ const Goals = () => {
             from: goalFrom,
             to: goalTo,
             category: goalCategory,
-            progress: goalProgress,
+            // progress: goalProgress,
             createdAt: serverTimestamp(),
           }
         );
@@ -107,23 +125,13 @@ const Goals = () => {
         setGoalNote("");
         setGoalFrom("");
         setGoalTo("");
-        setGoalCategory(""); // Reset category after goal creation
+        setGoalCategory("");
         toast.success("Goal created successfully!");
       } catch (error) {
         toast.error("Error creating goal:", error);
       }
     }
   };
-
-  // const updateGoalProgress = async (goalId, newProgress) => {
-  //   try {
-  //     const goalRef = doc(db, `users/${userDocID}/goals`, goalId);
-  //     await updateDoc(goalRef, { progress: newProgress });
-  //     toast.success("Progress updated successfully!");
-  //   } catch (error) {
-  //     toast.error("Error updating progress:", error);
-  //   }
-  // };
 
   const openModal = (goal) => {
     setSelectedGoal(goal);
@@ -190,7 +198,61 @@ const Goals = () => {
     <Box display="flex" justifyContent="center" w="1500px">
       <Box display="flex" flexDirection="column" mt={30}>
         <Text mb={4} ml={100} fontSize="2xl" fontWeight="bold">
-          Goals
+          Main Goals based on BMR
+        </Text>
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          justifyContent="left"
+          ml="100px"
+          mb={2}
+        >
+          {mainGoals.map((item, index) => (
+            <Box key={index} mr={4} mb="70px" width="240px" height="250px">
+              <Card
+                background="linear-gradient(20deg, #DECBA4, #3E5151)"
+                boxShadow="dark-lg"
+                rounded="md"
+                borderColor="gray.50"
+              >
+                <CardHeader>
+                  <Heading
+                    color="white"
+                    size="md"
+                    p="1px"
+                    mb={2}
+                    style={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      maxWidth: "100%",
+                    }}
+                  >
+                    {item.extremeGain.calory}
+                  </Heading>
+                  <Text
+                    noOfLines={2}
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    display="-webkit-box"
+                    style={{
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                    }}
+                  >
+                    {/* {mainGoals.mainGoals[item].calory} */}
+                  </Text>
+                </CardHeader>
+                <CardFooter justifyContent="end"></CardFooter>
+              </Card>
+            </Box>
+          ))}
+        </Box>
+      </Box>
+
+      <Box display="flex" flexDirection="column" mt={30}>
+        <Text mb={4} ml={100} fontSize="2xl" fontWeight="bold">
+          Personal Goals
         </Text>
         <Box
           display="flex"
@@ -390,15 +452,15 @@ const Goals = () => {
                 Close
               </Button>
               <Button
-                    colorScheme="red"
-                    size="md"
-                    w="10px"
-                    onClick={() => handleDeleteGoal(selectedGoal)}
-                  >
-                    <Flex align="center">
-                      <FaTrashAlt />
-                    </Flex>
-                  </Button>
+                colorScheme="red"
+                size="md"
+                w="10px"
+                onClick={() => handleDeleteGoal(selectedGoal)}
+              >
+                <Flex align="center">
+                  <FaTrashAlt />
+                </Flex>
+              </Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
@@ -443,3 +505,26 @@ export default Goals;
 //               />
 //             </CardFooter>
 //           </Box>
+
+// const updateMainGoalProgress = async (mainGoalId, newProgress) => {
+//   try {
+//     const mainGoalRef = doc(db, `users/${userDocID}/mainGoals`, mainGoalId);
+//     await updateDoc(mainGoalRef, { progress: newProgress });
+//     toast.success("Main goal progress updated successfully!");
+//   } catch (error) {
+//     toast.error("Error updating main goal progress:", error);
+//   }
+// };
+
+  // const updateGoalProgress = async (goalId, newProgress) => {
+  //   try {
+  //     const goalRef = doc(db, `users/${userDocID}/goals`, goalId);
+  //     await updateDoc(goalRef, { progress: newProgress });
+  //     toast.success("Progress updated successfully!");
+  //   } catch (error) {
+  //     toast.error("Error updating progress:", error);
+  //   }
+  // };
+
+  // const [goalProgress, setGoalProgress] = useState(0);
+

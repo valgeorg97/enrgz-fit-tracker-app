@@ -19,6 +19,7 @@ import Form6 from './Forms/Form6';
 import Form7 from './Forms/Form7';
 import Form8 from './Forms/Form8';
 import Loading from '../../../components/Loading/Loading';
+import { AuthContext } from '../../../context/AuthContext';
 
 
 const Register = () => {
@@ -28,6 +29,7 @@ const Register = () => {
   const toast = useToast();
   let navigate = useNavigate();
   const [countryCode, setCountryCode] = useState("");
+  const {userID} = useContext(AuthContext)
   // const [calorieCalculation, setCalorieCalculation] = useState(null);
   // const [mainGoals, setMainGoals] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -166,19 +168,28 @@ const Register = () => {
       isBlocked: false, 
       id: auth.currentUser.uid
     });
+
     const docID = docRef.id;
     const dataWithDocID = { ...addUser, docID: docID };
-    const userBmrUpdate = { ...addUser, bmr: bmr };
     await updateDoc(docRef, dataWithDocID);
+
+    const userBmrUpdate = { ...addUser, bmr: bmr };
     await updateDoc(docRef, userBmrUpdate);
     
-    const userDocRef = doc(db, "users", docRef.id);
-    const userMainGoalsUpdate = { mainGoals: goals }
-    const mainGoalsCollection = collection(userDocRef, "mainGoals");
-    await addDoc(mainGoalsCollection, userMainGoalsUpdate);
-
-  
+    const mainGoalsCollection = collection(db, "mainGoals")
+    const userMainGoals = {
+      owner: auth.currentUser.uid,
+      extremeGain: { ...goals["Extreme weight gain"], name: "Extreme weight gain" },
+      extremeLoss: { ...goals["Extreme weight loss"], name: "Extreme weight loss" },
+      mildGain: { ...goals["Mild weight gain"], name: "Mild weight gain" },
+      mildLoss: { ...goals["Mild weight loss"], name: "Mild weight loss" },
+      gain: { ...goals["Weight gain"], name: "Weight gain" },
+      loss: { ...goals["Weight loss"], name: "Weight loss" },
+      maintain: { ...goals["maintain weight"], name: "Maintain weight" }
+    }
+    await addDoc(mainGoalsCollection, userMainGoals);
   }
+
   const updateName = () => {
     updateProfile(auth.currentUser, {
       displayName: `${regName} ${regFamily}`
