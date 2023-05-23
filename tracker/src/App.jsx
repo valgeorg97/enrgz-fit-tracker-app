@@ -75,10 +75,12 @@ function App() {
         setIsAuth(false);
         setAdmin(false);
         setIsBlocked(false);
+        setPhotoURL(userimage)
+        setUserID("");
       }
     });
     return unsubscribe;
-  }, [photoURL]);
+  }, []);
   
   const signUserOut = () => {
     signOut(auth)
