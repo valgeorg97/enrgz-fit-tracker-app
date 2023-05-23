@@ -37,20 +37,29 @@ const CreateWorkout = ({ showForm, setShowForm }) => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const workoutObj = { owner: userID, name: workoutName, type: selectedExercise, reps: reps, weight: weight, muscle: selectedMuscle, difficulty: selectedDifficulty  };
-      await addDoc(collection(db, `users/${userDocID}/workouts`), workoutObj);
-      setWorkout([]);
-      setSelectedExercise('');
-      setReps(0);
-      setWeight(0);
-      setSelectedMuscle('')
-      setShowForm(false);
-    } catch (e) {
-      console.error("Error adding workout: ", e);
-    }
-  };
+  e.preventDefault();
+  try {
+    const workoutObj = {
+      owner: userID, 
+      name: workoutName, 
+      type: selectedExercise, 
+      reps: reps, 
+      weight: weight, 
+      muscle: selectedMuscle, 
+      difficulty: selectedDifficulty,
+      exercises: workout // Added this line
+    };
+    await addDoc(collection(db, `users/${userDocID}/workouts`), workoutObj);
+    setWorkout([]);
+    setSelectedExercise('');
+    setReps(0);
+    setWeight(0);
+    setSelectedMuscle('')
+    setShowForm(false);
+  } catch (e) {
+    console.error("Error adding workout: ", e);
+  }
+};
 
   const handleMuscleChange = (e) => {
     setSelectedMuscle(e.target.value);
@@ -118,22 +127,23 @@ const CreateWorkout = ({ showForm, setShowForm }) => {
                 <NumberInputField />
               </NumberInput>
             </FormControl>
+            
+            <UnorderedList>
+              {workout.map((exercise, i) => (
+                <ListItem key={i}>{i + 1}. {exercise.type}: {exercise.muscle} muscle, {exercise.reps} reps, {exercise.weight} kg</ListItem>
+              ))}
+            </UnorderedList>
+
+            <Button onClick={handleAddExercise}>Add Exercise</Button>
+
             <FormControl id="difficulty">
-              <FormLabel>Select a difficulty level</FormLabel>
+              <FormLabel>Select workout difficulty level</FormLabel>
               <Select placeholder="Select a difficulty level" value={selectedDifficulty} onChange={handleDifficultyChange}>
                 {difficulties.map((difficulty, i) => (
                   <option key={i} value={difficulty.value} style={{ color: difficulty.color }}>{difficulty.label}</option>
                 ))}
               </Select>
             </FormControl>
-
-            <Button onClick={handleAddExercise}>Add Exercise</Button>
-
-            {/* <UnorderedList>
-              {workout.map((exercise, i) => (
-                <ListItem key={i}>{i + 1}. {exercise.type}: {exercise.muscle} muscle, {exercise.reps} reps, {exercise.weight} kg</ListItem>
-              ))}
-            </UnorderedList> */}
 
             <Button type="submit" colorScheme="blue">Submit Workout</Button>
           </Stack>

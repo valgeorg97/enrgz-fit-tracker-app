@@ -1,8 +1,9 @@
 import { useState, useContext, useEffect } from "react";
-import { Box, Heading, Divider, Button } from "@chakra-ui/react";
+import { Box, Heading, Divider, Button, VStack, Badge, Text, Flex} from "@chakra-ui/react";
 import CreateWorkout from "./CreateWorkout";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where, deleteDoc, doc } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
+
 import { db } from "../../services/firebase";
 
 const Workouts = () => {
@@ -10,6 +11,12 @@ const Workouts = () => {
   const [workouts, setWorkouts] = useState([]);
   const [workoutsCollection, setWorkoutsCollection] = useState(null);
   const { userID, userDocID } = useContext(AuthContext);
+
+  const difficultyColors = {
+    easy: "green",
+    medium: "orange",
+    hard: "red",
+  };
 
   useEffect(() => {
     if (userDocID) {
@@ -43,6 +50,15 @@ const Workouts = () => {
     fetchWorkouts();
   }, [userDocID, userID, workoutsCollection]);
 
+  const handleDeleteWorkout = async (id) => {
+    try {
+      await deleteDoc(doc(db, `users/${userDocID}/workouts/${id}`));
+      setWorkouts(workouts.filter((workout) => workout.id !== id));  // Remove workout from state
+    } catch (error) {
+      console.error("Error deleting workout:", error);
+    }
+  };
+
   return (
     <Box m={5}>
       <Heading as="h1" size="xl" mb={5} textAlign="left">Workouts</Heading>
@@ -52,23 +68,23 @@ const Workouts = () => {
       ) : (
         <Button colorScheme="teal" onClick={handleCreateWorkoutClick}>Create Workout!</Button>
       )}
-      <Box mt={5}>
+      <VStack spacing={4} mt={5}>
         {workouts.map((workout, index) => (
-          <Box key={index} p={5} boxShadow="md" borderWidth="1px">
-            <Heading as="h2" size="md" mb={3}>
-              {workout.name}
-            </Heading>
+          <Box key={index} p={5} boxShadow="md" borderWidth="1px" borderRadius="lg" backgroundColor="white">
+            <Flex justify="space-between">
+              <Heading as="h2" size="md" mb={3}>
+                {workout.name}
+              </Heading>
+              <Button size="xs" colorScheme="red" onClick={() => handleDeleteWorkout(workout.id)}>X</Button>
+            </Flex>
             <Box>
-              <p>Exercise {index + 1}:</p>
-              <p>Muscle: {workout.muscle}</p>
-              <p>Type: {workout.type}</p>
-              <p>Reps: {workout.reps}</p>
-              <p>Weight: {workout.weight} kg</p>
-              <p>Difficulty: {workout.difficulty}</p>
+              <Text><strong>Muscle Group:</strong> {workout.muscle}</Text>
+              <Text><strong>Number of Exercises:</strong> {workout.exercises ? workout.exercises.length : 0}</Text>
+              <Text><strong>Difficulty:</strong> <Badge colorScheme={difficultyColors[workout.difficulty]}>{workout.difficulty}</Badge></Text>
             </Box>
           </Box>
         ))}
-      </Box>
+      </VStack>
     </Box>
   );
 };
