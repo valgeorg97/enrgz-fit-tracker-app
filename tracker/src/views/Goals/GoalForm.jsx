@@ -65,7 +65,7 @@ const GoalForm = ({createGoal,goalName,setGoalName,goalNote,setGoalNote,goalFrom
           />
         </FormControl>
   
-        <Button colorScheme="teal" size="lg" onClick={createGoal}>
+        <Button colorScheme="linkedin" size="lg" onClick={createGoal}>
           Create Goal
         </Button>
       </Stack>

@@ -82,7 +82,7 @@ function App() {
       }
     });
     return unsubscribe;
-  }, []);
+  }, [photoURL]);
 
   const signUserOut = () => {
     signOut(auth)

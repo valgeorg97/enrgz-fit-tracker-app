@@ -1,15 +1,20 @@
 import { countryCodes } from "../../../../common/constants";
 import { Flex, Box, Progress, Image, Radio, RadioGroup, FormControl, FormLabel, Input, InputGroup, Button, Heading, Stack, useColorModeValue, Link, ButtonGroup, SimpleGrid, InputRightElement, FormHelperText, Select, InputLeftAddon, Textarea, Text } from '@chakra-ui/react';
 import DatePicker from 'react-datepicker';
+import { useState, useContext, useEffect } from "react";
+
 
 
 const Form6 = ({handleGender,regGender,regYear,handleYear,handlePhone, handleCountryCode}) => {
+const [selectedDate, setSelectedDate] = useState(regYear);
 
   const handleGenderChange = (value) => {
     handleGender(value);
   };
-  const handleDateChange = (value) => {
-    handleYear(value);
+  const handleDateChange = (event) => {
+    // const value = event.target.value;
+    setSelectedDate(event.target.value);
+    handleYear(event.target.value);
   };
 
 
@@ -21,30 +26,25 @@ const Form6 = ({handleGender,regGender,regYear,handleYear,handlePhone, handleCou
               Please select which sex we should use to calculate your calorie
               needs:
             </FormLabel>
-            <RadioGroup
-              onChange={handleGenderChange}
-              value={regGender}
-            >
+            <RadioGroup onChange={handleGenderChange} value={regGender}>
               <Stack spacing={2}>
                 <Radio value="male">Male</Radio>
                 <Radio value="female">Female</Radio>
               </Stack>
             </RadioGroup>
           </FormControl>
-  
+
           <FormControl mt={4}>
             <FormLabel fontWeight="normal">
               When were you born? (MM/DD/YYYY)
             </FormLabel>
-            <DatePicker
-              dateFormat="MM/dd/yyyy"
-              selected={regYear}
+            <Input
+              type="date"
+              value={selectedDate}
               onChange={handleDateChange}
-              placeholderText="MM/DD/YYYY"
-              yearRange="1900:2023"
             />
           </FormControl>
-  
+
           <FormControl mt={4}>
             <FormLabel fontWeight="normal">Phone number</FormLabel>
             <Flex align="center">

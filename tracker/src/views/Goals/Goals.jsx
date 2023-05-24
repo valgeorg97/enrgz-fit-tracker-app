@@ -1,13 +1,13 @@
 import { useState, useContext, useEffect } from "react";
 import {collection,addDoc,serverTimestamp,getDocs,query,where,updateDoc,deleteDoc,doc,} from "firebase/firestore";
 import { auth, db } from "../../services/firebase";
-import {Box,Button,Text,Card,CardHeader,Heading,CardFooter,Menu,MenuButton,MenuList,MenuItem,Flex} from "@chakra-ui/react";
+import {Box,Text} from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import {HiOutlinePencilAlt} from 'react-icons/hi'
 import GoalForm from "./GoalForm";
 import SingleGoal from "./SingleGoal";
+import GoalMenu from "./GoalMenu";
+import GoalCard from "./GoalCard";
 import "react-toastify/dist/ReactToastify.css";
 
 
@@ -115,8 +115,20 @@ const Goals = () => {
             category: goalCategory,
             // progress: goalProgress,
             createdAt: serverTimestamp(),
-          }
-        );
+          });
+
+        const createdGoal = {
+          id: goalDocRef.id,
+          name: goalName,
+          text: goalNote,
+          owner: userID,
+          from: goalFrom,
+          to: goalTo,
+          category: goalCategory,
+          createdAt: new Date().toISOString(),
+        };
+        setGoals((prevGoals) => [...prevGoals, createdGoal]);
+
         setGoalName("");
         setGoalNote("");
         setGoalFrom("");
@@ -144,6 +156,14 @@ const Goals = () => {
       const goalRef = doc(db, `users/${userDocID}/goals`, goalId);
       await updateDoc(goalRef, { name: newTitle });
       toast.success("Goal updated successfully!");
+      setGoals((prevGoals) =>
+      prevGoals.map((goal) => {
+        if (goal.id === goalId) {
+          return { ...goal, name: newTitle };
+        }
+        return goal;
+      })
+    );
     } catch (error) {
       toast.error("Error updating goal:", error);
     }
@@ -154,6 +174,14 @@ const Goals = () => {
       const goalRef = doc(db, `users/${userDocID}/goals`, goalId);
       await updateDoc(goalRef, { text: newText });
       toast.success("Goal updated successfully!");
+      setGoals((prevGoals) =>
+      prevGoals.map((goal) => {
+        if (goal.id === goalId) {
+          return { ...goal, text: newText };
+        }
+        return goal;
+      })
+    );
     } catch (error) {
       toast.error("Error updating goal:", error);
     }
@@ -165,6 +193,7 @@ const Goals = () => {
       await deleteDoc(goalRef);
       closeModal();
       toast.success("Goal deleted successfully!");
+      setGoals((prevGoals) => prevGoals.filter((g) => g.id !== goal.id));
     } catch (error) {
       toast.error("Error deleting goal:", error);
     }
@@ -183,64 +212,10 @@ const Goals = () => {
 
   return (
     <Box display="flex" justifyContent="center" mt="50px" ml="70px" w="1600px">
-      <Box
-        flexDirection="column"
-        // display="flex"
-        // justifyContent="center"
-        w="1600px"
-      >
-        <Box ml="100px" display="flex" flexDirection="column">
-          <Menu >
-            <MenuButton
-              as={Button}
-              w="400px"
-              bg="gray.100"
-              borderRadius="md"
-              p="50px"
-              boxShadow="md"
-              textAlign="center"
-              _hover={{ bg: "gray.200" }}
-              rightIcon={<ChevronDownIcon />}
-              
-            >
-              <Text fontSize="sm" color="gray.500">
-                This is your current main goal based on BMR
-              </Text>
-              <Heading size="md" mt={2}>
-                {currentGoal ? currentGoal.name : "Choose Main Goal"}
-              </Heading>
-              <Text fontSize="md" mt={2}>
-                Daily calory intake to reach goal:{" "}
-                {currentGoal && currentGoal.calory.toFixed(0)} cal
-              </Text>
-            </MenuButton>
-
-            <MenuList w="400px">
-              {Object.keys(mainGoals).map((key) => {
-                if (key !== "owner" && key !== "id" && key !== "maintain") {
-                  const goal = mainGoals[key];
-                  return (
-                    <MenuItem
-                      key={key}
-                      minH="60px"
-                      onClick={() => updateCurrentGoal(goal)}
-                      _hover={{ bg: "gray.200" }}
-                    >
-                      <Box>
-                        <Heading size="md" marginLeft="70px"style={{ textTransform: 'uppercase' }}>{goal.name}</Heading>
-                      </Box>
-                    </MenuItem>
-                  );
-                } else return null;
-              })}
-            </MenuList>
-          </Menu>
-        </Box>
-
+      <Box flexDirection="column" w="1600px">
+        <GoalMenu mainGoals={mainGoals} updateCurrentGoal={updateCurrentGoal} currentGoal={currentGoal} />
         <Box display="flex" flexDirection="column" mt={30}>
-          <Text mb={4} ml={100} fontSize="2xl" fontWeight="bold">
-            Personal Goals
-          </Text>
+          <Text mb={4} ml={100} fontSize="2xl" fontWeight="bold"> Personal Goals </Text>
           <Box
             display="flex"
             flexWrap="wrap"
@@ -249,64 +224,7 @@ const Goals = () => {
             mb={2}
           >
             {goals.map((goal, index) => (
-              <Box key={index} mr={4} mb="70px" width="240px" height="250px">
-                <Card
-                  background="linear-gradient(20deg, #DECBA4, #3E5151)"
-                  boxShadow="dark-lg"
-                  rounded="md"
-                  borderColor="gray.50"
-                >
-                  <CardHeader>
-                    <Heading
-                      color="white"
-                      size="md"
-                      p="1px"
-                      mb={2}
-                      style={{
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                        maxWidth: "100%",
-                      }}
-                    >
-                      {goal.name}
-                    </Heading>
-                    <Text
-                      noOfLines={2}
-                      overflow="hidden"
-                      textOverflow="ellipsis"
-                      display="-webkit-box"
-                      style={{
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                      }}
-                    >
-                      {goal.text}
-                    </Text>
-                    <Text mt={2}>
-                      <strong>Category:</strong> {goal.category}
-                    </Text>
-                    <Text mt={6}>
-                      <strong>From:</strong> {goal.from}
-                    </Text>
-                    <Text>
-                      <strong>To:</strong> {goal.to}
-                    </Text>
-                  </CardHeader>
-                  <CardFooter justifyContent="end">
-                    <Button
-                      colorScheme="linkedin"
-                      w="10px"
-                      size="md"
-                      onClick={() => openModal(goal)}
-                    >
-                      <Flex align="center">
-                        <HiOutlinePencilAlt />
-                      </Flex>
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </Box>
+              <GoalCard key={index} goal={goal} openModal={openModal} />
             ))}
           </Box>
         </Box>
