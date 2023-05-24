@@ -19,7 +19,6 @@ import Login from "./views/Authentication/Login/Login";
 import LandingPage from "./views/LandingPage/LandingPage";
 import Dashboard from "./views/Dashboard/Dashboard";
 import UserMenu from "./components/UserMenu/UserMenu";
-import SingleWorkoutView from "./views/Workouts/SingleWorkoutView/SingleWorkoutView"
 
 function App() {
   const navigate = useNavigate();
@@ -135,7 +134,6 @@ function App() {
               <Route path="/" element={<LandingPage />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/workouts" element={<Workouts />} />
-              <Route path="/workouts/:id" element={<SingleWorkoutView/>} />
               <Route path="goals" element={<Goals />} />
               <Route path="community" element={<Community />} />
               <Route path="profile" element={<Profile />} />

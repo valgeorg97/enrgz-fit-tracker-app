@@ -7,7 +7,7 @@ import { db } from "../../services/firebase";
 
 const muscles = ['abdominals', 'abductors', 'adductors', 'biceps', 'calves', 'chest', 'forearms', 'glutes', 'hamstrings', 'lats', 'lower_back', 'middle_back', 'neck', 'quadriceps', 'traps', 'triceps'];
 
-const CreateWorkout = ({ showForm, setShowForm }) => {
+const CreateWorkout = ({ showForm, setShowForm, onAddWorkout }) => {
   const [selectedMuscle, setSelectedMuscle] = useState('');
   const [selectedExercise, setSelectedExercise] = useState('');
   const [reps, setReps] = useState(0);
@@ -54,8 +54,9 @@ const CreateWorkout = ({ showForm, setShowForm }) => {
     setSelectedExercise('');
     setReps(0);
     setWeight(0);
-    setSelectedMuscle('')
+    setSelectedMuscle('');
     setShowForm(false);
+    onAddWorkout(workoutObj);
   } catch (e) {
     console.error("Error adding workout: ", e);
   }

@@ -1,24 +1,41 @@
-import { useState, useContext, useEffect} from "react";
-import { Box, Heading, Divider, Button, VStack, Badge, Text, Flex} from "@chakra-ui/react";
-import CreateWorkout from "./CreateWorkout";
-import { collection, getDocs, query, where, deleteDoc, doc} from "firebase/firestore";
+import { useState, useContext, useEffect } from "react";
+import {
+  Box,
+  Heading,
+  Divider,
+  Button,
+  Grid
+} from "@chakra-ui/react";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  deleteDoc,
+  doc,
+  addDoc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
 import { db } from "../../services/firebase";
+import CreateWorkout from "./CreateWorkout";
+import SingleWorkout from "./SingleWorkout";
+import WorkoutCards from "./WorkoutCards";
 
 const Workouts = () => {
   const [showForm, setShowForm] = useState(false);
   const [workouts, setWorkouts] = useState([]);
   const [workoutsCollection, setWorkoutsCollection] = useState(null);
+  const [sharedWorkouts, setSharedWorkouts] = useState([]);
   const { userID, userDocID } = useContext(AuthContext);
-  const navigate = useNavigate();
-  
+  const [selectedWorkout, setSelectedWorkout] = useState(null);
 
-  const handleViewMoreClick = (id) => {
-    navigate(`/workouts/${id}`);
+  const handleViewMoreClick = (workout) => {
+    setSelectedWorkout(workout);
   };
- 
+  
 
   const difficultyColors = {
     easy: "green",
@@ -34,6 +51,10 @@ const Workouts = () => {
 
   const handleCreateWorkoutClick = () => {
     setShowForm(true);
+  };
+
+  const handleAddWorkout = (workout) => {
+    setWorkouts((prevWorkouts) => [...prevWorkouts, workout]);
   };
 
   useEffect(() => {
@@ -58,43 +79,115 @@ const Workouts = () => {
     fetchWorkouts();
   }, [userDocID, userID, workoutsCollection]);
 
+  useEffect(() => {
+    const fetchSharedWorkouts = async () => {
+      try {
+        const sharedWorkoutsCollectionRef = collection(db, "sharedWorkouts");
+        const querySnapshot = await getDocs(sharedWorkoutsCollectionRef);
+        const sharedWorkoutsData = [];
+        querySnapshot.forEach((doc) => {
+          sharedWorkoutsData.push({ id: doc.id, ...doc.data() });
+        });
+        setSharedWorkouts(sharedWorkoutsData);
+      } catch (error) {
+        console.error("Error fetching shared workouts:", error);
+      }
+    };
+    fetchSharedWorkouts();
+  }, []);
+
   const handleDeleteWorkout = async (id) => {
     try {
       await deleteDoc(doc(db, `users/${userDocID}/workouts/${id}`));
-      setWorkouts(workouts.filter((workout) => workout.id !== id));  // Remove workout from state
+      setWorkouts(workouts.filter((workout) => workout.id !== id));
     } catch (error) {
       console.error("Error deleting workout:", error);
     }
   };
 
+  const handleShareWorkout = async (id) => {
+    try {
+      const workoutRef = doc(db, `users/${userDocID}/workouts/${id}`);
+      const workoutSnapshot = await getDoc(workoutRef);
+      const workoutData = workoutSnapshot.data();
+      const sharedWorkoutsCollectionRef = collection(db, "sharedWorkouts");
+      await addDoc(sharedWorkoutsCollectionRef, { ...workoutData });
+      toast.success("Workout shared successfully");
+    } catch (error) {
+      console.error("Error sharing workout:", error);
+    }
+  };
+
+  const updateWorkoutTitle = async (workoutId, newTitle) => {
+    try {
+      const workoutRef = doc(db, `users/${userDocID}/workouts/${workoutId}`);
+      await updateDoc(workoutRef, { name: newTitle });
+      toast.success("Workout title updated successfully!");
+
+      setWorkouts((prevWorkouts) =>
+        prevWorkouts.map((workout) => {
+          if (workout.id === workoutId) {
+            return { ...workout, name: newTitle };
+          }
+          return workout;
+        })
+      );
+    } catch (error) {
+      toast.error("Error updating workout title:", error);
+    }
+  };
+
   return (
-    <Box m={5}>
-      <Heading as="h1" size="xl" mb={5} textAlign="left">Workouts</Heading>
-      <Divider mb={5} />
-      {showForm ? (
-        <CreateWorkout showForm={showForm} setShowForm={setShowForm}/>
-      ) : (
-        <Button colorScheme="teal" onClick={handleCreateWorkoutClick}>Create Workout!</Button>
-      )}
-      <VStack spacing={4} mt={5}>
-      {workouts.map((workout, index) => (
-      <Box key={index} p={5} boxShadow="md" borderWidth="1px" borderRadius="lg" backgroundColor="white">
-        <Flex justify="space-between">
-          <Heading as="h2" size="md" mb={3}>
-            {workout.name}
-          </Heading>
-          <Button size="xs" colorScheme="red" onClick={() => handleDeleteWorkout(workout.id)}>X</Button>
-        </Flex>
-        <Button colorScheme="blue" onClick={() => handleViewMoreClick(workout.id)}>View More</Button>
-            <Box>
-              <Text><strong>Muscle Group:</strong> {workout.muscle}</Text>
-              <Text><strong>Number of Exercises:</strong> {workout.exercises ? workout.exercises.length : 0}</Text>
-              <Text><strong>Difficulty:</strong> <Badge colorScheme={difficultyColors[workout.difficulty]}>{workout.difficulty}</Badge></Text>
-            </Box>
-          </Box>
-        ))}
-      </VStack>
-    </Box>
+    <Grid templateColumns="1fr 1fr" gap={6} m={5}>
+      <Box>
+        <Heading as="h1" size="xl" mb={5} textAlign="left">
+          Workouts
+        </Heading>
+        <Divider mb={5} />
+        {showForm ? (
+          <CreateWorkout
+            showForm={showForm}
+            setShowForm={setShowForm}
+            onAddWorkout={handleAddWorkout}
+          />
+        ) : (
+          <Button colorScheme="linkedin" onClick={handleCreateWorkoutClick}>
+            Create Workout!
+          </Button>
+        )}
+         <WorkoutCards
+          workouts={workouts}
+          difficultyColors={difficultyColors}
+          handleDeleteWorkout={handleDeleteWorkout}
+          handleShareWorkout={handleShareWorkout}
+          handleViewMoreClick={handleViewMoreClick}
+        />
+      </Box>
+
+      <Box id="shared">
+        <Heading as="h1" size="xl" mb={5} textAlign="left">
+          Shared Workouts
+        </Heading>
+        <Divider mb={5} />
+        <WorkoutCards
+          shared={true}
+          workouts={sharedWorkouts}
+          difficultyColors={difficultyColors}
+          handleViewMoreClick={handleViewMoreClick}
+        />
+
+        {selectedWorkout && (
+           <SingleWorkout
+           selectedWorkout={selectedWorkout}
+           userID={userID}
+           updateWorkoutTitle={updateWorkoutTitle}
+           handleDeleteWorkout={handleDeleteWorkout}
+           setSelectedWorkout ={setSelectedWorkout}
+         />
+        )}
+      </Box>
+      <ToastContainer />
+    </Grid>
   );
 };
 
