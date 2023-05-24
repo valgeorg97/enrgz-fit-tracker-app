@@ -99,7 +99,7 @@ const Workouts = () => {
   const handleDeleteWorkout = async (id) => {
     try {
       await deleteDoc(doc(db, `users/${userDocID}/workouts/${id}`));
-      setWorkouts(workouts.filter((workout) => workout.id !== id));
+      setWorkouts((prevWorkouts) => prevWorkouts.filter((workout) => workout.id !== id));
     } catch (error) {
       console.error("Error deleting workout:", error);
     }
@@ -113,6 +113,7 @@ const Workouts = () => {
       const sharedWorkoutsCollectionRef = collection(db, "sharedWorkouts");
       await addDoc(sharedWorkoutsCollectionRef, { ...workoutData });
       toast.success("Workout shared successfully");
+      setSharedWorkouts((prevSharedWorkouts) => [...prevSharedWorkouts, { id: workoutSnapshot.id, ...workoutData }]);
     } catch (error) {
       console.error("Error sharing workout:", error);
     }
