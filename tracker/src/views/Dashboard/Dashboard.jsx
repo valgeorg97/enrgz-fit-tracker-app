@@ -13,6 +13,7 @@ const Dashboard = () => {
   useEffect(() => {
     setConsumedCalories(prevCalories => prevCalories + foodCalories); 
   }, [foodCalories]);
+  
 
   const calorieProgress = (consumedCalories / totalCalories) * 100;
 
@@ -32,7 +33,7 @@ const Dashboard = () => {
           <Heading size="md">Today:</Heading>
         </Box>
           <Box>
-            <FoodCaloriesIntake setFoodCalories={setFoodCalories} />
+            <FoodCaloriesIntake setFoodCalories={setFoodCalories} setConsumedCalories={setConsumedCalories} />
         </Box>
         
         <Box>
