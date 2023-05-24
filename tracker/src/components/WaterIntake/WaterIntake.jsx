@@ -94,7 +94,14 @@ const WaterCalculator = () => {
           </Box>
         </>
         :
+        
         <Box>
+          <Box>
+            <Text fontSize="sm">Your recommended water intake is: {calculateWaterIntake()} liters</Text>
+          </Box>
+          <Box>
+            <Text fontSize="sm">Your water intake today: {savedWater} liters</Text>
+          </Box>
           <Text fontSize="sm" color="green.500" fontWeight="bold">You have reached your goal!</Text>
         </Box>
       }
@@ -102,12 +109,7 @@ const WaterCalculator = () => {
       <Button size="sm" onClick={handleToggle}>{isOpen ? 'Show Less' : 'Show More'}</Button>
       
       <Collapse in={isOpen}>
-      <Box>
-            <Text fontSize="sm">Your recommended water intake is: {calculateWaterIntake()} liters</Text>
-          </Box>
-          <Box>
-            <Text fontSize="sm">Your water intake today: {savedWater} liters</Text>
-          </Box>
+
         <Box>
           <Text fontSize="sm">Add water consumed today (in liters): </Text>
           <Input 
