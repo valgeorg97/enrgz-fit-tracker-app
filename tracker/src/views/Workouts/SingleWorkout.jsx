@@ -1,27 +1,8 @@
-import {
-    Box,
-    Heading,
-    Button,
-    Badge,
-    Text,
-    Flex,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalCloseButton,
-    ModalBody,
-    Editable,
-    EditablePreview,
-    EditableInput,
-    ButtonGroup,
-    IconButton,
-    useEditableControls,
-  } from "@chakra-ui/react";
+import {Box,Heading,Button,Badge,Text,Flex,Modal,ModalOverlay,ModalContent,ModalHeader,ModalCloseButton,ModalBody,Editable,EditablePreview,EditableInput,ButtonGroup,IconButton,useEditableControls,} from "@chakra-ui/react";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { FaTrashAlt } from "react-icons/fa";
 
-const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDeleteWorkout,setSelectedWorkout}) => {
+const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDeleteWorkout,setSelectedWorkout,shared}) => {
   const EditableControlsExample = () => {
     const {
       isEditing,
@@ -46,6 +27,15 @@ const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDele
     hard: "red",
   };
 
+  const handleCloseModal = () => {
+    setSelectedWorkout(null);
+  };
+
+  const handleDeleteAndCloseModal = (workoutId) => {
+    handleDeleteWorkout(workoutId);
+    handleCloseModal();
+  };
+
   return (
     <Modal
       isOpen={true}
@@ -58,7 +48,7 @@ const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDele
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          {selectedWorkout.owner === userID ? (
+          {selectedWorkout.owner === userID && !shared ? (
             <Editable
               overflowWrap="break-word"
               wordBreak="break-word"
@@ -100,13 +90,13 @@ const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDele
                 {selectedWorkout.difficulty}
               </Badge>
             </Text>
-            {selectedWorkout.owner === userID && (
+            {selectedWorkout.owner === userID && !shared && (
               <Button
                 float="right"
                 size="xs"
                 mb="10px"
                 colorScheme="red"
-                onClick={() => handleDeleteWorkout(selectedWorkout.id)}
+                onClick={() => handleDeleteAndCloseModal(selectedWorkout.id)}
               >
                 <Flex align="center">
                   <FaTrashAlt />

@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import {collection,addDoc,serverTimestamp,getDocs,query,where,updateDoc,deleteDoc,doc,} from "firebase/firestore";
 import { auth, db } from "../../services/firebase";
-import {Box,Text} from "@chakra-ui/react";
+import {Box,Text,Grid,Flex} from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import GoalForm from "./GoalForm";
@@ -211,16 +211,17 @@ const Goals = () => {
   };
 
   return (
-    <Box display="flex" justifyContent="center" mt="50px" ml="70px" w="1600px">
-      <Box flexDirection="column" w="1600px">
+    <Box mt="40px" width="1800px">
+      <Grid templateColumns="4fr 1fr" gap={6} m={10}>
+
+      <Box>
         <GoalMenu mainGoals={mainGoals} updateCurrentGoal={updateCurrentGoal} currentGoal={currentGoal} />
         <Box display="flex" flexDirection="column" mt={30}>
-          <Text mb={4} ml={100} fontSize="2xl" fontWeight="bold"> Personal Goals </Text>
+          <Text mb={4} fontSize="2xl" fontWeight="bold"> Personal Goals </Text>
           <Box
             display="flex"
             flexWrap="wrap"
             justifyContent="left"
-            ml="100px"
             mb={2}
           >
             {goals.map((goal, index) => (
@@ -230,7 +231,7 @@ const Goals = () => {
         </Box>
       </Box>
 
-      <Box mr="10px" display="flex" mt="178px">
+      <Flex mt="182px" justifyContent="right" flexDirection="column">
         <GoalForm
           createGoal={createGoal}
           goalName={goalName}
@@ -244,7 +245,7 @@ const Goals = () => {
           goalCategory={goalCategory}
           setGoalCategory={setGoalCategory}
         />
-      </Box>
+      </Flex>
 
       {selectedGoal && (
         <SingleGoal
@@ -258,6 +259,7 @@ const Goals = () => {
       />
       )}
       <ToastContainer />
+      </Grid>
     </Box>
   );
 };

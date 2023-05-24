@@ -3,7 +3,7 @@ import {Menu,Button,Text,MenuButton,MenuList,MenuItem,Box,Heading,} from "@chakr
 
 const GoalMenu = ({ mainGoals, updateCurrentGoal, currentGoal }) => {
   return (
-    <Box ml="100px" display="flex" flexDirection="column">
+    <Box display="flex" flexDirection="column">
       <Menu>
         <MenuButton
           as={Button}

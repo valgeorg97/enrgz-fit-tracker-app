@@ -1,4 +1,4 @@
-import { Button, Stack, FormControl, FormLabel, Input, Select, NumberInput, NumberInputField, UnorderedList, ListItem } from '@chakra-ui/react';
+import { Button, Stack, FormControl,HStack, FormLabel, Input, Select, NumberInput, NumberInputField, UnorderedList, ListItem } from '@chakra-ui/react';
 import { useState, useContext, useEffect } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
@@ -87,11 +87,21 @@ const CreateWorkout = ({ showForm, setShowForm, onAddWorkout }) => {
     setShowForm(true);
   }
 
+  const handleCancel = ()=> {
+    setSelectedMuscle("");
+    setSelectedExercise("");
+    setReps(0);
+    setWeight(0);
+    setWorkoutName("");
+    setWorkout([])
+    setShowForm(false);
+  }
+
   return (
     <>
       {showForm ? (
         <form onSubmit={handleSubmit}>
-          <Stack spacing={3}>
+          <Stack spacing={1}>
             <FormControl id="workout-name">
               <FormLabel>Workout Name</FormLabel>
               <Input value={workoutName} onChange={handleWorkoutNameChange} />
@@ -117,26 +127,18 @@ const CreateWorkout = ({ showForm, setShowForm, onAddWorkout }) => {
 
             <FormControl id="reps">
               <FormLabel>Reps</FormLabel>
-              <NumberInput value={reps} onChange={handleRepsChange} min={0}>
+              <NumberInput defaultValue={""} min={1} max={20} onChange={handleRepsChange} >
                 <NumberInputField />
               </NumberInput>
             </FormControl>
 
             <FormControl id="weight">
               <FormLabel>Weight (kg)</FormLabel>
-              <NumberInput value={weight} onChange={handleWeightChange} min={0}>
+              <NumberInput defaultValue={""} min={1} max={20} onChange={handleWeightChange}>
                 <NumberInputField />
               </NumberInput>
             </FormControl>
             
-            <UnorderedList>
-              {workout.map((exercise, i) => (
-                <ListItem key={i}>{i + 1}. {exercise.type}: {exercise.muscle} muscle, {exercise.reps} reps, {exercise.weight} kg</ListItem>
-              ))}
-            </UnorderedList>
-
-            <Button onClick={handleAddExercise}>Add Exercise</Button>
-
             <FormControl id="difficulty">
               <FormLabel>Select workout difficulty level</FormLabel>
               <Select placeholder="Select a difficulty level" value={selectedDifficulty} onChange={handleDifficultyChange}>
@@ -146,7 +148,21 @@ const CreateWorkout = ({ showForm, setShowForm, onAddWorkout }) => {
               </Select>
             </FormControl>
 
-            <Button type="submit" colorScheme="blue">Submit Workout</Button>
+            <UnorderedList>
+              {workout.map((exercise, i) => (
+                <ListItem ml="20px" mt="7px" key={i}>{i + 1}. {exercise.type}: {exercise.muscle} muscle, {exercise.reps} reps, {exercise.weight} kg</ListItem>
+              ))}
+            </UnorderedList>
+
+            <HStack justifyContent="center">
+              <Button width="400px" colorScheme='whatsapp' onClick={handleAddExercise}>Add Exercise</Button>
+            </HStack>
+
+            <HStack justifyContent="center">
+              <Button type="submit" colorScheme="linkedin">Submit Workout</Button>
+              <Button colorScheme="red" onClick={handleCancel}>Cancel</Button>
+            </HStack>
+
           </Stack>
         </form>
       ) : (
