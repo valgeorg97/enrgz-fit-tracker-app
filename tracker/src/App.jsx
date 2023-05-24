@@ -1,5 +1,5 @@
-import { ChakraProvider, Flex} from "@chakra-ui/react"
-import {AuthContext} from "./context/AuthContext"
+import { ChakraProvider, Flex } from "@chakra-ui/react"
+import { AuthContext } from "./context/AuthContext"
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import userimage from "./assets/user.png"
@@ -19,6 +19,7 @@ import Login from "./views/Authentication/Login/Login";
 import LandingPage from "./views/LandingPage/LandingPage";
 import Dashboard from "./views/Dashboard/Dashboard";
 import UserMenu from "./components/UserMenu/UserMenu";
+import SingleWorkoutView from "./views/Workouts/SingleWorkoutView/SingleWorkoutView"
 
 function App() {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ function App() {
       });
     };
     getUsers();
-  }, [usersCollection,userID]);
+  }, [usersCollection, userID]);
 
   // Check if user is authenticated
   useEffect(() => {
@@ -82,7 +83,7 @@ function App() {
     });
     return unsubscribe;
   }, []);
-  
+
   const signUserOut = () => {
     signOut(auth)
       .then(() => {
@@ -127,13 +128,14 @@ function App() {
     >
       <ChakraProvider>
         <Flex className="App" position="relative">
-        {isAuth && location.pathname !== "/register" && location.pathname !== "/login" && <Navigation />}
+          {isAuth && location.pathname !== "/register" && location.pathname !== "/login" && <Navigation />}
           {isAuth && location.pathname !== "/register" && location.pathname !== "/login" && <UserMenu />}
           <Flex as="main" flexGrow={1} justifyContent="center" alignItems="center" p={5}>
             <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="workouts" element={<Workouts />} />
+              <Route path="/workouts" element={<Workouts />} />
+              <Route path="/workouts/:id" element={<SingleWorkoutView/>} />
               <Route path="goals" element={<Goals />} />
               <Route path="community" element={<Community />} />
               <Route path="profile" element={<Profile />} />
