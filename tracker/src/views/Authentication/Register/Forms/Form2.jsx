@@ -8,14 +8,14 @@ const Form2 = ({ handleName, handleFamily }) => {
         What’s your first name and last name? We’re happy you’re here.
       </Heading>
       <Flex>
-        <FormControl mr="5%" id="firstName">
+        <FormControl mr="5%" id="firstName" isRequired>
           <FormLabel fontWeight={'normal'}>
             First name
           </FormLabel>
           <Input type="text" placeholder="First name" onChange={(e) => handleName(e.target.value)} />
         </FormControl>
 
-        <FormControl id="last-name">
+        <FormControl id="last-name" isRequired>
           <FormLabel fontWeight={'normal'}>
             Last name
           </FormLabel>

@@ -86,7 +86,6 @@ function App() {
         }
       }
     };
-    console.log('yes');
     fetchMainGoals();
   }, [userID,userDocID,userGoal]);
 
@@ -149,7 +148,10 @@ function App() {
   const updateCurrentGoal = async (goal) => {
     setCurrentGoal(goal);
     const dataWithDocID = { currentGoal: goal };
-    await updateDoc(docRef, dataWithDocID);
+    if(docRef) {
+      await updateDoc(docRef, dataWithDocID);
+
+    }
   };
 
   return (

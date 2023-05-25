@@ -15,7 +15,7 @@ const Form3 = ({ handleGoal,regGoal,regName,regFamily }) => {
             Select up the goal that you are looking for:
           </Text>
   
-          <RadioGroup onChange={handleGoalChange} value={regGoal}>
+          <RadioGroup onChange={handleGoalChange} value={regGoal} >
             <Stack spacing={5} direction={"column"} align={'start'}>
               <Radio value="Extreme weight gain">Extreme weight gain</Radio>
               <Radio value="Extreme weight loss">Extreme weight loss</Radio>

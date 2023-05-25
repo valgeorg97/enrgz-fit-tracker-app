@@ -1,27 +1,64 @@
-import { Flex, Box, Progress, Image, Radio, RadioGroup, FormControl, FormLabel, Input, InputGroup, Button, Heading, Stack, useColorModeValue, Link, ButtonGroup, SimpleGrid, InputRightElement, FormHelperText, Select, InputLeftAddon, Textarea, Text } from '@chakra-ui/react';
+import { Box, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
 
-
-const Form8 = ({handleUsername,handleEmail,handlePassword}) => {
-    return (
-      <>
-        <Box h="300px" overflowY="auto" w="250px">
-          <FormControl>
-            <FormLabel fontWeight="normal">Username</FormLabel>
-            <Input type="text" placeholder="Username" onChange={(e) => handleUsername(e.target.value)} />
-          </FormControl>
-  
-          <FormControl mt={4}>
-            <FormLabel fontWeight="normal">Email</FormLabel>
-            <Input type="email" placeholder="Email" onChange={(e) => handleEmail(e.target.value)} />
-          </FormControl>
-  
-          <FormControl mt={4}>
-            <FormLabel fontWeight="normal">Password</FormLabel>
-            <Input type="password" placeholder="Password" onChange={(e) => handlePassword(e.target.value)} />
-          </FormControl>
-        </Box>
-      </>
-    );
+const Form8 = ({
+  validateUsername,
+  validateEmail,
+  validatePassword,
+  usernameError,
+  emailError,
+  passwordError,
+}) => {
+  const handleUsernameChange = (value) => {
+    validateUsername(value);
+  };
+  const handleEmailChange = (value) => {
+    validateEmail(value);
+  };
+  const handlePasswordChange = (value) => {
+    validatePassword(value);
   };
 
-export default Form8
+  return (
+    <>
+      <Box h="300px" overflowY="auto" w="250px">
+        <Box>
+          <FormControl isRequired>
+            <FormLabel fontWeight="normal">Username</FormLabel>
+            <Input
+              type="text"
+              placeholder="Username"
+              onChange={(e) => handleUsernameChange(e.target.value)}
+            />
+          </FormControl>
+          {usernameError && <Text color="red">{usernameError}</Text>}
+        </Box>
+
+        <Box mt={4}>
+          <FormControl isRequired>
+            <FormLabel fontWeight="normal">Email</FormLabel>
+            <Input
+              type="email"
+              placeholder="Email"
+              onChange={(e) => handleEmailChange(e.target.value)}
+            />
+          </FormControl>
+          {emailError && <Text color="red">{emailError}</Text>}
+        </Box>
+
+        <Box mt={4}>
+          <FormControl isRequired>
+            <FormLabel fontWeight="normal">Password</FormLabel>
+            <Input
+              type="password"
+              placeholder="Password"
+              onChange={(e) => handlePasswordChange(e.target.value)}
+            />
+          </FormControl>
+          {passwordError && <Text color="red">{passwordError}</Text>}
+        </Box>
+      </Box>
+    </>
+  );
+};
+
+export default Form8;

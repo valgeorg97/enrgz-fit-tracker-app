@@ -1,11 +1,11 @@
-import { Flex, Box, Progress, Image, Radio, RadioGroup, FormControl, FormLabel, Input, InputGroup, Button, Heading, Stack, useColorModeValue, Link, ButtonGroup, SimpleGrid, InputRightElement, FormHelperText, Select, InputLeftAddon, Textarea, Text } from '@chakra-ui/react';
+import { Box,FormControl, FormLabel, Input} from '@chakra-ui/react';
 
 
 const Form7 = ({handleHeight,handleWeight,handleGoalWeight}) => {
     return (
       <>
         <Box h="400px" overflowY="auto" w="300px">
-          <FormControl>
+          <FormControl isRequired>
             <FormLabel fontWeight="normal">How tall are you?</FormLabel>
             <Input type="number" placeholder="Height" onChange={(e) => handleHeight(e.target.value)} />
             {/* <RadioGroup mt={2}> 
@@ -16,7 +16,7 @@ const Form7 = ({handleHeight,handleWeight,handleGoalWeight}) => {
             </RadioGroup> */}
           </FormControl>
   
-          <FormControl mt={4}>
+          <FormControl mt={4} isRequired>
             <FormLabel fontWeight="normal">How much do you weigh?</FormLabel>
             <Input type="number" placeholder="Current weight" onChange={(e) => handleWeight(e.target.value)} />
             {/* <Select mt={2} placeholder="Select unit">
@@ -25,7 +25,7 @@ const Form7 = ({handleHeight,handleWeight,handleGoalWeight}) => {
             </Select> */}
           </FormControl>
   
-          <FormControl mt={4}>
+          <FormControl mt={4} isRequired>
             <FormLabel fontWeight="normal">What's your goal weight?</FormLabel>
             <Input type="number" placeholder="Goal weight" onChange={(e) => handleGoalWeight(e.target.value)} />
           </FormControl>

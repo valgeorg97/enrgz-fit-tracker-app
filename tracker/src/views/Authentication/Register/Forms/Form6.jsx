@@ -1,27 +1,28 @@
 import { countryCodes } from "../../../../common/constants";
-import { Flex, Box, Progress, Image, Radio, RadioGroup, FormControl, FormLabel, Input, InputGroup, Button, Heading, Stack, useColorModeValue, Link, ButtonGroup, SimpleGrid, InputRightElement, FormHelperText, Select, InputLeftAddon, Textarea, Text } from '@chakra-ui/react';
-import DatePicker from 'react-datepicker';
-import { useState, useContext, useEffect } from "react";
+import { Flex, Box, Radio, RadioGroup, FormControl, FormLabel, Input, Stack, Select,Text } from '@chakra-ui/react';
+import { useState} from "react";
 
 
 
-const Form6 = ({handleGender,regGender,regYear,handleYear,handlePhone, handleCountryCode}) => {
+const Form6 = ({handleGender,regGender,regYear,handleYear,validatePhone,phoneError}) => {
 const [selectedDate, setSelectedDate] = useState(regYear);
 
   const handleGenderChange = (value) => {
     handleGender(value);
   };
   const handleDateChange = (event) => {
-    // const value = event.target.value;
     setSelectedDate(event.target.value);
     handleYear(event.target.value);
+  };
+  const handlePhoneChange = (value) => {
+    validatePhone(value);
   };
 
 
     return (
       <>
         <Box h="400px" overflowY="auto">
-          <FormControl>
+          <FormControl isRequired>
             <FormLabel fontWeight="normal">
               Please select which sex we should use to calculate your calorie
               needs:
@@ -34,7 +35,7 @@ const [selectedDate, setSelectedDate] = useState(regYear);
             </RadioGroup>
           </FormControl>
 
-          <FormControl mt={4}>
+          <FormControl mt={4} isRequired>
             <FormLabel fontWeight="normal">
               When were you born? (MM/DD/YYYY)
             </FormLabel>
@@ -45,10 +46,11 @@ const [selectedDate, setSelectedDate] = useState(regYear);
             />
           </FormControl>
 
-          <FormControl mt={4}>
+<Box>
+          <FormControl mt={4} isRequired>
             <FormLabel fontWeight="normal">Phone number</FormLabel>
             <Flex align="center">
-              <Select
+              {/* <Select
                 w="fit-content"
                 placeholder="Country"
                 onChange={(e) => handleCountryCode(e.target.value)}
@@ -58,15 +60,16 @@ const [selectedDate, setSelectedDate] = useState(regYear);
                     {country.country} ({country.code})
                   </option>
                 ))}
-              </Select>
+              </Select> */}
               <Input
                 type="number"
                 placeholder="Phone number"
-                ml={2}
-                onChange={(e) => handlePhone(e.target.value)}
+                onChange={(e) => handlePhoneChange(e.target.value)}
               />
             </Flex>
+              {phoneError && <Text color="red">{phoneError}</Text>}
           </FormControl>
+          </Box>
         </Box>
       </>
     );

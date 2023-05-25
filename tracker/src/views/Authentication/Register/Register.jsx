@@ -1,15 +1,10 @@
-import { useState,useContext } from 'react';
-import { Flex, Box, Progress, Image, Radio, RadioGroup, FormControl, FormLabel, Input, InputGroup, Button, Heading, Stack, useColorModeValue, Link, ButtonGroup,Spinner, SimpleGrid, InputRightElement, FormHelperText, Select, InputLeftAddon, Textarea, Text } from '@chakra-ui/react';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { useState } from 'react';
+import { Flex, Box, Progress, Image,Button,Stack, useColorModeValue,ButtonGroup} from '@chakra-ui/react';
 import { db, auth } from "../../../services/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { addDoc, collection, updateDoc,doc } from 'firebase/firestore';
-import { useToast } from '@chakra-ui/react';
-import { Link as RouterLink, Link as ChakraLink, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import 'react-datepicker/dist/react-datepicker.css';
+import { addDoc, collection, updateDoc,getDocs,query,where } from 'firebase/firestore';
+import {useNavigate } from "react-router-dom";
 import Logo from "../../../assets/logo.png"
-import "react-toastify/dist/ReactToastify.css";
 import Form1 from './Forms/Form1';
 import Form2 from './Forms/Form2';
 import Form3 from './Forms/Form3';
@@ -19,23 +14,15 @@ import Form6 from './Forms/Form6';
 import Form7 from './Forms/Form7';
 import Form8 from './Forms/Form8';
 import Loading from '../../../components/Loading/Loading';
-import { AuthContext } from '../../../context/AuthContext';
-
+import { toast, ToastContainer } from "react-toastify";
 
 const Register = () => {
-  // const [showPassword, setShowPassword] = useState(false);
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(0);
-  const toast = useToast();
-  let navigate = useNavigate();
-  const [countryCode, setCountryCode] = useState("");
-  const {userID} = useContext(AuthContext)
-  // const [calorieCalculation, setCalorieCalculation] = useState(null);
-  // const [mainGoals, setMainGoals] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  let navigate = useNavigate();
 
-
-  const [regName, setRegName] = useState()
+  const [regName, setRegName] = useState("")
   const [regFamily, setRegFamily] = useState("")
   const [regGoal, setRegGoal] = useState("")
   const [regActivityLevel, setRegActivityLevel] = useState("")
@@ -48,6 +35,88 @@ const Register = () => {
   const [regUsername, setRegUsername] = useState("")
   const [regEmail, setRegEmail] = useState("")
   const [regPassword, setRegPassword] = useState("")
+
+  const [usernameValidate, setUsernameValidate] = useState(true);
+  const [emailValidate, setEmailValidate] = useState(true);
+  const [passwordValidate, setPasswordValidate] = useState(true);
+  const [phoneValidate, setPhoneValidate] = useState(true);
+
+  const [usernameError, setUsernameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+
+  const usersCollectionRef = collection(db, 'users');
+  const usersQuery = query(usersCollectionRef);
+
+  const validateUsername = async (username) => {
+    if (username.length < 2 || username.length > 20) {
+      setUsernameError("Username must be between 2 and 20 characters");
+      setUsernameValidate(false);
+    } else {
+      const querySnapshot = await getDocs(usersQuery);
+      const existingUser = querySnapshot.docs.find(
+        (doc) => doc.data().username === username
+      );
+      if (existingUser) {
+        setUsernameError("Username already exists");
+        setUsernameValidate(false);
+      } else {
+        setUsernameError("");
+        setRegUsername(username)
+        setUsernameValidate(true);
+      }
+    }
+  };
+
+  const validateEmail = async (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError("Invalid email address");
+      setEmailValidate(false);
+    } else {
+      const querySnapshot = await getDocs(
+        query(usersCollectionRef, where("email", "==", email))
+      );
+      if (!querySnapshot.empty) {
+        setEmailError("Email already exists");
+        setEmailValidate(false);
+      } else {
+        setEmailError("");
+        setRegEmail(email);
+        setEmailValidate(true);
+      }
+    }
+  };
+
+  const validatePassword = async (password) => {
+    if (password.length < 6) {
+      setPasswordError('Password must be at least 6 characters');
+      setPasswordValidate(false);
+    } else {
+      setPasswordError('');
+      setRegPassword(password);
+      setPasswordValidate(true);
+    }
+  }
+
+  const validatePhone = async (phone) => {
+    if (phone.length !== 10) {
+      setPhoneError('Phone number must be 10 characters');
+      setPhoneValidate(false);
+    } else {
+      const querySnapshot = await getDocs(query(usersCollectionRef, where("phoneNumber", "==", phone)));
+      if (!querySnapshot.empty) {
+        setPhoneError("Phone number already exists");
+        setPhoneValidate(false);
+      } else {
+        setPhoneError('');
+        setRegPhone(phone);
+        setPhoneValidate(true);
+      }
+    }
+  };
+  
 
   const calculateAge = (birthdate) => {
     const diffMs = Date.now() - birthdate.getTime();
@@ -94,7 +163,7 @@ const Register = () => {
   const handleName = (event) => {
     setRegName(event);
   };
-  
+
   const handleFamily = (event) => {
     setRegFamily(event);
   };
@@ -115,10 +184,6 @@ const Register = () => {
     setRegYear(date);
   };
   
-  const handlePhone = (event) => {
-    setRegPhone(event);
-  };
-  
   const handleHeight = (event) => {
     setRegHeight(event);
   };
@@ -130,22 +195,10 @@ const Register = () => {
   const handleGoalWeight = (event) => {
     setRegGoalWeight(event);
   };
-  
-  const handleUsername = (event) => {
-    setRegUsername(event);
-  };
-  
-  const handleEmail = (event) => {
-    setRegEmail(event);
-  };
-  
-  const handlePassword = (event) => {
-    setRegPassword(event);
-  };
 
-  const handleCountryCode =(value) => {
-    setCountryCode(value)
-  }
+  // const handleCountryCode =(value) => {
+  //   setCountryCode(value)
+  // }
 
   const addUser = async (bmr, goals) => {
   const usersCollection = collection(db, "users")
@@ -196,61 +249,31 @@ const Register = () => {
     })
   }
 
-  const validateInputs = () => {
-    if (regName.trim() === '') {
-      toast.error('Please enter your first name!');
-      return false;
+  const checkFormData = () => {
+    if (
+      regName &&
+      regFamily &&
+      regGoal &&
+      regActivityLevel &&
+      regGender &&
+      regYear &&
+      regPhone &&
+      regHeight &&
+      regWeight &&
+      regGoalWeight &&
+      regUsername &&
+      regEmail &&
+      regPassword
+    ) {
+      return true;
     }
-    if (regFamily.trim() === '') {
-      toast.error('Please enter your last name!');
-      return false;
-    }
-    if (regEmail.trim() === '') {
-      toast.error('Please enter your email!');
-      return false;
-    }
-    if (regPhone.trim() === '') {
-      toast.error('Please enter a phone number!');
-      return false;
-    }
-    if (regUsername.trim() === '') {
-      toast.error('Please enter a username!');
-      return false;
-    }
-    if (regPassword.trim() === '') {
-      toast.error('Please enter a password!');
-      return false;
-    }
-    if (regGoal.trim() === '') {
-      toast.error('Please enter a goal!');
-      return false;
-    }
-    if (regActivityLevel.trim() === '') {
-      toast.error('Please enter an activity level!');
-      return false;
-    }
-    if (regGender.trim() === '') {
-      toast.error('Please enter your gender!');
-      return false;
-    }
-    if (regHeight.trim() === '') {
-      toast.error('Please enter your height!');
-      return false;
-    }
-    if (regWeight.trim() === '') {
-      toast.error('Please enter your weight!');
-      return false;
-    }
-    if (regGoalWeight.trim() === '') {
-      toast.error('Please enter your goal weight!');
-      return false;
-    }
-    return true;
+    return false;
   };
-
+  
   const signUp = (e) => {
     e.preventDefault();
-    if (!validateInputs()) {
+    if (!checkFormData()) {
+      toast.error('Please fill in all the required fields.');
       return;
     }
     setIsLoading(true);
@@ -259,8 +282,12 @@ const Register = () => {
         updateName();
         return calculateCalories();
       })
-      .then(({ bmr, goals }) => {
-        return addUser(bmr, goals);
+      .then((caloriesData) => {
+        if (caloriesData && caloriesData.bmr) {
+          return addUser(caloriesData.bmr, caloriesData.goals);
+        } else {
+          throw new Error('Failed to calculate calories');
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -275,23 +302,22 @@ const Register = () => {
 
   return (
     <Flex
-      minH={'100vh'}
-      align={'center'}
-      justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}
+      minH={"100vh"}
+      align={"center"}
+      justify={"center"}
+      bg={useColorModeValue("gray.50", "gray.800")}
     >
-      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-        <Stack align={'center'}>
+      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+        <Stack align={"center"}>
           <Image src={Logo} alt="Energize Logo" w={64} />
           {isLoading && <Loading size="xl" color="teal.500" />}
         </Stack>
         <Box
-          rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
-          boxShadow={'lg'}
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"lg"}
           p={8}
         >
-
           <Stack spacing={4}>
             <Progress
               hasStripe
@@ -300,14 +326,51 @@ const Register = () => {
               mx="5%"
               isAnimated
             ></Progress>
-            { step === 1 ? <Form1 /> 
-            : step === 2 ? <Form2 handleName={handleName} handleFamily={handleFamily}/> 
-            : step === 3 ? <Form3 handleGoal={handleGoal} regGoal={regGoal} regName={regName} regFamily={regFamily} /> 
-            : step === 4 ? <Form4 /> 
-            : step === 5 ? <Form5 handleActivityLevel={handleActivityLevel} regActivityLevel={regActivityLevel}/> 
-            : step === 6 ? <Form6 handleGender={handleGender} regGender={regGender} regYear={regYear} handleYear={handleYear} handlePhone={handlePhone} handleCountryCode={handleCountryCode} /> 
-            : step === 7 ? <Form7 handleHeight={handleHeight} handleWeight={handleWeight} handleGoalWeight={handleGoalWeight}  /> 
-            : <Form8 handleUsername={handleUsername} handleEmail={handleEmail} handlePassword={handlePassword}/>}
+
+            {step === 1 ? (
+              <Form1 />
+            ) : step === 2 ? (
+              <Form2 handleName={handleName} handleFamily={handleFamily} />
+            ) : step === 3 ? (
+              <Form3
+                handleGoal={handleGoal}
+                regGoal={regGoal}
+                regName={regName}
+                regFamily={regFamily}
+              />
+            ) : step === 4 ? (
+              <Form4 />
+            ) : step === 5 ? (
+              <Form5
+                handleActivityLevel={handleActivityLevel}
+                regActivityLevel={regActivityLevel}
+              />
+            ) : step === 6 ? (
+              <Form6
+                handleGender={handleGender}
+                regGender={regGender}
+                regYear={regYear}
+                handleYear={handleYear}
+                validatePhone={validatePhone}
+                phoneError={phoneError}
+                // handleCountryCode={handleCountryCode}
+              />
+            ) : step === 7 ? (
+              <Form7
+                handleHeight={handleHeight}
+                handleWeight={handleWeight}
+                handleGoalWeight={handleGoalWeight}
+              />
+            ) : (
+              <Form8
+              validateUsername={validateUsername}
+              validateEmail={validateEmail}
+              validatePassword={validatePassword}
+              usernameError={usernameError}
+              emailError={emailError}
+              passwordError={passwordError}
+              />
+            )}
             <ButtonGroup mt="5%" w="100%">
               <Flex w="100%" justifyContent="space-between">
                 <Flex>
@@ -327,14 +390,22 @@ const Register = () => {
                   >
                     Back
                   </Button>
+
                   <Button
                     w="7rem"
-                    onClick={step === 8 ? signUp : () => {
-                      setStep(step + 1);
-                      setProgress(progress + 14.29);
-                    }}
+                    onClick={
+                      step === 8
+                        ? signUp
+                        : () => {
+                            setStep(step + 1);
+                            setProgress(progress + 14.29);
+                          }
+                    }
                     colorScheme="teal"
                     variant="outline"
+                    isDisabled={
+                      !usernameValidate || !emailValidate || !passwordValidate || !phoneValidate
+                    }
                   >
                     {step === 8 ? "Sign up" : "Next"}
                   </Button>
