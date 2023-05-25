@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import {collection,addDoc,serverTimestamp,getDocs,query,where,updateDoc,deleteDoc,doc,} from "firebase/firestore";
+import {collection,addDoc,serverTimestamp,getDocs,query,where,updateDoc,deleteDoc,doc} from "firebase/firestore";
 import { auth, db } from "../../services/firebase";
 import {Box,Text,Grid,Flex} from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
@@ -17,12 +17,13 @@ const Goals = () => {
   const [goalFrom, setGoalFrom] = useState("");
   const [goalTo, setGoalTo] = useState("");
   const [goals, setGoals] = useState([]);
-  const [mainGoals, setMainGoals] = useState([]);
+  const {mainGoals, setMainGoals} = useContext(AuthContext);
   const [goalCategory, setGoalCategory] = useState("");
   const [selectedGoal, setSelectedGoal] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentGoal, setCurrentGoal] = useState(null)
-  const [docRef, setDocRef] = useState(null);
+  const {currentGoal, setCurrentGoal} = useContext(AuthContext)
+  // const [currentGoal, setCurrentGoal] = useState(null)
+const {docRef, setDocRef} = useContext(AuthContext)
 
   const { userID, userDocID,userGoal } = useContext(AuthContext);
   const user = auth.currentUser;
@@ -49,52 +50,7 @@ const Goals = () => {
     fetchGoals();
   }, [userID, userDocID]);
 
-  useEffect(() => {
-    const fetchMainGoals = async () => {
-      if (userDocID) {
-        try {
-          const qu = query(
-            collection(db, "mainGoals"), 
-            where("owner", "==", userID)
-          );
-          const querySnapshot = await getDocs(qu);
-          const mainGoalsData = [];
-          querySnapshot.forEach((doc) => {
-            mainGoalsData.push({ id: doc.id, ...doc.data() });
-          });
-          setMainGoals(mainGoalsData[0]);
-          if (mainGoalsData[0]) {
-            const mainGoalsDocRef = doc(db, "mainGoals", mainGoalsData[0].id);
-            setDocRef(mainGoalsDocRef);
-
-            if (!mainGoalsData[0].currentGoal) {
-              if (userGoal === "Extreme weight gain") {
-                updateCurrentGoal(mainGoalsData[0].extremeGain);
-              } else if (userGoal === "Extreme weight loss") {
-                updateCurrentGoal(mainGoalsData[0].extremeLoss)
-              } else if (userGoal === "Mild weight gain") {
-                updateCurrentGoal(mainGoalsData[0].mildGain);
-              } else if (userGoal === "Mild weight loss") {
-                updateCurrentGoal(mainGoalsData[0].mildLoss);
-              } else if (userGoal === "Weight gain") {
-                updateCurrentGoal(mainGoalsData[0].gain);
-              } else if (userGoal === "Weight loss") {
-                updateCurrentGoal(mainGoalsData[0].loss);
-              } else if (userGoal === "Maintain weight") {
-                updateCurrentGoal(mainGoalsData[0].maintain);
-              }
-            } else {
-              setCurrentGoal(mainGoalsData[0].currentGoal)
-            }
-          }
-        } catch (error) {
-          console.error("Error fetching main goals:", error);
-        }
-      }
-    };
-    console.log('yes');
-    fetchMainGoals();
-  }, [userID,userDocID,userGoal]);
+  
 
   const updateCurrentGoal = async (goal) => {
     setCurrentGoal(goal);

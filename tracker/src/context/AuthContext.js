@@ -26,7 +26,13 @@ export const AuthContext = createContext({
   setPhoneNumber: () => {},
   userDocID: "",
   setUserDocID: () => {},
-  userGoal:""
+  userGoal:"",
+  currentGoal:"",
+  setCurrentGoal: () => {},
+  mainGoals:"",
+  setMainGoals: () => {},
+  docRef:"",
+  setDocRef: () => {}
 });
 
 

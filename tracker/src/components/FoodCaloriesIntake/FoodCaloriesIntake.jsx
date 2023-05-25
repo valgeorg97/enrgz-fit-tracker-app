@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import  React, { useState, useEffect } from 'react';
 import { Box, Input,Flex, Button, Text, VStack, CircularProgress, CircularProgressLabel, Select, Collapse, Divider } from "@chakra-ui/react";
 import { db } from '../../services/firebase';
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+
 
 const FoodCaloriesIntake = () => {
     const [consumedCalories, setConsumedCalories] = useState(0);
@@ -17,7 +18,9 @@ const FoodCaloriesIntake = () => {
         Dinner: [],
         Snack: []
     });
+    const {currentGoal, setCurrentGoal} = useContext(AuthContext)
     const { userID, userDocID } = useContext(AuthContext);
+    const { userGoal } = useContext(AuthContext);
     const [isViewMore, setIsViewMore] = useState(false);
     const [expandedMealTypes, setExpandedMealTypes] = useState({
         Breakfast: false,
@@ -146,7 +149,7 @@ const FoodCaloriesIntake = () => {
         }
       }
 
-    const calorieProgress = (consumedCalories / totalCalories) * 100;
+    const calorieProgress = (consumedCalories / currentGoal.calory) * 100;
 
     const handleViewMore = () => {
         setIsViewMore(prevState => !prevState);
@@ -154,8 +157,8 @@ const FoodCaloriesIntake = () => {
 
     return (
         <Box bgColor="" boxShadow="lg" shadow="xl" p={6} mb={3}  borderRadius="md" w="400px">
-            <Text fontSize="xl">Base Goal Calories: {totalCalories} kcal</Text>
-            <Text fontSize="xl">Calories Remaining: {(totalCalories - consumedCalories).toFixed(0)} kcal</Text>
+            <Text fontSize="xl">Base Goal Calories: {currentGoal && currentGoal.calory.toFixed(0)} kcal</Text>
+            <Text fontSize="xl">Calories Remaining: {(currentGoal.calory - consumedCalories).toFixed(0)} kcal</Text>
             <CircularProgress value={calorieProgress} color="green.400" size="120px">
                 <CircularProgressLabel fontSize="2xl">{`${calorieProgress.toFixed(0)}%`}</CircularProgressLabel>
             </CircularProgress>
