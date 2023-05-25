@@ -30,7 +30,7 @@ const Form8 = ({
               onChange={(e) => handleUsernameChange(e.target.value)}
             />
           </FormControl>
-          {usernameError && <Text color="red">{usernameError}</Text>}
+          {usernameError && <Text fontSize={11}  color="red">{usernameError}</Text>}
         </Box>
 
         <Box mt={4}>
@@ -42,7 +42,7 @@ const Form8 = ({
               onChange={(e) => handleEmailChange(e.target.value)}
             />
           </FormControl>
-          {emailError && <Text color="red">{emailError}</Text>}
+          {emailError && <Text fontSize={11}  color="red">{emailError}</Text>}
         </Box>
 
         <Box mt={4}>
@@ -54,7 +54,7 @@ const Form8 = ({
               onChange={(e) => handlePasswordChange(e.target.value)}
             />
           </FormControl>
-          {passwordError && <Text color="red">{passwordError}</Text>}
+          {passwordError && <Text fontSize={11}  color="red">{passwordError}</Text>}
         </Box>
       </Box>
     </>

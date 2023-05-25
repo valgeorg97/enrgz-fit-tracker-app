@@ -67,7 +67,7 @@ const [selectedDate, setSelectedDate] = useState(regYear);
                 onChange={(e) => handlePhoneChange(e.target.value)}
               />
             </Flex>
-              {phoneError && <Text color="red">{phoneError}</Text>}
+              {phoneError && <Text fontSize={12} color="red">{phoneError}</Text>}
           </FormControl>
           </Box>
         </Box>
