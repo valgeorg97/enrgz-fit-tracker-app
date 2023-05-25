@@ -5,7 +5,9 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
-const FoodCaloriesIntake = ({ setFoodCalories, setConsumedCalories }) => {
+const FoodCaloriesIntake = () => {
+    const [consumedCalories, setConsumedCalories] = useState(0);
+    const [totalCalories, setTotalCalories] = useState(2000);
     const [query, setQuery] = useState('');
     const [grams, setGrams] = useState('');
     const [mealType, setMealType] = useState('Breakfast');
@@ -23,32 +25,43 @@ const FoodCaloriesIntake = ({ setFoodCalories, setConsumedCalories }) => {
         Dinner: false,
         Snack: false
     });
-    const [savedCalories, setSavedCalories] = useState(0);
-    const [totalCalories, setTotalCalories] = useState(2000);
 
     useEffect(() => {
         const fetchUserData = async () => {
-          if (userDocID) {
-            const docRef = doc(db, 'users', userDocID);
-            const docSnap = await getDoc(docRef);
+            if (userDocID) {
+                const docRef = doc(db, 'users', userDocID);
+                const docSnap = await getDoc(docRef);
     
-            if (docSnap.exists()) {
-              const lastUpdate = docSnap.data().lastUpdate?.toDate();
-              const today = new Date();
-              today.setHours(0, 0, 0, 0);
-              if (!lastUpdate || lastUpdate.getTime() !== today.getTime()) {
-                setConsumedCalories(0); 
-              } else {
-                setConsumedCalories(docSnap.data().consumedCalories || 0); 
-              }
-            } else {
-              console.log("No such document!");
+                if (docSnap.exists()) {
+                    const lastUpdate = docSnap.data().lastUpdate?.toDate();
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+    
+                    if (!lastUpdate || lastUpdate.getTime() !== today.getTime()) {
+                        setConsumedCalories(0);
+                        setFoodItems({
+                            Breakfast: [],
+                            Lunch: [],
+                            Dinner: [],
+                            Snack: []
+                        });
+                    } else {
+                        setConsumedCalories(docSnap.data().consumedCalories || 0);
+                        setFoodItems(docSnap.data().foodItems || {
+                            Breakfast: [],
+                            Lunch: [],
+                            Dinner: [],
+                            Snack: []
+                        });
+                    }
+                } else {
+                    console.log("No such document!");
+                }
             }
-          }
         }
     
         fetchUserData();
-      }, [userDocID]);
+    }, [userDocID]);
 
     const handleQueryChange = (e) => {
         setQuery(e.target.value);
@@ -84,25 +97,35 @@ const FoodCaloriesIntake = ({ setFoodCalories, setConsumedCalories }) => {
                             grams: grams,
                             calories: data[0].calories,
                         };
-                        setFoodItems(prevState => ({
-                            ...prevState,
-                            [mealType]: [...prevState[mealType], foodItem]
-                        }));
-                        // Save to Firestore
-                        if (userDocID) {
-                            const userRef = doc(db, 'users', userDocID);
-                            await setDoc(userRef, { consumedCalories: consumedCalories + data[0].calories }, { merge: true });
-                        }
+                        setFoodItems(prevState => {
+                            let updatedFoodItems = {
+                                ...prevState,
+                                [mealType]: [...prevState[mealType], foodItem]
+                            };
+                            // Save to Firestore
+                            if (userDocID) {
+                                const userRef = doc(db, 'users', userDocID);
+                                const today = new Date();
+                                today.setHours(0, 0, 0, 0);  
+                                setDoc(userRef, { 
+                                    consumedCalories: consumedCalories + data[0].calories, 
+                                    lastUpdate: today, 
+                                    foodItems: updatedFoodItems 
+                                }, { merge: true });
+                            }
+                            return updatedFoodItems;
+                        });
+                        setConsumedCalories(prevCalories => prevCalories + data[0].calories); 
                     } else {
                         console.log('No data found');
                     }
                 } else {
-                    console.log("Response was not ok");
+                    throw new Error("Network response was not ok.");
                 }
             } catch (error) {
                 console.log("Error fetching data: ", error);
             }
-        };
+        }
         setQuery('');
         setGrams('');
     }
@@ -119,13 +142,10 @@ const FoodCaloriesIntake = ({ setFoodCalories, setConsumedCalories }) => {
           const userRef = doc(db, 'users', userDocID);
           const today = new Date();
           today.setHours(0, 0, 0, 0);  
-          await setDoc(userRef, { consumedCalories: savedCalories + consumedCalories, lastUpdate: today }, { merge: true });
-          setSavedCalories(savedCalories + consumedCalories);
-          setConsumedCalories(0); 
+          await setDoc(userRef, { consumedCalories: consumedCalories, lastUpdate: today }, { merge: true });
         }
       }
 
-    const consumedCalories = Object.values(foodItems).flat().reduce((total, item) => total + item.calories, 0);
     const calorieProgress = (consumedCalories / totalCalories) * 100;
 
     const handleViewMore = () => {
@@ -135,7 +155,7 @@ const FoodCaloriesIntake = ({ setFoodCalories, setConsumedCalories }) => {
     return (
         <Box boxShadow="lg" p="6" rounded="md" bg="white">
             <Text fontSize="xl">Base Goal Calories: {totalCalories} kcal</Text>
-            <Text fontSize="xl">Calories Remaining: {totalCalories - consumedCalories} kcal</Text>
+            <Text fontSize="xl">Calories Remaining: {(totalCalories - consumedCalories).toFixed(0)} kcal</Text>
             <CircularProgress value={calorieProgress} color="green.400" size="120px">
                 <CircularProgressLabel fontSize="2xl">{`${calorieProgress.toFixed(0)}%`}</CircularProgressLabel>
             </CircularProgress>

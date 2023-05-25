@@ -6,17 +6,7 @@ import WaterCalculator from '../../components/WaterIntake/WaterIntake';
 import FoodCaloriesIntake from '../../components/FoodCaloriesIntake/FoodCaloriesIntake';
 
 const Dashboard = () => {
-  const [totalCalories, setTotalCalories] = useState(2000);
-  const [consumedCalories, setConsumedCalories] = useState(0);
-  const [foodCalories, setFoodCalories] = useState(0); // Define foodCalories and setFoodCalories here
   
-  useEffect(() => {
-    setConsumedCalories(prevCalories => prevCalories + foodCalories); 
-  }, [foodCalories]);
-  
-
-  const calorieProgress = (consumedCalories / totalCalories) * 100;
-
   // const { isLoggedIn } = useContext(AuthContext);
   // let navigate = useNavigate();
 
@@ -33,7 +23,7 @@ const Dashboard = () => {
           <Heading size="md">Today:</Heading>
         </Box>
           <Box>
-            <FoodCaloriesIntake setFoodCalories={setFoodCalories} setConsumedCalories={setConsumedCalories} />
+            <FoodCaloriesIntake />
         </Box>
         
         <Box>
