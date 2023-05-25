@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Input, Button, Text, VStack, CircularProgress, CircularProgressLabel, Select, Collapse, Divider } from "@chakra-ui/react";
+import { useState, useEffect } from 'react';
+import { Box, Input,Flex, Button, Text, VStack, CircularProgress, CircularProgressLabel, Select, Collapse, Divider } from "@chakra-ui/react";
 import { db } from '../../services/firebase';
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useContext } from 'react';
@@ -153,23 +153,28 @@ const FoodCaloriesIntake = () => {
     }
 
     return (
-        <Box boxShadow="lg" p="6" rounded="md" bg="white">
+        <Box bgColor="" boxShadow="lg" shadow="xl" p={6} mb={3}  borderRadius="md" w="400px">
             <Text fontSize="xl">Base Goal Calories: {totalCalories} kcal</Text>
             <Text fontSize="xl">Calories Remaining: {(totalCalories - consumedCalories).toFixed(0)} kcal</Text>
             <CircularProgress value={calorieProgress} color="green.400" size="120px">
                 <CircularProgressLabel fontSize="2xl">{`${calorieProgress.toFixed(0)}%`}</CircularProgressLabel>
             </CircularProgress>
-            <Button onClick={handleViewMore}>{isViewMore ? "View Less" : "View More"}</Button>
+            <Button ml={4} colorScheme='linkedin' onClick={handleViewMore}>{isViewMore ? "View Less" : "View More"}</Button>
             <Collapse in={isViewMore}>
-                <Input value={query} onChange={handleQueryChange} placeholder="Enter food item" />
-                <Input value={grams} onChange={handleGramsChange} placeholder="Enter grams" />
-                <Select value={mealType} onChange={handleMealTypeChange}>
+                
+            <Box>
+                <Input mb={1} value={query} onChange={handleQueryChange} placeholder="Enter food item" />
+                <Input mb={1} value={grams} onChange={handleGramsChange} placeholder="Enter grams" />
+                <Select mb={1}  value={mealType} onChange={handleMealTypeChange}>
                     <option value="Breakfast">Breakfast</option>
                     <option value="Lunch">Lunch</option>
                     <option value="Dinner">Dinner</option>
                     <option value="Snack">Snack</option>
                 </Select>
-                <Button onClick={handleAddFood}>Add Food</Button>
+                <Flex justifyContent="center">
+                    <Button colorScheme='linkedin' onClick={handleAddFood}>Add Food</Button>
+                </Flex>
+</Box>
                 <Divider mt={5} />
                 {Object.keys(foodItems).map(mealType => (
                     <VStack key={mealType} align="start" spacing={4} mt={4}>

@@ -1,40 +1,39 @@
-import React, { useEffect, useState } from "react";
-// import { AuthContext } from "../../context/AuthContext";
-import { Box, Heading, Text, VStack} from "@chakra-ui/react";
-// import { useNavigate } from "react-router-dom";
+import { Box, Heading, Text, Grid,VStack,Flex} from "@chakra-ui/react";
 import WaterCalculator from '../../components/WaterIntake/WaterIntake'; 
 import FoodCaloriesIntake from '../../components/FoodCaloriesIntake/FoodCaloriesIntake';
+import UserGoals from "../../components/UserGoals.jsx/UserGoals";
+import UserWorkouts from "../../components/UserWorkouts/UserWorkouts";
+
 
 const Dashboard = () => {
-  
-  // const { isLoggedIn } = useContext(AuthContext);
-  // let navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (!isLoggedIn) {
-  //     navigate("/", { replace: true });
-  //   }
-  // }, [isLoggedIn, navigate]);
-
   return (
-    <>
-      <VStack spacing={3}>
-        <Box>
-          <Heading size="md">Today:</Heading>
-        </Box>
+    <Box h="700px" w="1800px">
+      <Grid templateColumns="4fr 2fr" gap={6} m={10}>
+
+        <Flex justifyContent="left" flexDirection="column">
+          <Heading size="lg">Today:</Heading>
           <Box>
             <FoodCaloriesIntake />
-        </Box>
-        
-        <Box>
-          <WaterCalculator />
-        </Box>
-        <Box>
-          <Text fontSize="sm">Workouts: --</Text> {/* Replace -- with appropriate state value */}
-        </Box>
-      </VStack>
-    </>
+          </Box>
+          <Box>
+            <WaterCalculator />
+          </Box>
+          </Flex>
+
+        <Flex justifyContent="right" flexDirection="column">
+        <VStack >
+          <Box>
+            <UserGoals />
+          </Box>
+          <Box>
+            <UserWorkouts />
+          </Box>
+        </VStack>
+        </Flex>
+
+      </Grid>
+    </Box>
   );
-}
+};
 
 export default Dashboard;

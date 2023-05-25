@@ -62,7 +62,6 @@ function App() {
     getUsers();
   }, [usersCollection, userID]);
 
-  // Check if user is authenticated
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {

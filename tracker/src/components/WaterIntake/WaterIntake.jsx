@@ -1,14 +1,17 @@
-import React, { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { db } from '../../services/firebase';
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { AuthContext } from '../../context/AuthContext';
-import { Box, Input, Heading, Progress, Text, VStack, Button, Collapse } from "@chakra-ui/react";
+import { Box, Input, Heading, Progress, Text, VStack, Button, Collapse,Flex } from "@chakra-ui/react";
+import water2 from "../../assets/water2.png"
+
+
 
 const WaterCalculator = () => {
   const [weight, setWeight] = useState(null);
   const [consumedWater, setConsumedWater] = useState(0);
   const [savedWater, setSavedWater] = useState(0);
-  const { userID, userDocID } = useContext(AuthContext);
+  const { userDocID } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = () => setIsOpen(!isOpen);
@@ -75,7 +78,7 @@ const WaterCalculator = () => {
 
   
   return (
-    <Box shadow="lg" p={2} bg="white" borderRadius="md" maxW="md" mx="auto" my={8}>
+    <Box  shadow="xl" bgImage={water2} p={2} borderRadius="md" w="400px">
     <VStack spacing={4} width="sm">
       <Heading size="md">Water Intake</Heading>
 
@@ -106,11 +109,13 @@ const WaterCalculator = () => {
         </Box>
       }
 
-      <Button size="sm" onClick={handleToggle}>{isOpen ? 'Show Less' : 'Show More'}</Button>
+      <Button colorScheme='linkedin' size="sm" onClick={handleToggle}>{isOpen ? 'Show Less' : 'Show More'}</Button>
       
       <Collapse in={isOpen}>
-
-        <Box>
+        <Box bgColor="white"  boxShadow="md"
+            p={4}
+            mb={1}
+            borderRadius="md" >
           <Text fontSize="sm">Add water consumed today (in liters): </Text>
           <Input 
             size="sm"
@@ -120,9 +125,9 @@ const WaterCalculator = () => {
             onChange={(e) => setConsumedWater(parseFloat(e.target.value))}
           />
         </Box>
-        <Box>
-          <Button size="sm" onClick={saveWaterIntake}>Save Water Intake</Button>
-        </Box>
+        <Flex justifyContent="center">
+          <Button colorScheme='linkedin' size="sm" onClick={saveWaterIntake}>Save</Button>
+        </Flex>
       </Collapse>
     </VStack>
   </Box>
