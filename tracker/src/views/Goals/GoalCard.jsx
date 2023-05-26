@@ -1,7 +1,7 @@
-import { Box, Button, Text, Card as ChakraCard, CardHeader, Heading, CardFooter, Flex } from "@chakra-ui/react";
+import { Box, Button, Text, Card as ChakraCard, CardHeader, Heading, CardFooter, Flex, Badge } from "@chakra-ui/react";
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 
-const GoalCard = ({ goal, openModal }) => {
+const GoalCard = ({ goal, openModal, difficultyColors }) => {
   return (
     <Box key={goal.id} mr={4} mb="50px" width="240px" height="250px">
       <ChakraCard
@@ -46,6 +46,11 @@ const GoalCard = ({ goal, openModal }) => {
           </Text>
           <Text>
             <strong>To:</strong> {goal.to}
+          </Text>
+          <Text fontWeight='bold'>Status:{" "} 
+                <Badge colorScheme={difficultyColors[goal.status]}>
+                {goal.status}
+                </Badge>
           </Text>
         </CardHeader>
         <CardFooter justifyContent="end">

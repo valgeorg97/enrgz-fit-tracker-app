@@ -17,36 +17,42 @@ const Goals = () => {
   const [goalFrom, setGoalFrom] = useState("");
   const [goalTo, setGoalTo] = useState("");
   const [goals, setGoals] = useState([]);
-  const {mainGoals, setMainGoals} = useContext(AuthContext);
   const [goalCategory, setGoalCategory] = useState("");
   const [selectedGoal, setSelectedGoal] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const {currentGoal, setCurrentGoal} = useContext(AuthContext)
-  // const [currentGoal, setCurrentGoal] = useState(null)
-const {docRef, setDocRef} = useContext(AuthContext)
+  const [goalStatus, setGoalStatus] = useState("active")
+  const [finishedGoals, setFinishedGoals] = useState([]);
 
-  const { userID, userDocID,userGoal } = useContext(AuthContext);
+  const { userID, userDocID, docRef, currentGoal, setCurrentGoal, mainGoals } = useContext(AuthContext);
   const user = auth.currentUser;
 
   useEffect(() => {
     const fetchGoals = async () => {
-      if (userDocID) {
-        try {
-          const q = query(
-            collection(db, `users/${userDocID}/goals`),
-            where("owner", "==", userID)
-          );
-          const querySnapshot = await getDocs(q);
-          const goalsData = [];
-          querySnapshot.forEach((doc) => {
-            goalsData.push({ id: doc.id, ...doc.data() });
-          });
-          setGoals(goalsData);
-        } catch (error) {
-          console.error("Error fetching goals:", error);
+  if (userDocID) {
+    try {
+      const q = query(
+        collection(db, `users/${userDocID}/goals`),
+        where("owner", "==", userID)
+      );
+      const querySnapshot = await getDocs(q);
+      const goalsData = [];
+      const finishedGoalsData = [];
+      querySnapshot.forEach((doc) => {
+        const goal = { id: doc.id, ...doc.data() };
+        if (goal.status === "finished") {
+          finishedGoalsData.push(goal);
+        } else {
+          goalsData.push(goal);
         }
-      }
-    };
+      });
+      setGoals(goalsData);
+      setFinishedGoals(finishedGoalsData);
+    } catch (error) {
+      console.error("Error fetching goals:", error);
+    }
+  }
+};
+
     fetchGoals();
   }, [userID, userDocID]);
 
@@ -69,7 +75,7 @@ const {docRef, setDocRef} = useContext(AuthContext)
             from: goalFrom,
             to: goalTo,
             category: goalCategory,
-            // progress: goalProgress,
+            status: goalStatus,
             createdAt: serverTimestamp(),
           });
 
@@ -81,6 +87,7 @@ const {docRef, setDocRef} = useContext(AuthContext)
           from: goalFrom,
           to: goalTo,
           category: goalCategory,
+          status: goalStatus,
           createdAt: new Date().toISOString(),
         };
         setGoals((prevGoals) => [...prevGoals, createdGoal]);
@@ -92,7 +99,7 @@ const {docRef, setDocRef} = useContext(AuthContext)
         setGoalCategory("");
         toast.success("Goal created successfully!");
       } catch (error) {
-        toast.error("Error creating goal:", error);
+        console.error("Error creating goal:", error);
       }
     }
   };
@@ -158,122 +165,97 @@ const {docRef, setDocRef} = useContext(AuthContext)
   const handleFinishGoal = async (goal) => {
     try {
       const goalRef = doc(db, `users/${userDocID}/goals`, goal.id);
-      await updateDoc(goalRef, { finished: true });
+      await updateDoc(goalRef, { status: "finished" });
       closeModal();
       toast.success("Goal finished successfully!");
+      setGoals((prevGoals) => prevGoals.filter((g) => g.id !== goal.id));
+      setFinishedGoals((prevFinishedGoals) => [...prevFinishedGoals, goal]);
     } catch (error) {
-      toast.error("Error finishing goal:", error);
+      console.error("Error finishing goal:", error);
     }
+  };
+
+  const difficultyColors = {
+    finished: "green",
+    active: "purple",
   };
 
   return (
     <Box mt="40px" width="1800px">
       <Grid templateColumns="4fr 1fr" gap={6} m={10}>
-
-      <Box>
-        <GoalMenu mainGoals={mainGoals} updateCurrentGoal={updateCurrentGoal} currentGoal={currentGoal} />
-        <Box display="flex" flexDirection="column" mt={30}>
-          <Text mb={4} fontSize="2xl" fontWeight="bold"> Personal Goals </Text>
-          <Box
-            display="flex"
-            flexWrap="wrap"
-            justifyContent="left"
-            mb={2}
-          >
-            {goals.map((goal, index) => (
-              <GoalCard key={index} goal={goal} openModal={openModal} />
-            ))}
+        <Box>
+          <GoalMenu
+            mainGoals={mainGoals}
+            updateCurrentGoal={updateCurrentGoal}
+            currentGoal={currentGoal}
+          />
+          <Box display="flex" flexDirection="column" mt={30}>
+            <Text mb={4} fontSize="2xl" fontWeight="bold">
+              {" "}
+              Personal Goals{" "}
+            </Text>
+            <Box display="flex" flexWrap="wrap" justifyContent="left" mb={2}>
+              {goals.map((goal, index) => (
+                <GoalCard
+                  key={index}
+                  goal={goal}
+                  openModal={openModal}
+                  difficultyColors={difficultyColors}
+                />
+              ))}
+            </Box>
           </Box>
+
+          {finishedGoals.length > 0 && (
+            <Box display="flex" flexDirection="column" mt={30}>
+              <Text mb={4} fontSize="2xl" fontWeight="bold">
+                Finished Goals
+              </Text>
+              <Box display="flex" flexWrap="wrap" justifyContent="left" mb={2}>
+                {finishedGoals.map((goal, index) => (
+                  <GoalCard
+                    key={index}
+                    goal={goal}
+                    openModal={openModal}
+                    difficultyColors={difficultyColors}
+                  />
+                ))}
+              </Box>
+            </Box>
+          )}
         </Box>
-      </Box>
 
-      <Flex mt="182px" justifyContent="right" flexDirection="column">
-        <GoalForm
-          createGoal={createGoal}
-          goalName={goalName}
-          setGoalName={setGoalName}
-          goalNote={goalNote}
-          setGoalNote={setGoalNote}
-          goalFrom={goalFrom}
-          setGoalFrom={setGoalFrom}
-          goalTo={goalTo}
-          setGoalTo={setGoalTo}
-          goalCategory={goalCategory}
-          setGoalCategory={setGoalCategory}
-        />
-      </Flex>
+        <Flex mt="182px" justifyContent="right" flexDirection="column">
+          <GoalForm
+            createGoal={createGoal}
+            goalName={goalName}
+            setGoalName={setGoalName}
+            goalNote={goalNote}
+            setGoalNote={setGoalNote}
+            goalFrom={goalFrom}
+            setGoalFrom={setGoalFrom}
+            goalTo={goalTo}
+            setGoalTo={setGoalTo}
+            goalCategory={goalCategory}
+            setGoalCategory={setGoalCategory}
+          />
+        </Flex>
 
-      {selectedGoal && (
-        <SingleGoal
-        isModalOpen={isModalOpen}
-        closeModal={closeModal}
-        selectedGoal={selectedGoal}
-        updateGoalTitle={updateGoalTitle}
-        updateGoalText={updateGoalText}
-        handleFinishGoal={handleFinishGoal}
-        handleDeleteGoal={handleDeleteGoal}
-      />
-      )}
-      <ToastContainer />
+        {selectedGoal && (
+          <SingleGoal
+            isModalOpen={isModalOpen}
+            closeModal={closeModal}
+            selectedGoal={selectedGoal}
+            updateGoalTitle={updateGoalTitle}
+            updateGoalText={updateGoalText}
+            handleFinishGoal={handleFinishGoal}
+            handleDeleteGoal={handleDeleteGoal}
+          />
+        )}
+        <ToastContainer />
       </Grid>
     </Box>
   );
 };
 
 export default Goals;
-
-
-
-// return (
-//   <Box display="flex" flexDirection="row" ml={32}>
-//     <Box display="flex" flexDirection="column" mt={30}>
-//       {/* ... (existing code) */}
-//       <Box display="flex" flexWrap="wrap" justifyContent="left" mb={2}>
-//         {goals.map((goal, index) => (
-//           <Box key={index} mr={4} width="240px" height="250px">
-//             {/* ... (existing code) */}
-//             <CardFooter justifyContent="end">
-//               <Button
-//                 size="md"
-//                 colorScheme="linkedin"
-//                 onClick={() => openModal(goal)}
-//               >
-//                 View
-//               </Button>
-//               <Text mt={2}>
-//                 <strong>Progress:</strong> {goal.progress}%
-//               </Text>
-//               {/* Progress update */}
-//               <Input
-//                 type="number"
-//                 min={0}
-//                 max={100}
-//                 value={goal.progress}
-//                 onChange={(e) =>
-//                   updateGoalProgress(goal.id, parseInt(e.target.value, 10))
-//                 }
-//               />
-//             </CardFooter>
-//           </Box>
-
-// const updateMainGoalProgress = async (mainGoalId, newProgress) => {
-//   try {
-//     const mainGoalRef = doc(db, `users/${userDocID}/mainGoals`, mainGoalId);
-//     await updateDoc(mainGoalRef, { progress: newProgress });
-//     toast.success("Main goal progress updated successfully!");
-//   } catch (error) {
-//     toast.error("Error updating main goal progress:", error);
-//   }
-// };
-
-  // const updateGoalProgress = async (goalId, newProgress) => {
-  //   try {
-  //     const goalRef = doc(db, `users/${userDocID}/goals`, goalId);
-  //     await updateDoc(goalRef, { progress: newProgress });
-  //     toast.success("Progress updated successfully!");
-  //   } catch (error) {
-  //     toast.error("Error updating progress:", error);
-  //   }
-  // };
-
-  // const [goalProgress, setGoalProgress] = useState(0);
