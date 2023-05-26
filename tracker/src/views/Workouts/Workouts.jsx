@@ -10,10 +10,8 @@ import WorkoutCards from "./WorkoutCards";
 
 const Workouts = () => {
   const [showForm, setShowForm] = useState(false);
-  const [workouts, setWorkouts] = useState([]);
   const [sharedWorkouts, setSharedWorkouts] = useState([]);
-  const { userID, userDocID } = useContext(AuthContext);
-  const [selectedWorkout, setSelectedWorkout] = useState(null);
+  const { userID, userDocID, workouts, setWorkouts, selectedWorkout, setSelectedWorkout } = useContext(AuthContext);
   const [selectedSharedWorkout, setSelectedSharedWorkout] = useState(null);
 
   const handleViewMoreClick = (workout) => {

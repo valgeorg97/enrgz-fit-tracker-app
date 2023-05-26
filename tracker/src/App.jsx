@@ -40,6 +40,8 @@ function App() {
   const [currentGoal, setCurrentGoal] = useState({calory: 0});
   const [mainGoals, setMainGoals] = useState([]);
   const [docRef, setDocRef] = useState(null);
+  const [workouts, setWorkouts] = useState([]);
+  const [selectedWorkout, setSelectedWorkout] = useState(null);
 
 
   const usersCollection = collection(db, "users");
@@ -89,6 +91,8 @@ function App() {
     };
     fetchMainGoals();
   }, [userID,userDocID,userGoal]);
+
+  
 
   useEffect(() => {
     const getUsers = async () => {
@@ -187,7 +191,11 @@ function App() {
         mainGoals,
         setMainGoals,
         docRef,
-        setDocRef
+        setDocRef,
+        workouts,
+        setWorkouts,
+        selectedWorkout,
+        setSelectedWorkout
       }}
     >
       <ChakraProvider>
