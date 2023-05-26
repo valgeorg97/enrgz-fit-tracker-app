@@ -1,12 +1,10 @@
-import { useState, useContext } from 'react'
-import { Flex, Text, IconButton, Divider, Avatar, Heading, Box, Image, Menu, MenuButton, MenuList, MenuItem, MenuDivider } from '@chakra-ui/react'
+import { useState } from 'react'
+import { Flex,IconButton,Box, Image} from '@chakra-ui/react'
 import { FiMenu, FiHome } from 'react-icons/fi'
-import { ChevronDownIcon } from "@chakra-ui/icons"
 import { motion } from "framer-motion";
 import { GiStairsGoal, GiWeightLiftingUp } from 'react-icons/gi'
 import { CgProfile } from 'react-icons/cg'
 import { FaUsers } from 'react-icons/fa'
-import { AuthContext } from "../../context/AuthContext"
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import logo from '../../assets/logo.png'
@@ -23,10 +21,11 @@ const Navigation = () => {
     return (
         <Flex
             pos="sticky"
+            width="100%"
             left="5"
-            h="95vh"
-            marginTop="2.5vh"
-            boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
+            h="60vh"
+            marginTop="3.5vh"
+            boxShadow="0 10px 12px 0 rgba(0, 0, 0, 0.05)"
             borderRadius={navSize == "small" ? "15px" : "30px"}
             w={navSize == "small" ? "75px" : "200px"}
             flexDir="column"

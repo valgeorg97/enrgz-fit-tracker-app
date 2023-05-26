@@ -9,6 +9,7 @@ import SingleGoal from "./SingleGoal";
 import GoalMenu from "./GoalMenu";
 import GoalCard from "./GoalCard";
 import "react-toastify/dist/ReactToastify.css";
+import goalheader from "../../assets/goal.png"
 
 
 const Goals = () => {
@@ -181,14 +182,22 @@ const Goals = () => {
   };
 
   return (
-    <Box mt="40px" width="1800px">
+    <Box mt="40px" width="1660px">
       <Grid templateColumns="4fr 1fr" gap={6} m={10}>
-        <Box>
-          <GoalMenu
+        <Box >
+          <Box 
+          rounded="md"
+          borderColor="gray.50"  
+          p={8} 
+          w="1500px"
+          bgImage={goalheader}>
+          <GoalMenu 
             mainGoals={mainGoals}
             updateCurrentGoal={updateCurrentGoal}
             currentGoal={currentGoal}
           />
+          </Box>
+          
           <Box display="flex" flexDirection="column" mt={30}>
             <Text mb={4} fontSize="2xl" fontWeight="bold">
               {" "}
@@ -225,7 +234,7 @@ const Goals = () => {
           )}
         </Box>
 
-        <Flex mt="182px" justifyContent="right" flexDirection="column">
+        <Flex mt="215px" ml="-200px" flexDirection="column">
           <GoalForm
             createGoal={createGoal}
             goalName={goalName}

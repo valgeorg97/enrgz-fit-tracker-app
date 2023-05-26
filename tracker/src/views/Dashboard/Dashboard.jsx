@@ -5,10 +5,19 @@ import FoodCaloriesIntake from '../../components/FoodCaloriesIntake/FoodCalories
 import UserGoals from "../../components/UserGoals.jsx/UserGoals";
 import UserWorkouts from "../../components/UserWorkouts/UserWorkouts";
 import { FaCalendar } from "react-icons/fa";
+import goalheader from "../../assets/goal.png"
 
 const Dashboard = () => {
   return (
-    <Box h="700px" w="1800px">
+    <Box w="1660px" mt="70px">
+      <Box 
+          rounded="md"
+          borderColor="gray.50"
+          h="180px"
+          w="1500px"
+          bgImage={goalheader}
+          ml={10}>
+      </Box>
       <Grid templateColumns="4fr 2fr" gap={6} m={10}>
 
         <Flex justifyContent="left" flexDirection="column">

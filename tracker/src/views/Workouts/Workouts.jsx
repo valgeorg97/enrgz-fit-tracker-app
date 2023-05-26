@@ -7,6 +7,8 @@ import { db } from "../../services/firebase";
 import CreateWorkout from "./CreateWorkout";
 import SingleWorkout from "./SingleWorkout";
 import WorkoutCards from "./WorkoutCards";
+import goalheader from "../../assets/goal.png"
+
 
 const Workouts = () => {
   const [showForm, setShowForm] = useState(false);
@@ -121,11 +123,19 @@ const Workouts = () => {
   };
 
   return (
-    <Box mt="40px">
+    <Box maxW="1660px" mt="70px">
+      <Box 
+          rounded="md"
+          borderColor="gray.50"
+          h="180px"
+          w="1500px"
+          bgImage={goalheader}
+          ml={10}>
+      </Box>
       <Grid templateColumns="4fr 1fr" gap={6} m={10}>
         
-        <Box>
-          <Heading as="h1" size="xl" mb={5} textAlign="left">
+        <Box mr="20px">
+          <Heading as="h1" size="xl" mb={5}  textAlign="left">
             Workouts
           </Heading>
           <Divider mb={5} />
@@ -159,10 +169,10 @@ const Workouts = () => {
         </Box>
 
         <Flex justifyContent="right" flexDirection="column">
-          <Heading as="h1" size="xl" mb={5} textAlign="left">
+          <Heading as="h1" ml={-4} size="xl" mb={5} textAlign="left">
             Shared Workouts
           </Heading>
-          <Divider mb={5} />
+          <Divider w="290px" ml={-4} mb={1} />
           <WorkoutCards
             workouts={sharedWorkouts}
             difficultyColors={difficultyColors}
