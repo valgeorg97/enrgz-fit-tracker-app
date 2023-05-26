@@ -1,5 +1,5 @@
 import { countryCodes } from "../../../../common/constants";
-import { Flex, Box, Radio, RadioGroup, FormControl, FormLabel, Input, Stack, Select,Text } from '@chakra-ui/react';
+import { Flex, Box, Radio, RadioGroup, FormControl, FormLabel, Input, Stack,Text } from '@chakra-ui/react';
 import { useState} from "react";
 
 

@@ -1,4 +1,4 @@
-import { Flex, Box, Progress, Image, Radio, RadioGroup, FormControl, FormLabel, Input, InputGroup, Button, Heading, Stack, useColorModeValue, Link, ButtonGroup, SimpleGrid, InputRightElement, FormHelperText, Select, InputLeftAddon, Textarea, Text } from '@chakra-ui/react';
+import { Box,Radio, RadioGroup,Heading, Stack,Text } from '@chakra-ui/react';
 
 const Form3 = ({ handleGoal,regGoal,regName,regFamily }) => {
 
@@ -24,7 +24,6 @@ const Form3 = ({ handleGoal,regGoal,regName,regFamily }) => {
               <Radio value="Weight gain">Weight gain</Radio>
               <Radio value="Weight loss">Weight loss</Radio>
               <Radio value="Maintain weight">Maintain weight</Radio>
-
             </Stack>
           </RadioGroup>
         </Box>
