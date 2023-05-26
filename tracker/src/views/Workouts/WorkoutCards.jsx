@@ -36,6 +36,9 @@ const WorkoutCards = ({shared,workouts,handleViewMoreClick,handleShareWorkout,di
                   {workout.difficulty}
                 </Badge>
               </Text>
+              {shared && (
+                <Text><strong>Creator:</strong>{workout.ownerName + " " + workout.ownerFamily}</Text>
+              )}
             </CardHeader>
             <CardFooter justifyContent="right">
               {!shared && (

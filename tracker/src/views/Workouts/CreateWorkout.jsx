@@ -15,7 +15,7 @@ const CreateWorkout = ({ showForm, setShowForm, onAddWorkout }) => {
   const [workout, setWorkout] = useState([]);
   const [workoutName, setWorkoutName] = useState('');
   const [relatedExercises, setRelatedExercises] = useState([]);
-  const { userID, userDocID } = useContext(AuthContext);
+  const { userID, userDocID, name,family } = useContext(AuthContext);
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
 
   useEffect(() => {
@@ -40,7 +40,9 @@ const CreateWorkout = ({ showForm, setShowForm, onAddWorkout }) => {
   e.preventDefault();
   try {
     const workoutObj = {
-      owner: userID, 
+      owner: userID,
+      ownerName: name,
+      ownerFamily: family,
       name: workoutName, 
       type: selectedExercise, 
       reps: reps, 
