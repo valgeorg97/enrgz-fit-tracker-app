@@ -20,6 +20,7 @@ import Login from "./views/Authentication/Login/Login";
 import LandingPage from "./views/LandingPage/LandingPage";
 import Dashboard from "./views/Dashboard/Dashboard";
 import UserMenu from "./components/UserMenu/UserMenu";
+import Calendar from "./components/Calendar"
 
 function App() {
   const navigate = useNavigate();
@@ -203,6 +204,7 @@ function App() {
               <Route path="profile" element={<Profile />} />
               <Route path="register" element={<Register />} />
               <Route path="login" element={<Login />} />
+              <Route path="schedule" element={<Calendar />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Flex>
