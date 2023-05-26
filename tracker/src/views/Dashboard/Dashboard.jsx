@@ -1,4 +1,4 @@
-import { Box, Heading, Grid, VStack, Flex, Button, Icon } from "@chakra-ui/react";
+import { Box, Heading, Grid, VStack, Flex, Button, Icon,HStack,Text } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import WaterCalculator from '../../components/WaterIntake/WaterIntake'; 
 import FoodCaloriesIntake from '../../components/FoodCaloriesIntake/FoodCaloriesIntake';
@@ -10,6 +10,7 @@ import goalheader from "../../assets/goal.png"
 const Dashboard = () => {
   return (
     <Box w="1660px" mt="70px">
+
       <Box 
           rounded="md"
           borderColor="gray.50"
@@ -18,38 +19,44 @@ const Dashboard = () => {
           bgImage={goalheader}
           ml={10}>
       </Box>
-      <Grid templateColumns="4fr 2fr" gap={6} m={10}>
 
-        <Flex justifyContent="left" flexDirection="column">
-          <Heading size="lg">Today:</Heading>
-          <Box>
-            <FoodCaloriesIntake />
-          </Box>
-          <Box>
-            <WaterCalculator />
-          </Box>
-          <Box mt={-6}> 
-            <Flex justifyContent="space-between" alignItems="center" >
-              <Box></Box>
-              <Button as={RouterLink} to="/schedule" leftIcon={<Icon as={FaCalendar} />} size="lg">
-                Schedule
-              </Button>
-            </Flex>
-          </Box>
-        </Flex>
+      <HStack ml={10} mt={4}>
+        <Box mr={5} mb="20px">
+              <WaterCalculator />
+        </Box>
 
-        <Flex justifyContent="right" flexDirection="column">
-        <VStack >
-          <Box>
+        <Box textAlign="center" w="600px" h="200px" borderWidth={5} rounded="md" borderColor="black">
+            <Text>Some graph</Text>
+        </Box> 
+
+        <Box rounded="md" borderColor="gray.50">
             <UserGoals />
-          </Box>
-          <Box>
-            <UserWorkouts />
-          </Box>
-        </VStack>
-        </Flex>
+        </Box>
 
-      </Grid>
+        <Box rounded="md" borderColor="gray.50">
+            <UserWorkouts />
+        </Box>
+
+      </HStack>
+
+        <HStack ml={10} mt={4}>
+          
+            <VStack mr={5} >
+            <Box >
+                <FoodCaloriesIntake />
+            </Box>
+            </VStack>
+
+            <HStack justifyItems="top">
+            <Box textAlign="center" w="560px" h="330px" borderWidth={5} rounded="md" borderColor="black">
+                <Text>Something</Text>
+            </Box>
+            <Box textAlign="center" w="560px" h="330px" borderWidth={5} rounded="md" borderColor="black">
+                <Text>Schedule</Text>
+            </Box>
+            </HStack>
+
+        </HStack>
     </Box>
   );
 };

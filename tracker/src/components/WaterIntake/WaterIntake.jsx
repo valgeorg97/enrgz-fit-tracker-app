@@ -78,7 +78,7 @@ const WaterCalculator = () => {
 
   
   return (
-    <Box  shadow="xl" bgImage={water2} p={2} borderRadius="md" w="400px">
+    <Box  shadow="xl" bgImage={water2} p={4} borderRadius="md" w="400px">
     <VStack spacing={4} width="sm">
       <Heading size="md">Water Intake</Heading>
 

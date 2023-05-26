@@ -14,7 +14,7 @@ const UserMenu = () => {
   }
 
   return (
-    <Flex position="absolute" top={4} right={6}>
+    <Flex position="fixed" top={4} mr={12} right={6}>
       <Box mr={3}>
         <Heading as="h3" size="sm">{`${name} ${family}`}</Heading>
         <Text textAlign="right" color="gray">{isAdmin ? 'Admin' : 'User'}</Text>

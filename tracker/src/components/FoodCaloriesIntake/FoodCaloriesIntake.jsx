@@ -156,7 +156,7 @@ const FoodCaloriesIntake = () => {
     }
 
     return (
-        <Box bgColor="" boxShadow="lg" shadow="xl" p={6} mb={3}  borderRadius="md" w="400px">
+        <Box bgColor="" boxShadow="lg" shadow="xl" p={8} mb={3}  borderRadius="md" w="400px">
             <Text fontSize="xl">Base Goal Calories: {currentGoal && currentGoal.calory.toFixed(0)} kcal</Text>
             <Text fontSize="xl">Calories Remaining: {(currentGoal.calory - consumedCalories).toFixed(0)} kcal</Text>
             <CircularProgress value={calorieProgress} color="green.400" size="120px">

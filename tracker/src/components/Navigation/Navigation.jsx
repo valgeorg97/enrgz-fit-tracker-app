@@ -6,6 +6,7 @@ import { GiStairsGoal, GiWeightLiftingUp } from 'react-icons/gi'
 import { CgProfile } from 'react-icons/cg'
 import { FaUsers } from 'react-icons/fa'
 import { useLocation, useNavigate } from 'react-router-dom';
+import {AiOutlineInfoCircle} from 'react-icons/ai'
 
 import logo from '../../assets/logo.png'
 import NavItem from './NavItem'
@@ -23,7 +24,7 @@ const Navigation = () => {
             pos="sticky"
             width="100%"
             left="5"
-            h="60vh"
+            h="67vh"
             marginTop="3.5vh"
             boxShadow="0 10px 12px 0 rgba(0, 0, 0, 0.05)"
             borderRadius={navSize == "small" ? "15px" : "30px"}
@@ -66,7 +67,9 @@ const Navigation = () => {
                 <NavItem link='/workouts' navSize={navSize} icon={GiWeightLiftingUp} title="Workouts" active={location.pathname === '/workouts'} />
                 <NavItem link='/goals' navSize={navSize} icon={GiStairsGoal} title="Goals" active={location.pathname === '/goals'} />
                 <NavItem link='/community' navSize={navSize} icon={FaUsers} title="Community" active={location.pathname === '/community'} />
+                <NavItem link='/about' navSize={navSize} icon={AiOutlineInfoCircle} title="About" active={location.pathname === '/about'} />
                 <NavItem link='/profile' navSize={navSize} icon={CgProfile} title="Profile" active={location.pathname === '/profile'} />
+                
             </Flex>
 
             <Flex

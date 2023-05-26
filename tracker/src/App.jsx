@@ -7,6 +7,10 @@ import { getDocs, collection, where, query,doc, updateDoc } from "firebase/fires
 import { auth, db } from "./services/firebase";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
+import About from "./views/About/About";
+import { useColorMode, IconButton } from "@chakra-ui/react";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+
 
 
 import Navigation from "./components/Navigation/Navigation";
@@ -43,6 +47,7 @@ function App() {
   const [workouts, setWorkouts] = useState([]);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
 
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const usersCollection = collection(db, "users");
 
@@ -195,20 +200,31 @@ function App() {
         workouts,
         setWorkouts,
         selectedWorkout,
-        setSelectedWorkout
+        setSelectedWorkout,
       }}
     >
       <ChakraProvider>
         <Flex className="App" position="relative">
-          {isAuth && location.pathname !== "/register" && location.pathname !== "/login" && <Navigation />}
-          {isAuth && location.pathname !== "/register" && location.pathname !== "/login" && <UserMenu />}
-          <Flex as="main" flexGrow={1} justifyContent="center" alignItems="center" p={5}>
+          {isAuth &&
+            location.pathname !== "/register" &&
+            location.pathname !== "/login" && <Navigation />}
+          {isAuth &&
+            location.pathname !== "/register" &&
+            location.pathname !== "/login" && <UserMenu />}
+          <Flex
+            as="main"
+            flexGrow={1}
+            justifyContent="center"
+            alignItems="center"
+            p={5}
+          >
             <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/workouts" element={<Workouts />} />
               <Route path="goals" element={<Goals />} />
               <Route path="community" element={<Community />} />
+              <Route path="about" element={<About />} />
               <Route path="profile" element={<Profile />} />
               <Route path="register" element={<Register />} />
               <Route path="login" element={<Login />} />
@@ -216,10 +232,19 @@ function App() {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Flex>
+          <IconButton
+            position="fixed"
+            top={4}
+            right={4}
+            icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+            onClick={toggleColorMode}
+            size="md"
+            aria-label="Toggle dark mode"
+          />
         </Flex>
       </ChakraProvider>
     </AuthContext.Provider>
-  )
+  );
 }
 
 export default App;
