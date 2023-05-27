@@ -1,22 +1,50 @@
 import { db } from "../../services/firebase";
-import { getDocs, collection, query, where, deleteDoc,doc,updateDoc,getDoc } from "firebase/firestore";
-import { useState, useEffect,useContext } from "react";
-import { Box, Button,Text,Tooltip,Avatar, FormControl, FormLabel, Input, Select,Flex,Td,Th,Tbody,Thead,Table,Tr } from '@chakra-ui/react';
-import goalheader from "../../assets/goal.png"
-import {AiFillLock,AiFillUnlock} from "react-icons/ai";
-import {CgUnblock} from "react-icons/cg";
-import { FaTrashAlt } from "react-icons/fa";
-import {IoPersonAddOutline} from "react-icons/io5";
+import {
+  getDocs,
+  collection,
+  query,
+  where,
+  deleteDoc,
+  doc,
+  updateDoc,
+  getDoc,
+} from "firebase/firestore";
+import { useState, useEffect, useContext } from "react";
+import {
+  Box,
+  Button,
+  Text,
+  Tooltip,
+  Avatar,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  Flex,
+  Td,
+  Th,
+  Tbody,
+  Thead,
+  Table,
+  Tr,
+} from "@chakra-ui/react";
+import goalheader from "../../assets/goal.png";
+import { AiFillLock, AiFillUnlock } from "react-icons/ai";
 import { AuthContext } from "../../context/AuthContext";
-import {MdDeleteForever} from "react-icons/md";
-import {BsFillPersonCheckFill,BsFillPersonPlusFill} from "react-icons/bs";
+import { MdDeleteForever } from "react-icons/md";
+import {
+  BsFillPersonCheckFill,
+  BsFillPersonPlusFill,
+  BsFillPersonXFill,
+  BsFillPersonBadgeFill,
+} from "react-icons/bs";
 
 const Community = () => {
   const usersCollection = collection(db, "users");
   const [userList, setUserList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchType, setSearchType] = useState("name");
-  const {userDocID,name} = useContext(AuthContext);
+  const { userDocID, name, family } = useContext(AuthContext);
 
   const handleSearchTermChange = (event) => {
     setSearchTerm(event.target.value);
@@ -55,12 +83,17 @@ const Community = () => {
     const data = { isBlocked: true };
     const docRef = doc(db, "users", userId);
     await updateDoc(docRef, data);
+    setUserList((prevUserList) =>
+    prevUserList.map((user) => (user.id === userId ? { ...user, isBlocked: true } : user)))
   };
 
   const handleUnblockUser = async (userId) => {
     const data = { isBlocked: null };
     const docRef = doc(db, "users", userId);
     await updateDoc(docRef, data);
+    setUserList((prevUserList) =>
+    prevUserList.map((user) => (user.id === userId ? { ...user, isBlocked: null } : user))
+  );
   };
 
   const handleFriendRequest = async (userId) => {
@@ -68,15 +101,37 @@ const Community = () => {
     const targetDoc = await getDoc(targetUserDocRef);
     const target = targetDoc.data();
     const updatedFriends = target.requests || [];
-  
+
     if (updatedFriends.some((friend) => friend.userDocID === userDocID)) {
       return;
     }
-    updatedFriends.push({ userDocID, name });
+    updatedFriends.push({ userDocID, name, family });
     const updatedData = { requests: updatedFriends };
     await updateDoc(targetUserDocRef, updatedData);
+    setUserList((prevUserList) =>
+    prevUserList.map((user) => (user.id === userId ? { ...user, requests: updatedFriends } : user))
+  );
   };
-  
+
+  const handleCancelFriendRequest = async (userId) => {
+    const targetUserDocRef = doc(db, "users", userId);
+    const targetDoc = await getDoc(targetUserDocRef);
+    const target = targetDoc.data();
+
+    if (!target || !target.requests) {
+      return;
+    }
+
+    const updatedFriends = target.requests.filter(
+      (friend) => friend.userDocID !== userDocID
+    );
+
+    const updatedData = { requests: updatedFriends };
+    await updateDoc(targetUserDocRef, updatedData);
+    setUserList((prevUserList) =>
+    prevUserList.map((user) => (user.id === userId ? { ...user, requests: updatedFriends } : user))
+  );
+  };
 
   return (
     <Box w="1660px" mt="70px">
@@ -192,6 +247,36 @@ const Community = () => {
                       >
                         <Flex align="center">
                           <BsFillPersonCheckFill />
+                        </Flex>
+                      </Button>
+                    </Tooltip>
+                  ) : user.requests &&
+                    user.requests.find(
+                      (request) => request.userDocID === userDocID
+                    ) ? ( // Added condition to check if user.requests contain userDocID
+                    <Tooltip label="Cancel Friend Request">
+                      <Button
+                        className="cancelrequest"
+                        onClick={() => handleCancelFriendRequest(user.id)}
+                        size="md"
+                        variant="ghost"
+                        colorScheme="red"
+                      >
+                        <Flex align="center">
+                          <BsFillPersonXFill />
+                        </Flex>
+                      </Button>
+                    </Tooltip>
+                  ) : user.docID === userDocID ? ( // Added condition to check if user.docID matches userDocID
+                    <Tooltip label="Red Dot Button">
+                      <Button
+                        className="reddotbutton"
+                        size="md"
+                        variant="ghost"
+                        colorScheme="orange"
+                      >
+                        <Flex align="center">
+                          <BsFillPersonBadgeFill />
                         </Flex>
                       </Button>
                     </Tooltip>

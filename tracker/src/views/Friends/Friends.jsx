@@ -36,6 +36,12 @@ import {
 
 import { Tooltip,Avatar,Td,Th,Tbody,Thead,Table,Tr,Grid } from '@chakra-ui/react';
 import goalheader from "../../assets/goal.png"
+import {
+    BsFillPersonCheckFill,
+    BsFillPersonPlusFill,
+    BsFillPersonXFill,
+    BsFillPersonBadgeFill,
+  } from "react-icons/bs";
 
 
 
@@ -86,34 +92,34 @@ const Friends = () => {
       }
     };
     fetchFriends();
-  }, [userDocID]);
+  }, [[userDocID, requests, friends]]);
 
   const handleAccept = async (request) => {
     try {
       const userDocRef = doc(db, "users", userDocID);
       const userDoc = await getDoc(userDocRef);
       const userData = userDoc.data();
-
+  
       let updatedFriends = [];
       if (userData.friends && Array.isArray(userData.friends)) {
         updatedFriends = [...userData.friends, request];
       } else {
         updatedFriends = [request];
       }
-
+  
       const updatedRequests = requests.filter(
         (req) => req.userDocID !== request.userDocID
       );
-
+  
       await updateDoc(userDocRef, {
         requests: updatedRequests,
         friends: updatedFriends,
       });
-
+  
       const friendDocRef = doc(db, "users", request.userDocID);
       const friendDoc = await getDoc(friendDocRef);
       const friendData = friendDoc.data();
-
+  
       let updatedFriendFriends = [];
       if (friendData.friends && Array.isArray(friendData.friends)) {
         updatedFriendFriends = [
@@ -131,19 +137,22 @@ const Friends = () => {
           },
         ];
       }
-
+  
       const updatedFriendData = {
         ...friendData,
         friends: updatedFriendFriends,
       };
-
+  
       await updateDoc(friendDocRef, updatedFriendData);
-
+  
+      // Update the local state immediately
       setRequests(updatedRequests);
+      setFriends([...friends, request]);
     } catch (error) {
       console.log("Error accepting request:", error);
     }
   };
+  
 
   const handleDecline = async (request) => {
     try {
@@ -151,13 +160,45 @@ const Friends = () => {
       await updateDoc(userDocRef, {
         requests: requests.filter((req) => req.userDocID !== request.userDocID),
       });
-      setRequests(
-        requests.filter((req) => req.userDocID !== request.userDocID)
-      );
+  
+      // Update the local state immediately
+      setRequests(requests.filter((req) => req.userDocID !== request.userDocID));
     } catch (error) {
       console.log("Error declining request:", error);
     }
   };
+  
+  const handleRemoveFriend = async (friendId) => {
+    try {
+      const userDocRef = doc(db, "users", userDocID);
+      const userDoc = await getDoc(userDocRef);
+      const userData = userDoc.data();
+  
+      const updatedFriends = userData.friends.filter(
+        (friend) => friend.userDocID !== friendId
+      );
+  
+      await updateDoc(userDocRef, { friends: updatedFriends });
+  
+      const friendDocRef = doc(db, "users", friendId);
+      const friendDoc = await getDoc(friendDocRef);
+      const friendData = friendDoc.data();
+  
+      const updatedFriendFriends = friendData.friends.filter(
+        (friend) => friend.userDocID !== userDocID
+      );
+  
+      await updateDoc(friendDocRef, { friends: updatedFriendFriends });
+  
+      // Update the local state immediately
+      setFriends(updatedFriends);
+    } catch (error) {
+      console.log("Error removing friend:", error);
+    }
+  };
+  
+  
+  
 
 
   return (
@@ -203,17 +244,17 @@ const Friends = () => {
                 <Td>{user.phoneNumber}</Td>
 
                 <Td>
-                  <Tooltip label="Delete User">
+                  <Tooltip label="Remove from friends">
                     <Button
                       className="deleteuser"
-                    //   onClick={() => handleDeleteUser(user.id)}
+                      onClick={() => handleRemoveFriend(user.docID)}
                       size="lg"
                       variant="ghost"
                       colorScheme="red"
                       p={1}
                     >
                       <Flex align="center">
-                        {/* <MdDeleteForever /> */}
+                        <BsFillPersonXFill />
                       </Flex>
                     </Button>
                   </Tooltip>
@@ -235,11 +276,11 @@ const Friends = () => {
             closeOnBlur={false}
           >
             <PopoverTrigger>
-              <Button>{request.name} want to be friends.</Button>
+              <Button>{request.name} wants to be friends.</Button>
             </PopoverTrigger>
             <PopoverContent color="white" bg="blue.800" borderColor="blue.800">
               <PopoverHeader pt={4} fontWeight="bold" border="0">
-                {request.name}
+                {request.name} {request.family}
               </PopoverHeader>
               <PopoverArrow />
               <PopoverCloseButton />
