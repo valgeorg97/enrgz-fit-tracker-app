@@ -1,16 +1,28 @@
 import { Avatar, Menu, MenuButton, MenuList, MenuItem, MenuDivider, Box, Heading, Text, Flex } from '@chakra-ui/react';
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { useContext } from 'react';
+import { useContext,useState,useEffect } from 'react';
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from 'react-router-dom';
+import { Spinner } from '@chakra-ui/react'
 
 
 const UserMenu = () => {
   const { name,family, isAdmin, signOut,photoURL } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true); // Add loading state
   const navigate = useNavigate();
 
   const handleSignOut = () => {
     signOut();
+  }
+
+  useEffect(() => {
+    if (name && family && isAdmin !== undefined && photoURL) {
+    setLoading(false);
+    }
+    }, [name, family, isAdmin, photoURL]);
+
+  if (loading) {
+    return <Spinner  position="fixed" top={4} mr={12} right={6} size="lg" />;
   }
 
   return (

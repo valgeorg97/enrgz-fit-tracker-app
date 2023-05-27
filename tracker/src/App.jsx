@@ -219,7 +219,7 @@ function App() {
             p={5}
           >
             <Routes>
-              <Route path="/" element={<LandingPage />} />
+              <Route path="/" element={isAuth ? <Dashboard /> : <LandingPage />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/workouts" element={<Workouts />} />
               <Route path="goals" element={<Goals />} />
