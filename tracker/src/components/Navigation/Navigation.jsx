@@ -26,7 +26,7 @@ const Navigation = ({colorMode}) => {
             pos="sticky"
             width="100%"
             left="5"
-            h="67vh"
+            h="77vh"
             marginTop="3.5vh"
             boxShadow="0 10px 12px 0 rgba(0, 0, 0, 0.05)"
             borderRadius={navSize == "small" ? "15px" : "30px"}
@@ -70,6 +70,8 @@ const Navigation = ({colorMode}) => {
                 <NavItem link='/workouts' navSize={navSize} icon={GiWeightLiftingUp} title="Workouts" active={location.pathname === '/workouts'} />
                 <NavItem link='/goals' navSize={navSize} icon={GiStairsGoal} title="Goals" active={location.pathname === '/goals'} />
                 <NavItem link='/community' navSize={navSize} icon={FaUsers} title="Community" active={location.pathname === '/community'} />
+                <NavItem link='/friends' navSize={navSize} icon={FaUsers} title="Friends" active={location.pathname === '/friends'} />
+
                 <NavItem link='/about' navSize={navSize} icon={AiOutlineInfoCircle} title="About" active={location.pathname === '/about'} />
                 <NavItem link='/profile' navSize={navSize} icon={CgProfile} title="Profile" active={location.pathname === '/profile'} />
                 

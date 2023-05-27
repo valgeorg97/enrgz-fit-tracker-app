@@ -4,12 +4,8 @@ import FoodCaloriesIntake from '../../components/FoodCaloriesIntake/FoodCalories
 import UserGoals from "../../components/UserGoals.jsx/UserGoals";
 import UserWorkouts from "../../components/UserWorkouts/UserWorkouts";
 import goalheader from "../../assets/goal.png"
-// import { useColorMode } from "@chakra-ui/react";
 
 const Dashboard = () => {
-//   const { colorMode, toggleColorMode } = useColorMode();
-//   const boxSomethingBgColor = colorMode === "dark" ? "gray.800" : "white";
-//   const boxScheduleBgColor = colorMode === "dark" ? "gray.800" : "white";
 
 
   return (

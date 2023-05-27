@@ -25,6 +25,7 @@ import LandingPage from "./views/LandingPage/LandingPage";
 import Dashboard from "./views/Dashboard/Dashboard";
 import UserMenu from "./components/UserMenu/UserMenu";
 import Calendar from "./components/Calendar"
+import Friends from "./views/Friends/Friends";
 
 function App() {
   const navigate = useNavigate();
@@ -223,6 +224,8 @@ function App() {
               <Route path="/workouts" element={<Workouts />} />
               <Route path="goals" element={<Goals />} />
               <Route path="community" element={<Community />} />
+              <Route path="friends" element={<Friends />} />
+
               <Route path="about" element={<About />} />
               <Route path="profile" element={<Profile />} />
               <Route path="register" element={<Register />} />
