@@ -42,6 +42,7 @@ import {
     BsFillPersonXFill,
     BsFillPersonBadgeFill,
   } from "react-icons/bs";
+  import "./Friends.css"
 
 
 
@@ -198,9 +199,6 @@ const Friends = () => {
   };
   
   
-  
-
-
   return (
     <Box maxW="1660px">
         <Box 
@@ -274,9 +272,10 @@ const Friends = () => {
             initialFocusRef={initialFocusRef}
             placement="bottom"
             closeOnBlur={false}
+            
           >
             <PopoverTrigger>
-              <Button>{request.name} wants to be friends.</Button>
+              <Button colorScheme="orange" mt={3} className="button">{request.name} wants to be friends.</Button>
             </PopoverTrigger>
             <PopoverContent color="white" bg="blue.800" borderColor="blue.800">
               <PopoverHeader pt={4} fontWeight="bold" border="0">
