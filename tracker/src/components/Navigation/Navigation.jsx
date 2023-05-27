@@ -1,24 +1,26 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { Flex,IconButton,Box, Image} from '@chakra-ui/react'
 import { FiMenu, FiHome } from 'react-icons/fi'
 import { motion } from "framer-motion";
-import { GiStairsGoal, GiWeightLiftingUp } from 'react-icons/gi'
+import { GiRayGun, GiStairsGoal, GiWeightLiftingUp } from 'react-icons/gi'
 import { CgProfile } from 'react-icons/cg'
 import { FaUsers } from 'react-icons/fa'
 import { useLocation, useNavigate } from 'react-router-dom';
 import {AiOutlineInfoCircle} from 'react-icons/ai'
-
+import { useColorModeValue,useColorMode } from "@chakra-ui/react";
 import logo from '../../assets/logo.png'
 import NavItem from './NavItem'
 
 const MotionBox = motion(Box);
 
-const Navigation = () => {
+const Navigation = ({colorMode}) => {
     const location = useLocation();
     const navigate = useNavigate()
-    
-
     const [navSize, changeNavSize] = useState("large")
+
+    const bg = (colorMode) === "dark" ? "gray.600" : "white";
+
+
     return (
         <Flex
             pos="sticky"
@@ -31,6 +33,7 @@ const Navigation = () => {
             w={navSize == "small" ? "75px" : "200px"}
             flexDir="column"
             justifyContent="space-between"
+            bgColor={bg}
         >
             <Flex
                 p="5px"
@@ -54,7 +57,7 @@ const Navigation = () => {
                 <IconButton
                     background="none"
                     mt={5}
-                    _hover={{ background: 'none' }}
+                    _hover={{ background: "gray.200" }}
                     icon={<FiMenu />}
                     onClick={() => {
                         if (navSize == "small")

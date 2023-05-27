@@ -1,17 +1,22 @@
 import { db } from "../../services/firebase";
-import { getDocs, collection, query, where, deleteDoc,doc,updateDoc } from "firebase/firestore";
-import { useState, useEffect } from "react";
-import { Box, Button, FormControl, FormLabel, Input, Select,Flex } from '@chakra-ui/react';
-// import {refreshPage} from "../../services/Services"
+import { getDocs, collection, query, where, deleteDoc,doc,updateDoc,getDoc } from "firebase/firestore";
+import { useState, useEffect,useContext } from "react";
+import { Box, Button,Text,Tooltip,Avatar, FormControl, FormLabel, Input, Select,Flex,Td,Th,Tbody,Thead,Table,Tr } from '@chakra-ui/react';
 import goalheader from "../../assets/goal.png"
-
-
+import {AiFillLock,AiFillUnlock} from "react-icons/ai";
+import {CgUnblock} from "react-icons/cg";
+import { FaTrashAlt } from "react-icons/fa";
+import {IoPersonAddOutline} from "react-icons/io5";
+import { AuthContext } from "../../context/AuthContext";
+import {MdDeleteForever} from "react-icons/md";
+import {BsFillPersonCheckFill,BsFillPersonPlusFill} from "react-icons/bs";
 
 const Community = () => {
   const usersCollection = collection(db, "users");
   const [userList, setUserList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchType, setSearchType] = useState("name");
+  const {userDocID} = useContext(AuthContext);
 
   const handleSearchTermChange = (event) => {
     setSearchTerm(event.target.value);
@@ -50,176 +55,204 @@ const Community = () => {
     const data = { isBlocked: true };
     const docRef = doc(db, "users", userId);
     await updateDoc(docRef, data);
-    //   refreshPage()
   };
 
   const handleUnblockUser = async (userId) => {
     const data = { isBlocked: null };
     const docRef = doc(db, "users", userId);
     await updateDoc(docRef, data);
-    //   refreshPage()
   };
 
+
+  const handleFriendRequest = async (userId) => {
+    const userRef = doc(db, "users", userDocID);
+    const targetUserDocRef = doc(db, "users", userId);
+  
+    const userDoc = await getDoc(userRef);
+    const targetDoc = await getDoc(targetUserDocRef);
+  
+    const myUser = userDoc.data();
+    const target = targetDoc.data();
+  
+    const updatedOwnFriends = myUser.friends || [];
+    const updatedFriends = target.friends || [];
+  
+    if (updatedOwnFriends.includes(userId) && updatedFriends.includes(userDocID)) {
+      return;
+    }
+    if (!updatedOwnFriends.includes(userId)) {
+      updatedOwnFriends.push(userId);
+    }
+    if (!updatedFriends.includes(userDocID)) {
+      updatedFriends.push(userDocID);
+    }
+    const updatedMineData = { friends: updatedOwnFriends };
+    const updatedData = { friends: updatedFriends };
+  
+    await updateDoc(userRef, updatedMineData)
+    await updateDoc(targetUserDocRef, updatedData);
+  };
+  
+
   return (
-    <Box maxW="1660px" mt="70px">
-      <Box
-        rounded="md"
-        borderColor="gray.50"
-        h="180px"
-        w="1500px"
-        bgImage={goalheader}
-        ml={10}
-      ></Box>
+    <Box w="1660px" mt="70px">
+  <Box
+    rounded="md"
+    borderColor="gray.50"
+    h="180px"
+    w="1500px"
+    bgImage={goalheader}
+    ml={10}
+  ></Box>
 
-      <Box 
-        ml={10} mt="40px" className="userscontainer" bg="gray.100" p={4} borderRadius="md">
-        <form>
-          <FormControl mb={4}>
-            <FormLabel
-              htmlFor="searchType"
-              fontWeight="bold"
-              fontSize="sm"
-              mb={2}
-            >
-              Search by:
-            </FormLabel>
-            <Select
-              id="searchType"
-              value={searchType}
-              onChange={handleSearchTypeChange}
-              bg="white"
-            >
-              <option value="name">Name</option>
-              <option value="username">Username</option>
-              <option value="email">Email</option>
-            </Select>
-          </FormControl>
-          <FormControl>
-            <FormLabel
-              htmlFor="searchTerm"
-              fontWeight="bold"
-              fontSize="sm"
-              mb={2}
-            >
-              Search term:
-            </FormLabel>
-            <Input
-              className="inputt"
-              type="text"
-              id="searchTerm"
-              value={searchTerm}
-              onChange={handleSearchTermChange}
-              bg="white"
-              borderRadius="sm"
-              borderColor="gray.300"
-              _focus={{ borderColor: "blue.500", boxShadow: "outline" }}
-              _placeholder={{ color: "gray.400" }}
-            />
-          </FormControl>
-        </form>
-        <Box className="userlist" as="ul" listStyleType="none" p={0}>
-          <Box as="li" fontWeight="bold" fontSize="sm" mb={2}>
-            <Flex height={10} alignItems={"center"}>
-              <Box ml={2}>User Name</Box>
-              <Box ml={135}>User Family</Box>
-              <Box ml={130}>Username</Box>
-              <Box ml={173}>Email</Box>
-              <Box ml={147}>Role</Box>
-              <Box ml={196}>Phone</Box>
-              <Box ml={176}>Status</Box>
-            </Flex>
-          </Box>
-          {userList.map((user) => (
-            <Box
-              className="singlepost"
-              key={user.id}
-              boxShadow="md"
-              p={4}
-              mb={4}
-              bg="white"
-              borderRadius="md"
-              as="li"
-              width={1600}
-            >
-              <Flex>
-                <Box flexBasis="50%" fontSize="lg" fontWeight="bold" mb={2}>
-                  {user.name}
-                </Box>
-                <Box flexBasis="50%" fontSize="lg" fontWeight="bold" mb={2}>
-                  {user.family}
-                </Box>
-                <Box flexBasis="50%" fontSize="sm" color="gray.600" mb={2}>
-                  {user.username}
-                </Box>
-                <Box flexBasis="50%" fontSize="sm" color="gray.600" mb={2}>
-                  {user.email}
-                </Box>
-                <Box
-                  flexBasis="50%"
-                  fontSize="sm"
-                  color="gray.600"
-                  mb={2}
-                  ml={3}
-                >
-                  {user.role}
-                </Box>
-                <Box
-                  flexBasis="50%"
-                  fontSize="sm"
-                  color="gray.600"
-                  mb={2}
-                  ml={3}
-                >
-                  {user.phoneNumber}
-                </Box>
-                <Box
-                  flexBasis="50%"
-                  fontSize="sm"
-                  color="gray.600"
-                  mb={2}
-                  ml={3}
-                >
-                  {user.isBlocked ? "Blocked" : "Not Blocked"}
-                </Box>
-                <Button
-                  className="deleteuser"
-                  onClick={() => handleDeleteUser(user.id)}
-                  colorScheme="red"
-                  size="md"
-                  p={5}
-                >
-                  Delete
-                </Button>
-
-                {user.isBlocked ? (
-                  <Button
-                    className="unblockuser"
-                    onClick={() => handleUnblockUser(user.id)}
-                    colorScheme="green"
-                    size="md"
-                    ml={2}
-                    p={5}
-                  >
-                    Unblock
-                  </Button>
-                ) : (
-                  <Button
-                    className="blockuser"
-                    onClick={() => handleBlockUser(user.id)}
-                    colorScheme="red"
-                    size="md"
-                    ml={2}
-                    p={5}
-                  >
-                    Block
-                  </Button>
-                )}
-              </Flex>
-            </Box>
-          ))}
-        </Box>
-      </Box>
+  <Box  w="1500px" ml={10} mt="40px" className="userscontainer" bg="#f2f2f2" rounded="md" borderColor="gray.100" p={4} borderRadius="lg" boxShadow="lg">
+    <Box>
+      <FormControl mb={4}>
+        <FormLabel
+          htmlFor="searchType"
+          fontWeight="bold"
+          fontSize="sm"
+          mb={2}
+        >
+          Search by:
+        </FormLabel>
+        <Select
+          id="searchType"
+          value={searchType}
+          onChange={handleSearchTypeChange}
+          bg="white"
+        >
+          <option value="name">Name</option>
+          <option value="username">Username</option>
+          <option value="email">Email</option>
+        </Select>
+      </FormControl>
+      <FormControl>
+        <FormLabel
+          htmlFor="searchTerm"
+          fontWeight="bold"
+          fontSize="sm"
+          mb={2}
+        >
+          Search term:
+        </FormLabel>
+        <Input
+          className="inputt"
+          type="text"
+          id="searchTerm"
+          value={searchTerm}
+          onChange={handleSearchTermChange}
+          bg="white"
+          borderRadius="sm"
+          borderColor="gray.300"
+          _focus={{ borderColor: "blue.500", boxShadow: "outline" }}
+          _placeholder={{ color: "gray.400" }}
+        />
+      </FormControl>
     </Box>
+
+    <Table variant="simple">
+  <Thead>
+    <Tr>
+      <Th>Name</Th>
+      <Th>Username</Th>
+      <Th>Email</Th>
+      <Th>Role</Th>
+      <Th>Phone</Th>
+      <Th>Status</Th>
+    </Tr>
+  </Thead>
+  <Tbody>
+    {userList.map((user) => (
+      <Tr key={user.id}>
+        <Td>
+          <Flex align="center">
+            <Avatar size="sm" src={user.avatar} _hover={{ cursor: 'pointer' }} />
+            <Text ml="2">{user.name} {user.family}</Text>
+          </Flex>
+        </Td>
+        <Td>{user.username}</Td>
+        <Td>{user.email}</Td>
+        <Td>{user.role}</Td>
+        <Td>{user.phoneNumber}</Td>
+        <Td>{user.isBlocked ? "Blocked" : "Not Blocked"}</Td>
+
+                <Td>
+                  {user.friends && user.friends.includes(userDocID) ? (
+                    <Tooltip label="Friend">
+                      <Button
+                        className="friends"
+                        size="md"
+                        variant="ghost"
+                        colorScheme="green"
+                      >
+                        <Flex align="center"><BsFillPersonCheckFill  /></Flex>
+                      </Button>
+                    </Tooltip>
+                  ) : (
+                    <Tooltip label="Send Friend Request">
+                      <Button
+                        className="friendrequest"
+                        onClick={() => handleFriendRequest(user.id)}
+                        size="md"
+                        variant="ghost"
+                        colorScheme="linkedin"
+                      >
+                        <Flex align="center"><BsFillPersonPlusFill /></Flex>
+                      </Button>
+                    </Tooltip>
+                  )}
+                </Td>
+
+        <Td>
+          <Tooltip label="Delete User">
+            <Button
+              className="deleteuser"
+              onClick={() => handleDeleteUser(user.id)}
+              size="lg"
+              variant="ghost"
+              colorScheme="red"
+              p={1}
+            >
+              <Flex align="center"><MdDeleteForever /></Flex>
+            </Button>
+          </Tooltip>
+        </Td>
+        <Td>
+          {user.isBlocked ? (
+            <Tooltip label="Unblock User">
+              <Button
+                className="unblockuser"
+                onClick={() => handleUnblockUser(user.id)}
+                size="md"
+                        variant="ghost"
+                        colorScheme="red"
+              >
+                <Flex align="center"><AiFillLock /></Flex>
+              </Button>
+            </Tooltip>
+          ) : (
+            <Tooltip label="Block User">
+              <Button
+                className="blockuser"
+                onClick={() => handleBlockUser(user.id)}
+                size="md"
+                        variant="ghost"
+                        colorScheme="green"
+              >
+                <Flex align="center"><AiFillUnlock /></Flex>
+              </Button>
+            </Tooltip>
+          )}
+        </Td>
+      </Tr>
+    ))}
+  </Tbody>
+</Table>
+
+  </Box>
+</Box>
+
   );
 };
 

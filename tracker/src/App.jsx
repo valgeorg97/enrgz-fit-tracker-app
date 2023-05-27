@@ -1,4 +1,4 @@
-import { ChakraProvider, Flex } from "@chakra-ui/react"
+import { ChakraProvider, Flex,Switch } from "@chakra-ui/react"
 import { AuthContext } from "./context/AuthContext"
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -48,7 +48,6 @@ function App() {
   const [selectedWorkout, setSelectedWorkout] = useState(null);
 
   const { colorMode, toggleColorMode } = useColorMode();
-
   const usersCollection = collection(db, "users");
 
   useEffect(() => {
@@ -207,7 +206,7 @@ function App() {
         <Flex className="App" position="relative">
           {isAuth &&
             location.pathname !== "/register" &&
-            location.pathname !== "/login" && <Navigation />}
+            location.pathname !== "/login" && <Navigation colorMode={colorMode}/>}
           {isAuth &&
             location.pathname !== "/register" &&
             location.pathname !== "/login" && <UserMenu />}
@@ -220,7 +219,7 @@ function App() {
           >
             <Routes>
               <Route path="/" element={isAuth ? <Dashboard /> : <LandingPage />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard" element={<Dashboard colorMode={colorMode}/>} />
               <Route path="/workouts" element={<Workouts />} />
               <Route path="goals" element={<Goals />} />
               <Route path="community" element={<Community />} />
@@ -233,6 +232,7 @@ function App() {
             </Routes>
           </Flex>
           <IconButton
+          // <Switch
             position="fixed"
             top={4}
             right={4}

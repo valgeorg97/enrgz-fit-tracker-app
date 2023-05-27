@@ -4,6 +4,8 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { AuthContext } from '../../context/AuthContext';
 import { Box, Input, Heading, Progress, Text, VStack, Button, Collapse,Flex } from "@chakra-ui/react";
 import water2 from "../../assets/water2.png"
+import { useColorMode } from "@chakra-ui/react";
+
 
 
 
@@ -13,8 +15,12 @@ const WaterCalculator = () => {
   const [savedWater, setSavedWater] = useState(0);
   const { userDocID } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+  const { colorMode, toggleColorMode } = useColorMode();
+
 
   const handleToggle = () => setIsOpen(!isOpen);
+  const waterBground = colorMode === "dark" ? "gray.800" : "white";
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -78,7 +84,7 @@ const WaterCalculator = () => {
 
   
   return (
-    <Box  shadow="xl" bgImage={water2} p={4} borderRadius="md" w="400px">
+    <Box  shadow="xl" bgImage={water2} p={4} borderRadius="md"  w="400px">
     <VStack spacing={4} width="sm">
       <Heading size="md">Water Intake</Heading>
 

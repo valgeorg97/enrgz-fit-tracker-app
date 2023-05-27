@@ -5,12 +5,15 @@ import PageContainer from "./PageContainer";
 import PageContent from "./PageContent";
 import { useState, useContext, useRef } from "react";
 import { updateProfile, updateEmail, deleteUser } from "firebase/auth";
-import { uploadPhoto, auth, db } from "../../services/firebase";
+import { storage, auth, db } from "../../services/firebase";
 import { AuthContext } from "../../context/AuthContext";
 import { updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import DeleteUserDialog from "./DeleteUserDialog";
+
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 
 export default function Profile() {
   const {name,setName,email,setEmail,photoURL,setPhotoURL,userID,family,setFamily,userDocID,username,setUsername,phoneNumber,setPhoneNumber} = useContext(AuthContext);
@@ -29,6 +32,7 @@ export default function Profile() {
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
   const phoneInputRef = useRef(null);
+  
 
   const handleChangeName = (event) => {
     setChangedName(event.target.value);
@@ -74,21 +78,38 @@ export default function Profile() {
 
   const updateInfo = (event) => {
     event.preventDefault();
+    const userRef = doc(db, "users", userDocID);
 
     if (!changedPhoto && !changedEmail && !changedName && !changedFamily && !changedUsername && !changedPhone) {
       toast.error("No information to update");
       return;
     }
 
-    if (changedPhoto) {
-      uploadPhoto(changedPhoto, userID).then(() => {
-        setPhotoURL(changedPhoto);
-        avatarInputRef.current.value = null;
-      });
+    async function uploadPhoto(file, currentUser) {
+      const fileRef = ref(storage, `${currentUser}.png`);
+      const snapshot = await uploadBytes(fileRef, file);
+      const photoURL = await getDownloadURL(fileRef);
+      const changeAvatar = await updateProfile(auth.currentUser, { photoURL: photoURL });
+      return photoURL;
     }
+    
+    if (changedPhoto) {
+      uploadPhoto(changedPhoto, userID)
+        .then((photoURL) => {
+          setPhotoURL(photoURL);
+          return updateDoc(userRef, { avatar: photoURL });
+        })
+        .then(() => {
+          avatarInputRef.current.value = null;
+        })
+        .catch((error) => {
+          console.error("Error updating photo:", error);
+        });
+    }
+    
+
     if (changedEmail) {
       updateEmail(auth.currentUser, changedEmail).then(() => {
-        const userRef = doc(db, "users", userDocID);
         updateDoc(userRef, { email: changedEmail })
           .then(() => {
             setEmail(changedEmail);
@@ -99,7 +120,6 @@ export default function Profile() {
       });
     }
     if (changedUsername) {
-        const userRef = doc(db, "users", userDocID);
         updateDoc(userRef, { username: changedUsername })
           .then(() => {
             setUsername(changedUsername);
@@ -109,7 +129,6 @@ export default function Profile() {
           });
       }
     if (changedPhone) {
-      const userRef = doc(db, "users", userDocID);
       updateDoc(userRef, { phoneNumber: changedPhone })
         .then(() => {
           setPhoneNumber(changedPhone);
@@ -122,7 +141,6 @@ export default function Profile() {
       let fixname = `${changedName} ${family}`;
       updateProfile(auth.currentUser, { displayName: fixname })
         .then(() => {
-          const userRef = doc(db, "users", userDocID);
           updateDoc(userRef, { name: changedName })
             .then(() => {
               setName(changedName);
@@ -139,7 +157,6 @@ export default function Profile() {
       let fixfamily = `${name} ${changedFamily}`;
       updateProfile(auth.currentUser, { displayName: fixfamily })
         .then(() => {
-          const userRef = doc(db, "users", userDocID);
           updateDoc(userRef, { family: changedFamily })
             .then(() => {
               setFamily(changedFamily);

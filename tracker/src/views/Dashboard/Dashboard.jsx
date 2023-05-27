@@ -1,13 +1,17 @@
-import { Box, Heading, Grid, VStack, Flex, Button, Icon,HStack,Text } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
+import { Box, VStack,HStack,Text } from "@chakra-ui/react";
 import WaterCalculator from '../../components/WaterIntake/WaterIntake'; 
 import FoodCaloriesIntake from '../../components/FoodCaloriesIntake/FoodCaloriesIntake';
 import UserGoals from "../../components/UserGoals.jsx/UserGoals";
 import UserWorkouts from "../../components/UserWorkouts/UserWorkouts";
-import { FaCalendar } from "react-icons/fa";
 import goalheader from "../../assets/goal.png"
+// import { useColorMode } from "@chakra-ui/react";
 
 const Dashboard = () => {
+//   const { colorMode, toggleColorMode } = useColorMode();
+//   const boxSomethingBgColor = colorMode === "dark" ? "gray.800" : "white";
+//   const boxScheduleBgColor = colorMode === "dark" ? "gray.800" : "white";
+
+
   return (
     <Box w="1660px" mt="70px">
 
@@ -48,10 +52,10 @@ const Dashboard = () => {
             </VStack>
 
             <HStack justifyItems="top">
-            <Box textAlign="center" w="560px" h="330px" borderWidth={5} rounded="md" borderColor="black">
+            <Box textAlign="center" w="560px" h="330px" borderWidth={5} rounded="md" borderColor="black" >
                 <Text>Something</Text>
             </Box>
-            <Box textAlign="center" w="560px" h="330px" borderWidth={5} rounded="md" borderColor="black">
+            <Box textAlign="center" w="560px" h="330px" borderWidth={5} rounded="md" borderColor="black" >
                 <Text>Schedule</Text>
             </Box>
             </HStack>
