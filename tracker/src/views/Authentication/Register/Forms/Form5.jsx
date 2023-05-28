@@ -9,8 +9,8 @@ const Form5 = ({handleActivityLevel,regActivityLevel }) => {
     return (
       <>
         <Box h="400px" overflowY="auto">
-          <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%">
-            What is your baseline activity level? Not including workouts – we count that separately.
+          <Heading fontSize={28} w="100%" textAlign={'center'} fontWeight="normal" mb="2%">
+            What is your baseline activity level? 
           </Heading>
           <FormControl>
             <FormLabel fontWeight={'normal'}>Choose your activity level:</FormLabel>

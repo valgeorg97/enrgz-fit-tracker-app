@@ -18,8 +18,8 @@ const Form2 = ({ validateName, validateFamily, nameError, familyError }) => {
 
   return (
     <Box h="300px" overflowY="auto">
-      <Heading w="100%" textAlign={"center"} fontWeight="normal" mb="2%">
-        What’s your first name and last name? We’re happy you’re here.
+      <Heading size="lg" w="100%" textAlign={"center"} fontWeight="normal" mb="2%">
+        What’s your first and last name? We’re happy you’re here!
       </Heading>
       <Flex>
         <Box mt={4}>

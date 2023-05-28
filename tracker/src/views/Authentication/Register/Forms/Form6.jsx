@@ -23,7 +23,7 @@ const [selectedDate, setSelectedDate] = useState(regYear);
       <>
         <Box h="400px" overflowY="auto">
           <FormControl isRequired>
-            <FormLabel fontWeight="normal">
+            <FormLabel fontSize={16} fontWeight="normal">
               Please select which sex we should use to calculate your calorie
               needs:
             </FormLabel>
@@ -36,7 +36,7 @@ const [selectedDate, setSelectedDate] = useState(regYear);
           </FormControl>
 
           <FormControl mt={4} isRequired>
-            <FormLabel fontWeight="normal">
+            <FormLabel fontSize={16} fontWeight="normal">
               When were you born? (MM/DD/YYYY)
             </FormLabel>
             <Input
@@ -48,7 +48,7 @@ const [selectedDate, setSelectedDate] = useState(regYear);
 
 <Box>
           <FormControl mt={4} isRequired>
-            <FormLabel fontWeight="normal">Phone number</FormLabel>
+            <FormLabel fontWeight="normal" fontSize={16}>Phone number</FormLabel>
             <Flex align="center">
               {/* <Select
                 w="fit-content"

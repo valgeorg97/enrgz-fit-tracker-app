@@ -8,21 +8,21 @@ const Form3 = ({ handleGoal,regGoal,regName,regFamily }) => {
     return (
       <>
         <Box h="320px" overflowY="auto">
-          <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%">
-            Thanks {regName} {regFamily}! Now for your goals.
+          <Heading fontSize={25} w="100%" textAlign={'center'} fontWeight="normal" mb="2%">
+            Thanks <strong>{regName} {regFamily}</strong>! Now for your goals.
           </Heading>
-          <Text align={'center'} mt={4}>
+          <Text mb={6} align={'center'} mt={6}>
             Select up the goal that you are looking for:
           </Text>
   
           <RadioGroup onChange={handleGoalChange} value={regGoal} >
-            <Stack spacing={5} direction={"column"} align={'start'}>
-              <Radio value="Extreme weight gain">Extreme weight gain</Radio>
-              <Radio value="Extreme weight loss">Extreme weight loss</Radio>
-              <Radio value="Mild weight gain">Mild weight gain</Radio>
-              <Radio value="Mild weight loss">Mild weight loss</Radio>
-              <Radio value="Weight gain">Weight gain</Radio>
-              <Radio value="Weight loss">Weight loss</Radio>
+            <Stack mb={8} spacing={5} direction={"column"} align={'start'}>
+              <Radio value="Extreme weight gain">Extreme weight gain (gain 1 kg per week)</Radio>
+              <Radio value="Extreme weight loss">Extreme weight loss (lose 1 kg per week)</Radio>
+              <Radio value="Weight gain">Weight gain (gain 0.5 kg per week)</Radio>
+              <Radio value="Weight loss">Weight loss (lose 0.5 kg per week)</Radio>
+              <Radio value="Mild weight gain">Mild weight gain (gain 0.25 kg per week)</Radio>
+              <Radio value="Mild weight loss">Mild weight loss (lose 0.25 kg per week)</Radio>
               <Radio value="Maintain weight">Maintain weight</Radio>
             </Stack>
           </RadioGroup>

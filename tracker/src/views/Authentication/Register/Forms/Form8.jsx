@@ -23,7 +23,7 @@ const Form8 = ({
       <Box h="300px" overflowY="auto" w="250px">
         <Box>
           <FormControl isRequired>
-            <FormLabel fontWeight="normal">Username</FormLabel>
+            <FormLabel fontSize={17} fontWeight="normal">Username</FormLabel>
             <Input
               type="text"
               placeholder="Username"
@@ -35,7 +35,7 @@ const Form8 = ({
 
         <Box mt={4}>
           <FormControl isRequired>
-            <FormLabel fontWeight="normal">Email</FormLabel>
+            <FormLabel fontSize={17} fontWeight="normal">Email</FormLabel>
             <Input
               type="email"
               placeholder="Email"
@@ -47,7 +47,7 @@ const Form8 = ({
 
         <Box mt={4}>
           <FormControl isRequired>
-            <FormLabel fontWeight="normal">Password</FormLabel>
+            <FormLabel fontSize={17} fontWeight="normal">Password</FormLabel>
             <Input
               type="password"
               placeholder="Password"

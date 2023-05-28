@@ -6,7 +6,7 @@ const Form7 = ({handleHeight,handleWeight,handleGoalWeight}) => {
       <>
         <Box h="400px" overflowY="auto" w="300px">
           <FormControl isRequired>
-            <FormLabel fontWeight="normal">How tall are you?</FormLabel>
+            <FormLabel fontSize={18} fontWeight="normal">How tall are you?</FormLabel>
             <Input type="number" placeholder="Height" onChange={(e) => handleHeight(e.target.value)} />
             {/* <RadioGroup mt={2}> 
               <Stack spacing={2}>
@@ -17,7 +17,7 @@ const Form7 = ({handleHeight,handleWeight,handleGoalWeight}) => {
           </FormControl>
   
           <FormControl mt={4} isRequired>
-            <FormLabel fontWeight="normal">How much do you weigh?</FormLabel>
+            <FormLabel fontSize={18} fontWeight="normal">How much do you weigh?</FormLabel>
             <Input type="number" placeholder="Current weight" onChange={(e) => handleWeight(e.target.value)} />
             {/* <Select mt={2} placeholder="Select unit">
               <option value="kg">kg</option>
@@ -26,7 +26,7 @@ const Form7 = ({handleHeight,handleWeight,handleGoalWeight}) => {
           </FormControl>
   
           <FormControl mt={4} isRequired>
-            <FormLabel fontWeight="normal">What's your goal weight?</FormLabel>
+            <FormLabel fontSize={18} fontWeight="normal">What's your goal weight?</FormLabel>
             <Input type="number" placeholder="Goal weight" onChange={(e) => handleGoalWeight(e.target.value)} />
           </FormControl>
         </Box>
