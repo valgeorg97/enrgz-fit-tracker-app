@@ -47,6 +47,11 @@ function App() {
   const [docRef, setDocRef] = useState(null);
   const [workouts, setWorkouts] = useState([]);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
+  const [weight,setWeight] = useState("")
+  const [height,setHeight] = useState("")
+
+
+  
 
   const { colorMode, toggleColorMode } = useColorMode();
   const usersCollection = collection(db, "users");
@@ -117,6 +122,10 @@ function App() {
         setPhoneNumber(doc.data().phoneNumber)
         setEmail(doc.data().email);
         setUserGoal(doc.data().goal)
+        setWeight(doc.data().weight)
+        setHeight(doc.data().height)
+        setPassword(doc.data().password)
+
       });
     };
     getUsers();
@@ -201,6 +210,10 @@ function App() {
         setWorkouts,
         selectedWorkout,
         setSelectedWorkout,
+        weight,
+        setWeight,
+        height,
+        setHeight,
       }}
     >
       <ChakraProvider>

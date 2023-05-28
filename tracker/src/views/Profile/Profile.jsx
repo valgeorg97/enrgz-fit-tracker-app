@@ -1,28 +1,40 @@
 /* eslint-disable react/no-children-prop */
 import {Container,Avatar,Box,Text,Stack,InputGroup,Input,InputLeftElement,Icon,FormLabel,Checkbox,Button,Divider,FormControl,Heading,} from "@chakra-ui/react";
-import { FaRegEnvelope, FaLock, FaRegUser,FaPhoneAlt } from "react-icons/fa";
+import { FaRegEnvelope, FaLock, FaRegUser,FaPhoneAlt,FaWeightHanging } from "react-icons/fa";
 import PageContainer from "./PageContainer";
 import PageContent from "./PageContent";
 import { useState, useContext, useRef } from "react";
-import { updateProfile, updateEmail, deleteUser } from "firebase/auth";
+import { updateProfile, updateEmail, deleteUser,updatePassword } from "firebase/auth";
 import { storage, auth, db } from "../../services/firebase";
 import { AuthContext } from "../../context/AuthContext";
 import { updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import DeleteUserDialog from "./DeleteUserDialog";
+import { GiBodyHeight } from "react-icons/gi";
+
 
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
 export default function Profile() {
-  const {name,setName,email,setEmail,photoURL,setPhotoURL,userID,family,setFamily,userDocID,username,setUsername,phoneNumber,setPhoneNumber} = useContext(AuthContext);
+  const {name,setName,password,setPassword,email,setEmail,photoURL,setPhotoURL,userID,family,setFamily,userDocID,username,setUsername,weight,setWeight,height,setHeight,phoneNumber,setPhoneNumber} = useContext(AuthContext);
   const [changedName, setChangedName] = useState("");
   const [changedUsername, setChangedUsername] = useState("");
   const [changedFamily, setChangedFamily] = useState("");
   const [changedEmail, setChangedEmail] = useState("");
   const [changedPhone, setChangedPhone] = useState("");
   const [changedPhoto, setChangedPhoto] = useState(null);
+  const [changedWeight, setChangedWeight] = useState("");
+  const [changedHeight, setChangedHeight] = useState("");
+
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+
+
+
   let navigate = useNavigate();
 
   const avatarInputRef = useRef(null);
@@ -32,6 +44,9 @@ export default function Profile() {
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
   const phoneInputRef = useRef(null);
+  const weightInputRef = useRef(null);
+  const heightInputRef = useRef(null);
+
   
 
   const handleChangeName = (event) => {
@@ -51,6 +66,22 @@ export default function Profile() {
   };
   const handleChangeAvatar = (event) => {
     setChangedPhoto(event.target.files[0]);
+  };
+
+  const handleChangeWeight = (event) => {
+    setChangedWeight(event.target.value);
+  };
+  const handleChangeHeight = (event) => {
+    setChangedHeight(event.target.value);
+  };
+  const handleCurrentPassword = (event) => {
+    setCurrentPassword(event.target.value);
+  };
+  const handleNewPassword = (event) => {
+    setNewPassword(event.target.value);
+  };
+  const handleConfirmPassword = (event) => {
+    setConfirmPassword(event.target.value);
   };
 
   const handleDeleteUser = () => {
@@ -74,16 +105,29 @@ export default function Profile() {
     emailInputRef.current.value = null;
     passwordInputRef.current.value = null;
     phoneInputRef.current.value = null;
+    weightInputRef.current.value = null;
+    heightInputRef.current.value = null;
   };
 
   const updateInfo = (event) => {
     event.preventDefault();
     const userRef = doc(db, "users", userDocID);
+    console.log(currentPassword);
+    console.log(password);
 
-    if (!changedPhoto && !changedEmail && !changedName && !changedFamily && !changedUsername && !changedPhone) {
+    if(currentPassword!== password) {
+      toast.error("Please input your current password to update profile");
+      return;
+    }
+    if(newPassword && newPassword!==confirmPassword) {
+      toast.error("Your changed passwords doesn't match");
+      return;
+    }
+    if (!changedPhoto && !newPassword && !changedEmail && !changedName && !changedFamily && !changedUsername && !changedPhone && !changedWeight && !changedHeight) {
       toast.error("No information to update");
       return;
     }
+
 
     async function uploadPhoto(file, currentUser) {
       const fileRef = ref(storage, `${currentUser}.png`);
@@ -169,6 +213,35 @@ export default function Profile() {
           console.log("Error updating profile:", error);
         });
     }
+    if (changedWeight) {
+      updateDoc(userRef, { weight: changedWeight })
+        .then(() => {
+          setWeight(changedWeight);
+        })
+        .catch((error) => {
+          console.log("Error updating weight:", error);
+        });
+    }
+    if (changedHeight) {
+      updateDoc(userRef, { height: changedHeight })
+        .then(() => {
+          setHeight(changedHeight);
+        })
+        .catch((error) => {
+          console.log("Error updating height:", error);
+        });
+    }
+    if (newPassword) {
+      updatePassword(auth.currentUser, newPassword).then(() => {
+        updateDoc(userRef, { password: newPassword })
+      }).then(() => {
+        setPassword(newPassword);
+      })
+      .catch((error) => {
+        console.log("Error updating password:", error);
+      });
+    }
+
     toast.success("User information updated !")
   };
 
@@ -261,6 +334,38 @@ export default function Profile() {
                 </InputGroup>
               </FormControl>
 
+              <FormControl>
+                <FormLabel htmlFor="weight">Weight</FormLabel>
+                <InputGroup>
+                  <InputLeftElement  children={<Icon as={FaWeightHanging} color="secondary.inputHelper" />}/>
+                  <Input
+                    focusBorderColor="main.500"
+                    type="number"
+                    name="weight"
+                    id="weight"
+                    placeholder={weight}
+                    onChange={handleChangeWeight}
+                    ref={weightInputRef}
+                  />
+                </InputGroup>
+              </FormControl>
+
+              <FormControl>
+                <FormLabel htmlFor="height">Height</FormLabel>
+                <InputGroup>
+                  <InputLeftElement  children={<Icon as={GiBodyHeight} color="secondary.inputHelper" />}/>
+                  <Input
+                    focusBorderColor="main.500"
+                    type="number"
+                    name="height"
+                    id="height"
+                    placeholder={height}
+                    onChange={handleChangeHeight}
+                    ref={heightInputRef}
+                  />
+                </InputGroup>
+              </FormControl>
+
             </Stack>
             <Stack justifyContent="space-between" isInline marginBottom="1rem">
               <Stack isInline>
@@ -300,6 +405,8 @@ export default function Profile() {
                     id="old_password"
                     type="password"
                     placeholder="Enter your current password"
+                    ref={passwordInputRef}
+                    onChange={handleCurrentPassword}
                   />
                 </InputGroup>
               </FormControl>
@@ -316,6 +423,7 @@ export default function Profile() {
                     type="password"
                     placeholder="Enter your new password"
                     ref={passwordInputRef}
+                    onChange={handleNewPassword}
                   />
                 </InputGroup>
               </FormControl>
@@ -333,6 +441,9 @@ export default function Profile() {
                     id="new_password2"
                     type="password"
                     placeholder="Confirm your new password"
+                    ref={passwordInputRef}
+                    onChange={handleConfirmPassword}
+
                   />
                 </InputGroup>
               </FormControl>

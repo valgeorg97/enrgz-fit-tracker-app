@@ -36,7 +36,11 @@ export const AuthContext = createContext({
   workout: "",
   setWorkouts: () => {},
   selectedWorkout: "",
-  setSelectedWorkout: () => {}
+  setSelectedWorkout: () => {},
+  weight: "",
+  setWeight: () => {},
+  height: "",
+  setHeight: () => {},
 });
 
 
