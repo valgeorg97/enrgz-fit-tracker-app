@@ -1,50 +1,13 @@
-import {
-  Box,
-  Text,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  Button,
-  ButtonGroup,
-  Heading,
-  Flex,
-} from "@chakra-ui/react";
+import {Box,Text,Button,ButtonGroup,Heading,Flex,} from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext, useEffect, useState, useRef } from "react";
-import {
-  getDocs,
-  collection,
-  query,
-  where,
-  deleteDoc,
-  doc,
-  updateDoc,
-  getDoc,
-} from "firebase/firestore";
+import {doc,updateDoc,getDoc,} from "firebase/firestore";
 import { db } from "../../services/firebase";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverBody,
-  PopoverFooter,
-} from "@chakra-ui/react";
-
-import { Tooltip,Avatar,Td,Th,Tbody,Thead,Table,Tr,Grid } from '@chakra-ui/react';
+import {Popover, Tooltip,Avatar,Td,Th,Tbody,Thead,Table,Tr,Grid,PopoverTrigger,PopoverContent,PopoverHeader,PopoverArrow,PopoverCloseButton,PopoverBody,PopoverFooter} from "@chakra-ui/react";
 import goalheader from "../../assets/goal.png"
-import {
-    BsFillPersonCheckFill,
-    BsFillPersonPlusFill,
-    BsFillPersonXFill,
-    BsFillPersonBadgeFill,
-  } from "react-icons/bs";
-  import "./Friends.css"
-
-
+import {BsFillPersonXFill,} from "react-icons/bs";
+// import RequestButton from "../../components/RequestButton/RequestButton";
+import "./Friends.css"
 
 const Friends = () => {
   const { userDocID } = useContext(AuthContext);
@@ -207,7 +170,8 @@ const Friends = () => {
           h="180px"
           w="1500px"
           bgImage={goalheader}
-          ml={10}>
+          ml={10}
+          mt="-80px">
       </Box>
       <Grid templateColumns="4fr 1fr" gap={6} m={10}>
 
@@ -224,7 +188,7 @@ const Friends = () => {
           </Thead>
           <Tbody>
             {friends.map((user) => (
-              <Tr key={user.id}>
+              <Tr key={user.docID}>
                 <Td>
                   <Flex align="center">
                     <Avatar
@@ -265,7 +229,7 @@ const Friends = () => {
       </Box>
 
       <Flex justifyContent="right" flexDirection="column">
-        <Heading>Friend requests</Heading>
+        <Heading ml={3} mb={2}>Friend requests</Heading>
         {requests.map((request) => (
           <Popover
             key={request.id}
@@ -275,7 +239,7 @@ const Friends = () => {
             
           >
             <PopoverTrigger>
-              <Button colorScheme="orange" mt={3} className="button">{request.name} wants to be friends.</Button>
+              <Button bgColor="#59a985" color="white" mt={3} className="reqbutton">{request.name} wants to be friends.</Button>
             </PopoverTrigger>
             <PopoverContent color="white" bg="blue.800" borderColor="blue.800">
               <PopoverHeader pt={4} fontWeight="bold" border="0">
