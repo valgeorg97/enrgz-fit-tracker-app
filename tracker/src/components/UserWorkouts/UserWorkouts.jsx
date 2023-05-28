@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import {collection,getDocs,query,where} from "firebase/firestore";
 import {Box,Heading,Text} from "@chakra-ui/react"
-import { db } from "../../services/firebase";
+import { db } from "../../config/firebase";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 

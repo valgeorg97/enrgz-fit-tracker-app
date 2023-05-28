@@ -2,6 +2,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import {Menu,Button,Text,MenuButton,MenuList,MenuItem,Box,Heading,} from "@chakra-ui/react";
 
 const GoalMenu = ({ mainGoals, updateCurrentGoal, currentGoal }) => {
+  
   return (
     <Box display="flex" flexDirection="column">
       <Menu>

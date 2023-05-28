@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import {collection,addDoc,serverTimestamp,getDocs,query,where,updateDoc,deleteDoc,doc} from "firebase/firestore";
-import { auth, db } from "../../services/firebase";
+import { auth, db } from "../../config/firebase";
 import {Box,Text,Grid,Flex} from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";

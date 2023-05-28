@@ -1,6 +1,6 @@
 import  React, { useState, useEffect } from 'react';
 import { Box, Input,Flex, Button, Text, VStack, CircularProgress, CircularProgressLabel, Select, Collapse, Divider } from "@chakra-ui/react";
-import { db } from '../../services/firebase';
+import { db } from '../../config/firebase';
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';

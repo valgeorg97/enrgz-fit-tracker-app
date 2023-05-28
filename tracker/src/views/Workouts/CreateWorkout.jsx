@@ -3,7 +3,7 @@ import { useState, useContext, useEffect } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
 import { difficulties } from '../../common/constants';
-import { db } from "../../services/firebase";
+import { db } from "../../config/firebase";
 
 const muscles = ['abdominals', 'abductors', 'adductors', 'biceps', 'calves', 'chest', 'forearms', 'glutes', 'hamstrings', 'lats', 'lower_back', 'middle_back', 'neck', 'quadriceps', 'traps', 'triceps'];
 

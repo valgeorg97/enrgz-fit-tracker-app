@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Flex, Box, Progress, Image,Button,Stack, useColorModeValue,ButtonGroup} from '@chakra-ui/react';
-import { db, auth } from "../../../services/firebase";
+import { db, auth } from "../../../config/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { addDoc, collection, updateDoc,getDocs,query,where } from 'firebase/firestore';
 import {useNavigate } from "react-router-dom";

@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Box,Heading,Text } from "@chakra-ui/react";
 import {collection,getDocs,query,where} from "firebase/firestore";
-import { db } from "../../services/firebase";
+import { db } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
 
 const UserGoals = () => {

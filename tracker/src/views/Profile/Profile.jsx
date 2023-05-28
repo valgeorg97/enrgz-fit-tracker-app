@@ -5,7 +5,7 @@ import PageContainer from "./PageContainer";
 import PageContent from "./PageContent";
 import { useState, useContext, useRef } from "react";
 import { updateProfile, updateEmail, deleteUser,updatePassword } from "firebase/auth";
-import { storage, auth, db } from "../../services/firebase";
+import { storage, auth, db } from "../../config/firebase";
 import { AuthContext } from "../../context/AuthContext";
 import { updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { toast, ToastContainer } from "react-toastify";

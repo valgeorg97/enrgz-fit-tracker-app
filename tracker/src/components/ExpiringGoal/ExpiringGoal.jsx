@@ -1,6 +1,6 @@
 import { useEffect, useState,useContext } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../../services/firebase";
+import { db } from "../../config/firebase";
 import { AuthContext } from "../../context/AuthContext";
 import {Text,Box,Heading,Card as ChakraCard,CardHeader,Badge} from "@chakra-ui/react";
 import {useNavigate } from 'react-router-dom';

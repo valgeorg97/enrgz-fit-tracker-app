@@ -3,7 +3,7 @@ import {Box,Heading,Divider,Button,Grid,Flex} from "@chakra-ui/react";
 import {collection,getDocs,query,where,deleteDoc,doc,addDoc,getDoc,updateDoc,} from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
-import { db } from "../../services/firebase";
+import { db } from "../../config/firebase";
 import CreateWorkout from "./CreateWorkout";
 import SingleWorkout from "./SingleWorkout";
 import WorkoutCards from "./WorkoutCards";

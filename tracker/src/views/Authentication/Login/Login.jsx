@@ -1,6 +1,6 @@
 import { Flex, FormControl, FormLabel, Input, Checkbox, Stack, Link, Button, Heading, Text, useColorModeValue, Box, } from '@chakra-ui/react';
 import { Link as RouterLink, Link as ChakraLink, useNavigate } from "react-router-dom";
-import { auth } from "../../../services/firebase";
+import { auth } from "../../../config/firebase";
 import { AuthContext } from "../../../context/AuthContext";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { useContext,useState } from "react";

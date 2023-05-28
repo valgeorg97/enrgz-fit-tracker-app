@@ -4,14 +4,12 @@ import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import userimage from "./assets/user.png"
 import { getDocs, collection, where, query,doc, updateDoc } from "firebase/firestore";
-import { auth, db } from "./services/firebase";
+import { auth, db } from "./config/firebase";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import About from "./views/About/About";
 import { useColorMode, IconButton } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-
-
 
 import Navigation from "./components/Navigation/Navigation";
 import NotFound from "./views/NotFound/NotFound";
@@ -24,7 +22,7 @@ import Login from "./views/Authentication/Login/Login";
 import LandingPage from "./views/LandingPage/LandingPage";
 import Dashboard from "./views/Dashboard/Dashboard";
 import UserMenu from "./components/UserMenu/UserMenu";
-import Calendar from "./components/Calendar"
+// import Calendar from "./components/Calendar"
 import Friends from "./views/Friends/Friends";
 
 function App() {
@@ -69,16 +67,16 @@ function App() {
           querySnapshot.forEach((doc) => {
             mainGoalsData.push({ id: doc.id, ...doc.data() });
           });
-          setMainGoals(mainGoalsData[0]);
-          if (mainGoalsData[0]) {
+          if (mainGoalsData.length > 0) { // Check if there is data
+            setMainGoals(mainGoalsData[0]);
             const mainGoalsDocRef = doc(db, "mainGoals", mainGoalsData[0].id);
             setDocRef(mainGoalsDocRef);
-
+            
             if (!mainGoalsData[0].currentGoal) {
               if (userGoal === "Extreme weight gain") {
                 updateCurrentGoal(mainGoalsData[0].extremeGain);
               } else if (userGoal === "Extreme weight loss") {
-                updateCurrentGoal(mainGoalsData[0].extremeLoss)
+                updateCurrentGoal(mainGoalsData[0].extremeLoss);
               } else if (userGoal === "Mild weight gain") {
                 updateCurrentGoal(mainGoalsData[0].mildGain);
               } else if (userGoal === "Mild weight loss") {
@@ -91,7 +89,7 @@ function App() {
                 updateCurrentGoal(mainGoalsData[0].maintain);
               }
             } else {
-              setCurrentGoal(mainGoalsData[0].currentGoal)
+              setCurrentGoal(mainGoalsData[0].currentGoal);
             }
           }
         } catch (error) {
@@ -100,7 +98,8 @@ function App() {
       }
     };
     fetchMainGoals();
-  }, [userID,userDocID,userGoal]);
+  }, [userID, userDocID, userGoal]);
+  
 
   
 
@@ -243,7 +242,7 @@ function App() {
               <Route path="profile" element={<Profile />} />
               <Route path="register" element={<Register />} />
               <Route path="login" element={<Login />} />
-              <Route path="schedule" element={<Calendar />} />
+              {/* <Route path="schedule" element={<Calendar />} /> */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Flex>

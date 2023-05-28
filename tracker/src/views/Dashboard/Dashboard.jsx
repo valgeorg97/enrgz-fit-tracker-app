@@ -4,7 +4,7 @@ import FoodCaloriesIntake from "../../components/FoodCaloriesIntake/FoodCalories
 import UserGoals from "../../components/UserGoals.jsx/UserGoals";
 import UserWorkouts from "../../components/UserWorkouts/UserWorkouts";
 import goalheader from "../../assets/goal.png";
-import Calendar from "../../components/Calendar";
+// import Calendar from "../../components/Calendar";
 import ExpiringGoal from "../../components/ExpiringGoal/ExpiringGoal";
 import gif1 from "../../assets/gif/gif1.gif";
 import gif2 from "../../assets/gif/gif2.gif";

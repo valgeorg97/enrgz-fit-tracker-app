@@ -2,7 +2,7 @@ import {Box,Text,Button,ButtonGroup,Heading,Flex,} from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext, useEffect, useState, useRef } from "react";
 import {doc,updateDoc,getDoc,} from "firebase/firestore";
-import { db } from "../../services/firebase";
+import { db } from "../../config/firebase";
 import {Popover, Tooltip,Avatar,Td,Th,Tbody,Thead,Table,Tr,Grid,PopoverTrigger,PopoverContent,PopoverHeader,PopoverArrow,PopoverCloseButton,PopoverBody,PopoverFooter} from "@chakra-ui/react";
 import goalheader from "../../assets/goal.png"
 import {BsFillPersonXFill,} from "react-icons/bs";
