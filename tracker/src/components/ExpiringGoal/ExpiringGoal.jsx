@@ -31,7 +31,6 @@ const ExpiringGoal = () => {
             })
             .slice(0, 3);
           setGoals(sortedGoals);
-          console.log(sortedGoals);
         } catch (error) {
           console.error("Error fetching goals:", error);
         }

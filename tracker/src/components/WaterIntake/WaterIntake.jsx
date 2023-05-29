@@ -106,50 +106,79 @@ const WaterCalculator = () => {
           </Box>
 
           <Box>
-            {calculatePercentage() < 50 ? (
-              <Box className="circle-container">
-                <Box className="circle"></Box>
-                <Box className="wave _0"></Box>
-                <Box className="wave _0"></Box>
-                <Box className="wave _0"></Box>
-                <Box className="wave-below _0"></Box>
-                <Box className="desc _0">
-                  <h2>Today</h2>
-                  <p>
-                    <b>{calculatePercentage()}%</b>
-                  </p>
-                </Box>
-              </Box>
-            ) : calculatePercentage() > 50 && calculatePercentage() <100 ? (
-              <Box className="circle-container">
-                <Box className="circle"></Box>
-                <Box className="wave _50"></Box>
-                <Box className="wave _50"></Box>
-                <Box className="wave _50"></Box>
-                <Box className="wave-below _50"></Box>
-                <Box className="desc _50">
-                  <h2>Today</h2>
-                  <p>
-                    <b>{calculatePercentage()}%</b>
-                  </p>
-                </Box>
-              </Box>
-            ) : calculatePercentage() == 100 ? (
-              <Box className="circle-container">
-                <Box className="circle"></Box>
-                <Box className="wave _100"></Box>
-                <Box className="wave _100"></Box>
-                <Box className="wave _100"></Box>
-                <Box className="wave-below _100"></Box>
-                <Box className="desc _100">
-                  <h2>Today</h2>
-                  <p>
-                    <b>{calculatePercentage()}%</b>
-                  </p>
-                </Box>
-              </Box>
-            ) : null}
-          </Box>
+  {calculatePercentage() < 10 ? (
+    <Box className="circle-container">
+    <Box className="circle"></Box>
+    <Box className="wave _0"></Box>
+    <Box className="wave _0"></Box>
+    <Box className="wave _0"></Box>
+    <Box className="wave-below _0"></Box>
+    <Box className="desc _0">
+      <h2>Today</h2>
+      <p>
+        <b>{calculatePercentage()}%</b>
+      </p>
+    </Box>
+  </Box>
+  ) : calculatePercentage() >= 10 && calculatePercentage() < 37 ? (
+    <Box className="circle-container">
+      <Box className="circle"></Box>
+      <Box className="wave _25"></Box>
+      <Box className="wave _25"></Box>
+      <Box className="wave _25"></Box>
+      <Box className="wave-below _25"></Box>
+      <Box className="desc _25">
+        <h2>Today</h2>
+        <p>
+          <b>{calculatePercentage()}%</b>
+        </p>
+      </Box>
+    </Box>
+  ) : calculatePercentage() >= 37 && calculatePercentage() < 65 ? (
+    <Box className="circle-container">
+      <Box className="circle"></Box>
+      <Box className="wave _50"></Box>
+      <Box className="wave _50"></Box>
+      <Box className="wave _50"></Box>
+      <Box className="wave-below _50"></Box>
+      <Box color="white" className="desc _50">
+        <h2>Today</h2>
+        <p>
+          <b>{calculatePercentage()}%</b>
+        </p>
+      </Box>
+    </Box>
+  ) : calculatePercentage() >= 65 && calculatePercentage() < 100 ? (
+    <Box className="circle-container">
+      <Box className="circle"></Box>
+      <Box className="wave _75"></Box>
+      <Box className="wave _75"></Box>
+      <Box className="wave _75"></Box>
+      <Box className="wave-below _75"></Box>
+      <Box color="white" className="desc _75">
+        <h2 >Today</h2>
+        <p>
+          <b>{calculatePercentage()}%</b>
+        </p>
+      </Box>
+    </Box>
+  ) : calculatePercentage() === 100 ? (
+    <Box className="circle-container">
+      <Box className="circle"></Box>
+      <Box className="wave _100"></Box>
+      <Box className="wave _100"></Box>
+      <Box className="wave _100"></Box>
+      <Box className="wave-below _100"></Box>
+      <Box color="white" className="desc _100">
+        <h2>Today</h2>
+        <p>
+          <b>{calculatePercentage()}%</b>
+        </p>
+      </Box>
+    </Box>
+  ) : null}
+</Box>
+
 
         <Button colorScheme="linkedin" size="sm" onClick={handleToggle}>
           {isOpen ? "Show Less" : "Show More"}
@@ -161,8 +190,8 @@ const WaterCalculator = () => {
             <Input
               size="sm"
               type="number"
-              value={consumedWater}
-              min="0"
+              // value={consumedWater}
+              // min="0"
               onChange={(e) => setConsumedWater(parseFloat(e.target.value))}
             />
           </Box>

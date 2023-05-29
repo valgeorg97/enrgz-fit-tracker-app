@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import {Box,Heading,Divider,Button,Grid,Flex} from "@chakra-ui/react";
-import {collection,getDocs,query,where,deleteDoc,doc,addDoc,getDoc,updateDoc,} from "firebase/firestore";
+import {collection,getDocs,query,where,deleteDoc,doc,addDoc,getDoc,updateDoc,writeBatch} from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import { db } from "../../config/firebase";
@@ -122,6 +122,37 @@ const Workouts = () => {
     }
   };
 
+  const handleSetActive = async (id) => {
+    try {
+      const workoutFolderRef = collection(db, `users/${userDocID}/workouts`);
+      const docRef = doc(db, `users/${userDocID}/workouts/${id}`);
+  
+      const snapshot = await getDocs(workoutFolderRef);
+      const batch = writeBatch(db);
+  
+      snapshot.forEach((doc) => {
+        const workoutData = doc.data();
+        const workoutId = doc.id;
+  
+        if (workoutId.toString() === id.toString()) {
+          // Set isActive to true for the specified workout ID
+          batch.update(docRef, { isActive: true });
+        } else {
+          // Set isActive to false for every other workout
+          batch.update(doc.ref, { isActive: false });
+        }
+      });
+  
+      await batch.commit();
+      toast.success("Workout set as active successfully!");
+    } catch (error) {
+      console.error("Error setting workout as active:", error);
+    }
+  };
+  
+  
+  
+
   return (
     <Box maxW="1660px" mt="70px">
       <Box 
@@ -164,6 +195,7 @@ const Workouts = () => {
               handleDeleteWorkout={handleDeleteWorkout}
               handleShareWorkout={handleShareWorkout}
               handleViewMoreClick={handleViewMoreClick}
+              handleSetActive={handleSetActive}
             />
           </Box>
         </Box>

@@ -1,8 +1,11 @@
 import { Box, Heading, Button,Card as ChakraCard,CardHeader,CardFooter, Badge, Text, Flex } from "@chakra-ui/react";
 import { RxEyeOpen } from "react-icons/rx";
 import { FiShare2 } from "react-icons/fi";
+import {FcApproval} from "react-icons/fc";
+import {BsFilePlay,BsStopwatch} from "react-icons/bs";
+import {FaPlay,FaStopwatch}from "react-icons/fa";
 
-const WorkoutCards = ({shared,workouts,handleViewMoreClick,handleShareWorkout,difficultyColors}) => {
+const WorkoutCards = ({shared,workouts,handleViewMoreClick,handleShareWorkout,difficultyColors,handleSetActive}) => {
   return (
     <Flex flexWrap="wrap" justifyContent="flex-start" mt={5} ml={-4}>
       {workouts.map((workout, index) => {
@@ -42,13 +45,21 @@ const WorkoutCards = ({shared,workouts,handleViewMoreClick,handleShareWorkout,di
             </CardHeader>
             <CardFooter justifyContent="right">
               {!shared && (
-                <Button mr="5px" float="right" size="sm" colorScheme="blue" onClick={() => handleShareWorkout(workout.id)}>
+                <Button variant="ghost" mr="5px" float="right" size="md"  onClick={() => handleShareWorkout(workout.id)}>
                   <Flex align="center"><FiShare2 /></Flex>
                 </Button>
               )}
-              <Button float="right" size="sm" colorScheme="green" onClick={() => {handleViewMoreClick(workout)}}>
+
+              <Button variant="ghost" float="right" size="md" onClick={() => {handleViewMoreClick(workout)}}>
                 <Flex align="center"><RxEyeOpen /></Flex>
               </Button>
+
+
+              {workout.isActive==true ? (
+                <Button variant="ghost" float="right" size="md"  ><Flex align="center"><FaStopwatch /></Flex></Button>
+              ) : (<Button variant="ghost" float="right" size="md" onClick={() => {handleSetActive(workout.id)}}><Flex align="center"><FaPlay /></Flex></Button>)}
+
+              
             </CardFooter>
           </ChakraCard>
         </Box>
