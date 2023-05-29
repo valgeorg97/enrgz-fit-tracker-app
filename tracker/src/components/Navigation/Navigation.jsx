@@ -9,17 +9,25 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {AiOutlineInfoCircle} from 'react-icons/ai'
 import { FriendsContext } from '../../context/FriendsContext';
 import logo from '../../assets/logo.png'
+import logo2 from '../../assets/logo2.png'
+
 import NavItem from './NavItem'
+import { useColorMode } from "@chakra-ui/react";
+
 
 const MotionBox = motion(Box);
 
-const Navigation = ({colorMode}) => {
+const Navigation = () => {
     const location = useLocation();
     const navigate = useNavigate()
     const {requests} = useContext(FriendsContext);
     const [navSize, changeNavSize] = useState("large")
+    const { colorMode } = useColorMode();
 
-    const bg = (colorMode) === "dark" ? "gray.600" : "white";
+
+      const bg = (colorMode) === "dark" ? "gray.800" : "white";
+      const logoto = (colorMode) === "dark" ? logo2 : logo;
+
 
 
     return (
@@ -46,7 +54,7 @@ const Navigation = ({colorMode}) => {
         >
           <MotionBox
             as={Image}
-            src={logo}
+            src={logoto}
             alt="Logo"
             w="150px"
             h="auto"
