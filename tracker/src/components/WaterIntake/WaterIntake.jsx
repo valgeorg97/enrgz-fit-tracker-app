@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext,useRef } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { db } from "../../config/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
@@ -99,11 +99,16 @@ const WaterCalculator = () => {
         <Heading size="md">Water Intake</Heading>
         <Box textAlign="center">
           <Text fontSize="sm">
-            Your recommended water intake is: {calculateWaterIntake()} liters
+            Your recommended water intake is: {parseFloat(calculateWaterIntake().toFixed(1))} liters
           </Text>
           <Text mb="10px" fontSize="sm">
-            Your water intake today: {savedWater} liters
+            Your water intake today: {parseFloat(savedWater.toFixed(1))} liters
           </Text>
+          {calculatePercentage() === 100 && (
+            <Text fontSize="sm" color="black" mb={5} fontWeight={"semibold"}>
+              You've reached your daily water intake goal. Good job on staying hydrated!
+            </Text>
+          )}
         </Box>
 
         <Box color="#3b46d3" className="circle-container">
@@ -188,8 +193,8 @@ const WaterCalculator = () => {
           <Box color="white" bgColor="rgba(0, 0, 0, 0.5)" boxShadow="md" p={2} mb={1} borderRadius="md">
             <Text fontSize="sm">Add water consumed today (liters): </Text>
             <Input
-            textAlign="center"
-            ml="85px"
+              textAlign="center"
+              ml="85px"
               size="sm"
               w="60px"
               p={2}
