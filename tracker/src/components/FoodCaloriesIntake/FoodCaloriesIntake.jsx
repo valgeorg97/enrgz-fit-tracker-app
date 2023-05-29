@@ -4,6 +4,7 @@ import { db } from '../../config/firebase';
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import { GoalContext } from '../../context/GoalContext';
 
 
 const FoodCaloriesIntake = () => {
@@ -18,9 +19,8 @@ const FoodCaloriesIntake = () => {
         Dinner: [],
         Snack: []
     });
-    const {currentGoal, setCurrentGoal} = useContext(AuthContext)
+    const {currentGoal, setCurrentGoal,userGoal} = useContext(GoalContext)
     const { userID, userDocID } = useContext(AuthContext);
-    const { userGoal } = useContext(AuthContext);
     const [isViewMore, setIsViewMore] = useState(false);
     const [expandedMealTypes, setExpandedMealTypes] = useState({
         Breakfast: false,

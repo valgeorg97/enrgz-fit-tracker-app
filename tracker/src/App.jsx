@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { AuthContext } from "./context/AuthContext"
+import { WorkoutContext } from "./context/WorkoutContext";
+import { GoalContext } from "./context/GoalContext";
 import userimage from "./assets/user.png"
 
 import About from "./views/About/About";
@@ -22,6 +24,7 @@ import LandingPage from "./views/LandingPage/LandingPage";
 import Dashboard from "./views/Dashboard/Dashboard";
 import UserMenu from "./components/UserMenu/UserMenu";
 import Friends from "./views/Friends/Friends";
+import ThemeButton from "./components/ThemeButton/ColorModeButton";
 
 function App() {
   const navigate = useNavigate();
@@ -50,7 +53,7 @@ function App() {
   const [goals, setGoals] = useState([]);
   const [finishedGoals, setFinishedGoals] = useState([]);
 
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { colorMode } = useColorMode();
   const usersCollection = collection(db, "users");
 
   useEffect(() => {
@@ -221,11 +224,12 @@ function App() {
   };
 
   return (
-    <AuthContext.Provider
+ <AuthContext.Provider
       value={{
         isLoggedIn: isAuth,
         setIsLoggedIn: setIsAuth,
         isAdmin,
+        setAdmin,
         signOut: signUserOut,
         isBlocked,
         setIsBlocked,
@@ -245,32 +249,37 @@ function App() {
         setPassword,
         phoneNumber,
         setPhoneNumber,
+        userDocID,
+        setUserDocID,
+        userGoal,
         weight,
         setWeight,
         height,
-        setHeight,
-
-        userDocID,
-        userGoal,
-
-
-        workouts,
-        setWorkouts,
-        selectedWorkout,
-        setSelectedWorkout,
-
-        currentGoal,
-        setCurrentGoal,
-        mainGoals,
-        setMainGoals,
-        goalDocRef,
-        setGoalDocRef,
-        goals,
-        setGoals,
-        finishedGoals,
-        setFinishedGoals
+        setHeight
       }}
     >
+      <WorkoutContext.Provider
+        value={{
+          workouts,
+          setWorkouts,
+          selectedWorkout,
+          setSelectedWorkout,
+        }}
+      >
+        <GoalContext.Provider
+          value={{
+            currentGoal,
+            setCurrentGoal,
+            mainGoals,
+            setMainGoals,
+            goalDocRef,
+            setGoalDocRef,
+            goals,
+            setGoals,
+            finishedGoals,
+            setFinishedGoals,
+          }}
+        >
       <ChakraProvider>
         <Flex className="App" position="relative">
           {isAuth &&
@@ -300,18 +309,11 @@ function App() {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Flex>
-          <IconButton
-          // <Switch
-            position="fixed"
-            top={4}
-            right={4}
-            icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-            onClick={toggleColorMode}
-            size="md"
-            aria-label="Toggle dark mode"
-          />
+          <ThemeButton/>
         </Flex>
-      </ChakraProvider>
+        </ChakraProvider>
+        </GoalContext.Provider>
+      </WorkoutContext.Provider>
     </AuthContext.Provider>
   );
 }

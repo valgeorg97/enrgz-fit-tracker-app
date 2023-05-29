@@ -4,11 +4,12 @@ import { FiShare2 } from "react-icons/fi";
 import {FaPlay,FaStopwatch}from "react-icons/fa";
 import { useEffect,useState,useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { WorkoutContext } from "../../context/WorkoutContext";
 
 const WorkoutCards = ({shared,handleViewMoreClick,handleShareWorkout,difficultyColors,handleSetActive}) => {
 
   const [activeWorkoutId, setActiveWorkoutId] = useState(null);
-  const {workouts,setWorkouts} = useContext(AuthContext);
+  const {workouts,setWorkouts} = useContext(WorkoutContext);
 
   useEffect(() => {
     const activeWorkout = workouts.find((workout) => workout.isActive);

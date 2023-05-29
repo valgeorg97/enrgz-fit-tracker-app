@@ -27,13 +27,9 @@ export default function Profile() {
   const [changedPhoto, setChangedPhoto] = useState(null);
   const [changedWeight, setChangedWeight] = useState("");
   const [changedHeight, setChangedHeight] = useState("");
-
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-
-
 
   let navigate = useNavigate();
 
@@ -46,8 +42,6 @@ export default function Profile() {
   const phoneInputRef = useRef(null);
   const weightInputRef = useRef(null);
   const heightInputRef = useRef(null);
-
-  
 
   const handleChangeName = (event) => {
     setChangedName(event.target.value);
@@ -67,7 +61,6 @@ export default function Profile() {
   const handleChangeAvatar = (event) => {
     setChangedPhoto(event.target.files[0]);
   };
-
   const handleChangeWeight = (event) => {
     setChangedWeight(event.target.value);
   };
@@ -112,8 +105,6 @@ export default function Profile() {
   const updateInfo = (event) => {
     event.preventDefault();
     const userRef = doc(db, "users", userDocID);
-    console.log(currentPassword);
-    console.log(password);
 
     if(currentPassword!== password) {
       toast.error("Please input your current password to update profile");
@@ -127,7 +118,6 @@ export default function Profile() {
       toast.error("No information to update");
       return;
     }
-
 
     async function uploadPhoto(file, currentUser) {
       const fileRef = ref(storage, `${currentUser}.png`);

@@ -10,6 +10,7 @@ import GoalMenu from "./GoalMenu";
 import GoalCard from "./GoalCard";
 import "react-toastify/dist/ReactToastify.css";
 import goalheader from "../../assets/goal.png"
+import { GoalContext } from "../../context/GoalContext";
 
 
 const Goals = () => {
@@ -20,7 +21,11 @@ const Goals = () => {
   const [goalCategory, setGoalCategory] = useState("");
   const [selectedGoal, setSelectedGoal] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { userID, userDocID, goalDocRef,goals,setGoals, currentGoal,finishedGoals,setFinishedGoals, setCurrentGoal, mainGoals } = useContext(AuthContext);
+  
+  const { userID, userDocID } = useContext(AuthContext);
+  const {goalDocRef,goals,setGoals, currentGoal,finishedGoals,setFinishedGoals, setCurrentGoal, mainGoals } = useContext(GoalContext);
+
+  GoalContext
   const user = auth.currentUser;
 
   const updateCurrentGoal = async (goal) => {

@@ -14,7 +14,9 @@ import { WorkoutContext } from "../../context/WorkoutContext";
 const Workouts = () => {
   const [showForm, setShowForm] = useState(false);
   const [sharedWorkouts, setSharedWorkouts] = useState([]);
-  const { userID, userDocID, workouts, setWorkouts, selectedWorkout, setSelectedWorkout } = useContext(AuthContext);
+  const { userID, userDocID } = useContext(AuthContext);
+  const { workouts, setWorkouts, selectedWorkout, setSelectedWorkout } = useContext(WorkoutContext);
+
   const [selectedSharedWorkout, setSelectedSharedWorkout] = useState(null);
 
 

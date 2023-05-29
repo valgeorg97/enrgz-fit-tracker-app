@@ -3,49 +3,46 @@ import { createContext } from "react";
 export const AuthContext = createContext({
   isLoggedIn: false,
   setIsLoggedIn: () => {},
+
   isAdmin: false,
   setAdmin: () => {},
+
   signOut: () => {},
+
   isBlocked: "",
   setIsBlocked: () => {},
+
   userID: "",
   setUserID: () => {},
-  name: "",
-  setName: () => {},
-  family: "",
-  setFamily: () => {},
-  username: "",
-  setUsername: () => {},
-  email: "",
-  setEmail: () => {},
-  photoURL: "",
-  setPhotoURL: () => {},
-  password: "",
-  setPassword: () => {},
-  phoneNumber: "",
-  setPhoneNumber: () => {},
+  
   userDocID: "",
   setUserDocID: () => {},
-  userGoal:"",
-  currentGoal:"",
-  setCurrentGoal: () => {},
-  mainGoals:"",
-  setMainGoals: () => {},
-  goalDocRef:"",
-  setGoalDocRef: () => {},
-  workouts: "",
-  setWorkouts: () => {},
-  goals: "",
-  setGoals: () => {},
-  selectedWorkout: "",
-  setSelectedWorkout: () => {},
+
+  name: "",
+  setName: () => {},
+
+  family: "",
+  setFamily: () => {},
+
+  username: "",
+  setUsername: () => {},
+
+  email: "",
+  setEmail: () => {},
+
+  photoURL: "",
+  setPhotoURL: () => {},
+
+  password: "",
+  setPassword: () => {},
+
+  phoneNumber: "",
+  setPhoneNumber: () => {},
+
   weight: "",
   setWeight: () => {},
+
   height: "",
-  setHeight: () => {},
-  finishedGoals: "",
-  setFinishedGoals: () => {},
-
+  setHeight: () => {}
 });
-
 

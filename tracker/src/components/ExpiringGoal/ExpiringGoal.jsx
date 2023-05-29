@@ -59,7 +59,6 @@ const ExpiringGoal = () => {
           <Heading
             color="white"
             size="auto"
-            // p="1px"
             mb={2}
             style={{
               overflow: "hidden",

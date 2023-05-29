@@ -13,12 +13,13 @@ import gif5 from "../../assets/gif/gif5.gif";
 import { useState,useContext,useEffect } from "react";
 import CurrentWorkout from "../../components/CurrentWorkout/CurrentWorkout";
 import { AuthContext } from "../../context/AuthContext";
+import { WorkoutContext } from "../../context/WorkoutContext";
 
 
 const Dashboard = () => {
   const [currentGif, setCurrentGif] = useState(gif1);
   const [showText, setShowText] = useState(false);
-  const { workouts } = useContext(AuthContext);
+  const { workouts } = useContext(WorkoutContext);
   const [activeWorkout, setActiveWorkout] = useState(null);
 
   useEffect(() => {

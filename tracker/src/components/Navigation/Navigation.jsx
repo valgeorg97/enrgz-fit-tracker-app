@@ -2,14 +2,13 @@ import { useState } from 'react'
 import { Flex,IconButton,Box, Image} from '@chakra-ui/react'
 import { FiMenu, FiHome } from 'react-icons/fi'
 import { motion } from "framer-motion";
-import { GiRayGun, GiStairsGoal, GiWeightLiftingUp } from 'react-icons/gi'
+import { GiStairsGoal, GiWeightLiftingUp } from 'react-icons/gi'
 import { CgProfile } from 'react-icons/cg'
 import { FaUsers } from 'react-icons/fa'
 import { useLocation, useNavigate } from 'react-router-dom';
 import {AiOutlineInfoCircle} from 'react-icons/ai'
 import logo from '../../assets/logo.png'
 import NavItem from './NavItem'
-import "./Navigation.css"
 
 const MotionBox = motion(Box);
 
