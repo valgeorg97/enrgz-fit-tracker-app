@@ -8,24 +8,31 @@ const CurrentWorkout = ({activeWorkout}) => {
     }
 
   return (
-    <Box>
-      <Heading as="h2" size="md" mb={3}>
-        Current Workout
-      </Heading>
+    <Box h="340px">
       <ChakraCard
-        background="linear-gradient(140deg, #0093E9, #80D0C7)"
+        background="linear-gradient(to bottom, rgb(173, 83, 137), rgb(60, 16, 83))"
         boxShadow="dark-lg"
         rounded="md"
         borderColor="gray.50"
         height="100%"
         p={4}
       >
-        <CardHeader height="160px">
-          <Heading as="h2" size="md" mb={3}>
+        <Heading textAlign="center" fontSize="xl" mb={6} color="white">Current workout</Heading>
+        <CardHeader color="white" height="160px">
+          <Heading as="h2" color="white" size="md" mb={3}>
             {activeWorkout.name}
           </Heading>
           <Text>
             <strong>Muscle Group:</strong> {activeWorkout.muscle}
+          </Text>
+          <Text>
+            <strong>Type:</strong> {activeWorkout.type}
+          </Text>
+          <Text>
+            <strong>Reps:</strong> {activeWorkout.reps}
+          </Text>
+          <Text>
+            <strong>Weight:</strong> {activeWorkout.weight}
           </Text>
           <Text>
             <strong>Number of Exercises:</strong>{" "}
@@ -33,13 +40,13 @@ const CurrentWorkout = ({activeWorkout}) => {
           </Text>
           <Text>
             <strong>Difficulty:</strong>{" "}
-            <Badge colorScheme={activeWorkout.difficulty}>
+            <Badge fontSize="lg" colorScheme={activeWorkout.difficulty}>
               {activeWorkout.difficulty}
             </Badge>
           </Text>
         </CardHeader>
         <CardFooter justifyContent="right">
-          <Button variant="ghost" float="right" size="md">
+          <Button mt={6} float="right" size="md">
             <Flex align="center">
               <FaStopwatch />
             </Flex>

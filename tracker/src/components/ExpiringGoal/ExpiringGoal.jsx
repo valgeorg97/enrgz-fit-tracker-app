@@ -1,44 +1,24 @@
 import { useEffect, useState,useContext } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../../config/firebase";
-import { AuthContext } from "../../context/AuthContext";
 import {Text,Box,Heading,Card as ChakraCard,CardHeader,Badge} from "@chakra-ui/react";
 import {useNavigate } from 'react-router-dom';
-
+import { GoalContext } from '../../context/GoalContext';
 
 const ExpiringGoal = () => {
-  const [goals, setGoals] = useState([]);
-  const {userDocID,userID} = useContext(AuthContext)
+  const [expiringGoals, setExpiringGoals] = useState([]);
+  const {goals} = useContext(GoalContext)
   const navigate = useNavigate()
 
   useEffect(() => {
-    const fetchGoals = async () => {
-      if (userDocID) {
-        try {
-          const q = query(collection(db, `users/${userDocID}/goals`), where("owner", "==", userID));
-          const querySnapshot = await getDocs(q);
-          const goalsData = [];
-          querySnapshot.forEach((doc) => {
-            const goal = { id: doc.id, ...doc.data() };
-            goalsData.push(goal);
-          });
-          const sortedGoals = goalsData
-            .filter((goal) => goal.status !== "finished")
-            .sort((a, b) => {
-              const dateA = new Date(a.to).getTime();
-              const dateB = new Date(b.to).getTime();
-              return dateA - dateB;
-            })
-            .slice(0, 3);
-          setGoals(sortedGoals);
-        } catch (error) {
-          console.error("Error fetching goals:", error);
-        }
-      }
-    };
-
-    fetchGoals();
-  }, [userID, userDocID]);
+    const sortedGoals = goals
+      .filter((goal) => goal.status !== "finished")
+      .sort((a, b) => {
+        const dateA = new Date(a.to).getTime();
+        const dateB = new Date(b.to).getTime();
+        return dateA - dateB;
+      })
+      .slice(0, 3);
+    setExpiringGoals(sortedGoals);
+  }, [goals]);
 
   const difficultyColors = {
     finished: "green",
@@ -46,7 +26,7 @@ const ExpiringGoal = () => {
   };
   return (
     <Box display="flex" flexWrap="wrap" justifyContent="space-between" m={3}>
-      {goals.map((goal) => (
+      {expiringGoals.map((goal) => (
         <Box key={goal.id} >
           <ChakraCard
             background="linear-gradient(15deg, #13547a, #80d0c7)"

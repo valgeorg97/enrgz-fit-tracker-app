@@ -2,8 +2,8 @@ import { Flex, FormControl, FormLabel, Input, Checkbox, Stack, Link, Button, Hea
 import { Link as RouterLink, Link as ChakraLink, useNavigate } from "react-router-dom";
 import { auth } from "../../../config/firebase";
 import { AuthContext } from "../../../context/AuthContext";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { useContext,useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {

@@ -24,8 +24,6 @@ const Goals = () => {
   
   const { userID, userDocID } = useContext(AuthContext);
   const {goalDocRef,goals,setGoals, currentGoal,finishedGoals,setFinishedGoals, setCurrentGoal, mainGoals } = useContext(GoalContext);
-
-  GoalContext
   const user = auth.currentUser;
 
   const updateCurrentGoal = async (goal) => {

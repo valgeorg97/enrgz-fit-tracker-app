@@ -1,6 +1,5 @@
 import { useContext} from "react";
 import {Box,Heading,Text} from "@chakra-ui/react"
-import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { WorkoutContext } from "../../context/WorkoutContext";
 

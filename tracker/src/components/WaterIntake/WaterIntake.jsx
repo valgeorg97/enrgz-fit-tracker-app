@@ -6,7 +6,6 @@ import {
   Box,
   Input,
   Heading,
-  Progress,
   Text,
   VStack,
   Button,
@@ -23,7 +22,7 @@ const WaterCalculator = () => {
   const [savedWater, setSavedWater] = useState(0);
   const { userDocID } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { colorMode } = useColorMode();
 
   const handleToggle = () => setIsOpen(!isOpen);
   const waterBground = colorMode === "dark" ? "gray.800" : "white";

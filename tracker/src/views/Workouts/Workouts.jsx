@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import {Box,Heading,Divider,Button,Grid,Flex} from "@chakra-ui/react";
-import {collection,getDocs,query,where,deleteDoc,doc,addDoc,getDoc,updateDoc,writeBatch} from "firebase/firestore";
+import {collection,getDocs,deleteDoc,doc,addDoc,getDoc,updateDoc,writeBatch} from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import { db } from "../../config/firebase";
@@ -15,7 +15,7 @@ const Workouts = () => {
   const [showForm, setShowForm] = useState(false);
   const [sharedWorkouts, setSharedWorkouts] = useState([]);
   const { userID, userDocID } = useContext(AuthContext);
-  const { workouts, setWorkouts, selectedWorkout, setSelectedWorkout } = useContext(WorkoutContext);
+  const { setWorkouts, selectedWorkout, setSelectedWorkout } = useContext(WorkoutContext);
 
   const [selectedSharedWorkout, setSelectedSharedWorkout] = useState(null);
 

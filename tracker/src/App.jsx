@@ -1,11 +1,10 @@
-import { ChakraProvider, Flex,Switch,useColorMode, IconButton } from "@chakra-ui/react"
+import { ChakraProvider, Flex,useColorMode } from "@chakra-ui/react"
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getDocs, collection, where, query,doc, updateDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "./config/firebase";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { AuthContext } from "./context/AuthContext"
 import { WorkoutContext } from "./context/WorkoutContext";
 import { GoalContext } from "./context/GoalContext";
