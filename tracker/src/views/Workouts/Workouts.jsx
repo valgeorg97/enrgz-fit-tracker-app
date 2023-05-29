@@ -8,6 +8,7 @@ import CreateWorkout from "./CreateWorkout";
 import SingleWorkout from "./SingleWorkout";
 import WorkoutCards from "./WorkoutCards";
 import goalheader from "../../assets/goal.png"
+import { WorkoutContext } from "../../context/WorkoutContext";
 
 
 const Workouts = () => {
@@ -15,6 +16,7 @@ const Workouts = () => {
   const [sharedWorkouts, setSharedWorkouts] = useState([]);
   const { userID, userDocID, workouts, setWorkouts, selectedWorkout, setSelectedWorkout } = useContext(AuthContext);
   const [selectedSharedWorkout, setSelectedSharedWorkout] = useState(null);
+
 
   const handleViewMoreClick = (workout) => {
     setSelectedWorkout(workout);
@@ -35,28 +37,6 @@ const Workouts = () => {
   const handleAddWorkout = (workout) => {
     setWorkouts((prevWorkouts) => [...prevWorkouts, workout]);
   };
-
-  useEffect(() => {
-    const fetchWorkouts = async () => {
-      if (userDocID) {
-        try {
-          const q = query(
-            collection(db, `users/${userDocID}/workouts`),
-            where("owner", "==", userID)
-          );
-          const querySnapshot = await getDocs(q);
-          const workoutData = [];
-          querySnapshot.forEach((doc) => {
-            workoutData.push({ id: doc.id, ...doc.data() });
-          });
-          setWorkouts(workoutData);
-        } catch (error) {
-          console.error("Error fetching workouts:", error);
-        }
-      }
-    };
-    fetchWorkouts();
-  }, [userDocID, userID]);
 
   useEffect(() => {
     const fetchSharedWorkouts = async () => {
@@ -126,23 +106,17 @@ const Workouts = () => {
     try {
       const workoutFolderRef = collection(db, `users/${userDocID}/workouts`);
       const docRef = doc(db, `users/${userDocID}/workouts/${id}`);
-  
       const snapshot = await getDocs(workoutFolderRef);
       const batch = writeBatch(db);
   
       snapshot.forEach((doc) => {
-        const workoutData = doc.data();
         const workoutId = doc.id;
-  
         if (workoutId.toString() === id.toString()) {
-          // Set isActive to true for the specified workout ID
           batch.update(docRef, { isActive: true });
         } else {
-          // Set isActive to false for every other workout
           batch.update(doc.ref, { isActive: false });
         }
       });
-  
       await batch.commit();
       toast.success("Workout set as active successfully!");
     } catch (error) {
@@ -150,9 +124,6 @@ const Workouts = () => {
     }
   };
   
-  
-  
-
   return (
     <Box maxW="1660px" mt="70px">
       <Box 
@@ -190,7 +161,6 @@ const Workouts = () => {
             mb={2}
           >
             <WorkoutCards
-              workouts={workouts}
               difficultyColors={difficultyColors}
               handleDeleteWorkout={handleDeleteWorkout}
               handleShareWorkout={handleShareWorkout}

@@ -1,5 +1,5 @@
-import { useState, useContext, useEffect } from "react";
-import {collection,addDoc,serverTimestamp,getDocs,query,where,updateDoc,deleteDoc,doc} from "firebase/firestore";
+import { useState, useContext } from "react";
+import {collection,addDoc,serverTimestamp,updateDoc,deleteDoc,doc} from "firebase/firestore";
 import { auth, db } from "../../config/firebase";
 import {Box,Text,Grid,Flex} from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
@@ -17,58 +17,22 @@ const Goals = () => {
   const [goalNote, setGoalNote] = useState("");
   const [goalFrom, setGoalFrom] = useState("");
   const [goalTo, setGoalTo] = useState("");
-  const [goals, setGoals] = useState([]);
   const [goalCategory, setGoalCategory] = useState("");
   const [selectedGoal, setSelectedGoal] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [goalStatus, setGoalStatus] = useState("active")
-  const [finishedGoals, setFinishedGoals] = useState([]);
-
-  const { userID, userDocID, docRef, currentGoal, setCurrentGoal, mainGoals } = useContext(AuthContext);
+  const { userID, userDocID, goalDocRef,goals,setGoals, currentGoal,finishedGoals,setFinishedGoals, setCurrentGoal, mainGoals } = useContext(AuthContext);
   const user = auth.currentUser;
-
-  useEffect(() => {
-    const fetchGoals = async () => {
-  if (userDocID) {
-    try {
-      const q = query(
-        collection(db, `users/${userDocID}/goals`),
-        where("owner", "==", userID)
-      );
-      const querySnapshot = await getDocs(q);
-      const goalsData = [];
-      const finishedGoalsData = [];
-      querySnapshot.forEach((doc) => {
-        const goal = { id: doc.id, ...doc.data() };
-        if (goal.status === "finished") {
-          finishedGoalsData.push(goal);
-        } else {
-          goalsData.push(goal);
-        }
-      });
-      setGoals(goalsData);
-      setFinishedGoals(finishedGoalsData);
-    } catch (error) {
-      console.error("Error fetching goals:", error);
-    }
-  }
-};
-
-    fetchGoals();
-  }, [userID, userDocID]);
-
-  
 
   const updateCurrentGoal = async (goal) => {
     setCurrentGoal(goal);
     const dataWithDocID = { currentGoal: goal };
-    await updateDoc(docRef, dataWithDocID);
+    await updateDoc(goalDocRef, dataWithDocID);
   };
 
   const createGoal = async () => {
     if (user) {
       try {
-        const goalDocRef = await addDoc(collection(db, `users/${userDocID}/goals`),
+        const updateGoal = await addDoc(collection(db, `users/${userDocID}/goals`),
           {
             name: goalName,
             text: goalNote,
@@ -76,19 +40,19 @@ const Goals = () => {
             from: goalFrom,
             to: goalTo,
             category: goalCategory,
-            status: goalStatus,
+            status: "active",
             createdAt: serverTimestamp(),
           });
 
         const createdGoal = {
-          id: goalDocRef.id,
+          id: updateGoal.id,
           name: goalName,
           text: goalNote,
           owner: userID,
           from: goalFrom,
           to: goalTo,
           category: goalCategory,
-          status: goalStatus,
+          status: "active",
           createdAt: new Date().toISOString(),
         };
         setGoals((prevGoals) => [...prevGoals, createdGoal]);
@@ -169,12 +133,17 @@ const Goals = () => {
       await updateDoc(goalRef, { status: "finished" });
       closeModal();
       toast.success("Goal finished successfully!");
+
       setGoals((prevGoals) => prevGoals.filter((g) => g.id !== goal.id));
-      setFinishedGoals((prevFinishedGoals) => [...prevFinishedGoals, goal]);
+      setFinishedGoals((prevFinishedGoals) => [
+        ...prevFinishedGoals,
+        { ...goal, status: "finished" },
+      ]);
     } catch (error) {
       console.error("Error finishing goal:", error);
     }
   };
+  
 
   const difficultyColors = {
     finished: "green",

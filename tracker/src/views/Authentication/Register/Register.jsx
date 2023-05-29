@@ -42,7 +42,6 @@ const Register = () => {
   const [nameError, setNameError] = useState('');
   const [familyError, setFamilyError] = useState('');
 
-
   const usersCollectionRef = collection(db, 'users');
   const usersQuery = query(usersCollectionRef);
 

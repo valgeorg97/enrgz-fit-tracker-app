@@ -1,16 +1,15 @@
-import { ChakraProvider, Flex,Switch } from "@chakra-ui/react"
-import { AuthContext } from "./context/AuthContext"
+import { ChakraProvider, Flex,Switch,useColorMode, IconButton } from "@chakra-ui/react"
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
-import userimage from "./assets/user.png"
 import { getDocs, collection, where, query,doc, updateDoc } from "firebase/firestore";
 import { auth, db } from "./config/firebase";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import About from "./views/About/About";
-import { useColorMode, IconButton } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { AuthContext } from "./context/AuthContext"
+import userimage from "./assets/user.png"
 
+import About from "./views/About/About";
 import Navigation from "./components/Navigation/Navigation";
 import NotFound from "./views/NotFound/NotFound";
 import Register from "./views/Authentication/Register/Register"
@@ -22,7 +21,6 @@ import Login from "./views/Authentication/Login/Login";
 import LandingPage from "./views/LandingPage/LandingPage";
 import Dashboard from "./views/Dashboard/Dashboard";
 import UserMenu from "./components/UserMenu/UserMenu";
-// import Calendar from "./components/Calendar"
 import Friends from "./views/Friends/Friends";
 
 function App() {
@@ -39,17 +37,18 @@ function App() {
   const [photoURL, setPhotoURL] = useState(userimage);
   const [password, setPassword] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
-  const [userGoal, setUserGoal] = useState("")
-  const [currentGoal, setCurrentGoal] = useState({calory: 0});
-  const [mainGoals, setMainGoals] = useState([]);
-  const [docRef, setDocRef] = useState(null);
-  const [workouts, setWorkouts] = useState([]);
-  const [selectedWorkout, setSelectedWorkout] = useState(null);
   const [weight,setWeight] = useState("")
   const [height,setHeight] = useState("")
 
+  const [workouts, setWorkouts] = useState([]);
+  const [selectedWorkout, setSelectedWorkout] = useState(null);
 
-  
+  const [userGoal, setUserGoal] = useState("")
+  const [currentGoal, setCurrentGoal] = useState({calory: 0});
+  const [mainGoals, setMainGoals] = useState([]);
+  const [goalDocRef, setGoalDocRef] = useState(null);
+  const [goals, setGoals] = useState([]);
+  const [finishedGoals, setFinishedGoals] = useState([]);
 
   const { colorMode, toggleColorMode } = useColorMode();
   const usersCollection = collection(db, "users");
@@ -67,10 +66,10 @@ function App() {
           querySnapshot.forEach((doc) => {
             mainGoalsData.push({ id: doc.id, ...doc.data() });
           });
-          if (mainGoalsData.length > 0) { // Check if there is data
+          if (mainGoalsData.length > 0) {
             setMainGoals(mainGoalsData[0]);
             const mainGoalsDocRef = doc(db, "mainGoals", mainGoalsData[0].id);
-            setDocRef(mainGoalsDocRef);
+            setGoalDocRef(mainGoalsDocRef);
             
             if (!mainGoalsData[0].currentGoal) {
               if (userGoal === "Extreme weight gain") {
@@ -99,10 +98,60 @@ function App() {
     };
     fetchMainGoals();
   }, [userID, userDocID, userGoal]);
-  
 
-  
+  useEffect(() => {
+    const fetchWorkouts = async () => {
+      if (userDocID) {
+        try {
+          const q = query(
+            collection(db, `users/${userDocID}/workouts`),
+            where("owner", "==", userID)
+          );
+          const querySnapshot = await getDocs(q);
+          const workoutData = [];
+          querySnapshot.forEach((doc) => {
+            workoutData.push({ id: doc.id, ...doc.data() });
+          });
+          setWorkouts(workoutData);
+        } catch (error) {
+          console.error("Error fetching workouts:", error);
+        }
+      }
+    };
+    fetchWorkouts();
+  }, [userDocID, userID]);
 
+  useEffect(() => {
+    const fetchGoals = async () => {
+  if (userDocID) {
+    try {
+      const q = query(
+        collection(db, `users/${userDocID}/goals`),
+        where("owner", "==", userID)
+      );
+      const querySnapshot = await getDocs(q);
+      const goalsData = [];
+      const finishedGoalsData = [];
+      querySnapshot.forEach((doc) => {
+        const goal = { id: doc.id, ...doc.data() };
+        if (goal.status === "finished") {
+          finishedGoalsData.push(goal);
+        } else {
+          goalsData.push(goal);
+        }
+      });
+      setGoals(goalsData);
+      setFinishedGoals(finishedGoalsData);
+    } catch (error) {
+      console.error("Error fetching goals:", error);
+    }
+  }
+};
+
+    fetchGoals();
+  }, [userID, userDocID]);
+  
+  
   useEffect(() => {
     const getUsers = async () => {
       const q = query(usersCollection, where("id", "==", userID));
@@ -124,7 +173,6 @@ function App() {
         setWeight(doc.data().weight)
         setHeight(doc.data().height)
         setPassword(doc.data().password)
-
       });
     };
     getUsers();
@@ -166,8 +214,8 @@ function App() {
   const updateCurrentGoal = async (goal) => {
     setCurrentGoal(goal);
     const dataWithDocID = { currentGoal: goal };
-    if(docRef) {
-      await updateDoc(docRef, dataWithDocID);
+    if(goalDocRef) {
+      await updateDoc(goalDocRef, dataWithDocID);
 
     }
   };
@@ -197,22 +245,30 @@ function App() {
         setPassword,
         phoneNumber,
         setPhoneNumber,
-        userDocID,
-        userGoal,
-        currentGoal,
-        setCurrentGoal,
-        mainGoals,
-        setMainGoals,
-        docRef,
-        setDocRef,
-        workouts,
-        setWorkouts,
-        selectedWorkout,
-        setSelectedWorkout,
         weight,
         setWeight,
         height,
         setHeight,
+
+        userDocID,
+        userGoal,
+
+
+        workouts,
+        setWorkouts,
+        selectedWorkout,
+        setSelectedWorkout,
+
+        currentGoal,
+        setCurrentGoal,
+        mainGoals,
+        setMainGoals,
+        goalDocRef,
+        setGoalDocRef,
+        goals,
+        setGoals,
+        finishedGoals,
+        setFinishedGoals
       }}
     >
       <ChakraProvider>
@@ -237,12 +293,10 @@ function App() {
               <Route path="goals" element={<Goals />} />
               <Route path="community" element={<Community />} />
               <Route path="friends" element={<Friends />} />
-
               <Route path="about" element={<About />} />
               <Route path="profile" element={<Profile />} />
               <Route path="register" element={<Register />} />
               <Route path="login" element={<Login />} />
-              {/* <Route path="schedule" element={<Calendar />} /> */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Flex>

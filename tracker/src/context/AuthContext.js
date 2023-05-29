@@ -31,16 +31,21 @@ export const AuthContext = createContext({
   setCurrentGoal: () => {},
   mainGoals:"",
   setMainGoals: () => {},
-  docRef:"",
-  setDocRef: () => {},
-  workout: "",
+  goalDocRef:"",
+  setGoalDocRef: () => {},
+  workouts: "",
   setWorkouts: () => {},
+  goals: "",
+  setGoals: () => {},
   selectedWorkout: "",
   setSelectedWorkout: () => {},
   weight: "",
   setWeight: () => {},
   height: "",
   setHeight: () => {},
+  finishedGoals: "",
+  setFinishedGoals: () => {},
+
 });
 
 

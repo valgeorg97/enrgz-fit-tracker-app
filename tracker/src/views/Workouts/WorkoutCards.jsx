@@ -1,11 +1,32 @@
 import { Box, Heading, Button,Card as ChakraCard,CardHeader,CardFooter, Badge, Text, Flex } from "@chakra-ui/react";
 import { RxEyeOpen } from "react-icons/rx";
 import { FiShare2 } from "react-icons/fi";
-import {FcApproval} from "react-icons/fc";
-import {BsFilePlay,BsStopwatch} from "react-icons/bs";
 import {FaPlay,FaStopwatch}from "react-icons/fa";
+import { useEffect,useState,useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
-const WorkoutCards = ({shared,workouts,handleViewMoreClick,handleShareWorkout,difficultyColors,handleSetActive}) => {
+const WorkoutCards = ({shared,handleViewMoreClick,handleShareWorkout,difficultyColors,handleSetActive}) => {
+
+  const [activeWorkoutId, setActiveWorkoutId] = useState(null);
+  const {workouts,setWorkouts} = useContext(AuthContext);
+
+  useEffect(() => {
+    const activeWorkout = workouts.find((workout) => workout.isActive);
+    setActiveWorkoutId(activeWorkout ? activeWorkout.id : null);
+  }, [workouts]);
+
+  const handleSetActiveAndUpdate = (id) => {
+    handleSetActive(id);
+    const updatedWorkouts = workouts.map((workout) => {
+      if (workout.id === id) {
+        return { ...workout, isActive: true };
+      }
+      return { ...workout, isActive: false };
+    });
+    setActiveWorkoutId(id);
+    setWorkouts(updatedWorkouts);
+  };
+
   return (
     <Flex flexWrap="wrap" justifyContent="flex-start" mt={5} ml={-4}>
       {workouts.map((workout, index) => {
@@ -55,9 +76,9 @@ const WorkoutCards = ({shared,workouts,handleViewMoreClick,handleShareWorkout,di
               </Button>
 
 
-              {workout.isActive==true ? (
+              {activeWorkoutId === workout.id ? (
                 <Button variant="ghost" float="right" size="md"  ><Flex align="center"><FaStopwatch /></Flex></Button>
-              ) : (<Button variant="ghost" float="right" size="md" onClick={() => {handleSetActive(workout.id)}}><Flex align="center"><FaPlay /></Flex></Button>)}
+              ) : (<Button variant="ghost" float="right" size="md" onClick={() => {handleSetActiveAndUpdate(workout.id)}}><Flex align="center"><FaPlay /></Flex></Button>)}
 
               
             </CardFooter>

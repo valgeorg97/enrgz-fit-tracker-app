@@ -1,21 +1,31 @@
-import { Box, VStack, HStack, Text, Heading,Image } from "@chakra-ui/react";
+import { Box, VStack, HStack, Text,Image } from "@chakra-ui/react";
 import WaterCalculator from "../../components/WaterIntake/WaterIntake";
-import FoodCaloriesIntake from "../../components/FoodCaloriesIntake/FoodCaloriesIntake";
+// import FoodCaloriesIntake from "../../components/FoodCaloriesIntake/FoodCaloriesIntake";
 import UserGoals from "../../components/UserGoals.jsx/UserGoals";
 import UserWorkouts from "../../components/UserWorkouts/UserWorkouts";
 import goalheader from "../../assets/goal.png";
-// import Calendar from "../../components/Calendar";
 import ExpiringGoal from "../../components/ExpiringGoal/ExpiringGoal";
 import gif1 from "../../assets/gif/gif1.gif";
 import gif2 from "../../assets/gif/gif2.gif";
 import gif3 from "../../assets/gif/gif3.gif";
 import gif4 from "../../assets/gif/gif4.gif";
 import gif5 from "../../assets/gif/gif5.gif";
-import { useState } from "react";
+import { useState,useContext,useEffect } from "react";
+import CurrentWorkout from "../../components/CurrentWorkout/CurrentWorkout";
+import { AuthContext } from "../../context/AuthContext";
+
 
 const Dashboard = () => {
   const [currentGif, setCurrentGif] = useState(gif1);
   const [showText, setShowText] = useState(false);
+  const { workouts } = useContext(AuthContext);
+  const [activeWorkout, setActiveWorkout] = useState(null);
+
+  useEffect(() => {
+    const newActiveWorkout = workouts.find((workout) => workout.isActive);
+    setActiveWorkout(newActiveWorkout);
+  }, [workouts]);
+
 
   const handleClick = () => {
     if (currentGif === gif1) setCurrentGif(gif2);
@@ -41,7 +51,7 @@ const Dashboard = () => {
         </Box>
 
         <Box textAlign="center" w="600px" h="200px" boxShadow="dark-lg" rounded="md">
-          <Text>Some graph</Text>
+          <CurrentWorkout activeWorkout={activeWorkout} />
         </Box>
 
         <Box rounded="md" borderColor="gray.50">
@@ -56,7 +66,7 @@ const Dashboard = () => {
       <HStack ml={10} mt={4}>
         <VStack mr={5}>
           <Box>
-            <FoodCaloriesIntake />
+            {/* <FoodCaloriesIntake /> */}
           </Box>
         </VStack>
 
@@ -75,7 +85,7 @@ const Dashboard = () => {
               textAlign="center"
             >
               <Text p={10} fontSize="xl" fontWeight="bold">
-                Stop clicking the gif and go do some PUSH UPS 😡
+                Stop clicking the gif and go do some PUSH UPS
               </Text>
             </Box>
           ) : (
