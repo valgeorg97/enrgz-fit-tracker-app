@@ -1,10 +1,11 @@
-import { Flex, FormControl, FormLabel, Input, Checkbox, Stack, Link, Button, Heading, Text, useColorModeValue, Box, } from '@chakra-ui/react';
+import { Flex, FormControl, FormLabel, Input, Checkbox, Stack, Link, Button, Heading, Text, useColorModeValue, Box, Image, Center } from '@chakra-ui/react';
 import { Link as RouterLink, Link as ChakraLink, useNavigate } from "react-router-dom";
 import { auth } from "../../../config/firebase";
 import { AuthContext } from "../../../context/AuthContext";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import Logo from "../../../assets/logo.png"
 
 const Login = () => {
 
@@ -36,10 +37,13 @@ const Login = () => {
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+        <Center>
+          <Image src={Logo} alt="Energize Logo" w={64} />
+        </Center>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'}>Sign in to your account</Heading>
           <Text fontSize={'lg'} color={'gray.600'}>
-            to enjoy all of our cool <Link color={'blue.400'}>features</Link> ✌️
+            to enjoy all of our cool features ✌️
           </Text>
         </Stack>
         <Box
