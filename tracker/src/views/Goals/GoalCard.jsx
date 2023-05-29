@@ -5,7 +5,7 @@ const GoalCard = ({ goal, openModal, difficultyColors }) => {
   return (
     <Box key={goal.id} mr={4} mb="50px" width="240px" height="250px">
       <ChakraCard
-        background="linear-gradient(140deg, #0093E9, #80D0C7)"
+        background="linear-gradient(15deg, #13547a 0%, #80d0c7 100%)"
         boxShadow="dark-lg"
         rounded="md"
         borderColor="gray.50"

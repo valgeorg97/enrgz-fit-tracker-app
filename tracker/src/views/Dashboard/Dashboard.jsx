@@ -39,7 +39,7 @@ const Dashboard = () => {
         </Box>
       </HStack>
 
-      <HStack ml={10} mt={4}>
+      <HStack ml={10}>
         <VStack mr={5}>
           <Box>
             <FoodCaloriesIntake />
@@ -48,7 +48,7 @@ const Dashboard = () => {
 
         <HStack >
           <DashboardGif />
-          <Box w="646px" h="305px" boxShadow="lg" rounded="md">
+          <Box bgColor="blue.800" w="646px" h="305px" boxShadow="lg" rounded="md">
             <ExpiringGoal />
           </Box>
         </HStack>

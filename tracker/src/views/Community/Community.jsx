@@ -1,43 +1,14 @@
 import { db } from "../../config/firebase";
-import {
-  getDocs,
-  collection,
-  query,
-  where,
-  deleteDoc,
-  doc,
-  updateDoc,
-  getDoc,
-} from "firebase/firestore";
+import {getDocs,collection,query,where,deleteDoc,doc,updateDoc,getDoc,} from "firebase/firestore";
 import { useState, useEffect, useContext } from "react";
-import {
-  Box,
-  Button,
-  Text,
-  Tooltip,
-  Avatar,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
-  Flex,
-  Td,
-  Th,
-  Tbody,
-  Thead,
-  Table,
-  Tr,
-} from "@chakra-ui/react";
-import goalheader from "../../assets/goal.png";
+import {Box,Button,Text,Tooltip,Avatar,FormControl,FormLabel,Input,Select,Flex,Td,Th,Tbody,Thead,Table,Tr,} from "@chakra-ui/react";
 import { AiFillLock, AiFillUnlock } from "react-icons/ai";
 import { AuthContext } from "../../context/AuthContext";
 import { MdDeleteForever } from "react-icons/md";
-import {
-  BsFillPersonCheckFill,
-  BsFillPersonPlusFill,
-  BsFillPersonXFill,
-  BsFillPersonBadgeFill,
-} from "react-icons/bs";
+import {BsFillPersonCheckFill,BsFillPersonPlusFill,BsFillPersonXFill,BsFillPersonBadgeFill,} from "react-icons/bs";
+import { useColorMode } from "@chakra-ui/react";
+import goalheader from "../../assets/goal.png";
+
 
 const Community = () => {
   const usersCollection = collection(db, "users");
@@ -45,6 +16,11 @@ const Community = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchType, setSearchType] = useState("name");
   const { userDocID, name, family } = useContext(AuthContext);
+  const { colorMode } = useColorMode();
+
+  const bg = colorMode === "dark" ? "gray.800" : "white";
+
+
 
   const handleSearchTermChange = (event) => {
     setSearchTerm(event.target.value);
@@ -155,6 +131,7 @@ const Community = () => {
         p={4}
         borderRadius="lg"
         boxShadow="lg"
+        bgColor={bg}
       >
         <Box>
           <FormControl mb={4}>
@@ -170,7 +147,7 @@ const Community = () => {
               id="searchType"
               value={searchType}
               onChange={handleSearchTypeChange}
-              bg="white"
+              bg="bg"
             >
               <option value="name">Name</option>
               <option value="username">Username</option>
@@ -192,7 +169,7 @@ const Community = () => {
               id="searchTerm"
               value={searchTerm}
               onChange={handleSearchTermChange}
-              bg="white"
+              bg={bg}
               borderRadius="sm"
               borderColor="gray.300"
               _focus={{ borderColor: "blue.500", boxShadow: "outline" }}
