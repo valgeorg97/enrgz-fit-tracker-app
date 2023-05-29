@@ -209,26 +209,22 @@ const FoodCaloriesIntake = () => {
         kcal
       </Text>
 
-      <Text fontSize="xl" mb={2}>
-        {
-          consumedCalories > currentGoal.calory
-            ? `Calories over: ${(consumedCalories - currentGoal.calory).toFixed(0)} kcal`
-            : `Calories Remaining: ${(currentGoal.calory - consumedCalories).toFixed(0)} kcal`
-        }
-      </Text>
       <CircularProgress value={calorieProgress} color="green.400" size="150px">
         <CircularProgressLabel>
           {
-            calorieProgress >= 100
+            consumedCalories > currentGoal.calory
               ? (
                 <Box display="flex" flexDirection="column" alignItems="center">
-                  <Text fontSize="15px" fontWeight={"bold"} color="green.400">Goal</Text>
-                  <Text fontSize="15px" fontWeight={"bold"} color="green.400">Completed!</Text>
-                  <CheckIcon w={8} h={8} color="green.400" />
+                  
+                  <Text fontSize="18px" fontWeight={"semibold"} >Over</Text>
+                  <Text fontSize="18px" fontWeight={"semibold"}>{`${(consumedCalories - currentGoal.calory).toFixed(0)} kcal`}</Text>
                 </Box>
               )
               : (
-                <Box fontSize="2xl">{`${calorieProgress.toFixed(0)}%`}</Box>
+                <Box display="flex" flexDirection="column" alignItems="center">
+                  <Text fontSize="2xl">{`${(currentGoal.calory - consumedCalories).toFixed(0)} kcal`}</Text>
+                  <Text fontSize="15px" fontWeight={"bold"} color="green.400">Remaining</Text>
+                </Box>
               )
           }
         </CircularProgressLabel>
