@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Flex, Box, Progress, Image,Button,Stack, useColorModeValue,ButtonGroup} from '@chakra-ui/react';
+import { Flex, Box, Progress, Image, Button, Stack, useColorModeValue, ButtonGroup } from '@chakra-ui/react';
 import { db, auth } from "../../../config/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { addDoc, collection, updateDoc,getDocs,query,where } from 'firebase/firestore';
-import {useNavigate } from "react-router-dom";
+import { addDoc, collection, updateDoc, getDocs, query, where } from 'firebase/firestore';
+import { useNavigate } from "react-router-dom";
 import Logo from "../../../assets/logo.png"
 import Form1 from './Forms/Form1';
 import Form2 from './Forms/Form2';
@@ -119,7 +119,7 @@ const Register = () => {
       setRegFamily(family);
     }
   }
-  
+
   const calculateAge = (birthdate) => {
     const diffMs = Date.now() - birthdate.getTime();
     const ageDt = new Date(diffMs);
@@ -128,7 +128,7 @@ const Register = () => {
 
   const calculateCalories = async () => {
     const age = calculateAge(new Date(regYear));
-  
+
     let apiActivityLevel;
     switch (regActivityLevel) {
       case 'lightly-active':
@@ -141,9 +141,9 @@ const Register = () => {
         apiActivityLevel = 'level_4';
         break;
       default:
-        apiActivityLevel = 'level_1'; 
+        apiActivityLevel = 'level_1';
     }
-  
+
     const response = await fetch(`https://fitness-calculator.p.rapidapi.com/dailycalorie?age=${age}&gender=${regGender}&height=${regHeight}&weight=${regWeight}&activitylevel=${apiActivityLevel}`, {
       method: 'GET',
       headers: {
@@ -151,40 +151,40 @@ const Register = () => {
         'X-RapidAPI-Host': 'fitness-calculator.p.rapidapi.com'
       }
     });
-  
+
     if (response.ok) {
       const data = await response.json();
-      return { bmr: data.data.BMR, goals: data.data.goals};
+      return { bmr: data.data.BMR, goals: data.data.goals };
     } else {
       console.error('Failed to calculate calories', response.status);
       return null;
     }
   };
-  
+
   const handleGoal = (value) => {
     setRegGoal(value);
   };
-  
+
   const handleActivityLevel = (value) => {
     setRegActivityLevel(value);
   };
-  
+
   const handleGender = (value) => {
     setRegGender(value);
   };
-  
+
   const handleYear = (date) => {
     setRegYear(date);
   };
-  
+
   const handleHeight = (event) => {
     setRegHeight(event);
   };
-  
+
   const handleWeight = (event) => {
     setRegWeight(event);
   };
-  
+
   const handleGoalWeight = (event) => {
     setRegGoalWeight(event);
   };
@@ -194,15 +194,15 @@ const Register = () => {
   // }
 
   const addUser = async (bmr, goals) => {
-  const usersCollection = collection(db, "users")
+    const usersCollection = collection(db, "users")
 
     const docRef = await addDoc(usersCollection, {
-      name: regName, 
-      family: regFamily, 
-      username: regUsername, 
-      email: regEmail, 
-      password: regPassword, 
-      phoneNumber: regPhone, 
+      name: regName,
+      family: regFamily,
+      username: regUsername,
+      email: regEmail,
+      password: regPassword,
+      phoneNumber: regPhone,
       goal: regGoal,
       activityLvl: regActivityLevel,
       gender: regGender,
@@ -210,8 +210,8 @@ const Register = () => {
       height: regHeight,
       weight: regWeight,
       goalWeight: regGoalWeight,
-      role: "user", 
-      isBlocked: false, 
+      role: "user",
+      isBlocked: false,
       id: auth.currentUser.uid
     });
 
@@ -221,7 +221,7 @@ const Register = () => {
 
     const userBmrUpdate = { ...addUser, bmr: bmr };
     await updateDoc(docRef, userBmrUpdate);
-    
+
     const mainGoalsCollection = collection(db, "mainGoals")
     const userMainGoals = {
       owner: auth.currentUser.uid,
@@ -241,7 +241,7 @@ const Register = () => {
       displayName: `${regName} ${regFamily}`
     })
   }
-  
+
   const signUp = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -315,11 +315,11 @@ const Register = () => {
             {step === 1 ? (
               <Form1 />
             ) : step === 2 ? (
-              <Form2 
-              validateName={validateName}
-              validateFamily={validateFamily}
-              nameError={nameError}
-              familyError={familyError} />
+              <Form2
+                validateName={validateName}
+                validateFamily={validateFamily}
+                nameError={nameError}
+                familyError={familyError} />
             ) : step === 3 ? (
               <Form3
                 handleGoal={handleGoal}
@@ -342,22 +342,24 @@ const Register = () => {
                 handleYear={handleYear}
                 validatePhone={validatePhone}
                 phoneError={phoneError}
-                // handleCountryCode={handleCountryCode}
+              // handleCountryCode={handleCountryCode}
               />
             ) : step === 7 ? (
               <Form7
                 handleHeight={handleHeight}
                 handleWeight={handleWeight}
                 handleGoalWeight={handleGoalWeight}
+                goal={regGoal}
+                currentWeight={regWeight}
               />
-            ) :  step === 8 ? (
+            ) : step === 8 ? (
               <Form8
-              validateUsername={validateUsername}
-              validateEmail={validateEmail}
-              validatePassword={validatePassword}
-              usernameError={usernameError}
-              emailError={emailError}
-              passwordError={passwordError}
+                validateUsername={validateUsername}
+                validateEmail={validateEmail}
+                validatePassword={validatePassword}
+                usernameError={usernameError}
+                emailError={emailError}
+                passwordError={passwordError}
               />
             ) : null}
             <ButtonGroup mt="5%" w="100%">
@@ -386,9 +388,9 @@ const Register = () => {
                       step === 8
                         ? signUp
                         : () => {
-                            setStep(step + 1);
-                            setProgress(progress + 14.29);
-                          }
+                          setStep(step + 1);
+                          setProgress(progress + 14.29);
+                        }
                     }
                     colorScheme="teal"
                     variant="outline"
