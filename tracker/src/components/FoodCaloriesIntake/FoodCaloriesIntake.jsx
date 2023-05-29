@@ -11,7 +11,9 @@ import {
   Select,
   Collapse,
   Divider,
+  Heading
 } from "@chakra-ui/react";
+import { CheckIcon } from "@chakra-ui/icons";
 import { db } from "../../config/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useContext } from "react";
@@ -198,17 +200,38 @@ const FoodCaloriesIntake = () => {
       borderRadius="md"
       w="400px"
     >
-      <Text fontSize="xl">
+      <Heading size="md" textAlign={"center"} mb={6}>Calories Intake</Heading>
+      <Text fontSize="xl" mb={1}>
         Base Goal Calories: {currentGoal && currentGoal.calory.toFixed(0)} kcal
       </Text>
-      <Text fontSize="xl">
-        Calories Remaining: {(currentGoal.calory - consumedCalories).toFixed(0)}{" "}
+      <Text fontSize="xl" mb={1}>
+        Calories consumed today: {consumedCalories.toFixed(0)}{" "}
         kcal
       </Text>
-      <CircularProgress value={calorieProgress} color="green.400" size="120px">
-        <CircularProgressLabel fontSize="2xl">{`${calorieProgress.toFixed(
-          0
-        )}%`}</CircularProgressLabel>
+
+      <Text fontSize="xl" mb={2}>
+        {
+          consumedCalories > currentGoal.calory
+            ? `Calories over: ${(consumedCalories - currentGoal.calory).toFixed(0)} kcal`
+            : `Calories Remaining: ${(currentGoal.calory - consumedCalories).toFixed(0)} kcal`
+        }
+      </Text>
+      <CircularProgress value={calorieProgress} color="green.400" size="150px">
+        <CircularProgressLabel>
+          {
+            calorieProgress >= 100
+              ? (
+                <Box display="flex" flexDirection="column" alignItems="center">
+                  <Text fontSize="15px" fontWeight={"bold"} color="green.400">Goal</Text>
+                  <Text fontSize="15px" fontWeight={"bold"} color="green.400">Completed!</Text>
+                  <CheckIcon w={8} h={8} color="green.400" />
+                </Box>
+              )
+              : (
+                <Box fontSize="2xl">{`${calorieProgress.toFixed(0)}%`}</Box>
+              )
+          }
+        </CircularProgressLabel>
       </CircularProgress>
       <Button ml={4} colorScheme="linkedin" onClick={handleViewMore}>
         {isViewMore ? "View Less" : "View More"}
