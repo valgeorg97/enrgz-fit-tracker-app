@@ -12,7 +12,7 @@ const Form4 = () => {
             Did you know that tracking your food is a scientifically proven method to being successful? It’s called “self-monitoring” and the more consistent you are, the more likely you are to hit your goals.
           </Text>
           <Text align={'center'} mt={10}>
-            Now, let’s talk about your goal to gain weight.
+            Now, let’s talk about your goal.
           </Text>
         </Box>
       </>
