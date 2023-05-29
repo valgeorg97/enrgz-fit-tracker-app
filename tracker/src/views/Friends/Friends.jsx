@@ -8,55 +8,13 @@ import goalheader from "../../assets/goal.png"
 import {BsFillPersonXFill,} from "react-icons/bs";
 // import RequestButton from "../../components/RequestButton/RequestButton";
 import "./Friends.css"
+import { FriendsContext } from "../../context/FriendsContext";
 
 const Friends = () => {
   const { userDocID } = useContext(AuthContext);
-  const [requests, setRequests] = useState([]);
-  const [friends, setFriends] = useState([]);
+  const {requests, setRequests, friends, setFriends} = useContext(FriendsContext)
   const initialFocusRef = useRef();
 
-
-  useEffect(() => {
-    const fetchRequests = async () => {
-      try {
-        if (userDocID) {
-          const userDocref = doc(db, "users", userDocID);
-          const userDoc = await getDoc(userDocref);
-          const userData = userDoc.data();
-          const requestsData = userData?.requests || [];
-          setRequests(requestsData);
-        }
-      } catch (error) {
-        console.log("Error fetching requests:", error);
-      }
-    };
-    fetchRequests();
-  }, [userDocID]);
-
-  useEffect(() => {
-    const fetchFriends = async () => {
-      try {
-        if (userDocID) {
-          const userDocref = doc(db, "users", userDocID);
-          const userDoc = await getDoc(userDocref);
-          const userData = userDoc.data();
-          const friendsData = userData?.friends || [];
-          const filteredFriends = [];
-
-          for (const friend of friendsData) {
-            const friendDocRef = doc(db, "users", friend.userDocID);
-            const friendDoc = await getDoc(friendDocRef);
-            const friendData = friendDoc.data();
-            filteredFriends.push(friendData);
-            }
-          setFriends(filteredFriends);
-        }
-      } catch (error) {
-        console.log("Error fetching friends:", error);
-      }
-    };
-    fetchFriends();
-  }, [[userDocID, requests, friends]]);
 
   const handleAccept = async (request) => {
     try {

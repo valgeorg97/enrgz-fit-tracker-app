@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Flex,IconButton,Box, Image} from '@chakra-ui/react'
 import { FiMenu, FiHome } from 'react-icons/fi'
 import { motion } from "framer-motion";
@@ -7,6 +7,7 @@ import { CgProfile } from 'react-icons/cg'
 import { FaUsers } from 'react-icons/fa'
 import { useLocation, useNavigate } from 'react-router-dom';
 import {AiOutlineInfoCircle} from 'react-icons/ai'
+import { FriendsContext } from '../../context/FriendsContext';
 import logo from '../../assets/logo.png'
 import NavItem from './NavItem'
 
@@ -15,6 +16,7 @@ const MotionBox = motion(Box);
 const Navigation = ({colorMode}) => {
     const location = useLocation();
     const navigate = useNavigate()
+    const {requests} = useContext(FriendsContext);
     const [navSize, changeNavSize] = useState("large")
 
     const bg = (colorMode) === "dark" ? "gray.600" : "white";
@@ -94,12 +96,13 @@ const Navigation = ({colorMode}) => {
             active={location.pathname === "/community"}
           />
           <NavItem
-            link="/friends"
-            navSize={navSize}
-            icon={FaUsers}
-            title="Friends"
-            active={location.pathname === "/friends"}
-          />
+          link="/friends"
+          navSize={navSize}
+          icon={FaUsers}
+          title="Friends"
+          active={location.pathname === "/friends"}
+          friendRequestCount={requests.length} 
+        />
 
           <NavItem
             link="/about"

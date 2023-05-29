@@ -1,7 +1,7 @@
 import { ChakraProvider, Flex,Switch,useColorMode, IconButton } from "@chakra-ui/react"
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getDocs, collection, where, query,doc, updateDoc } from "firebase/firestore";
+import { getDocs, collection, where, query,doc, updateDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "./config/firebase";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
@@ -9,6 +9,7 @@ import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { AuthContext } from "./context/AuthContext"
 import { WorkoutContext } from "./context/WorkoutContext";
 import { GoalContext } from "./context/GoalContext";
+import { FriendsContext } from "./context/FriendsContext";
 import userimage from "./assets/user.png"
 
 import About from "./views/About/About";
@@ -42,6 +43,7 @@ function App() {
   const [phoneNumber, setPhoneNumber] = useState("")
   const [weight,setWeight] = useState("")
   const [height,setHeight] = useState("")
+  const [friends, setFriends] = useState([]);
 
   const [workouts, setWorkouts] = useState([]);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
@@ -52,6 +54,8 @@ function App() {
   const [goalDocRef, setGoalDocRef] = useState(null);
   const [goals, setGoals] = useState([]);
   const [finishedGoals, setFinishedGoals] = useState([]);
+  const [requests, setRequests] = useState([]);
+  
 
   const { colorMode } = useColorMode();
   const usersCollection = collection(db, "users");
@@ -101,6 +105,35 @@ function App() {
     };
     fetchMainGoals();
   }, [userID, userDocID, userGoal]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (userDocID) {
+          const userDocref = doc(db, "users", userDocID);
+          const userDoc = await getDoc(userDocref);
+          const userData = userDoc.data();
+
+          const requestsData = userData?.requests || [];
+          setRequests(requestsData);
+
+          const friendsData = userData?.friends || [];
+          const filteredFriends = [];
+
+          for (const friend of friendsData) {
+            const friendDocRef = doc(db, "users", friend.userDocID);
+            const friendDoc = await getDoc(friendDocRef);
+            const friendData = friendDoc.data();
+            filteredFriends.push(friendData);
+          }
+          setFriends(filteredFriends);
+        }
+      } catch (error) {
+        console.log("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [userDocID]);
 
   useEffect(() => {
     const fetchWorkouts = async () => {
@@ -280,6 +313,13 @@ function App() {
             setFinishedGoals,
           }}
         >
+        <FriendsContext.Provider
+        value={{
+          requests,
+          setRequests,
+          friends,
+          setFriends
+        }}>
       <ChakraProvider>
         <Flex className="App" position="relative">
           {isAuth &&
@@ -312,6 +352,7 @@ function App() {
           <ThemeButton/>
         </Flex>
         </ChakraProvider>
+        </FriendsContext.Provider>
         </GoalContext.Provider>
       </WorkoutContext.Provider>
     </AuthContext.Provider>
