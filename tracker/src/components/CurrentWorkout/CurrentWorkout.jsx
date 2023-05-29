@@ -34,7 +34,7 @@ const CurrentWorkout = ({ activeWorkout }) => {
         borderColor="gray.50"
         height="100%"
         p={4}
-        _hover={{ background: "purple.600" , cursor: "pointer" }}
+        _hover={{ background: "#5f1854" , cursor: "pointer" }}
         onClick={()=>navigate('/workouts')}
       >
         {loading ? (

@@ -1,37 +1,35 @@
 import { Box, Heading, Button,Card as ChakraCard,CardHeader,CardFooter, Badge, Text, Flex } from "@chakra-ui/react";
 import { RxEyeOpen } from "react-icons/rx";
-import { FiShare2 } from "react-icons/fi";
 import {FaPlay,FaStopwatch}from "react-icons/fa";
 import { useEffect,useState,useContext } from "react";
 import { WorkoutContext } from "../../context/WorkoutContext";
 
-const WorkoutCards = ({shared,handleViewMoreClick,handleShareWorkout,difficultyColors,handleSetActive}) => {
+const SharedWorkouts = ({handleSetActive,difficultyColors,handleViewMoreClick}) => {
 
   const [activeWorkoutId, setActiveWorkoutId] = useState(null);
-  const {workouts,setWorkouts} = useContext(WorkoutContext);
+  const {sharedWorkouts,setSharedWorkouts} = useContext(WorkoutContext);
 
   useEffect(() => {
-    const activeWorkout = workouts.find((workout) => workout.isActive);
+    const activeWorkout = sharedWorkouts.find((workout) => workout.isActive);
     setActiveWorkoutId(activeWorkout ? activeWorkout.id : null);
-  }, [workouts]);
+  }, [sharedWorkouts]);
 
-  const handleSetActiveAndUpdate = async (id) => {
-    await handleSetActive(id);
+const handleSetActiveAndUpdate = (workoutRef) => {
+  handleSetActive(workoutRef);
+  const updatedWorkouts = sharedWorkouts.map((workout) => {
+    if (workout.sharedRef === workoutRef) {
+      return { ...workout, isActive: true };
+    }
+    return { ...workout, isActive: false };
+  });
+  setActiveWorkoutId(workoutRef);
+  setSharedWorkouts(updatedWorkouts);
+};
 
-    const updatedWorkouts = workouts.map((workout) => {
-      if (workout.id === id) {
-        return { ...workout, isActive: true };
-      }
-      return { ...workout, isActive: false };
-    });
-
-    setActiveWorkoutId(id);
-    setWorkouts(updatedWorkouts);
-  };
 
   return (
     <Flex flexWrap="wrap" justifyContent="flex-start" mt={5} ml={-4}>
-      {workouts.map((workout, index) => {
+      {sharedWorkouts.map((workout, index) => {
         if (!workout.name) return null;
         return (
           <Box
@@ -45,7 +43,7 @@ const WorkoutCards = ({shared,handleViewMoreClick,handleShareWorkout,difficultyC
           justifyContent="space-between"
         >
           <ChakraCard
-            background="linear-gradient(15deg, #13547a 0%, #80d0c7 100%)"
+            background="linear-gradient(140deg, #0093E9, #80D0C7)"
             boxShadow="dark-lg"
             rounded="md"
             borderColor="gray.50"
@@ -62,16 +60,10 @@ const WorkoutCards = ({shared,handleViewMoreClick,handleShareWorkout,difficultyC
                   {workout.difficulty}
                 </Badge>
               </Text>
-              {shared && (
                 <Text><strong>Creator:</strong>{workout.ownerName + " " + workout.ownerFamily}</Text>
-              )}
+
             </CardHeader>
             <CardFooter justifyContent="right">
-              {!shared && (
-                <Button variant="ghost" mr="5px" float="right" size="md"  onClick={() => handleShareWorkout(workout.id)}>
-                  <Flex align="center"><FiShare2 /></Flex>
-                </Button>
-              )}
 
               <Button variant="ghost" float="right" size="md" onClick={() => {handleViewMoreClick(workout)}}>
                 <Flex align="center"><RxEyeOpen /></Flex>
@@ -80,7 +72,7 @@ const WorkoutCards = ({shared,handleViewMoreClick,handleShareWorkout,difficultyC
 
               {activeWorkoutId === workout.id ? (
                 <Button variant="ghost" float="right" size="md"  ><Flex align="center"><FaStopwatch /></Flex></Button>
-              ) : (<Button variant="ghost" float="right" size="md" onClick={() => {handleSetActiveAndUpdate(workout.id)}}><Flex align="center"><FaPlay /></Flex></Button>)}
+              ) : (<Button variant="ghost" float="right" size="md" onClick={() => {handleSetActiveAndUpdate(workout.sharedRef)}}><Flex align="center"><FaPlay /></Flex></Button>)}
 
               
             </CardFooter>
@@ -91,4 +83,4 @@ const WorkoutCards = ({shared,handleViewMoreClick,handleShareWorkout,difficultyC
     </Flex>
   );
 }
-export default WorkoutCards
+export default SharedWorkouts

@@ -1,6 +1,6 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext,useEffect } from "react";
 import {Box,Heading,Divider,Button,Grid,Flex} from "@chakra-ui/react";
-import {collection,getDocs,deleteDoc,doc,addDoc,getDoc,updateDoc,writeBatch} from "firebase/firestore";
+import {collection,getDocs,deleteDoc,doc,addDoc,getDoc,updateDoc,writeBatch,query,where} from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import { db } from "../../config/firebase";
@@ -9,16 +9,20 @@ import SingleWorkout from "./SingleWorkout";
 import WorkoutCards from "./WorkoutCards";
 import goalheader from "../../assets/goal.png"
 import { WorkoutContext } from "../../context/WorkoutContext";
+import SharedWorkouts from "./SharedWorkouts";
 
 
 const Workouts = () => {
   const [showForm, setShowForm] = useState(false);
-  const [sharedWorkouts, setSharedWorkouts] = useState([]);
   const { userID, userDocID } = useContext(AuthContext);
-  const { setWorkouts, selectedWorkout, setSelectedWorkout } = useContext(WorkoutContext);
-
+  const {workouts, setWorkouts, selectedWorkout, setSelectedWorkout,setSharedWorkouts,sharedWorkouts } = useContext(WorkoutContext);
   const [selectedSharedWorkout, setSelectedSharedWorkout] = useState(null);
+  const [activeWorkoutId, setActiveWorkoutId] = useState(null);
 
+  useEffect(() => {
+    const activeWorkout = workouts.find((workout) => workout.isActive) || sharedWorkouts.find((workout) => workout.isActive);
+    setActiveWorkoutId(activeWorkout ? activeWorkout.id : null);
+  }, [workouts,sharedWorkouts]);
 
   const handleViewMoreClick = (workout) => {
     setSelectedWorkout(workout);
@@ -40,23 +44,6 @@ const Workouts = () => {
     setWorkouts((prevWorkouts) => [...prevWorkouts, workout]);
   };
 
-  useEffect(() => {
-    const fetchSharedWorkouts = async () => {
-      try {
-        const sharedWorkoutsCollectionRef = collection(db, "sharedWorkouts");
-        const querySnapshot = await getDocs(sharedWorkoutsCollectionRef);
-        const sharedWorkoutsData = [];
-        querySnapshot.forEach((doc) => {
-          sharedWorkoutsData.push({ id: doc.id, ...doc.data() });
-        });
-        setSharedWorkouts(sharedWorkoutsData);
-      } catch (error) {
-        console.error("Error fetching shared workouts:", error);
-      }
-    };
-    fetchSharedWorkouts();
-  }, []);
-
   const handleDeleteWorkout = async (id) => {
     try {
       await deleteDoc(doc(db, `users/${userDocID}/workouts/${id}`));
@@ -74,17 +61,17 @@ const Workouts = () => {
       const workoutSnapshot = await getDoc(workoutRef);
       const workoutData = workoutSnapshot.data();
       const sharedWorkoutsCollectionRef = collection(db, "sharedWorkouts");
-      await addDoc(sharedWorkoutsCollectionRef, { ...workoutData });
+      const sharedWorkoutDocRef = await addDoc(sharedWorkoutsCollectionRef, { ...workoutData, sharedRef: id });
       toast.success("Workout shared successfully");
       setSharedWorkouts((prevSharedWorkouts) => [
         ...prevSharedWorkouts,
-        { id: workoutSnapshot.id, ...workoutData },
+        { id: sharedWorkoutDocRef.id, ...workoutData, sharedRef: sharedWorkoutDocRef },
       ]);
     } catch (error) {
       console.error("Error sharing workout:", error);
     }
   };
-
+  
   const updateWorkoutTitle = async (workoutId, newTitle) => {
     try {
       const workoutRef = doc(db, `users/${userDocID}/workouts/${workoutId}`);
@@ -109,6 +96,10 @@ const Workouts = () => {
       const workoutFolderRef = collection(db, `users/${userDocID}/workouts`);
       const docRef = doc(db, `users/${userDocID}/workouts/${id}`);
       const snapshot = await getDocs(workoutFolderRef);
+  
+      const sharedColl = collection(db, `sharedWorkouts`);
+      const sharedSnapshot = await getDocs(sharedColl);
+  
       const batch = writeBatch(db);
   
       snapshot.forEach((doc) => {
@@ -119,12 +110,43 @@ const Workouts = () => {
           batch.update(doc.ref, { isActive: false });
         }
       });
+  
+      sharedSnapshot.forEach((doc) => {
+        const sharedRefValue = doc.data().sharedRef;
+        const sharedDocRef = doc.ref;
+        if (sharedRefValue === id.toString()) {
+          batch.update(sharedDocRef, { isActive: true });
+        } else {
+          batch.update(sharedDocRef, { isActive: false });
+        }
+      });
+  
       await batch.commit();
+
+      const updatedWorkouts = workouts.map((workout) => {
+        if (workout.id === id) {
+          return { ...workout, isActive: true };
+        }
+        return { ...workout, isActive: false };
+      });
+      setWorkouts(updatedWorkouts);
+
+      const updatedSharedWorkouts = sharedWorkouts.map((workout) => {
+        if (workout.sharedRef === id) {
+          return { ...workout, isActive: true };
+        }
+        return { ...workout, isActive: false };
+      });
+      setSharedWorkouts(updatedSharedWorkouts);
+      setActiveWorkoutId(id);
+
       toast.success("Workout set as active successfully!");
     } catch (error) {
       console.error("Error setting workout as active:", error);
     }
   };
+  
+  
   
   return (
     <Box maxW="1660px" mt="70px">
@@ -177,11 +199,10 @@ const Workouts = () => {
             Shared Workouts
           </Heading>
           <Divider w="290px" ml={-4} mb={1} />
-          <WorkoutCards
-            workouts={sharedWorkouts}
+          <SharedWorkouts
+            handleSetActive={handleSetActive}
             difficultyColors={difficultyColors}
             handleViewMoreClick={handleViewMoreClickShared}
-            shared={true}
           />
         </Flex>
 

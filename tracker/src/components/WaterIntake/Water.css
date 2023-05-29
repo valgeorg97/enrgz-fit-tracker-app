@@ -245,7 +245,7 @@ h1,
 }
 
 .desc * {
-  animation: 1s 6s both rise-up;
+  animation: 1s 2s both rise-up;
 }
 
 .desc._50 h2 {

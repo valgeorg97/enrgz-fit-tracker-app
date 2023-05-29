@@ -9,4 +9,7 @@ export const WorkoutContext = createContext({
     
     currentWorkout: "",
     setCurrentWorkout: () => {},
+
+    sharedWorkouts: "", 
+    setSharedWorkouts: () => {},
 });

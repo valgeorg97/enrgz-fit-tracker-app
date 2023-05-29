@@ -9,6 +9,7 @@ import { useState,useContext,useEffect } from "react";
 import CurrentWorkout from "../../components/CurrentWorkout/CurrentWorkout";
 import { WorkoutContext } from "../../context/WorkoutContext";
 import DashboardGif from "../../components/DashboardGif/DashboardGif";
+import TotalShared from "../../components/TotalShared/TotalShared";
 
 
 const Dashboard = () => {
@@ -31,11 +32,15 @@ const Dashboard = () => {
         <Box>
           <CurrentWorkout activeWorkout={activeWorkout} />
         </Box>
+        
         <Box rounded="md" borderColor="gray.50">
           <UserGoals />
         </Box>
         <Box rounded="md" borderColor="gray.50">
           <UserWorkouts />
+        </Box>
+        <Box rounded="md" borderColor="gray.50">
+          <TotalShared />
         </Box>
       </HStack>
 

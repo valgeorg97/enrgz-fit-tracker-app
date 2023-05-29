@@ -46,6 +46,7 @@ function App() {
 
   const [workouts, setWorkouts] = useState([]);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
+  const [sharedWorkouts, setSharedWorkouts] = useState([]);
 
   const [userGoal, setUserGoal] = useState("")
   const [currentGoal, setCurrentGoal] = useState({calory: 0});
@@ -155,6 +156,23 @@ function App() {
     };
     fetchWorkouts();
   }, [userDocID, userID]);
+
+  useEffect(() => {
+    const fetchSharedWorkouts = async () => {
+      try {
+        const sharedWorkoutsCollectionRef = collection(db, "sharedWorkouts");
+        const querySnapshot = await getDocs(sharedWorkoutsCollectionRef);
+        const sharedWorkoutsData = [];
+        querySnapshot.forEach((doc) => {
+          sharedWorkoutsData.push({ id: doc.id, ...doc.data() });
+        });
+        setSharedWorkouts(sharedWorkoutsData);
+      } catch (error) {
+        console.error("Error fetching shared workouts:", error);
+      }
+    };
+    fetchSharedWorkouts();
+  }, []);
 
   useEffect(() => {
     const fetchGoals = async () => {
@@ -296,6 +314,8 @@ function App() {
           setWorkouts,
           selectedWorkout,
           setSelectedWorkout,
+          sharedWorkouts, 
+          setSharedWorkouts,
         }}
       >
         <GoalContext.Provider
