@@ -36,13 +36,18 @@ const [selectedDate, setSelectedDate] = useState(regYear);
           </FormControl>
 
           <FormControl mt={4} isRequired>
-            <FormLabel fontSize={16} fontWeight="normal">
+            <FormLabel fontSize={16} fontWeight="normal" >
               When were you born? (MM/DD/YYYY)
             </FormLabel>
             <Input
               type="date"
               value={selectedDate}
               onChange={handleDateChange}
+              sx={{
+                '&:hover': {
+                  cursor: 'pointer',
+                },
+              }}
             />
           </FormControl>
 
