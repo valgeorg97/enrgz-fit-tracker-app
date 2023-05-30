@@ -3,7 +3,8 @@ import CallToActionWithVideo from "./CallToActionWithVideo";
 import { useNavigate } from "react-router-dom";
 import Statistics from "./Statistics"
 import UserTestimonials from './UserTestimonials';
-import LandingPageNav from '../../components/LandingPageNav/LandingPageNav'; // Make sure to import your navigation component
+import LandingPageNav from '../../components/LandingPageNav/LandingPageNav'; 
+import About from "../About/About"
 
 const LandingPage = () => {
     const navigate = useNavigate();
@@ -15,11 +16,18 @@ const LandingPage = () => {
     return (
         <div>
             <LandingPageNav /> {/* This is your navigation component */}
-            <CallToActionWithVideo onGetStartedClick={navigateToLogin} />
+            <div id="home">
+              <CallToActionWithVideo onGetStartedClick={navigateToLogin} />
+            </div>
             <Statistics />
-            <UserTestimonials />
+            <div id="our-users">
+              <UserTestimonials />
+            </div>
+            <div id="about">
+              <About />
+            </div>
         </div>
     );
 };
 
-export default LandingPage;
+export default LandingPage
