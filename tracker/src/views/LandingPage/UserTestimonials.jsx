@@ -69,6 +69,7 @@ import {
         width={'full'}
         rounded={'xl'}
         p={10}
+        mb={10}
         justifyContent={'space-between'}
         position={'relative'}
         bg={useColorModeValue('white', 'gray.800')}

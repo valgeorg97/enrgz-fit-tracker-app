@@ -18,16 +18,17 @@ import image from "../../assets/group-people-running.jpg";
 const CallToActionWithVideo = ({ onGetStartedClick }) => {
     return (
         <Container maxW={'7xl'}>
-              <Flex
+            <Flex
                 width="100%"
                 justify="space-between"
                 direction={{ base: 'column', md: 'row' }}
             >
-                </Flex>
+            </Flex>
             <Stack
                 align={'center'}
                 spacing={{ base: 8, md: 10 }}
-                py={{ base: 20, md: 28 }}
+                py={{ base: 10, md: 20 }}
+                mt={50}
                 direction={{ base: 'column', md: 'row' }}>
                 <Stack flex={1} spacing={{ base: 5, md: 10 }}>
                     <Heading
@@ -77,6 +78,7 @@ const CallToActionWithVideo = ({ onGetStartedClick }) => {
                             size={'lg'}
                             fontWeight={'normal'}
                             px={6}
+                            onClick={() => navigate('#howItWorks')}
                         >
                             How It Works
                         </Button>
