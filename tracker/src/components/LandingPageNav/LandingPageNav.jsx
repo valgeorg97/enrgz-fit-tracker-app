@@ -33,7 +33,7 @@ export default function WithSubnavigation() {
                 borderStyle={'solid'}
                 borderColor={useColorModeValue('gray.200', 'gray.900')}
                 align={'center'}
-                justify={'flex-end'}>  {/* <-- This line is added for top right corner positioning */}
+                justify={'flex-end'}>
                 <Flex
                     flex={{ base: 1, md: 'auto' }}
                     ml={{ base: -2 }}
@@ -138,14 +138,14 @@ const MobileNavItem = ({ label, href }) => {
 const NAV_ITEMS = [
     {
         label: 'Home',
-        href: '#',
+        href: '#home',
     },
     {
         label: 'Our Users',
-        href: '#',
+        href: '#our-users',
     },
     {
         label: 'About',
-        href: '#',
+        href: '#about',
     },
 ];

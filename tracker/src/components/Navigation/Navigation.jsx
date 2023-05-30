@@ -48,7 +48,7 @@ const Navigation = () => {
           w="100%"
           alignItems={navSize == "small" ? "center" : "flex-start"}
           as="nav"
-          className="logo-holder" // Add class name for logo holder
+          className="logo-holder" 
         >
           <MotionBox
             as={Image}
@@ -61,7 +61,7 @@ const Navigation = () => {
             transition={{ duration: 1 }}
             cursor="pointer"
             onClick={() => navigate("/dashboard")}
-            className="bg" // Add class name for logo background
+            className="bg" 
           />
           <IconButton
             background="none"
