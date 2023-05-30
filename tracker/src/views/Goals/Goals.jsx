@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import {collection,addDoc,serverTimestamp,updateDoc,deleteDoc,doc} from "firebase/firestore";
 import { auth, db } from "../../config/firebase";
-import {Box,Text,Grid,Flex} from "@chakra-ui/react";
+import {Box,Text,Grid,Flex,GridItem} from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import GoalForm from "./GoalForm";
@@ -154,27 +154,20 @@ const Goals = () => {
   };
 
   return (
-    <Box mt="40px" width="1660px">
-      <Grid templateColumns="4fr 1fr" gap={6} m={10}>
-        <Box >
-          <Box 
-          rounded="md"
-          borderColor="gray.50"  
-          p={8} 
-          w="1500px"
-          bgImage={goalheader}>
+    <Box w="1660px" ml="54px">
+      <Grid gap={4} templateRows="repeat(2, 1fr)" templateColumns="repeat(5, 1fr)"  h="600px">
+
+        <GridItem colSpan={5} rounded="md" borderColor="gray.50" h="140px" w="1600px" bgImage={goalheader} p={8}>
           <GoalMenu 
             mainGoals={mainGoals}
             updateCurrentGoal={updateCurrentGoal}
             currentGoal={currentGoal}
           />
-          </Box>
-          
+        </GridItem>
+
+        <GridItem colSpan={4}>
           <Box display="flex" flexDirection="column" mt={30}>
-            <Text mb={4} fontSize="2xl" fontWeight="bold">
-              {" "}
-              Personal Goals{" "}
-            </Text>
+            <Text mb={4} fontSize="2xl" fontWeight="bold">{" "}Personal Goals{" "}</Text>
             <Box display="flex" flexWrap="wrap" justifyContent="left" mb={2}>
               {goals.map((goal, index) => (
                 <GoalCard
@@ -204,9 +197,9 @@ const Goals = () => {
               </Box>
             </Box>
           )}
-        </Box>
+        </GridItem>
 
-        <Flex mt="215px" ml="-200px" flexDirection="column">
+        <GridItem mt="80px" colSpan={1}>
           <GoalForm
             createGoal={createGoal}
             goalName={goalName}
@@ -220,7 +213,7 @@ const Goals = () => {
             goalCategory={goalCategory}
             setGoalCategory={setGoalCategory}
           />
-        </Flex>
+        </GridItem>
 
         {selectedGoal && (
           <SingleGoal

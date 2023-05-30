@@ -39,10 +39,10 @@ const WaterCalculator = () => {
 
           const lastUpdate = docSnap.data().lastUpdate?.toDate();
           const today = new Date();
-          today.setHours(0, 0, 0, 0); // remove time part
+          today.setHours(0, 0, 0, 0);
 
           if (!lastUpdate || lastUpdate.getTime() !== today.getTime()) {
-            setSavedWater(0); // reset water consumed
+            setSavedWater(0);
           } else {
             setSavedWater(docSnap.data().consumedWater || 0);
           }

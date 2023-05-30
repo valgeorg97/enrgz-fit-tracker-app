@@ -11,7 +11,7 @@ const GoalMenu = ({ mainGoals, updateCurrentGoal, currentGoal }) => {
           w="400px"
           bg="gray.100"
           borderRadius="md"
-          p="50px"
+          p="40px"
           boxShadow="md"
           textAlign="center"
           _hover={{ bg: "gray.200" }}
@@ -34,17 +34,16 @@ const GoalMenu = ({ mainGoals, updateCurrentGoal, currentGoal }) => {
             if (key !== "owner" && key !== "id" && key !== "maintain") {
               const goal = mainGoals[key];
               return (
-                <MenuItem
+                <MenuItem justifyContent="space-around"
                   key={key}
                   minH="60px"
                   onClick={() => updateCurrentGoal(goal)}
                   _hover={{ bg: "gray.200" }}
+                  
                 >
                   <Box>
                     <Heading
                       size="md"
-                      marginLeft="70px"
-                      style={{ textTransform: "uppercase" }}
                     >
                       {goal.name}
                     </Heading>

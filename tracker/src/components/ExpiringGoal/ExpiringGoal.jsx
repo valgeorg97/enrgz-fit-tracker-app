@@ -39,20 +39,19 @@ const ExpiringGoal = () => {
   };
 
   return (
-    <Box  display="flex" flexWrap="wrap" justifyContent="space-between" m={3}>
+    <Box  display="flex" flexWrap="wrap" justifyContent="space-between" p={3} >
       {isLoading ? (
         <Spinner ml="280px" mt="80px" size="xl" />
       ) : (
         expiringGoals.map((goal) => (
-          <Box key={goal.id}>
+          <Box key={goal.id} height="270px" w="240px">
             <ChakraCard
               background="linear-gradient(15deg, #13547a, #80d0c7)"
               boxShadow="dark-lg"
-              
               _hover={{ background: "blue.400", cursor: "pointer" }}
               onClick={() => navigate("/goals")}
             >
-              <CardHeader height="270px" w="200px">
+              <CardHeader h="314px">
                 <Heading color="purple.700" size="auto">
                   Expiring soon!
                 </Heading>

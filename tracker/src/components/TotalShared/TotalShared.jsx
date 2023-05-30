@@ -20,20 +20,20 @@ const TotalShared = () => {
       onClick={() => navigate("/workouts")}
       background="linear-gradient(to right, rgb(173, 83, 137), rgb(60, 16, 83))"
       boxShadow="lg"
-      p="5"
+      p="2"
       rounded="md"
-      w="210px"
-      h="190px"
+      w="140px"
+      h="120px"
       textAlign="center"
     >
-      <Heading color="white" size="md">
+      <Heading color="white" fontSize="14px">
         Shared Workouts
       </Heading>
       {loading ? (
         <Spinner mt="37px" color="white" size="xl" />
       ) : (
         <>
-          <Text color="white" fontSize="80px">
+          <Text mt={2} color="white" fontSize="40px">
             {sharedWorkouts.length}
           </Text>
         </>

@@ -42,16 +42,16 @@ const CurrentWorkout = ({ activeWorkout }) => {
             <Spinner size="lg" />
           </Flex>
         ) : (
-          <Box>
+          <Box w="auto">
             {!activeWorkout && (
               <Text w="250px" textAlign="center" mt="80px" fontSize="30px" justify="center" color="white">
                 Select the workout for the day
               </Text>
             )}
             {activeWorkout && (
-              <Box w="250px">
+              <Box mt={2}>
                 <Heading textAlign="center" fontSize="xl" mb={6} color="white">Today's workout</Heading>
-                <CardHeader color="white" height="160px">
+                <CardHeader ml="60px" color="white" height="160px">
                   <Heading as="h2" color="white" size="md" mb={3}>
                     {activeWorkout.name}
                   </Heading>

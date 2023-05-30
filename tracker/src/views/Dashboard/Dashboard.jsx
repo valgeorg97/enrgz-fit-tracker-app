@@ -1,4 +1,4 @@
-import { Box, VStack, HStack} from "@chakra-ui/react";
+import { Box, VStack, HStack, Grid, GridItem } from "@chakra-ui/react";
 import WaterCalculator from "../../components/WaterIntake/WaterIntake";
 import FoodCaloriesIntake from "../../components/FoodCaloriesIntake/FoodCaloriesIntake";
 import UserGoals from "../../components/UserGoals.jsx/UserGoals";
@@ -10,6 +10,7 @@ import CurrentWorkout from "../../components/CurrentWorkout/CurrentWorkout";
 import { WorkoutContext } from "../../context/WorkoutContext";
 import DashboardGif from "../../components/DashboardGif/DashboardGif";
 import TotalShared from "../../components/TotalShared/TotalShared";
+import Friends from "../../components/Friends/Friends";
 
 
 const Dashboard = () => {
@@ -22,43 +23,55 @@ const Dashboard = () => {
   }, [workouts]);
 
   return (
-    <Box w="1660px" mt="70px">
-      <Box rounded="md" borderColor="gray.50" h="140px" w="1500px" bgImage={goalheader} ml={10}></Box>
+    <Box w="1660px" ml="54px" >
+      <Grid
+        h="600px"
+        templateRows="repeat(2, 1fr)"
+        templateColumns="repeat(4, 1fr)"
+        gap={4}
+      >
+        <GridItem colSpan={5} rounded="md" borderColor="gray.50" h="140px" w="1600px" bgImage={goalheader}/>
 
-      <HStack ml={10} mt={4}>
-        <Box mr={5} mb="20px">
-          <WaterCalculator />
-        </Box>
-        <Box>
-          <CurrentWorkout activeWorkout={activeWorkout} />
-        </Box>
-        
-        <Box rounded="md" borderColor="gray.50">
-          <UserGoals />
-        </Box>
-        <Box rounded="md" borderColor="gray.50">
-          <UserWorkouts />
-        </Box>
-        <Box rounded="md" borderColor="gray.50">
-          <TotalShared />
-        </Box>
-      </HStack>
-
-      <HStack ml={10}>
-        <VStack mr={5}>
+        <GridItem rowSpan={2} colSpan={1}>
           <Box>
-            <FoodCaloriesIntake />
+            <WaterCalculator />
           </Box>
-        </VStack>
+        </GridItem>
 
-        <HStack >
-          <DashboardGif />
-          <Box bgColor="blue.800" w="646px" h="305px" boxShadow="lg" rounded="md">
+        <GridItem colSpan={1}>
+          <CurrentWorkout activeWorkout={activeWorkout} />
+        </GridItem>
+
+        <GridItem colSpan={3}>
+          <Box bgColor="blue.800" w="770px" h="340px" boxShadow="lg" rounded="md">
             <ExpiringGoal />
           </Box>
-        </HStack>
+        </GridItem>
 
-      </HStack>
+        <GridItem colSpan={1}>
+          <FoodCaloriesIntake />
+        </GridItem>
+
+        <GridItem colSpan={1}>
+          <DashboardGif />
+        </GridItem>
+
+        <GridItem colSpan={1}>
+          <VStack mt={5}>
+            <HStack>
+              <UserGoals />
+              <UserWorkouts />
+            </HStack>
+            <HStack>
+              <Friends />
+              <TotalShared />
+            </HStack>
+          </VStack>
+        </GridItem>
+
+        
+
+      </Grid>
     </Box>
   );
 };

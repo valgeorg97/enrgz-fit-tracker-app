@@ -1,19 +1,19 @@
 import { useState, useContext,useEffect } from "react";
-import {Box,Heading,Divider,Button,Grid,Flex} from "@chakra-ui/react";
-import {collection,getDocs,deleteDoc,doc,addDoc,getDoc,updateDoc,writeBatch,query,where} from "firebase/firestore";
-import { AuthContext } from "../../context/AuthContext";
+import {Box,Heading,Divider,Grid,Flex} from "@chakra-ui/react";
+import {collection,getDocs,deleteDoc,doc,addDoc,getDoc,updateDoc,writeBatch} from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import { db } from "../../config/firebase";
+import { AuthContext } from "../../context/AuthContext";
+import { WorkoutContext } from "../../context/WorkoutContext";
+
 import CreateWorkout from "./CreateWorkout";
 import SingleWorkout from "./SingleWorkout";
 import WorkoutCards from "./WorkoutCards";
 import goalheader from "../../assets/goal.png"
-import { WorkoutContext } from "../../context/WorkoutContext";
 import SharedWorkouts from "./SharedWorkouts";
 
 
 const Workouts = () => {
-  // const [showForm, setShowForm] = useState(false);
   const { userID, userDocID } = useContext(AuthContext);
   const {workouts, setWorkouts, selectedWorkout, setSelectedWorkout,setSharedWorkouts,sharedWorkouts } = useContext(WorkoutContext);
   const [selectedSharedWorkout, setSelectedSharedWorkout] = useState(null);
@@ -47,24 +47,6 @@ const Workouts = () => {
       console.error("Error deleting workout:", error);
     }
   };
-
-  // const handleShareWorkout = async (id) => {
-  //   try {
-  //     const workoutRef = doc(db, `users/${userDocID}/workouts/${id}`);
-  //     const workoutSnapshot = await getDoc(workoutRef);
-  //     const workoutData = workoutSnapshot.data();
-
-  //     const sharedWorkoutsCollectionRef = collection(db, "sharedWorkouts");
-  //     const sharedWorkoutDocRef = await addDoc(sharedWorkoutsCollectionRef, { ...workoutData, sharedRef: id });
-  //     toast.success("Workout shared successfully");
-  //     setSharedWorkouts((prevSharedWorkouts) => [
-  //       ...prevSharedWorkouts,
-  //       { id: sharedWorkoutDocRef.id, ...workoutData, sharedRef: sharedWorkoutDocRef },
-  //     ]);
-  //   } catch (error) {
-  //     console.error("Error sharing workout:", error);
-  //   }
-  // };
 
   const handleShareWorkout = async (id) => {
     try {
@@ -175,8 +157,7 @@ const Workouts = () => {
       <Box 
           rounded="md"
           borderColor="gray.50"
-          h="180px"
-          w="1500px"
+          h="140px" w="1600px"
           bgImage={goalheader}
           ml={10}>
       </Box>
@@ -187,8 +168,7 @@ const Workouts = () => {
             Workouts
           </Heading>
           <Divider mb={5} />
-            <CreateWorkout
-            />
+            <CreateWorkout/>
           <Box
             display="flex"
             flexWrap="wrap"

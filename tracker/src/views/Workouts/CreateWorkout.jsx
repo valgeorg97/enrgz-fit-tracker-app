@@ -9,7 +9,6 @@ import {
   Modal,
   ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   NumberInput,
@@ -38,9 +37,7 @@ const CreateWorkout = () => {
   const [showModal, setShowModal] = useState(false);
 
   const { userID, userDocID, name,family } = useContext(AuthContext);
-  const {workouts, setWorkouts} = useContext(WorkoutContext);
-
-  
+  const {setWorkouts} = useContext(WorkoutContext);
 
   useEffect(() => {
     if (selectedMuscle !== '') {
@@ -205,14 +202,6 @@ return (
           </Stack>
         </form>
         </ModalBody>
-        {/* <ModalFooter>
-          <Button colorScheme="red" mr={3} onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button type="submit" colorScheme="linkedin">
-            Submit Workout
-          </Button>
-        </ModalFooter> */}
       </ModalContent>
     </Modal>
   </>

@@ -13,7 +13,6 @@ import {
   Divider,
   Heading
 } from "@chakra-ui/react";
-import { CheckIcon } from "@chakra-ui/icons";
 import { db } from "../../config/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useContext } from "react";
@@ -192,15 +191,14 @@ const FoodCaloriesIntake = () => {
 
   return (
     <Box
-      bgColor=""
+      background="linear-gradient(225deg, #f5f7fa 0%, #c3cfe2 100%)"
       boxShadow="lg"
       shadow="xl"
-      p={8}
-      mb={3}
+      p={4}
       borderRadius="md"
       w="400px"
     >
-      <Heading size="md" textAlign={"center"} mb={6}>Calories Intake</Heading>
+      <Heading size="md" textAlign={"center"} mb={3}>Calories Intake</Heading>
       <Text fontSize="xl" mb={1}>
         Base Goal Calories: {currentGoal && currentGoal.calory.toFixed(0)} kcal
       </Text>
