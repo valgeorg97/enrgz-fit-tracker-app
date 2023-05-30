@@ -45,13 +45,13 @@ const CallToActionWithVideo = ({ onGetStartedClick }) => {
                                 position: 'absolute',
                                 bottom: 1,
                                 left: 0,
-                                bg: 'red.400',
+                                bg: 'orange.400',
                                 zIndex: -1,
                             }}>
                             Get Fit,
                         </Text>
                         <br />
-                        <Text as={'span'} color={'red.400'}>
+                        <Text as={'span'} color={'orange.400'}>
                             Stay Energized!
                         </Text>
                     </Heading>
@@ -66,14 +66,14 @@ const CallToActionWithVideo = ({ onGetStartedClick }) => {
                             size={'lg'}
                             fontWeight={'normal'}
                             px={6}
-                            colorScheme={'red'}
-                            bg={'red.400'}
-                            _hover={{ bg: 'red.500' }}
+                            colorScheme={'orange'}
+                            bg={'orange.400'}
+                            _hover={{ bg: 'orange.500' }}
                             onClick={onGetStartedClick}
                         >
                             Get started
                         </Button>
-                        <Button
+                        {/* <Button
                             rounded={'full'}
                             size={'lg'}
                             fontWeight={'normal'}
@@ -81,7 +81,7 @@ const CallToActionWithVideo = ({ onGetStartedClick }) => {
                             onClick={() => navigate('#howItWorks')}
                         >
                             How It Works
-                        </Button>
+                        </Button> */}
                     </Stack>
                 </Stack>
                 <Flex
@@ -97,7 +97,7 @@ const CallToActionWithVideo = ({ onGetStartedClick }) => {
                         top={'-20%'}
                         left={0}
                         zIndex={-1}
-                        color={useColorModeValue('red.50', 'red.400')}
+                        color={useColorModeValue('red.50', 'orange.400')}
                     />
                     <Box
                         position={'relative'}

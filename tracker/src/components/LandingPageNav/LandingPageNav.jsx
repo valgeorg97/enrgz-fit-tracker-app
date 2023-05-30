@@ -154,7 +154,7 @@ const NAV_ITEMS = [
         label: 'About',
         href: '#about',
     },
-    {
+    {   label: 'How it works?',
         href: '#howItWorks'
-    },
+    }
 ];

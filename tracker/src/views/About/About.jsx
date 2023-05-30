@@ -22,7 +22,7 @@ import logo from "../../assets/logo.png";
  */
 
 const About = () => (
-  <Box textAlign="center">
+  <Box textAlign="center" mb={"32"}>
     <Image src={logo} alt="Team Image" maxW="230px" mx="auto" my={4} borderRadius="md" />
     <Heading as="h2" fontSize="2xl" my={4}>
       Creators of ENERGIZE App
