@@ -17,7 +17,7 @@ const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDele
         <IconButton mt={1} icon={<CloseIcon />} {...getCancelButtonProps()} />
       </ButtonGroup>
     ) : (
-      <IconButton size="sm" icon={<EditIcon />} {...getEditButtonProps()} />
+      <IconButton ml={3} size="sm" icon={<EditIcon />} {...getEditButtonProps()} />
     );
   };
 
@@ -74,14 +74,15 @@ const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDele
               <strong>Muscle:</strong> {selectedWorkout.muscle}
             </Text>
             <Text>
+              <strong>Type:</strong> {selectedWorkout.type}
+            </Text>
+            <Text>
               <strong>Reps:</strong> {selectedWorkout.reps}
             </Text>
             <Text>
               <strong>Weight:</strong> {selectedWorkout.weight}
             </Text>
-            <Text>
-              <strong>Type:</strong> {selectedWorkout.type}
-            </Text>
+            
             <Text>
               <strong>Difficulty:</strong>{" "}
               <Badge

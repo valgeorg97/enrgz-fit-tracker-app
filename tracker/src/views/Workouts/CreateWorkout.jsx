@@ -1,12 +1,32 @@
-import { Button, Stack, FormControl,HStack, FormLabel, Input, Select, NumberInput, NumberInputField, UnorderedList, ListItem } from '@chakra-ui/react';
 import { useState, useContext, useEffect } from "react";
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  HStack,
+  Input,
+  ListItem,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  NumberInput,
+  NumberInputField,
+  Select,
+  Stack,
+  UnorderedList,
+} from '@chakra-ui/react';
 import { collection, addDoc } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
 import { difficulties } from '../../common/constants';
 import { db } from "../../config/firebase";
 import { muscles } from '../../common/constants';
+import { WorkoutContext } from "../../context/WorkoutContext";
 
-const CreateWorkout = ({ showForm, setShowForm, onAddWorkout }) => {
+
+const CreateWorkout = () => {
   const [selectedMuscle, setSelectedMuscle] = useState('');
   const [selectedExercise, setSelectedExercise] = useState('');
   const [reps, setReps] = useState(0);
@@ -14,8 +34,13 @@ const CreateWorkout = ({ showForm, setShowForm, onAddWorkout }) => {
   const [workout, setWorkout] = useState([]);
   const [workoutName, setWorkoutName] = useState('');
   const [relatedExercises, setRelatedExercises] = useState([]);
-  const { userID, userDocID, name,family } = useContext(AuthContext);
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
+  const [showModal, setShowModal] = useState(false);
+
+  const { userID, userDocID, name,family } = useContext(AuthContext);
+  const {workouts, setWorkouts} = useContext(WorkoutContext);
+
+  
 
   useEffect(() => {
     if (selectedMuscle !== '') {
@@ -48,16 +73,17 @@ const CreateWorkout = ({ showForm, setShowForm, onAddWorkout }) => {
       weight: weight, 
       muscle: selectedMuscle, 
       difficulty: selectedDifficulty,
-      exercises: workout // Added this line
+      exercises: workout
     };
     await addDoc(collection(db, `users/${userDocID}/workouts`), workoutObj);
+    setWorkouts((prevWorkouts) => [...prevWorkouts, workoutObj]);
     setWorkout([]);
+    setWorkoutName("");
     setSelectedExercise('');
     setReps(0);
     setWeight(0);
     setSelectedMuscle('');
-    setShowForm(false);
-    onAddWorkout(workoutObj);
+    setShowModal(false);
   } catch (e) {
     console.error("Error adding workout: ", e);
   }
@@ -85,8 +111,12 @@ const CreateWorkout = ({ showForm, setShowForm, onAddWorkout }) => {
   }
 
   const handleClick = () => {
-    setShowForm(true);
-  }
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+  };
 
   const handleCancel = ()=> {
     setSelectedMuscle("");
@@ -95,14 +125,22 @@ const CreateWorkout = ({ showForm, setShowForm, onAddWorkout }) => {
     setWeight(0);
     setWorkoutName("");
     setWorkout([])
-    setShowForm(false);
+    setShowModal(false)
   }
 
-  return (
-    <>
-      {showForm ? (
-        <form onSubmit={handleSubmit}>
-          <Stack spacing={1}>
+return (
+  <>
+    <Button onClick={handleClick} colorScheme="blue">
+      Create Workout
+    </Button>
+
+    <Modal isOpen={showModal} onClose={handleClose} size="sm">
+      <ModalOverlay />
+      <ModalContent width="347px">
+        <ModalHeader>Create Workout</ModalHeader>
+        <ModalBody>
+          <form onSubmit={handleSubmit}>
+          <Stack w="300px" spacing={1}>
             <FormControl id="workout-name">
               <FormLabel>Workout Name</FormLabel>
               <Input value={workoutName} onChange={handleWorkoutNameChange} />
@@ -166,11 +204,19 @@ const CreateWorkout = ({ showForm, setShowForm, onAddWorkout }) => {
 
           </Stack>
         </form>
-      ) : (
-        <Button onClick={handleClick} colorScheme="blue">Create Workout</Button>
-      )}
-    </>
-  );
-}
+        </ModalBody>
+        {/* <ModalFooter>
+          <Button colorScheme="red" mr={3} onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button type="submit" colorScheme="linkedin">
+            Submit Workout
+          </Button>
+        </ModalFooter> */}
+      </ModalContent>
+    </Modal>
+  </>
+);
+};
 
 export default CreateWorkout;

@@ -13,7 +13,7 @@ import SharedWorkouts from "./SharedWorkouts";
 
 
 const Workouts = () => {
-  const [showForm, setShowForm] = useState(false);
+  // const [showForm, setShowForm] = useState(false);
   const { userID, userDocID } = useContext(AuthContext);
   const {workouts, setWorkouts, selectedWorkout, setSelectedWorkout,setSharedWorkouts,sharedWorkouts } = useContext(WorkoutContext);
   const [selectedSharedWorkout, setSelectedSharedWorkout] = useState(null);
@@ -35,13 +35,6 @@ const Workouts = () => {
     easy: "green",
     medium: "orange",
     hard: "red",
-  };
-
-  const handleCreateWorkoutClick = () => {
-    setShowForm(true);
-  };
-  const handleAddWorkout = (workout) => {
-    setWorkouts((prevWorkouts) => [...prevWorkouts, workout]);
   };
 
   const handleDeleteWorkout = async (id) => {
@@ -194,18 +187,8 @@ const Workouts = () => {
             Workouts
           </Heading>
           <Divider mb={5} />
-          {showForm ? (
             <CreateWorkout
-              showForm={showForm}
-              setShowForm={setShowForm}
-              onAddWorkout={handleAddWorkout}
             />
-          ) : (
-            <Button colorScheme="linkedin" onClick={handleCreateWorkoutClick}>
-              Create Workout!
-            </Button>
-          )}
-
           <Box
             display="flex"
             flexWrap="wrap"

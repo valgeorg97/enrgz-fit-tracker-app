@@ -26,6 +26,7 @@ import Dashboard from "./views/Dashboard/Dashboard";
 import UserMenu from "./components/UserMenu/UserMenu";
 import Friends from "./views/Friends/Friends";
 import ThemeButton from "./components/ThemeButton/ColorModeButton";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   const navigate = useNavigate();
@@ -368,6 +369,7 @@ function App() {
               <Route path="login" element={<Login />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            {/* <Footer /> */}
           </Flex>
           <ThemeButton/>
         </Flex>

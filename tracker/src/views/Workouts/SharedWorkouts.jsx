@@ -43,7 +43,7 @@ const handleSetActiveAndUpdate = (workoutRef) => {
           justifyContent="space-between"
         >
           <ChakraCard
-            background="linear-gradient(140deg, #0093E9, #80D0C7)"
+            background="linear-gradient(178deg, rgba(201, 234, 252, 0.51) 14.9%, rgba(139, 192, 216, 0.73) 80%)"
             boxShadow="dark-lg"
             rounded="md"
             borderColor="gray.50"
