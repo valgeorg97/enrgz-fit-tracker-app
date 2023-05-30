@@ -55,14 +55,42 @@ const Workouts = () => {
     }
   };
 
+  // const handleShareWorkout = async (id) => {
+  //   try {
+  //     const workoutRef = doc(db, `users/${userDocID}/workouts/${id}`);
+  //     const workoutSnapshot = await getDoc(workoutRef);
+  //     const workoutData = workoutSnapshot.data();
+
+  //     const sharedWorkoutsCollectionRef = collection(db, "sharedWorkouts");
+  //     const sharedWorkoutDocRef = await addDoc(sharedWorkoutsCollectionRef, { ...workoutData, sharedRef: id });
+  //     toast.success("Workout shared successfully");
+  //     setSharedWorkouts((prevSharedWorkouts) => [
+  //       ...prevSharedWorkouts,
+  //       { id: sharedWorkoutDocRef.id, ...workoutData, sharedRef: sharedWorkoutDocRef },
+  //     ]);
+  //   } catch (error) {
+  //     console.error("Error sharing workout:", error);
+  //   }
+  // };
+
   const handleShareWorkout = async (id) => {
     try {
       const workoutRef = doc(db, `users/${userDocID}/workouts/${id}`);
       const workoutSnapshot = await getDoc(workoutRef);
       const workoutData = workoutSnapshot.data();
+      
       const sharedWorkoutsCollectionRef = collection(db, "sharedWorkouts");
+      const querySnapshot = await getDocs(sharedWorkoutsCollectionRef);
+      const sharedWorkoutExists = querySnapshot.docs.some(doc => doc.data().sharedRef === id);
+      
+      if (sharedWorkoutExists) {
+        toast.error("Workout already shared");
+        return;
+      }
+      
       const sharedWorkoutDocRef = await addDoc(sharedWorkoutsCollectionRef, { ...workoutData, sharedRef: id });
       toast.success("Workout shared successfully");
+      
       setSharedWorkouts((prevSharedWorkouts) => [
         ...prevSharedWorkouts,
         { id: sharedWorkoutDocRef.id, ...workoutData, sharedRef: sharedWorkoutDocRef },
@@ -71,6 +99,7 @@ const Workouts = () => {
       console.error("Error sharing workout:", error);
     }
   };
+  
   
   const updateWorkoutTitle = async (workoutId, newTitle) => {
     try {

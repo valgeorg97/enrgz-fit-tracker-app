@@ -21,7 +21,7 @@ export default function NavItem({ icon, title, description, active, navSize, lin
                         <Flex>
                             <Icon as={icon} fontSize="xl" color={active ? "#82AAAD" : "gray.500"} />
                             <Text ml={5} display={navSize === "small" ? "none" : "flex"}>{title}</Text>
-                            {title === "Friends" && friendRequestCount > 0 && (
+                            {title === "Friends" && friendRequestCount > 0 && navSize !== "small" &&(
                                 <Badge
                                     color="white"
                                     fontSize="0.7em"

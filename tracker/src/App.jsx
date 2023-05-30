@@ -11,6 +11,7 @@ import { GoalContext } from "./context/GoalContext";
 import { FriendsContext } from "./context/FriendsContext";
 import userimage from "./assets/user.png"
 
+
 import About from "./views/About/About";
 import Navigation from "./components/Navigation/Navigation";
 import NotFound from "./views/NotFound/NotFound";
