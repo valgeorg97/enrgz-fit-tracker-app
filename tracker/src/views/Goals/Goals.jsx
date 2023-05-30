@@ -199,7 +199,7 @@ const Goals = () => {
           )}
         </GridItem>
 
-        <GridItem mt="80px" colSpan={1}>
+        <GridItem mr="60px" mt="80px" colSpan={1}>
           <GoalForm
             createGoal={createGoal}
             goalName={goalName}

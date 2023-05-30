@@ -1,7 +1,7 @@
 import { db } from "../../config/firebase";
 import {getDocs,collection,query,where,deleteDoc,doc,updateDoc,getDoc,} from "firebase/firestore";
 import { useState, useEffect, useContext } from "react";
-import {Box,Button,Text,Tooltip,Avatar,FormControl,FormLabel,Input,Select,Flex,Td,Th,Tbody,Thead,Table,Tr,} from "@chakra-ui/react";
+import {Box,Button,Text,Tooltip,Avatar,FormControl,FormLabel,Input,Select,Flex,Td,Th,Tbody,Thead,Table,Tr,Grid,GridItem} from "@chakra-ui/react";
 import { AiFillLock, AiFillUnlock } from "react-icons/ai";
 import { AuthContext } from "../../context/AuthContext";
 import { MdDeleteForever } from "react-icons/md";
@@ -17,10 +17,7 @@ const Community = () => {
   const [searchType, setSearchType] = useState("name");
   const { userDocID, name, family } = useContext(AuthContext);
   const { colorMode } = useColorMode();
-
   const bg = colorMode === "dark" ? "gray.800" : "white";
-
-
 
   const handleSearchTermChange = (event) => {
     setSearchTerm(event.target.value);
@@ -110,74 +107,57 @@ const Community = () => {
   };
 
   return (
-    <Box w="1660px" mt="70px">
-      <Box
-        rounded="md"
-        borderColor="gray.50"
-        h="180px"
-        w="1500px"
-        bgImage={goalheader}
-        ml={10}
-      ></Box>
+<Box w="1660px" ml="54px">
+      <Grid templateColumns="repeat(1, 1fr)"  h="600px">
 
-      <Box
-        w="1500px"
-        ml={10}
-        mt="40px"
-        className="userscontainer"
-        bg="#f2f2f2"
-        rounded="md"
-        borderColor="gray.100"
-        p={4}
-        borderRadius="lg"
-        boxShadow="lg"
-        bgColor={bg}
-      >
-        <Box>
-          <FormControl mb={4}>
-            <FormLabel
-              htmlFor="searchType"
-              fontWeight="bold"
-              fontSize="sm"
-              mb={2}
-            >
-              Search by:
-            </FormLabel>
-            <Select
-              id="searchType"
-              value={searchType}
-              onChange={handleSearchTypeChange}
-              bg="bg"
-            >
-              <option value="name">Name</option>
-              <option value="username">Username</option>
-              <option value="email">Email</option>
-            </Select>
-          </FormControl>
-          <FormControl>
-            <FormLabel
-              htmlFor="searchTerm"
-              fontWeight="bold"
-              fontSize="sm"
-              mb={2}
-            >
-              Search term:
-            </FormLabel>
-            <Input
-              className="inputt"
-              type="text"
-              id="searchTerm"
-              value={searchTerm}
-              onChange={handleSearchTermChange}
-              bg={bg}
-              borderRadius="sm"
-              borderColor="gray.300"
-              _focus={{ borderColor: "blue.500", boxShadow: "outline" }}
-              _placeholder={{ color: "gray.400" }}
-            />
-          </FormControl>
-        </Box>
+        <GridItem colSpan={1} rounded="md" borderColor="gray.50" h="140px" w="1600px" bgImage={goalheader} p={8}/>
 
+        <GridItem colSpan={1}  bgColor={bg}>
+            <FormControl mb={4}>
+              <FormLabel
+                htmlFor="searchType"
+                fontWeight="bold"
+                fontSize="sm"
+                mb={2}
+              >
+                Search by:
+              </FormLabel>
+              <Select
+                id="searchType"
+                value={searchType}
+                onChange={handleSearchTypeChange}
+                bg="bg"
+              >
+                <option value="name">Name</option>
+                <option value="username">Username</option>
+                <option value="email">Email</option>
+              </Select>
+            </FormControl>
+            <FormControl>
+              <FormLabel
+                htmlFor="searchTerm"
+                fontWeight="bold"
+                fontSize="sm"
+                mb={2}
+              >
+                Search term:
+              </FormLabel>
+              <Input
+                className="inputt"
+                type="text"
+                id="searchTerm"
+                value={searchTerm}
+                onChange={handleSearchTermChange}
+                bg={bg}
+                borderRadius="sm"
+                borderColor="gray.300"
+                _focus={{ borderColor: "blue.500", boxShadow: "outline" }}
+                _placeholder={{ color: "gray.400" }}
+              />
+            </FormControl>
+          </GridItem>
+
+      <GridItem colSpan={1}>
         <Table variant="simple">
           <Thead>
             <Tr>
@@ -230,7 +210,7 @@ const Community = () => {
                   ) : user.requests &&
                     user.requests.find(
                       (request) => request.userDocID === userDocID
-                    ) ? ( // Added condition to check if user.requests contain userDocID
+                    ) ? (
                     <Tooltip label="Cancel Friend Request">
                       <Button
                         className="cancelrequest"
@@ -244,7 +224,7 @@ const Community = () => {
                         </Flex>
                       </Button>
                     </Tooltip>
-                  ) : user.docID === userDocID ? ( // Added condition to check if user.docID matches userDocID
+                  ) : user.docID === userDocID ? (
                     <Tooltip label="Red Dot Button">
                       <Button
                         className="reddotbutton"
@@ -325,7 +305,8 @@ const Community = () => {
             ))}
           </Tbody>
         </Table>
-      </Box>
+        </GridItem>
+      </Grid>
     </Box>
   );
 };

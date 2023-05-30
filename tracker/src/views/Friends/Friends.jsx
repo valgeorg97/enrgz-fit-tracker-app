@@ -1,14 +1,13 @@
 import {Box,Text,Button,ButtonGroup,Heading,Flex,} from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
-import { useContext, useEffect, useState, useRef } from "react";
+import { useContext,useRef } from "react";
 import {doc,updateDoc,getDoc,} from "firebase/firestore";
 import { db } from "../../config/firebase";
-import {Popover, Tooltip,Avatar,Td,Th,Tbody,Thead,Table,Tr,Grid,PopoverTrigger,PopoverContent,PopoverHeader,PopoverArrow,PopoverCloseButton,PopoverBody,PopoverFooter} from "@chakra-ui/react";
+import {Popover, Tooltip,Avatar,Td,Th,Tbody,Thead,Table,Tr,Grid,PopoverTrigger,PopoverContent,GridItem,PopoverHeader,PopoverArrow,PopoverCloseButton,PopoverBody,PopoverFooter} from "@chakra-ui/react";
 import goalheader from "../../assets/goal.png"
 import {BsFillPersonXFill,} from "react-icons/bs";
-// import RequestButton from "../../components/RequestButton/RequestButton";
-import "./Friends.css"
 import { FriendsContext } from "../../context/FriendsContext";
+import "./Friends.css"
 
 const Friends = () => {
   const { userDocID } = useContext(AuthContext);
@@ -121,20 +120,13 @@ const Friends = () => {
   
   
   return (
-    <Box maxW="1660px">
-        <Box 
-          rounded="md"
-          borderColor="gray.50"
-          h="180px"
-          w="1500px"
-          bgImage={goalheader}
-          ml={10}
-          mt="-80px">
-      </Box>
-      <Grid templateColumns="4fr 1fr" gap={6} m={10}>
+    <Box w="1660px" ml="54px">
+      <Grid gap={4} templateRows="repeat(3, 1fr)" templateColumns="repeat(5, 1fr)"  h="600px">
 
-      <Box>
-        <Heading>Friends</Heading>
+      <GridItem colSpan={5} rounded="md" borderColor="gray.50" h="140px" w="1600px" bgImage={goalheader} p={8}/>
+
+      <GridItem colSpan={4}>
+      <Text ml={2} mb={4} fontSize="2xl" fontWeight="bold">Friends</Text>
         <Table variant="simple">
           <Thead>
             <Tr>
@@ -183,11 +175,10 @@ const Friends = () => {
             ))}
           </Tbody>
         </Table>
+      </GridItem>
 
-      </Box>
-
-      <Flex justifyContent="right" flexDirection="column">
-        <Heading ml={3} mb={2}>Friend requests</Heading>
+      <GridItem colSpan={1}>
+        <Text ml={2} mb={4} fontSize="2xl" fontWeight="bold">Friend requests</Text>
         {requests.map((request) => (
           <Popover
             key={request.id}
@@ -197,7 +188,7 @@ const Friends = () => {
             
           >
             <PopoverTrigger>
-              <Button bgColor="#59a985" color="white" mt={3} className="reqbutton">{request.name} wants to be friends.</Button>
+              <Button bgColor="#e84a5f" mt={3} className="reqbutton">{request.name} wants to be friends.</Button>
             </PopoverTrigger>
             <PopoverContent color="white" bg="blue.800" borderColor="blue.800">
               <PopoverHeader pt={4} fontWeight="bold" border="0">
@@ -206,33 +197,23 @@ const Friends = () => {
               <PopoverArrow />
               <PopoverCloseButton />
               <PopoverBody>Hello, can we be friends ?</PopoverBody>
-              <PopoverFooter
-                border="0"
-                display="flex"
-                alignItems="center"
-                justifyContent="space-between"
-                pb={4}
-              >
+
+              <PopoverFooter border="0" display="flex" alignItems="center" justifyContent="space-between" pb={4}>
                 <ButtonGroup size="sm">
-                  <Button
-                    onClick={() => handleAccept(request)}
-                    ref={initialFocusRef}
-                    colorScheme="whatsapp"
-                  >
+                  <Button onClick={() => handleAccept(request)} ref={initialFocusRef} colorScheme="whatsapp">
                     Accept
                   </Button>
-                  <Button
-                    onClick={() => handleDecline(request)}
-                    colorScheme="red"
-                  >
+                  <Button onClick={() => handleDecline(request)} colorScheme="red">
                     Decline
                   </Button>
                 </ButtonGroup>
               </PopoverFooter>
+
             </PopoverContent>
           </Popover>
         ))}
-      </Flex>
+      </GridItem>
+
       </Grid>
     </Box>
   );

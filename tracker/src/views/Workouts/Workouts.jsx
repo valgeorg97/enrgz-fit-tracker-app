@@ -1,5 +1,5 @@
 import { useState, useContext,useEffect } from "react";
-import {Box,Heading,Divider,Grid,Flex} from "@chakra-ui/react";
+import {Box,Heading,Divider,Grid,Flex,GridItem,Text} from "@chakra-ui/react";
 import {collection,getDocs,deleteDoc,doc,addDoc,getDoc,updateDoc,writeBatch} from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import { db } from "../../config/firebase";
@@ -153,50 +153,41 @@ const Workouts = () => {
   
   
   return (
-    <Box maxW="1660px" mt="70px">
-      <Box 
-          rounded="md"
-          borderColor="gray.50"
-          h="140px" w="1600px"
-          bgImage={goalheader}
-          ml={10}>
-      </Box>
-      <Grid templateColumns="4fr 1fr" gap={6} m={10}>
-        
-        <Box mr="20px">
-          <Heading as="h1" size="xl" mb={5}  textAlign="left">
-            Workouts
-          </Heading>
-          <Divider mb={5} />
-            <CreateWorkout/>
-          <Box
-            display="flex"
-            flexWrap="wrap"
-            justifyContent="left"
-            ml="15px"
-            mb={2}
-          >
-            <WorkoutCards
-              difficultyColors={difficultyColors}
-              handleDeleteWorkout={handleDeleteWorkout}
-              handleShareWorkout={handleShareWorkout}
-              handleViewMoreClick={handleViewMoreClick}
-              handleSetActive={handleSetActive}
-            />
-          </Box>
-        </Box>
+    <Box w="1660px" ml="54px">
+      <Grid gap={4} templateRows="repeat(2, 1fr)" templateColumns="repeat(5, 1fr)"  h="600px">
 
-        <Flex justifyContent="right" flexDirection="column">
-          <Heading as="h1" ml={-4} size="xl" mb={5} textAlign="left">
-            Shared Workouts
-          </Heading>
+        <GridItem colSpan={5} rounded="md" borderColor="gray.50" h="140px" w="1600px" bgImage={goalheader} p={8} />
+        
+        <GridItem colSpan={4}>
+          <Box display="flex" flexDirection="column" mt={30}>
+            <Text mb={4} fontSize="2xl" fontWeight="bold">{" "}Workouts{" "}<CreateWorkout/></Text>      
+            <Box
+              display="flex"
+              flexWrap="wrap"
+              justifyContent="left"
+              ml="15px"
+              mb={2}
+            >
+              <WorkoutCards
+                difficultyColors={difficultyColors}
+                handleDeleteWorkout={handleDeleteWorkout}
+                handleShareWorkout={handleShareWorkout}
+                handleViewMoreClick={handleViewMoreClick}
+                handleSetActive={handleSetActive}
+              />
+            </Box>
+          </Box>
+        </GridItem>
+
+        <GridItem colSpan={1}>
+        <Text ml={6} mt={8} mb={4} fontSize="2xl" fontWeight="bold">{" "}Shared workouts{" "}</Text>
           <Divider w="290px" ml={-4} mb={1} />
           <SharedWorkouts
             handleSetActive={handleSetActive}
             difficultyColors={difficultyColors}
             handleViewMoreClick={handleViewMoreClickShared}
           />
-        </Flex>
+        </GridItem>
 
         {selectedWorkout && (
           <SingleWorkout
