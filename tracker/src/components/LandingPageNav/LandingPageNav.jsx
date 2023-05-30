@@ -24,6 +24,9 @@ export default function WithSubnavigation() {
     return (
         <Box>
             <Flex
+                pos="sticky"
+                top={0} // you can adjust this value as required
+                zIndex={1}
                 bg={useColorModeValue('white', 'gray.800')}
                 color={useColorModeValue('gray.600', 'white')}
                 minH={'60px'}
@@ -33,7 +36,10 @@ export default function WithSubnavigation() {
                 borderStyle={'solid'}
                 borderColor={useColorModeValue('gray.200', 'gray.900')}
                 align={'center'}
-                justify={'flex-end'}>
+                justify={'flex-end'}
+                width="100%"
+                >
+                    
                 <Flex
                     flex={{ base: 1, md: 'auto' }}
                     ml={{ base: -2 }}
@@ -147,5 +153,8 @@ const NAV_ITEMS = [
     {
         label: 'About',
         href: '#about',
+    },
+    {
+        href: '#howItWorks'
     },
 ];

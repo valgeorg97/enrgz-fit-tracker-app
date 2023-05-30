@@ -5,6 +5,7 @@ import Statistics from "./Statistics"
 import UserTestimonials from './UserTestimonials';
 import LandingPageNav from '../../components/LandingPageNav/LandingPageNav'; 
 import About from "../About/About"
+import HowItWorks from '../../components/HowItWorks';
 
 const LandingPage = () => {
     const navigate = useNavigate();
@@ -26,6 +27,10 @@ const LandingPage = () => {
             <div id="about">
               <About />
             </div>
+            <div id="howItWorks">
+              <HowItWorks onGetStartedClick={navigateToLogin}/>
+            </div>
+            
         </div>
     );
 };
