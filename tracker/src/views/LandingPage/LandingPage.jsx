@@ -5,7 +5,7 @@ import Statistics from "./Statistics"
 import UserTestimonials from './UserTestimonials';
 import LandingPageNav from '../../components/LandingPageNav/LandingPageNav'; 
 import About from "../About/About"
-import HowItWorks from '../../components/HowItWorks';
+import HowItWorks from '../../components/HowItWorks/HowItWorks';
 import LandingPageFooter from '../LandingPage/LandingPageFooter/LandingPageFooter'
 
 const LandingPage = () => {
@@ -17,7 +17,7 @@ const LandingPage = () => {
 
     return (
         <div>
-            <LandingPageNav /> {/* This is your navigation component */}
+            <LandingPageNav /> 
             <div id="home">
               <CallToActionWithVideo onGetStartedClick={navigateToLogin} />
             </div>
