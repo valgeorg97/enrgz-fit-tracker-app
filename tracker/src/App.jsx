@@ -12,7 +12,7 @@ import { FriendsContext } from "./context/FriendsContext";
 import userimage from "./assets/user.png"
 
 
-import About from "./views/About/About";
+
 import Navigation from "./components/Navigation/Navigation";
 import NotFound from "./views/NotFound/NotFound";
 import Register from "./views/Authentication/Register/Register"
@@ -364,7 +364,6 @@ function App() {
                       <Route path="goals" element={<Goals />} />
                       <Route path="community" element={<Community />} />
                       <Route path="friends" element={<Friends />} />
-                      <Route path="about" element={<About />} />
                       <Route path="profile" element={<Profile />} />
                       <Route path="register" element={<Register />} />
                       <Route path="login" element={<Login />} />

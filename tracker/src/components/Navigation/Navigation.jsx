@@ -6,7 +6,6 @@ import { GiStairsGoal, GiWeightLiftingUp } from 'react-icons/gi'
 import { CgProfile } from 'react-icons/cg'
 import { FaUsers } from 'react-icons/fa'
 import { useLocation, useNavigate } from 'react-router-dom';
-import {AiOutlineInfoCircle} from 'react-icons/ai'
 import { FriendsContext } from '../../context/FriendsContext';
 import logo from '../../assets/logo.png'
 import logo2 from '../../assets/logo2.png'
@@ -109,14 +108,6 @@ const Navigation = () => {
           active={location.pathname === "/friends"}
           friendRequestCount={requests.length} 
         />
-
-          <NavItem
-            link="/about"
-            navSize={navSize}
-            icon={AiOutlineInfoCircle}
-            title="About"
-            active={location.pathname === "/about"}
-          />
           <NavItem
             link="/profile"
             navSize={navSize}
