@@ -17,7 +17,7 @@ import image from "../../assets/group-people-running.jpg";
 
 const CallToActionWithVideo = ({ onGetStartedClick }) => {
     return (
-        <Container maxW={'7xl'}>
+        <Container maxW={'7xl'} mb={-15}>
             <Flex
                 width="100%"
                 justify="space-between"
