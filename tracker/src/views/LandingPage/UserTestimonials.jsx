@@ -11,10 +11,10 @@ import {
   
   const testimonials = [
     {
-      name: 'Mitio Krika',
+      name: 'Mitio Dunera',
       role: 'User',
       content:
-        'The precision and detail of this tracker are outstanding. The clarity it provides in my workout regimes and calorie intake has been instrumental in my fitness journey. Highly recommend!',
+        'Since using ENERGIZE fitness tracker, I no longer wonder if I can indulge in a DONER today. Instead, I simply check the number of calories I\'ve consumed and make an informed decision based on that. ENERGIZE helps me maintain a balanced approach to my diet and empowers me to make mindful choices.',
       avatar:
         'https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80',
     },

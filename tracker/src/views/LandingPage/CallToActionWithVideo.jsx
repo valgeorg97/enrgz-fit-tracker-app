@@ -56,7 +56,7 @@ const CallToActionWithVideo = ({ onGetStartedClick }) => {
                         </Text>
                     </Heading>
                     <Text color={'gray.500'}>
-                        ENERGIZE is a comprehensive fitness tracker app that allows you to monitor your workouts, categorize your fitness activities, and even sync your progress in the cloud for access anywhere. Elevate your fitness journey for free with Energize!"
+                        ENERGIZE is a comprehensive fitness tracker app that allows you to monitor your workouts, categorize your fitness activities, and even sync your progress in the cloud for access anywhere. Elevate your fitness journey for free with Energize!
                     </Text>
                     <Stack
                         spacing={{ base: 4, sm: 6 }}
