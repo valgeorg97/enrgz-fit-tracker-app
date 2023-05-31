@@ -6,6 +6,8 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Logo from "../../../assets/logo.png"
+import FactBubble from '../../../components/InterestingFacts/FactBubble';
+
 
 const Login = () => {
 
@@ -31,11 +33,13 @@ const Login = () => {
   };
 
   return (
+    
     <Flex
       minH={'100vh'}
       align={'center'}
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}>
+        <FactBubble />
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Center>
           <Image src={Logo} alt="Energize Logo" w={64} />
