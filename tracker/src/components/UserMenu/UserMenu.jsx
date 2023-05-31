@@ -26,13 +26,14 @@ const UserMenu = () => {
   }
 
   return (
+    
     <Flex position="fixed" top={4} mr={12} right={6}>
       <Box mr={3}>
         <Heading as="h3" size="sm">{`${name} ${family}`}</Heading>
         <Text textAlign="right" color="gray">{isAdmin ? 'Admin' : 'User'}</Text>
       </Box>
       <Menu>
-        <MenuButton mt={1} as={Avatar} size="sm" src={photoURL} _hover={{cursor: 'pointer'}}>
+        <MenuButton mt={1} as={Avatar} size="md" src={photoURL} _hover={{cursor: 'pointer'}}>
           <ChevronDownIcon />
         </MenuButton>
         <MenuList>

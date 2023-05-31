@@ -161,7 +161,7 @@ import {
             margin={'auto'}
             width={'70%'}
             fontFamily={'Inter'}
-            fontWeight={'medium'}
+            fontWeight={'bold'}
             color={useColorModeValue('gray.500', 'gray.400')}>
             See why over{' '}
             <chakra.strong color={useColorModeValue('gray.700', 'gray.50')}>
@@ -175,7 +175,10 @@ import {
           spacing={'20'}
           mt={16}
           mb={16}
-          mx={'auto'}>
+          mx={'auto'}
+          fontWeight={'bold'}
+          fontFamily={'sans-serif'}
+          fontSize={'md'}>
           {testimonials.map((testimonial, index) => (
             <TestimonialCard key={index} index={index} {...testimonial}/>
           ))}
