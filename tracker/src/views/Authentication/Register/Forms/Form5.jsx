@@ -1,5 +1,5 @@
 import { Box,Radio, RadioGroup, FormControl, FormLabel, Heading, Stack } from '@chakra-ui/react';
-import FactBubble from '../../../../components/InterestingFacts/FactBubble';
+
 
 
 const Form5 = ({handleActivityLevel,regActivityLevel }) => {
@@ -26,7 +26,7 @@ const Form5 = ({handleActivityLevel,regActivityLevel }) => {
               </RadioGroup>
             </Stack>
           </FormControl>
-          <FactBubble />
+       
         </Box>
       </>
     );

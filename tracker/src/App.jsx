@@ -10,9 +10,6 @@ import { WorkoutContext } from "./context/WorkoutContext";
 import { GoalContext } from "./context/GoalContext";
 import { FriendsContext } from "./context/FriendsContext";
 import userimage from "./assets/user.png"
-
-
-
 import Navigation from "./components/Navigation/Navigation";
 import NotFound from "./views/NotFound/NotFound";
 import Register from "./views/Authentication/Register/Register"
@@ -45,11 +42,9 @@ function App() {
   const [weight, setWeight] = useState("")
   const [height, setHeight] = useState("")
   const [friends, setFriends] = useState([]);
-
   const [workouts, setWorkouts] = useState([]);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
   const [sharedWorkouts, setSharedWorkouts] = useState([]);
-
   const [userGoal, setUserGoal] = useState("")
   const [currentGoal, setCurrentGoal] = useState({ calory: 0 });
   const [mainGoals, setMainGoals] = useState([]);

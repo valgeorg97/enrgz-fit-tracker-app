@@ -1,5 +1,5 @@
 import { Box, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
-import FactBubble from '../../../../components/InterestingFacts/FactBubble';
+
 
 const Form8 = ({
   validateUsername,
@@ -57,7 +57,7 @@ const Form8 = ({
           </FormControl>
           {passwordError && <Text fontSize={11}  color="red">{passwordError}</Text>}
         </Box>
-        <FactBubble />
+       
       </Box>
     </>
   );
