@@ -6,6 +6,7 @@ import UserTestimonials from './UserTestimonials';
 import LandingPageNav from '../../components/LandingPageNav/LandingPageNav'; 
 import About from "../About/About"
 import HowItWorks from '../../components/HowItWorks';
+import LandingPageFooter from '../LandingPage/LandingPageFooter/LandingPageFooter'
 
 const LandingPage = () => {
     const navigate = useNavigate();
@@ -30,9 +31,11 @@ const LandingPage = () => {
             <div id="howItWorks">
               <HowItWorks onGetStartedClick={navigateToLogin}/>
             </div>
-            
+            <div>
+              <LandingPageFooter />
+            </div>
         </div>
     );
 };
 
-export default LandingPage
+export default LandingPage;
