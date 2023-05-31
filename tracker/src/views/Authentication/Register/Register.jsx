@@ -14,6 +14,7 @@ import Form6 from './Forms/Form6';
 import Form7 from './Forms/Form7';
 import Form8 from './Forms/Form8';
 import Loading from '../../../components/Loading/Loading';
+import FactBubble from '../../../components/InterestingFacts/FactBubble';
 
 const Register = () => {
   const [step, setStep] = useState(1);

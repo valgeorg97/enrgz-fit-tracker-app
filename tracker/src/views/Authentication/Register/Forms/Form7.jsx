@@ -1,5 +1,6 @@
 import { Box, FormControl, FormLabel, Input, FormErrorMessage } from '@chakra-ui/react';
 import { useState } from 'react';
+import FactBubble from '../../../../components/InterestingFacts/FactBubble';
 
 
 const Form7 = ({ handleHeight, handleWeight, handleGoalWeight, goal, currentWeight }) => {
@@ -51,6 +52,7 @@ const Form7 = ({ handleHeight, handleWeight, handleGoalWeight, goal, currentWeig
           <Input type="number" placeholder="Goal weight" onChange={handleGoalWeightChange} />
           <FormErrorMessage>{weightError}</FormErrorMessage>
         </FormControl>
+        <FactBubble />
       </Box>
     </>
   );

@@ -1,4 +1,5 @@
 import { Box,Heading,Text } from '@chakra-ui/react';
+import FactBubble from '../../../../components/InterestingFacts/FactBubble';
 
 
 const Form4 = () => {
@@ -14,6 +15,7 @@ const Form4 = () => {
           <Text align={'center'} mt={10}>
             Now, let’s talk about your goal.
           </Text>
+          <FactBubble />
         </Box>
       </>
     );

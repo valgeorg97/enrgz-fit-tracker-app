@@ -1,4 +1,5 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
+import FactBubble from '../../../../components/InterestingFacts/FactBubble';
 
 const Form1 = () => {
     return (
@@ -10,6 +11,7 @@ const Form1 = () => {
                 <Text mt="10" fontSize="21px">
                     Let’s customize <strong>ENERGIZE</strong> for your goals.
                 </Text>
+                <FactBubble/>
             </Box>
         </>
     );

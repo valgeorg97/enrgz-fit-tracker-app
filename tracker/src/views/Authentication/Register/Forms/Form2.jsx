@@ -7,6 +7,7 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
+import FactBubble from '../../../../components/InterestingFacts/FactBubble';
 
 const Form2 = ({ validateName, validateFamily, nameError, familyError }) => {
   const handleNameChange = (value) => {
@@ -57,6 +58,7 @@ const Form2 = ({ validateName, validateFamily, nameError, familyError }) => {
       <Text align={"center"} mt={4}>
         Let’s get to know a little about you.
       </Text>
+      <FactBubble/>
     </Box>
   );
 };

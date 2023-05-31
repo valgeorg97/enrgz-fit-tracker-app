@@ -1,7 +1,7 @@
 import { countryCodes } from "../../../../common/constants";
 import { Flex, Box, Radio, RadioGroup, FormControl, FormLabel, Input, Stack,Text } from '@chakra-ui/react';
 import { useState} from "react";
-
+import FactBubble from '../../../../components/InterestingFacts/FactBubble';
 
 
 const Form6 = ({handleGender,regGender,regYear,handleYear,validatePhone,phoneError}) => {
@@ -75,6 +75,7 @@ const [selectedDate, setSelectedDate] = useState(regYear);
               {phoneError && <Text fontSize={12} color="red">{phoneError}</Text>}
           </FormControl>
           </Box>
+          <FactBubble />
         </Box>
       </>
     );

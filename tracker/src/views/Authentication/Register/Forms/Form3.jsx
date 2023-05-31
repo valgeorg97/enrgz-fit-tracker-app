@@ -1,4 +1,5 @@
 import { Box,Radio, RadioGroup,Heading, Stack,Text } from '@chakra-ui/react';
+import FactBubble from '../../../../components/InterestingFacts/FactBubble';
 
 const Form3 = ({ handleGoal,regGoal,regName,regFamily }) => {
 
@@ -26,6 +27,7 @@ const Form3 = ({ handleGoal,regGoal,regName,regFamily }) => {
               <Radio value="Maintain weight">Maintain weight</Radio>
             </Stack>
           </RadioGroup>
+          <FactBubble />
         </Box>
       </>
     );
