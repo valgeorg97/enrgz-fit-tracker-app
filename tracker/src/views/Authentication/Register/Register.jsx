@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useContext} from 'react';
 import { Flex, Box, Progress, Image, Button, Stack, useColorModeValue, ButtonGroup } from '@chakra-ui/react';
 import { db, auth } from "../../../config/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { addDoc, collection, updateDoc, getDocs, query, where } from 'firebase/firestore';
 import { useNavigate } from "react-router-dom";
+import { EnergizeGameContext } from '../../../context/EnergizeGameContext';
 import Logo from "../../../assets/logo.png"
 import Form1 from './Forms/Form1';
 import Form2 from './Forms/Form2';
@@ -14,9 +15,11 @@ import Form6 from './Forms/Form6';
 import Form7 from './Forms/Form7';
 import Form8 from './Forms/Form8';
 import Loading from '../../../components/Loading/Loading';
-import FactBubble from '../../../components/InterestingFacts/FactBubble';
+
+
 
 const Register = () => {
+  const { energizePoints } = useContext(EnergizeGameContext)
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,6 +45,8 @@ const Register = () => {
   const [phoneError, setPhoneError] = useState('');
   const [nameError, setNameError] = useState('');
   const [familyError, setFamilyError] = useState('');
+
+
 
   const usersCollectionRef = collection(db, 'users');
   const usersQuery = query(usersCollectionRef);
@@ -213,7 +218,8 @@ const Register = () => {
       goalWeight: regGoalWeight,
       role: "user",
       isBlocked: false,
-      id: auth.currentUser.uid
+      id: auth.currentUser.uid,
+      energizePoints: energizePoints
     });
 
     const docID = docRef.id;
