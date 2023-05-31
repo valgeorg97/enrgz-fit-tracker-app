@@ -9,9 +9,19 @@ const TotalShared = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (sharedWorkouts.length > 0) {
+    let timeoutId;
+    
+    if (sharedWorkouts) {
       setLoading(false);
+    } else {
+      timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 2300);
     }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [sharedWorkouts]);
 
   return (

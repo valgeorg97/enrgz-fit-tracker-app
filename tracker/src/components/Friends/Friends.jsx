@@ -9,9 +9,19 @@ const Friends = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (friends.length > 0) {
+    let timeoutId;
+    
+    if (friends) {
       setLoading(false);
+    } else {
+      timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 2300);
     }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [friends]);
 
   return (
