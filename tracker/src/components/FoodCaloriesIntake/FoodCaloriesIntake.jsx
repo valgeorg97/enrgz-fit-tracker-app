@@ -41,6 +41,7 @@ const FoodCaloriesIntake = () => {
     Dinner: false,
     Snack: false,
   });
+  const mealTypesOrder = ["Breakfast", "Lunch", "Dinner", "Snack"];
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -257,23 +258,23 @@ const FoodCaloriesIntake = () => {
           </Flex>
         </Box>
         <Divider mt={5} />
-        {Object.keys(foodItems).map((mealType) => (
-          <VStack key={mealType} align="start" spacing={4} mt={4}>
-            <Button
-              variant="link"
-              onClick={() => handleToggleMealType(mealType)}
-            >
-              {mealType}
-            </Button>
-            <Collapse in={expandedMealTypes[mealType]}>
-              {foodItems[mealType].map((item, index) => (
-                <Text key={index}>
-                  {item.name} - {item.grams}g - {item.calories}kcal
-                </Text>
-              ))}
-            </Collapse>
-          </VStack>
-        ))}
+        {mealTypesOrder.map((mealType) => (
+  <VStack key={mealType} align="start" spacing={4} mt={4}>
+    <Button
+      variant="link"
+      onClick={() => handleToggleMealType(mealType)}
+    >
+      {mealType}
+    </Button>
+    <Collapse in={expandedMealTypes[mealType]}>
+      {foodItems[mealType].map((item, index) => (
+        <Text key={index}>
+          {item.name} - {item.grams}g - {item.calories}kcal
+        </Text>
+      ))}
+    </Collapse>
+  </VStack>
+))}
       </Collapse>
     </Box>
   );
