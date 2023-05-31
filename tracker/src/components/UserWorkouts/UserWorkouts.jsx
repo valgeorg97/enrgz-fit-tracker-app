@@ -9,9 +9,19 @@ const UserWorkouts = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (workouts.length > 0) {
+    let timeoutId;
+    
+    if (workouts) {
       setLoading(false);
+    } else {
+      timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 2300);
     }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [workouts]);
 
   return (

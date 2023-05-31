@@ -9,9 +9,19 @@ const UserGoals = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (goals.length > 0) {
+    let timeoutId;
+    
+    if (goals) {
       setLoading(false);
+    } else {
+      timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 2300);
     }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [goals]);
 
   return (
