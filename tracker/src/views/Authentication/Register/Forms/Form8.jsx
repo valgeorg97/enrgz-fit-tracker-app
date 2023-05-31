@@ -57,7 +57,6 @@ const Form8 = ({
           </FormControl>
           {passwordError && <Text fontSize={11}  color="red">{passwordError}</Text>}
         </Box>
-       
       </Box>
     </>
   );

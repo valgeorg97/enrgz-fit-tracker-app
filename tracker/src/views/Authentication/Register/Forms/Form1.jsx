@@ -11,7 +11,6 @@ const Form1 = () => {
                 <Text mt="10" fontSize="21px">
                     Let’s customize <strong>ENERGIZE</strong> for your goals.
                 </Text>
-             
             </Box>
         </>
     );

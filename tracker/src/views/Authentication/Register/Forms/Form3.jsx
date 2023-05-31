@@ -27,7 +27,6 @@ const Form3 = ({ handleGoal,regGoal,regName,regFamily }) => {
               <Radio value="Maintain weight">Maintain weight</Radio>
             </Stack>
           </RadioGroup>
-          
         </Box>
       </>
     );

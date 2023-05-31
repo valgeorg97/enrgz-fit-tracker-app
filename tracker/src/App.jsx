@@ -9,6 +9,8 @@ import { AuthContext } from "./context/AuthContext"
 import { WorkoutContext } from "./context/WorkoutContext";
 import { GoalContext } from "./context/GoalContext";
 import { FriendsContext } from "./context/FriendsContext";
+import { EnergizeGameContext } from "./context/EnergizeGameContext";
+
 import userimage from "./assets/user.png"
 import Navigation from "./components/Navigation/Navigation";
 import NotFound from "./views/NotFound/NotFound";
@@ -52,6 +54,7 @@ function App() {
   const [goals, setGoals] = useState([]);
   const [finishedGoals, setFinishedGoals] = useState([]);
   const [requests, setRequests] = useState([]);
+  const [energizePoints, setEnergizePoints] = useState(0)
 
 
   const { colorMode } = useColorMode();
@@ -336,6 +339,11 @@ function App() {
               friends,
               setFriends
             }}>
+              <EnergizeGameContext.Provider
+            value={{
+              energizePoints,
+              setEnergizePoints
+            }}>
             <ChakraProvider>
               <Flex className="App" position="relative">
                 {isAuth &&
@@ -370,6 +378,7 @@ function App() {
                 <ThemeButton />
               </Flex>
             </ChakraProvider>
+            </EnergizeGameContext.Provider>
           </FriendsContext.Provider>
         </GoalContext.Provider>
       </WorkoutContext.Provider>

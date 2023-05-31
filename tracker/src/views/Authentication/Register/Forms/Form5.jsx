@@ -26,7 +26,6 @@ const Form5 = ({handleActivityLevel,regActivityLevel }) => {
               </RadioGroup>
             </Stack>
           </FormControl>
-       
         </Box>
       </>
     );

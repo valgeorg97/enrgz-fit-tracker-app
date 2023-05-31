@@ -75,7 +75,6 @@ const [selectedDate, setSelectedDate] = useState(regYear);
               {phoneError && <Text fontSize={12} color="red">{phoneError}</Text>}
           </FormControl>
           </Box>
-        
         </Box>
       </>
     );

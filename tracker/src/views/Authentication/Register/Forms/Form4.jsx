@@ -15,7 +15,6 @@ const Form4 = () => {
           <Text align={'center'} mt={10}>
             Now, let’s talk about your goal.
           </Text>
-          
         </Box>
       </>
     );
