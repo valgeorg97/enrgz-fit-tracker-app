@@ -1,7 +1,7 @@
-import { ChakraProvider, Flex,useColorMode } from "@chakra-ui/react"
+import { ChakraProvider, Flex, useColorMode } from "@chakra-ui/react"
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getDocs, collection, where, query,doc, updateDoc, getDoc } from "firebase/firestore";
+import { getDocs, collection, where, query, doc, updateDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "./config/firebase";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
@@ -42,8 +42,8 @@ function App() {
   const [photoURL, setPhotoURL] = useState(userimage);
   const [password, setPassword] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
-  const [weight,setWeight] = useState("")
-  const [height,setHeight] = useState("")
+  const [weight, setWeight] = useState("")
+  const [height, setHeight] = useState("")
   const [friends, setFriends] = useState([]);
 
   const [workouts, setWorkouts] = useState([]);
@@ -51,13 +51,13 @@ function App() {
   const [sharedWorkouts, setSharedWorkouts] = useState([]);
 
   const [userGoal, setUserGoal] = useState("")
-  const [currentGoal, setCurrentGoal] = useState({calory: 0});
+  const [currentGoal, setCurrentGoal] = useState({ calory: 0 });
   const [mainGoals, setMainGoals] = useState([]);
   const [goalDocRef, setGoalDocRef] = useState(null);
   const [goals, setGoals] = useState([]);
   const [finishedGoals, setFinishedGoals] = useState([]);
   const [requests, setRequests] = useState([]);
-  
+
 
   const { colorMode } = useColorMode();
   const usersCollection = collection(db, "users");
@@ -67,7 +67,7 @@ function App() {
       if (userDocID) {
         try {
           const qu = query(
-            collection(db, "mainGoals"), 
+            collection(db, "mainGoals"),
             where("owner", "==", userID)
           );
           const querySnapshot = await getDocs(qu);
@@ -79,7 +79,7 @@ function App() {
             setMainGoals(mainGoalsData[0]);
             const mainGoalsDocRef = doc(db, "mainGoals", mainGoalsData[0].id);
             setGoalDocRef(mainGoalsDocRef);
-            
+
             if (!mainGoalsData[0].currentGoal) {
               if (userGoal === "Extreme weight gain") {
                 updateCurrentGoal(mainGoalsData[0].extremeGain);
@@ -178,35 +178,35 @@ function App() {
 
   useEffect(() => {
     const fetchGoals = async () => {
-  if (userDocID) {
-    try {
-      const q = query(
-        collection(db, `users/${userDocID}/goals`),
-        where("owner", "==", userID)
-      );
-      const querySnapshot = await getDocs(q);
-      const goalsData = [];
-      const finishedGoalsData = [];
-      querySnapshot.forEach((doc) => {
-        const goal = { id: doc.id, ...doc.data() };
-        if (goal.status === "finished") {
-          finishedGoalsData.push(goal);
-        } else {
-          goalsData.push(goal);
+      if (userDocID) {
+        try {
+          const q = query(
+            collection(db, `users/${userDocID}/goals`),
+            where("owner", "==", userID)
+          );
+          const querySnapshot = await getDocs(q);
+          const goalsData = [];
+          const finishedGoalsData = [];
+          querySnapshot.forEach((doc) => {
+            const goal = { id: doc.id, ...doc.data() };
+            if (goal.status === "finished") {
+              finishedGoalsData.push(goal);
+            } else {
+              goalsData.push(goal);
+            }
+          });
+          setGoals(goalsData);
+          setFinishedGoals(finishedGoalsData);
+        } catch (error) {
+          console.error("Error fetching goals:", error);
         }
-      });
-      setGoals(goalsData);
-      setFinishedGoals(finishedGoalsData);
-    } catch (error) {
-      console.error("Error fetching goals:", error);
-    }
-  }
-};
+      }
+    };
 
     fetchGoals();
   }, [userID, userDocID]);
-  
-  
+
+
   useEffect(() => {
     const getUsers = async () => {
       const q = query(usersCollection, where("id", "==", userID));
@@ -269,14 +269,14 @@ function App() {
   const updateCurrentGoal = async (goal) => {
     setCurrentGoal(goal);
     const dataWithDocID = { currentGoal: goal };
-    if(goalDocRef) {
+    if (goalDocRef) {
       await updateDoc(goalDocRef, dataWithDocID);
 
     }
   };
 
   return (
- <AuthContext.Provider
+    <AuthContext.Provider
       value={{
         isLoggedIn: isAuth,
         setIsLoggedIn: setIsAuth,
@@ -316,7 +316,7 @@ function App() {
           setWorkouts,
           selectedWorkout,
           setSelectedWorkout,
-          sharedWorkouts, 
+          sharedWorkouts,
           setSharedWorkouts,
         }}
       >
@@ -334,47 +334,49 @@ function App() {
             setFinishedGoals,
           }}
         >
-        <FriendsContext.Provider
-        value={{
-          requests,
-          setRequests,
-          friends,
-          setFriends
-        }}>
-      <ChakraProvider>
-        <Flex className="App" position="relative">
-          {isAuth &&
-            location.pathname !== "/register" &&
-            location.pathname !== "/login" && <Navigation colorMode={colorMode}/>}
-          {isAuth &&
-            location.pathname !== "/register" &&
-            location.pathname !== "/login" && <UserMenu />}
-          <Flex
-            as="main"
-            flexGrow={1}
-            justifyContent="center"
-            alignItems="center"
-            p={5}
-          >
-            <Routes>
-              <Route path="/" element={isAuth ? <Dashboard /> : <LandingPage />} />
-              <Route path="/dashboard" element={<Dashboard colorMode={colorMode}/>} />
-              <Route path="/workouts" element={<Workouts />} />
-              <Route path="goals" element={<Goals />} />
-              <Route path="community" element={<Community />} />
-              <Route path="friends" element={<Friends />} />
-              <Route path="about" element={<About />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="register" element={<Register />} />
-              <Route path="login" element={<Login />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            {/* <Footer /> */}
-          </Flex>
-          <ThemeButton/>
-        </Flex>
-        </ChakraProvider>
-        </FriendsContext.Provider>
+          <FriendsContext.Provider
+            value={{
+              requests,
+              setRequests,
+              friends,
+              setFriends
+            }}>
+            <ChakraProvider>
+              <Flex className="App" position="relative">
+                {isAuth &&
+                  location.pathname !== "/register" &&
+                  location.pathname !== "/login" && <Navigation colorMode={colorMode} />}
+                {isAuth &&
+                  location.pathname !== "/register" &&
+                  location.pathname !== "/login" && <UserMenu />}
+                <Flex
+                  as="main"
+                  flexGrow={1}
+                  justifyContent="center"
+                  alignItems="center"
+                  p={5}
+                >
+                  <Flex as="main" direction="column" minHeight="100vh" flexGrow={1} flexShrink={0} justifyContent="center" alignItems="center" p={5}>
+                    <Routes marginBottom="auto">
+                      <Route path="/" element={isAuth ? <Dashboard /> : <LandingPage />} />
+                      <Route path="/dashboard" element={<Dashboard colorMode={colorMode} />} />
+                      <Route path="/workouts" element={<Workouts />} />
+                      <Route path="goals" element={<Goals />} />
+                      <Route path="community" element={<Community />} />
+                      <Route path="friends" element={<Friends />} />
+                      <Route path="about" element={<About />} />
+                      <Route path="profile" element={<Profile />} />
+                      <Route path="register" element={<Register />} />
+                      <Route path="login" element={<Login />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                    {location.pathname !== "/" ? <Footer /> : null}
+                  </Flex>
+                </Flex>
+                <ThemeButton />
+              </Flex>
+            </ChakraProvider>
+          </FriendsContext.Provider>
         </GoalContext.Provider>
       </WorkoutContext.Provider>
     </AuthContext.Provider>
