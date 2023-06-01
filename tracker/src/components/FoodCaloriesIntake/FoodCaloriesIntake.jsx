@@ -13,6 +13,7 @@ import {
   Divider,
   Heading
 } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import { db } from "../../config/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useContext } from "react";
@@ -30,6 +31,7 @@ const FoodCaloriesIntake = () => {
   const [grams, setGrams] = useState("");
   const [isViewMore, setIsViewMore] = useState(false);
   const [mealType, setMealType] = useState("Breakfast");
+  const toast = useToast();
 
   const [foodItems, setFoodItems] = useState({
     Breakfast: [],
@@ -131,29 +133,21 @@ const FoodCaloriesIntake = () => {
 
               const newConsumedCalories = consumedCalories + data[0].calories;
 
-              // Update energize points
+              
               if (newConsumedCalories >= currentGoal.calory && newConsumedCalories <= currentGoal.calory + 200) {
-                setEnergizePoints(prevPoints => prevPoints + 5); // increment energize points
+                setEnergizePoints(prevPoints => prevPoints + 5); 
+                toast({
+                  title: "Congratulations!",
+                  description: "You've earned 5 Energize Points for reaching your calorie goal!",
+                  status: "success",
+                  duration: 9000,
+                  isClosable: true,
+                  position: "top-right"
+                });
                 if (userDocID) {
                   const userRef = doc(db, "users", userDocID);
-                  setDoc(userRef, { energizePoints: energizePoints + 5}, { merge: true }); // update firestore
+                  setDoc(userRef, { energizePoints: energizePoints + 5}, { merge: true }); 
                 }
-              }
-
-              // Save to Firestore
-              if (userDocID) {
-                const userRef = doc(db, "users", userDocID);
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                setDoc(
-                  userRef,
-                  {
-                    consumedCalories: newConsumedCalories,
-                    lastUpdate: today,
-                    foodItems: updatedFoodItems,
-                  },
-                  { merge: true }
-                );
               }
 
               return updatedFoodItems;

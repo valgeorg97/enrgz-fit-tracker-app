@@ -3,6 +3,7 @@ import { db } from "../../config/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
 import { EnergizeGameContext } from "../../context/EnergizeGameContext"
+import { useToast } from "@chakra-ui/react";
 import {
   Box,
   Input,
@@ -26,6 +27,7 @@ const WaterCalculator = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { colorMode } = useColorMode();
   const waterRef = useRef(null);
+  const toast = useToast();
 
   const handleToggle = () => setIsOpen(!isOpen);
   const waterBground = colorMode === "dark" ? "gray.800" : "white";
@@ -104,6 +106,14 @@ const WaterCalculator = () => {
       if ((newSavedWater / calculateWaterIntake()) >= 1 && !hasBonusPointsBeenAwarded) {
         newEnergizePoints += 3; 
         hasBonusPointsBeenAwarded = true;
+        toast({
+          title: "Congratulations!",
+          description: "You've earned 3 Energize Points for reaching your Water intake goal!",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          position: "top"
+        });
       }
   
       await setDoc(
