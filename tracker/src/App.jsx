@@ -226,6 +226,7 @@ function App() {
         setWeight(doc.data().weight)
         setHeight(doc.data().height)
         setPassword(doc.data().password)
+        setEnergizePoints(doc.data().energizePoints || 0)
       });
     };
     getUsers();
