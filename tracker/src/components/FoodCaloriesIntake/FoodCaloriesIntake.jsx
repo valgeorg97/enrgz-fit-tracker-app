@@ -18,8 +18,10 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { GoalContext } from "../../context/GoalContext";
+import {EnergizeGameContext} from "../../context/EnergizeGameContext"
 
 const FoodCaloriesIntake = () => {
+  const { energizePoints, setEnergizePoints } = useContext(EnergizeGameContext);
   const { currentGoal } = useContext(GoalContext);
   const { userDocID } = useContext(AuthContext);
   const [consumedCalories, setConsumedCalories] = useState(0);
@@ -126,6 +128,18 @@ const FoodCaloriesIntake = () => {
                 ...prevState,
                 [mealType]: [...prevState[mealType], foodItem],
               };
+
+              const newConsumedCalories = consumedCalories + data[0].calories;
+
+              // Update energize points
+              if (newConsumedCalories >= currentGoal.calory && newConsumedCalories <= currentGoal.calory + 200) {
+                setEnergizePoints(prevPoints => prevPoints + 5); // increment energize points
+                if (userDocID) {
+                  const userRef = doc(db, "users", userDocID);
+                  setDoc(userRef, { energizePoints: energizePoints + 5}, { merge: true }); // update firestore
+                }
+              }
+
               // Save to Firestore
               if (userDocID) {
                 const userRef = doc(db, "users", userDocID);
@@ -134,18 +148,19 @@ const FoodCaloriesIntake = () => {
                 setDoc(
                   userRef,
                   {
-                    consumedCalories: consumedCalories + data[0].calories,
+                    consumedCalories: newConsumedCalories,
                     lastUpdate: today,
                     foodItems: updatedFoodItems,
                   },
                   { merge: true }
                 );
               }
+
               return updatedFoodItems;
             });
-            setConsumedCalories(
-              (prevCalories) => prevCalories + data[0].calories
-            );
+
+            setConsumedCalories((prevCalories) => prevCalories + data[0].calories);
+
           } else {
             console.log("No data found");
           }
