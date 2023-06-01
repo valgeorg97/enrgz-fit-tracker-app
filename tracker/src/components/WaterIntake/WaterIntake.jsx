@@ -2,6 +2,7 @@ import { useEffect, useState, useContext, useRef } from "react";
 import { db } from "../../config/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
+import { EnergizeGameContext } from "../../context/EnergizeGameContext"
 import {
   Box,
   Input,
@@ -17,6 +18,7 @@ import { useColorMode } from "@chakra-ui/react";
 import "./Water.css";
 
 const WaterCalculator = () => {
+  const { energizePoints, setEnergizePoints } = useContext(EnergizeGameContext)
   const [weight, setWeight] = useState(null);
   const [consumedWater, setConsumedWater] = useState(0);
   const [savedWater, setSavedWater] = useState(0);
@@ -36,7 +38,7 @@ const WaterCalculator = () => {
 
         if (docSnap.exists()) {
           setWeight(docSnap.data().weight);
-
+          setEnergizePoints(docSnap.data().energizePoints || 0);
           const lastUpdate = docSnap.data().lastUpdate?.toDate();
           const today = new Date();
           today.setHours(0, 0, 0, 0);
@@ -82,12 +84,41 @@ const WaterCalculator = () => {
       const userRef = doc(db, "users", userDocID);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
+      let newSavedWater = savedWater + consumedWater;
+  
+      const docSnap = await getDoc(userRef);
+  
+      let hasBonusPointsBeenAwarded = false;
+      if (docSnap.exists()) {
+        const lastUpdate = docSnap.data().lastUpdate?.toDate();
+        if (!lastUpdate || lastUpdate.getTime() !== today.getTime()) {
+          
+          hasBonusPointsBeenAwarded = false;
+        } else {
+          
+          hasBonusPointsBeenAwarded = docSnap.data().hasBonusPointsBeenAwarded || false;
+        }
+      }
+  
+      let newEnergizePoints = energizePoints;
+      if ((newSavedWater / calculateWaterIntake()) >= 1 && !hasBonusPointsBeenAwarded) {
+        newEnergizePoints += 3; 
+        hasBonusPointsBeenAwarded = true;
+      }
+  
       await setDoc(
         userRef,
-        { consumedWater: savedWater + consumedWater, lastUpdate: today },
+        {
+          consumedWater: newSavedWater,
+          lastUpdate: today,
+          energizePoints: newEnergizePoints,
+          hasBonusPointsBeenAwarded: hasBonusPointsBeenAwarded
+        },
         { merge: true }
       );
+  
       setSavedWater(savedWater + consumedWater);
+      setEnergizePoints(newEnergizePoints);
       setConsumedWater(0);
       waterRef.current.value = null;
     }

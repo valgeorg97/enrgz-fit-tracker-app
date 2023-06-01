@@ -219,7 +219,7 @@ const Register = () => {
       role: "user",
       isBlocked: false,
       id: auth.currentUser.uid,
-      energizePoints: energizePoints
+      energizePoints: 0
     });
 
     const docID = docRef.id;
