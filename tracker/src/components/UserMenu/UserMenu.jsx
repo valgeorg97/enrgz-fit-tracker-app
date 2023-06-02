@@ -33,7 +33,7 @@ const UserMenu = () => {
         <Heading as="h3" size="sm">{`${name} ${family}`}</Heading>
         <Flex color="gray" alignItems="center">
           <Tooltip hasArrow arrowSize={10} bg="orange.500" borderRadius={10} label="Energize points! You can earn Energize points by completing your goals. Click to learn more." fontSize="md">
-            <Button display="flex" flexDirection="row" variant="unstyled" onClick={() => navigate('/energize-conquest-info')}>
+            <Button display="flex" flexDirection="row" variant="unstyled" onClick={() => navigate('/energizeConquest')}>
               <Icon as={MdFlashOn} boxSize="4" color="orange.500" />
               <Text ml={1}>{energizePoints}</Text>
             </Button>

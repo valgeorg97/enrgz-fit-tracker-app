@@ -26,6 +26,7 @@ import UserMenu from "./components/UserMenu/UserMenu";
 import Friends from "./views/Friends/Friends";
 import ThemeButton from "./components/ThemeButton/ColorModeButton";
 import Footer from "./components/Footer/Footer";
+import EnergizeGame from "./components/EnergizeGame/EnergizeGame";
 
 function App() {
   const navigate = useNavigate();
@@ -371,6 +372,7 @@ function App() {
                       <Route path="profile" element={<Profile />} />
                       <Route path="register" element={<Register />} />
                       <Route path="login" element={<Login />} />
+                      <Route path="energizeConquest" element={<EnergizeGame/>}/>
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                     {location.pathname !== "/" ? <Footer /> : null}
