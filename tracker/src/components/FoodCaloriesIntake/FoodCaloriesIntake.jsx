@@ -21,17 +21,18 @@ import { AuthContext } from "../../context/AuthContext";
 import { GoalContext } from "../../context/GoalContext";
 import {EnergizeGameContext} from "../../context/EnergizeGameContext"
 
+
 const FoodCaloriesIntake = () => {
   const { energizePoints, setEnergizePoints } = useContext(EnergizeGameContext);
   const { currentGoal } = useContext(GoalContext);
   const { userDocID } = useContext(AuthContext);
   const [consumedCalories, setConsumedCalories] = useState(0);
-  // const [totalCalories, setTotalCalories] = useState(2000);
   const [query, setQuery] = useState("");
   const [grams, setGrams] = useState("");
   const [isViewMore, setIsViewMore] = useState(false);
   const [mealType, setMealType] = useState("Breakfast");
   const toast = useToast();
+  const [isPointsAwarded, setIsPointsAwarded] = useState(false);
 
   const [foodItems, setFoodItems] = useState({
     Breakfast: [],
@@ -66,6 +67,12 @@ const FoodCaloriesIntake = () => {
               Dinner: [],
               Snack: [],
             });
+            setIsPointsAwarded(false);
+            await setDoc(
+              docRef,
+              { consumedCalories: 0, isPointsAwarded: false, lastUpdate: today },
+              { merge: true }
+            );
           } else {
             setConsumedCalories(docSnap.data().consumedCalories || 0);
             setFoodItems(
@@ -76,6 +83,7 @@ const FoodCaloriesIntake = () => {
                 Snack: [],
               }
             );
+            setIsPointsAwarded(docSnap.data().isPointsAwarded || false);
           }
         } else {
           console.log("No such document!");
@@ -119,45 +127,55 @@ const FoodCaloriesIntake = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          if (Array.isArray(data) && data.length) {
-            let foodItem = {
-              name: query,
-              grams: grams,
-              calories: data[0].calories,
-            };
-            setFoodItems((prevState) => {
-              let updatedFoodItems = {
-                ...prevState,
-                [mealType]: [...prevState[mealType], foodItem],
-              };
+  if (Array.isArray(data) && data.length) {
+    let foodItem = {
+      name: query,
+      grams: grams,
+      calories: data[0].calories,
+    };
+    setFoodItems((prevState) => {
+      let updatedFoodItems = {
+        ...prevState,
+        [mealType]: [...prevState[mealType], foodItem],
+      };
+  
+      const newConsumedCalories = consumedCalories + data[0].calories;
+  
+      setConsumedCalories((prevCalories) => prevCalories + data[0].calories);
+  
+      return updatedFoodItems;
+    });
 
-              const newConsumedCalories = consumedCalories + data[0].calories;
-
-              
-              if (newConsumedCalories >= currentGoal.calory && newConsumedCalories <= currentGoal.calory + 200) {
-                setEnergizePoints(prevPoints => prevPoints + 5); 
-                toast({
-                  title: "Congratulations!",
-                  description: "You've earned 5 Energize Points for reaching your calorie goal!",
-                  status: "success",
-                  duration: 9000,
-                  isClosable: true,
-                  position: "top-right"
-                });
-                if (userDocID) {
-                  const userRef = doc(db, "users", userDocID);
-                  setDoc(userRef, { energizePoints: energizePoints + 5}, { merge: true }); 
-                }
-              }
-
-              return updatedFoodItems;
-            });
-
-            setConsumedCalories((prevCalories) => prevCalories + data[0].calories);
-
-          } else {
-            console.log("No data found");
-          }
+    const newConsumedCalories = consumedCalories + data[0].calories;
+  
+    if (newConsumedCalories >= currentGoal.calory && newConsumedCalories <= currentGoal.calory + 200 && !isPointsAwarded) {
+      setEnergizePoints(prevPoints => prevPoints + 5); 
+      setIsPointsAwarded(true);
+      toast({
+        title: "Congratulations!",
+        description: "You've earned 5 Energize Points for reaching your calorie goal!",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+        position: "top"
+      });
+      if (userDocID) {
+        const docRef = doc(db, "users", userDocID);
+        await setDoc(docRef, 
+          { 
+            consumedCalories: newConsumedCalories, 
+            energizePoints: energizePoints + 5, 
+            isPointsAwarded: true 
+          }, 
+          { merge: true }
+        ).catch((error) => {
+          console.error("Error updating document: ", error);
+        });
+      }
+    }
+  } else {
+    console.log("No data found");
+  }
         } else {
           throw new Error("Network response was not ok.");
         }
@@ -172,7 +190,7 @@ const FoodCaloriesIntake = () => {
     if (userDocID) {
       const userRef = doc(db, "users", userDocID);
       const today = new Date();
-      today.setHours(0, 0, 0, 0); // remove time part
+      today.setHours(0, 0, 0, 0); 
       await setDoc(
         userRef,
         { consumedCalories: 0, lastUpdate: today },
@@ -210,7 +228,7 @@ const FoodCaloriesIntake = () => {
     >
       <Heading size="md" textAlign={"center"} mb={3}>Calories Intake</Heading>
       <Text fontSize="xl" mb={1}>
-        Base Goal Calories: {currentGoal && currentGoal.calory.toFixed(0)} kcal
+      Base Goal Calories: {currentGoal?.calory?.toFixed(0) ?? 0} kcal
       </Text>
       <Text fontSize="xl" mb={1}>
         Calories consumed today: {consumedCalories.toFixed(0)}{" "}
