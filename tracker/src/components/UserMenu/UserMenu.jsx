@@ -1,4 +1,4 @@
-import { Avatar, Menu, MenuButton, MenuList, MenuItem, MenuDivider, Box, Heading, Text, Flex, Image, Icon } from '@chakra-ui/react';
+import { Avatar, Menu, MenuButton, MenuList, MenuItem, MenuDivider, Box, Heading, Text, Flex, Image, Icon, Tooltip, Button, VStack } from '@chakra-ui/react';
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useContext, useState, useEffect } from 'react';
 import { AuthContext } from "../../context/AuthContext";
@@ -6,8 +6,6 @@ import { EnergizeGameContext } from '../../context/EnergizeGameContext';
 import { useNavigate } from 'react-router-dom';
 import { Spinner } from '@chakra-ui/react'
 import { MdFlashOn } from 'react-icons/md';
-
-
 
 const UserMenu = () => {
   const { name, family, isAdmin, signOut, photoURL } = useContext(AuthContext);
@@ -30,12 +28,16 @@ const UserMenu = () => {
   }
 
   return (
-    <Flex position="fixed" top={4} mr={12} right={6}>
+    <Flex position="fixed" top={1} mr={12} right={6}>
       <Box mr={3}>
         <Heading as="h3" size="sm">{`${name} ${family}`}</Heading>
         <Flex color="gray" alignItems="center">
-          <Icon as={MdFlashOn} boxSize="4" color="yellow.500" />
-          <Text mr={2}>{energizePoints}</Text>
+          <Tooltip hasArrow arrowSize={10} bg="orange.500" borderRadius={10} label="Energize points! You can earn Energize points by completing your goals. Click to learn more." fontSize="md">
+            <Button display="flex" flexDirection="row" variant="unstyled" onClick={() => navigate('/energize-conquest-info')}>
+              <Icon as={MdFlashOn} boxSize="4" color="orange.500" />
+              <Text ml={1}>{energizePoints}</Text>
+            </Button>
+          </Tooltip>
           <Text textAlign="right">{isAdmin ? '| Admin' : '| User'}</Text>
         </Flex>
       </Box>
