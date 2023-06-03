@@ -11,11 +11,14 @@ import { WorkoutContext } from "../../context/WorkoutContext";
 import DashboardGif from "../../components/DashboardGif/DashboardGif";
 import TotalShared from "../../components/TotalShared/TotalShared";
 import Friends from "../../components/Friends/Friends";
+import { useNavigate } from "react-router-dom";
 
 
 const Dashboard = () => {
   const { workouts } = useContext(WorkoutContext);
   const [activeWorkout, setActiveWorkout] = useState(null);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const newActiveWorkout = workouts.find((workout) => workout.isActive);
@@ -43,7 +46,7 @@ const Dashboard = () => {
         </GridItem>
 
         <GridItem colSpan={3}>
-          <Box bgColor="blue.800" w="770px" h="340px" boxShadow="lg" rounded="md">
+          <Box bgColor="blue.800" w="770px" h="340px" boxShadow="lg" rounded="md" _hover={{ cursor: "pointer" }} onClick={()=>navigate('/workouts')}>
             <ExpiringGoal />
           </Box>
         </GridItem>

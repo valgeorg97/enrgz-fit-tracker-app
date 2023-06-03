@@ -26,7 +26,7 @@ const CurrentWorkout = ({ activeWorkout }) => {
   }, [activeWorkout]);
 
   return (
-    <Box h="340px">
+    <Box h="340px" >
       <ChakraCard
         background="linear-gradient(to bottom, rgb(173, 83, 137), rgb(60, 16, 83))"
         boxShadow="dark-lg"
@@ -36,15 +36,16 @@ const CurrentWorkout = ({ activeWorkout }) => {
         p={4}
         _hover={{ background: "#5f1854" , cursor: "pointer" }}
         onClick={()=>navigate('/workouts')}
+        
       >
         {loading ? (
           <Flex w="250px" align="center" justify="center" height="100%">
-            <Spinner size="lg" />
+            <Spinner color="white" ml="90px" mb="30px" size="xl" />
           </Flex>
         ) : (
-          <Box w="auto">
+          <Box w="auto" >
             {!activeWorkout && (
-              <Text w="250px" textAlign="center" mt="80px" fontSize="30px" justify="center" color="white">
+              <Text ml="55px" w="250px" textAlign="center" mt="80px" fontSize="30px" color="white">
                 Select the workout for the day
               </Text>
             )}

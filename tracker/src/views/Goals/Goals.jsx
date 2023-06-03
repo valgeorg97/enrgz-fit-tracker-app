@@ -22,6 +22,7 @@ const Goals = () => {
   const [selectedGoal, setSelectedGoal] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   
+  
   const { userID, userDocID } = useContext(AuthContext);
   const {goalDocRef,goals,setGoals, currentGoal,finishedGoals,setFinishedGoals, setCurrentGoal, mainGoals } = useContext(GoalContext);
   const user = auth.currentUser;

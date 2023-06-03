@@ -39,70 +39,77 @@ const ExpiringGoal = () => {
   };
 
   return (
-    <Box  display="flex" flexWrap="wrap" justifyContent="space-between" p={3} >
+<Box display="flex" flexWrap="wrap" justifyContent="space-between" p={3} >
       {isLoading ? (
-        <Spinner ml="280px" mt="80px" size="xl" />
+        <Spinner color="white" ml="330px" mt="120px" size="xl" />
       ) : (
-        expiringGoals.map((goal) => (
-          <Box key={goal.id} height="270px" w="240px">
-            <ChakraCard
-              background="linear-gradient(15deg, #13547a, #80d0c7)"
-              boxShadow="dark-lg"
-              _hover={{ background: "blue.400", cursor: "pointer" }}
-              onClick={() => navigate("/goals")}
-            >
-              <CardHeader h="314px">
-                <Heading color="purple.700" size="auto">
-                  Expiring soon!
-                </Heading>
-                <Heading
-                  color="white"
-                  size="auto"
-                  mb={2}
-                  style={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    maxWidth: "100%",
-                  }}
-                >
-                  {goal.name}
-                </Heading>
-                <Text
-                  fontSize="sm"
-                  noOfLines={2}
-                  overflow="hidden"
-                  textOverflow="ellipsis"
-                  display="-webkit-box"
-                  style={{
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: "vertical",
-                  }}
-                >
-                  {goal.text}
-                </Text>
-                <Text mt={3} fontSize="sm">
-                  <strong>Category:</strong> {goal.category}
-                </Text>
-                <Text mt={6} fontSize="sm">
-                  <strong>From:</strong> {goal.from}
-                </Text>
-                <Text fontSize="sm">
-                  <strong>Expiring:</strong> {goal.to}
-                </Text>
-                <Text fontSize="sm" fontWeight="bold">
-                  Status:{" "}
-                  <Badge size="sm" colorScheme={difficultyColors[goal.status]}>
-                    {goal.status}
-                  </Badge>
-                </Text>
-              </CardHeader>
-            </ChakraCard>
-          </Box>
-        ))
+        <Box w="auto" >
+          {expiringGoals.length<1 && (
+            <Text ml="225px" w="250px" textAlign="center" mt="110px" fontSize="31px" color="white">
+              Click to add goals
+            </Text>
+          )}
+          {expiringGoals.map((goal) => (
+            <Box key={goal.id} height="270px" w="240px" >
+              <ChakraCard
+                background="linear-gradient(15deg, #13547a, #80d0c7)"
+                boxShadow="dark-lg"
+                _hover={{ background: "blue.400", cursor: "pointer" }}
+                onClick={() => navigate("/goals")}
+              >
+                <CardHeader h="314px">
+                  <Heading color="purple.700" size="auto">
+                    Expiring soon!
+                  </Heading>
+                  <Heading
+                    color="white"
+                    size="auto"
+                    mb={2}
+                    style={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      maxWidth: "100%",
+                    }}
+                  >
+                    {goal.name}
+                  </Heading>
+                  <Text
+                    fontSize="sm"
+                    noOfLines={2}
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    display="-webkit-box"
+                    style={{
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                    }}
+                  >
+                    {goal.text}
+                  </Text>
+                  <Text mt={3} fontSize="sm">
+                    <strong>Category:</strong> {goal.category}
+                  </Text>
+                  <Text mt={6} fontSize="sm">
+                    <strong>From:</strong> {goal.from}
+                  </Text>
+                  <Text fontSize="sm">
+                    <strong>Expiring:</strong> {goal.to}
+                  </Text>
+                  <Text fontSize="sm" fontWeight="bold">
+                    Status:{" "}
+                    <Badge size="sm" colorScheme={difficultyColors[goal.status]}>
+                      {goal.status}
+                    </Badge>
+                  </Text>
+                </CardHeader>
+              </ChakraCard>
+            </Box>
+          ))}
+        </Box>
       )}
     </Box>
-  );
+  )
 };
 
 export default ExpiringGoal;
