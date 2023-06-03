@@ -174,7 +174,14 @@ const FoodCaloriesIntake = () => {
       }
     }
   } else {
-    console.log("No data found");
+    toast({
+      title: "Food not found",
+      description: `We couldn't find the food item you're looking for. Please try again.`,
+      status: "error",
+      duration: 9000,
+      isClosable: true,
+      position: "top",
+    });
   }
         } else {
           throw new Error("Network response was not ok.");
