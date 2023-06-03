@@ -15,7 +15,7 @@ const Community = () => {
   const [userList, setUserList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchType, setSearchType] = useState("name");
-  const { userDocID, name, family } = useContext(AuthContext);
+  const { userDocID, name, family,isAdmin } = useContext(AuthContext);
   const { colorMode } = useColorMode();
   const bg = colorMode === "dark" ? "gray.800" : "white";
 
@@ -253,8 +253,8 @@ const Community = () => {
                     </Tooltip>
                   )}
                 </Td>
-
-                <Td>
+               {isAdmin && (<>
+                                  <Td>
                   <Tooltip label="Delete User">
                     <Button
                       className="deleteuser"
@@ -301,6 +301,9 @@ const Community = () => {
                     </Tooltip>
                   )}
                 </Td>
+                </>
+               )}
+
               </Tr>
             ))}
           </Tbody>
