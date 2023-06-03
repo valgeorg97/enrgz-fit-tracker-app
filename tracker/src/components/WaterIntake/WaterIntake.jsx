@@ -56,6 +56,7 @@ const WaterCalculator = () => {
     };
 
     fetchUserData();
+    resetConsumedWater()
   }, [userDocID]);
 
   const calculateWaterIntake = () => {
@@ -128,8 +129,27 @@ const WaterCalculator = () => {
 
       setSavedWater(savedWater + consumedWater);
       setEnergizePoints(newEnergizePoints);
-      setConsumedWater(0);
       waterRef.current.value = null;
+    }
+  };
+  const resetConsumedWater = async () => {
+    if (userDocID) {
+      const userRef = doc(db, "users", userDocID);
+      const docSnap = await getDoc(userRef);
+  
+      if (docSnap.exists()) {
+        const lastWaterUpdate = docSnap.data().lastWaterUpdate?.toDate();
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+  
+        if (!lastWaterUpdate || lastWaterUpdate.setHours(0, 0, 0, 0) < today.getTime()) {
+          await setDoc(
+            userRef,
+            { consumedWater: 0, lastWaterUpdate: today },
+            { merge: true }
+          );
+        }
+      }
     }
   };
 
