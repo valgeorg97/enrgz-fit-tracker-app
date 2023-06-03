@@ -43,9 +43,8 @@ const WaterCalculator = () => {
           setEnergizePoints(docSnap.data().energizePoints || 0);
           const lastUpdate = docSnap.data().lastUpdate?.toDate();
           const today = new Date();
-          today.setHours(0, 0, 0, 0);
 
-          if (!lastUpdate || lastUpdate.getTime() !== today.getTime()) {
+          if (!lastUpdate || lastUpdate.getDate() !== today.getDate() || lastUpdate.getMonth() !== today.getMonth() || lastUpdate.getFullYear() !== today.getFullYear()) {
             setSavedWater(0);
           } else {
             setSavedWater(docSnap.data().consumedWater || 0);
@@ -87,24 +86,24 @@ const WaterCalculator = () => {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       let newSavedWater = savedWater + consumedWater;
-  
+
       const docSnap = await getDoc(userRef);
-  
+
       let hasBonusPointsBeenAwarded = false;
       if (docSnap.exists()) {
         const lastUpdate = docSnap.data().lastUpdate?.toDate();
         if (!lastUpdate || lastUpdate.getTime() !== today.getTime()) {
-          
+
           hasBonusPointsBeenAwarded = false;
         } else {
-          
+
           hasBonusPointsBeenAwarded = docSnap.data().hasBonusPointsBeenAwarded || false;
         }
       }
-  
+
       let newEnergizePoints = energizePoints;
       if ((newSavedWater / calculateWaterIntake()) >= 1 && !hasBonusPointsBeenAwarded) {
-        newEnergizePoints += 3; 
+        newEnergizePoints += 3;
         hasBonusPointsBeenAwarded = true;
         toast({
           title: "Congratulations!",
@@ -115,7 +114,7 @@ const WaterCalculator = () => {
           position: "top"
         });
       }
-  
+
       await setDoc(
         userRef,
         {
@@ -126,7 +125,7 @@ const WaterCalculator = () => {
         },
         { merge: true }
       );
-  
+
       setSavedWater(savedWater + consumedWater);
       setEnergizePoints(newEnergizePoints);
       setConsumedWater(0);

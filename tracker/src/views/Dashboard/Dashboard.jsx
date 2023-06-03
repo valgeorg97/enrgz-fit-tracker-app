@@ -46,7 +46,7 @@ const Dashboard = () => {
         </GridItem>
 
         <GridItem colSpan={3}>
-          <Box bgColor="blue.800" w="770px" h="340px" boxShadow="lg" rounded="md" _hover={{ cursor: "pointer" }} onClick={()=>navigate('/workouts')}>
+          <Box bgColor="blue.800" w="770px" h="340px" boxShadow="lg" rounded="md" _hover={{ cursor: "pointer" }} onClick={()=>navigate('/goals')}>
             <ExpiringGoal />
           </Box>
         </GridItem>
