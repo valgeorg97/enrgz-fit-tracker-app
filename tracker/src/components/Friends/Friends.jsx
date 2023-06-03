@@ -32,8 +32,8 @@ const Friends = () => {
       boxShadow="lg"
       p="2"
       rounded="md"
-      w="140px"
-      h="120px"
+      w="160px"
+      h="140px"
       textAlign="center"
     >
       <Heading  color="white" fontSize="14px">

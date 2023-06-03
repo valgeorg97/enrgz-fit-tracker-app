@@ -55,12 +55,12 @@ const Dashboard = () => {
           <FoodCaloriesIntake />
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem w="410px" mr={-3} colSpan={1}>
           <DashboardGif />
         </GridItem>
 
         <GridItem colSpan={1}>
-          <VStack mt={5}>
+          <VStack mr={10}>
             <HStack>
               <UserGoals />
               <UserWorkouts />

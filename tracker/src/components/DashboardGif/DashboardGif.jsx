@@ -50,7 +50,7 @@ const DashboardGif = () => {
           onClick={handleClick}
           cursor="pointer"
           alt="GIF"
-          style={{ width: "390px", height: "290px" }}
+          style={{ width: "420px", height: "290px" }}
         />
       )}
     </Box>
