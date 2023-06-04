@@ -8,9 +8,12 @@ import {
     StatNumber,
     useColorModeValue,
 } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
 import { BsPerson } from 'react-icons/bs';
 import { FiServer } from 'react-icons/fi';
 import { GoLocation } from 'react-icons/go';
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../config/firebase";
 
 function StatsCard(props) {
     const { title, stat, icon } = props;
@@ -43,6 +46,17 @@ function StatsCard(props) {
 }
 
 export default function BasicStatistics() {
+    const [userCount, setUserCount] = useState(0);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+          const usersCollection = collection(db, 'users');
+          const userSnapshot = await getDocs(usersCollection);
+          setUserCount(userSnapshot.size);
+        };
+      
+        fetchUsers();
+      }, []);
     return (
         <Box maxW="7xl" mx={'auto'} pt={5} px={{ base: 10, sm: 12, md: 20 }} py={50}>
             <chakra.h1
@@ -55,7 +69,7 @@ export default function BasicStatistics() {
             <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
                 <StatsCard
                     title={'Users'}
-                    stat={'5,000'}
+                    stat={userCount}
                     icon={<BsPerson size={'3em'} />}
                 />
                 <StatsCard
