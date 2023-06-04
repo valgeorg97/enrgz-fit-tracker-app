@@ -22,6 +22,8 @@ const Community = () => {
   const { userDocID, name, family, isAdmin } = useContext(AuthContext);
   const { energizePoints } = useContext(EnergizeGameContext)
   const { colorMode } = useColorMode();
+  const [sortConfig, setSortConfig] = useState(null);
+
   const bg = colorMode === "dark" ? "gray.800" : "white";
 
   const navigate = useNavigate()
@@ -50,9 +52,27 @@ const Community = () => {
       }
       const data = await getDocs(q);
       setUserList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+
+      let sortedUsers = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+      if (sortConfig !== null) {
+        sortedUsers.sort((a, b) => {
+          if (a[sortConfig.field] < b[sortConfig.field]) {
+            return sortConfig.direction === 'ascending' ? -1 : 1;
+          }
+          if (a[sortConfig.field] > b[sortConfig.field]) {
+            return sortConfig.direction === 'ascending' ? 1 : -1;
+          }
+          return 0;
+        });
+      }
+
+      setUserList(sortedUsers);
     };
+
+
     getUsers();
-  }, [searchTerm, searchType]);
+  }, [searchTerm, searchType, sortConfig]);
 
   const handleDeleteUser = async (userId) => {
     await deleteDoc(doc(usersCollection, userId));
@@ -113,6 +133,20 @@ const Community = () => {
     );
   };
 
+  const onSort = (field) => {
+    let direction = 'ascending';
+
+    if (
+      sortConfig &&
+      sortConfig.field === field &&
+      sortConfig.direction === 'ascending'
+    ) {
+      direction = 'descending';
+    }
+
+    setSortConfig({ field, direction });
+  };
+
   return (
     <Box w="1560px">
       <Grid templateColumns="repeat(1, 1fr)" h="600px">
@@ -166,17 +200,17 @@ const Community = () => {
 
         <GridItem colSpan={1}>
           <Table variant="simple">
-            <Thead>
-              <Tr>
-                <Th>Name</Th>
-                <Th>Energize Points</Th>
-                <Th>Username</Th>
-                <Th>Email</Th>
-                <Th>Role</Th>
-                <Th>Phone</Th>
-                <Th>Status</Th>
-              </Tr>
-            </Thead>
+          <Thead>
+  <Tr>
+    <Th onClick={() => onSort('name')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'name' ? 'blue.500' : 'black'}>{'Name '}{sortConfig?.field === 'name' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
+    <Th onClick={() => onSort('energizePoints')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'energizePoints' ? 'blue.500' : 'black'}>{'Energize Points '}{sortConfig?.field === 'energizePoints' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
+    <Th onClick={() => onSort('username')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'username' ? 'blue.500' : 'black'}>{'Username '}{sortConfig?.field === 'username' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
+    <Th onClick={() => onSort('email')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'email' ? 'blue.500' : 'black'}>{'Email '}{sortConfig?.field === 'email' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
+    <Th onClick={() => onSort('role')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'role' ? 'blue.500' : 'black'}>{'Role '}{sortConfig?.field === 'role' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
+    <Th onClick={() => onSort('phoneNumber')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'phoneNumber' ? 'blue.500' : 'black'}>{'Phone '}{sortConfig?.field === 'phoneNumber' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
+    <Th onClick={() => onSort('isBlocked')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'isBlocked' ? 'blue.500' : 'black'}>{'Status '}{sortConfig?.field === 'isBlocked' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
+  </Tr>
+</Thead>
             <Tbody>
               {userList.map((user) => (
                 <Tr key={user.id}>
