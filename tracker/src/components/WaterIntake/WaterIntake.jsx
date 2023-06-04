@@ -28,6 +28,7 @@ const WaterCalculator = () => {
   const { colorMode } = useColorMode();
   const waterRef = useRef(null);
   const toast = useToast();
+  let [awardedWaterPoints, setWaterPoints] = useState(false)
 
   const handleToggle = () => setIsOpen(!isOpen);
   const waterBground = colorMode === "dark" ? "gray.800" : "white";
@@ -46,8 +47,10 @@ const WaterCalculator = () => {
 
           if (!lastUpdate || lastUpdate.getDate() !== today.getDate() || lastUpdate.getMonth() !== today.getMonth() || lastUpdate.getFullYear() !== today.getFullYear()) {
             setSavedWater(0);
+            setWaterPoints(false);
           } else {
             setSavedWater(docSnap.data().consumedWater || 0);
+            setWaterPoints(docSnap.data().awardedWaterPoints || false);
           }
         } else {
           console.log("No such document!");
@@ -90,22 +93,21 @@ const WaterCalculator = () => {
 
       const docSnap = await getDoc(userRef);
 
-      let hasBonusPointsBeenAwarded = false;
+  
       if (docSnap.exists()) {
         const lastUpdate = docSnap.data().lastUpdate?.toDate();
-        if (!lastUpdate || lastUpdate.getTime() !== today.getTime()) {
-
-          hasBonusPointsBeenAwarded = false;
+        if (!lastUpdate || lastUpdate.getDate() !== today.getDate() || lastUpdate.getMonth() !== today.getMonth() || lastUpdate.getFullYear() !== today.getFullYear()) {
+          awardedWaterPoints = false;
         } else {
 
-          hasBonusPointsBeenAwarded = docSnap.data().hasBonusPointsBeenAwarded || false;
+          awardedWaterPoints = docSnap.data().awardedWaterPoints || false;
         }
       }
 
       let newEnergizePoints = energizePoints;
-      if ((newSavedWater / calculateWaterIntake()) >= 1 && !hasBonusPointsBeenAwarded) {
+      if ((newSavedWater / calculateWaterIntake()) >= 1 && !awardedWaterPoints) {
         newEnergizePoints += 3;
-        hasBonusPointsBeenAwarded = true;
+        awardedWaterPoints = true;
         toast({
           title: "Congratulations!",
           description: "You've earned 3 Energize Points for reaching your Water intake goal!",
@@ -122,7 +124,7 @@ const WaterCalculator = () => {
           consumedWater: newSavedWater,
           lastUpdate: today,
           energizePoints: newEnergizePoints,
-          hasBonusPointsBeenAwarded: hasBonusPointsBeenAwarded
+          awardedWaterPoints: awardedWaterPoints
         },
         { merge: true }
       );
@@ -136,16 +138,16 @@ const WaterCalculator = () => {
     if (userDocID) {
       const userRef = doc(db, "users", userDocID);
       const docSnap = await getDoc(userRef);
-  
+
       if (docSnap.exists()) {
         const lastWaterUpdate = docSnap.data().lastWaterUpdate?.toDate();
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-  
+
         if (!lastWaterUpdate || lastWaterUpdate.setHours(0, 0, 0, 0) < today.getTime()) {
           await setDoc(
             userRef,
-            { consumedWater: 0, lastWaterUpdate: today },
+            { consumedWater: 0, lastWaterUpdate: today, awardedWaterPoints: false },
             { merge: true }
           );
         }
