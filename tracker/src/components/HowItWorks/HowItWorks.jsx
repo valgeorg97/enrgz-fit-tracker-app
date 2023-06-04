@@ -5,6 +5,7 @@ import profileIcon from "../../assets/fitnessIcon.png"
 import goalIcon from "../../assets/goalIcon.png"
 import progressIcon from "../../assets/pace.png"
 import profileGirlIcon from "../../assets/177687.png"
+import leadboard from "../../assets/leadboard.png"
 
 const steps = [
     {
@@ -19,6 +20,12 @@ const steps = [
         content: "Harness the power of our fitness tracker app to effortlessly create, manage, and track your unique fitness goals and workout routines. With the added feature of exploring and learning from the workout regimes of others, enhance your fitness journey and find new inspiration within our vibrant user community.",
         bgImage: "image/path/here",
         icon: goalIcon,
+    },
+    {
+        title: "Participate in Energize Conquest",
+        content: "As you work towards achieving your fitness goals, earn points and climb the ranks in our Energize community through the Energize Conquest game. Each completed goal translates into points, pushing you higher in our leaderboard. Challenge yourself, make progress, and have fun as you become a fitness conqueror.",
+        bgImage: "image/path/here",
+        icon: leadboard,
     },
     {
         title: "Embrace Your Journey, At Your Own Speed",
