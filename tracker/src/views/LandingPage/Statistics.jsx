@@ -10,10 +10,14 @@ import {
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { BsPerson } from 'react-icons/bs';
-import { FiServer } from 'react-icons/fi';
-import { GoLocation } from 'react-icons/go';
+import { CgGym } from 'react-icons/cg';
+import {GiStairsGoal} from 'react-icons/gi'
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../config/firebase";
+import { useContext } from 'react';
+import { WorkoutContext } from "../../context/WorkoutContext";
+
+
 
 function StatsCard(props) {
     const { title, stat, icon } = props;
@@ -47,12 +51,17 @@ function StatsCard(props) {
 
 export default function BasicStatistics() {
     const [userCount, setUserCount] = useState(0);
+    const [goalsCount, setGoalsCount] = useState(0)
+    const { sharedWorkouts } = useContext(WorkoutContext);
 
     useEffect(() => {
         const fetchUsers = async () => {
           const usersCollection = collection(db, 'users');
+          const goalsCollection = collection(db, 'mainGoals')
           const userSnapshot = await getDocs(usersCollection);
+          const mainGoalsSnapshot = await(getDocs(goalsCollection))
           setUserCount(userSnapshot.size);
+          setGoalsCount(mainGoalsSnapshot.size)
         };
       
         fetchUsers();
@@ -74,13 +83,13 @@ export default function BasicStatistics() {
                 />
                 <StatsCard
                     title={'Workouts'}
-                    stat={'1,000'}
-                    icon={<FiServer size={'3em'} />}
+                    stat={sharedWorkouts.length}
+                    icon={<CgGym size={'3em'} />}
                 />
                 <StatsCard
-                    title={'Repetitions'}
-                    stat={'10000'}
-                    icon={<GoLocation size={'3em'} />}
+                    title={'Goals'}
+                    stat={goalsCount}
+                    icon={<GiStairsGoal size={'3em'} />}
                 />
             </SimpleGrid>
         </Box>
