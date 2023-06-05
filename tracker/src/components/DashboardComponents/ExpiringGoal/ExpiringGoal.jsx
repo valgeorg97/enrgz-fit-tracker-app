@@ -43,7 +43,7 @@ const ExpiringGoal = () => {
       {isLoading ? (
         <Spinner color="white" ml="330px" mt="120px" size="xl" />
       ) : (
-        <Box w="auto" >
+        <>
           {expiringGoals.length<1 && (
             <Text ml="225px" w="250px" textAlign="center" mt="110px" fontSize="31px" color="white">
               Click to add goals
@@ -106,7 +106,7 @@ const ExpiringGoal = () => {
               </ChakraCard>
             </Box>
           ))}
-        </Box>
+        </>
       )}
     </Box>
   )
