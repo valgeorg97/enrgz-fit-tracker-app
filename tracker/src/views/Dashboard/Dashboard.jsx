@@ -12,13 +12,20 @@ import CurrentWorkout from "../../components/DashboardComponents/CurrentWorkout/
 import DashboardGif from "../../components/DashboardComponents/DashboardGif/DashboardGif";
 import TotalShared from "../../components/DashboardComponents/TotalShared/TotalShared";
 import Friends from "../../components/DashboardComponents/Friends/Friends";
-import goalheader from "../../assets/goal.png";
 
+import img1 from "../../assets/img1.png";
+import img2 from "../../assets/img2.png";
+import img3 from "../../assets/img3.png";
+import img4 from "../../assets/img4.png";
+import img5 from "../../assets/img5.png";
+
+const images = [img1, img2, img3, img4, img5];
 
 const Dashboard = () => {
   const { workouts } = useContext(WorkoutContext);
   const [activeWorkout, setActiveWorkout] = useState(null);
   const navigate = useNavigate();
+  const [bgImageIndex, setBgImageIndex] = useState(0);
 
 
   useEffect(() => {
@@ -26,11 +33,19 @@ const Dashboard = () => {
     setActiveWorkout(newActiveWorkout);
   }, [workouts]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBgImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Box w="1660px" ml="54px" >
       <Grid h="600px" templateRows="repeat(2, 1fr)" templateColumns="repeat(4, 1fr)" gap={4}>
 
-        <GridItem colSpan={5} rounded="md" borderColor="gray.50" h="140px" w="1600px" bgImage={goalheader}/>
+        <GridItem colSpan={5} rounded="md" borderColor="gray.50" h="140px" w="1600px" bgImage={images[bgImageIndex]}/>
 
         <GridItem rowSpan={2} colSpan={1}>
           <Box>
