@@ -1,5 +1,4 @@
 // Importing required modules
-import './NotFound.css'
 
 /**
  * NotFound Component
