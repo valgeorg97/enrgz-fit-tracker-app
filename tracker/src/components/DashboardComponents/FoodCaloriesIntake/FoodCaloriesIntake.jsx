@@ -227,9 +227,9 @@ const FoodCaloriesIntake = () => {
 
   return (
     <Box
-      background="linear-gradient(225deg, #f5f7fa 0%, #c3cfe2 100%)"
+      background="linear-gradient(15deg, #13547a 0%, #80d0c7 100%)"
       boxShadow="lg"
-      shadow="xl"
+      // shadow="xl"
       p={4}
       borderRadius="md"
       w="400px"
@@ -257,7 +257,7 @@ const FoodCaloriesIntake = () => {
               : (
                 <Box display="flex" flexDirection="column" alignItems="center">
                   <Text fontSize="2xl">{`${(currentGoal.calory - consumedCalories).toFixed(0)} kcal`}</Text>
-                  <Text fontSize="15px" fontWeight={"bold"} color="green.400">Remaining</Text>
+                  <Text fontSize="15px" fontWeight={"bold"} color="grey.400">Remaining</Text>
                 </Box>
               )
           }
@@ -266,9 +266,10 @@ const FoodCaloriesIntake = () => {
       <Button ml={4} colorScheme="linkedin" onClick={handleViewMore}>
         {isViewMore ? "View Less" : "View More"}
       </Button>
-      <Collapse in={isViewMore}>
-        <Box>
+      <Collapse  in={isViewMore}>
+        <Box >
           <Input
+           textColor="black" 
             mb={1}
             value={query}
             onChange={handleQueryChange}
@@ -296,6 +297,7 @@ const FoodCaloriesIntake = () => {
         {MEAL_TYPES_ORDER.map((mealType) => (
   <VStack key={mealType} align="start" spacing={4} mt={4}>
     <Button
+      color="black" 
       variant="link"
       onClick={() => handleToggleMealType(mealType)}
     >
