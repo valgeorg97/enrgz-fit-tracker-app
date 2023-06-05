@@ -1,16 +1,16 @@
 import { useState, useContext,useEffect } from "react";
-import {Box,Heading,Divider,Grid,Flex,GridItem,Text} from "@chakra-ui/react";
+import {Box,Divider,Grid,GridItem,Text} from "@chakra-ui/react";
 import {collection,getDocs,deleteDoc,doc,addDoc,getDoc,updateDoc,writeBatch} from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import { db } from "../../config/firebase";
 import { AuthContext } from "../../context/AuthContext";
 import { WorkoutContext } from "../../context/WorkoutContext";
 
-import CreateWorkout from "./CreateWorkout";
-import SingleWorkout from "./SingleWorkout";
-import WorkoutCards from "./WorkoutCards";
+import CreateWorkout from "../../components/WorkoutsComponents/CreateWorkout";
+import SingleWorkout from "../../components/WorkoutsComponents/SingleWorkout";
+import WorkoutCards from "../../components/WorkoutsComponents/WorkoutCards";
+import SharedWorkouts from "../../components/WorkoutsComponents/SharedWorkouts";
 import goalheader from "../../assets/goal.png"
-import SharedWorkouts from "./SharedWorkouts";
 import { DIFFICULTY_COLORS } from "../../common/constants";
 
 

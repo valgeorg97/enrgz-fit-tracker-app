@@ -1,17 +1,18 @@
 import { Box, VStack, HStack, Grid, GridItem } from "@chakra-ui/react";
+import { useState,useContext,useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { WorkoutContext } from "../../context/WorkoutContext";
+
 import WaterCalculator from "../../components/WaterIntake/WaterIntake";
 import FoodCaloriesIntake from "../../components/FoodCaloriesIntake/FoodCaloriesIntake";
 import UserGoals from "../../components/UserGoals.jsx/UserGoals";
 import UserWorkouts from "../../components/UserWorkouts/UserWorkouts";
-import goalheader from "../../assets/goal.png";
 import ExpiringGoal from "../../components/ExpiringGoal/ExpiringGoal";
-import { useState,useContext,useEffect } from "react";
 import CurrentWorkout from "../../components/CurrentWorkout/CurrentWorkout";
-import { WorkoutContext } from "../../context/WorkoutContext";
 import DashboardGif from "../../components/DashboardGif/DashboardGif";
 import TotalShared from "../../components/TotalShared/TotalShared";
 import Friends from "../../components/Friends/Friends";
-import { useNavigate } from "react-router-dom";
+import goalheader from "../../assets/goal.png";
 
 
 const Dashboard = () => {
@@ -27,12 +28,8 @@ const Dashboard = () => {
 
   return (
     <Box w="1660px" ml="54px" >
-      <Grid
-        h="600px"
-        templateRows="repeat(2, 1fr)"
-        templateColumns="repeat(4, 1fr)"
-        gap={4}
-      >
+      <Grid h="600px" templateRows="repeat(2, 1fr)" templateColumns="repeat(4, 1fr)" gap={4}>
+
         <GridItem colSpan={5} rounded="md" borderColor="gray.50" h="140px" w="1600px" bgImage={goalheader}/>
 
         <GridItem rowSpan={2} colSpan={1}>
@@ -71,8 +68,6 @@ const Dashboard = () => {
             </HStack>
           </VStack>
         </GridItem>
-
-        
 
       </Grid>
     </Box>

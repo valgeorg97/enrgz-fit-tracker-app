@@ -15,7 +15,6 @@ const Friends = () => {
   const {requests, setRequests, friends, setFriends} = useContext(FriendsContext)
   const initialFocusRef = useRef();
 
-
   const handleAccept = async (request) => {
     try {
       const userDocRef = doc(db, "users", userDocID);
