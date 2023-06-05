@@ -42,7 +42,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Box w="1660px" ml="54px" >
+    <Box w="1560px" >
       <Grid h="600px" templateRows="repeat(2, 1fr)" templateColumns="repeat(4, 1fr)" gap={4}>
 
         <GridItem colSpan={5} rounded="md" borderColor="gray.50" h="140px" w="1600px" bgImage={images[bgImageIndex]}/>

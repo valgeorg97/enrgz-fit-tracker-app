@@ -37,7 +37,7 @@ const Goals = () => {
   } = GoalsLogic();
 
   return (
-    <Box w="1660px" ml="54px">
+    <Box w="1560px">
       <Grid
         gap={4}
         templateRows="repeat(2, 1fr)"

@@ -24,7 +24,7 @@ const Workouts = () => {
   } = WorkoutsLogic();
 
   return (
-    <Box w="1660px" ml="54px">
+    <Box w="1560px">
       <Grid gap={4} templateRows="repeat(2, 1fr)" templateColumns="repeat(5, 1fr)" h="600px">
 
         <GridItem colSpan={5} rounded="md" borderColor="gray.50" h="140px" w="1600px" bgImage={goalheader} p={8} />
