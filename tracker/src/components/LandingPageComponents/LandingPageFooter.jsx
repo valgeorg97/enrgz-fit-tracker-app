@@ -1,15 +1,5 @@
-import {
-    Box,
-    chakra,
-    Container,
-    Stack,
-    Text,
-    useColorModeValue,
-    VisuallyHidden,
-    Image,
-    Link
-  } from '@chakra-ui/react';
-  import logo from "../../../assets/logo.png"
+import {Box,Container,Stack,Text,useColorModeValue,Image, Link} from '@chakra-ui/react';
+import logo from "../../assets/logo.png"
   
   
   const Logo = (props) => {

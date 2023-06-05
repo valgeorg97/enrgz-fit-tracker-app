@@ -1,12 +1,11 @@
-import React from 'react';
-import CallToActionWithVideo from "./CallToActionWithVideo";
 import { useNavigate } from "react-router-dom";
-import Statistics from "./Statistics"
-import UserTestimonials from './UserTestimonials';
-import LandingPageNav from '../../components/LandingPageNav/LandingPageNav'; 
+import CallToActionWithVideo from "../../components/LandingPageComponents/CallToActionWithVideo";
+import Statistics from "../../components/LandingPageComponents/Statistics"
+import UserTestimonials from '../../components/LandingPageComponents/UserTestimonials';
+import LandingPageNav from '../../components/LandingPageComponents/LandingPageNav'; 
+import HowItWorks from '../../components/LandingPageComponents/HowItWorks';
+import LandingPageFooter from '../../components/LandingPageComponents/LandingPageFooter'
 import About from "../About/About"
-import HowItWorks from '../../components/HowItWorks/HowItWorks';
-import LandingPageFooter from '../LandingPage/LandingPageFooter/LandingPageFooter'
 
 const LandingPage = () => {
     const navigate = useNavigate();

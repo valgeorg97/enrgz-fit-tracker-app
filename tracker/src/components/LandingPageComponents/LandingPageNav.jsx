@@ -1,21 +1,5 @@
-import {
-    Box,
-    Flex,
-    Text,
-    IconButton,
-    Link,
-    Collapse,
-    Icon,
-    useColorModeValue,
-    useBreakpointValue,
-    useDisclosure,
-    Stack,
-    Image
-} from '@chakra-ui/react';
-import {
-    HamburgerIcon,
-    CloseIcon,
-} from '@chakra-ui/icons';
+import {Box,Flex,Text,IconButton,Link,Collapse,useColorModeValue,useBreakpointValue,useDisclosure,Stack,Image} from '@chakra-ui/react';
+import {HamburgerIcon,CloseIcon,} from '@chakra-ui/icons';
 import logo from "../../assets/logo.png"
 
 export default function WithSubnavigation() {

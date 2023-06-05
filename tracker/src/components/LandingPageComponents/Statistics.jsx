@@ -1,23 +1,12 @@
-import {
-    Box,
-    chakra,
-    Flex,
-    SimpleGrid,
-    Stat,
-    StatLabel,
-    StatNumber,
-    useColorModeValue,
-} from '@chakra-ui/react';
-import { useState, useEffect } from 'react';
+import {Box,chakra,Flex,SimpleGrid,Stat,StatLabel,StatNumber,useColorModeValue,} from '@chakra-ui/react';
+import { useState, useEffect,useContext } from 'react';
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../config/firebase";
+import { WorkoutContext } from "../../context/WorkoutContext";
+
 import { BsPerson } from 'react-icons/bs';
 import { CgGym } from 'react-icons/cg';
 import {GiStairsGoal} from 'react-icons/gi'
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../config/firebase";
-import { useContext } from 'react';
-import { WorkoutContext } from "../../context/WorkoutContext";
-
-
 
 function StatsCard(props) {
     const { title, stat, icon } = props;

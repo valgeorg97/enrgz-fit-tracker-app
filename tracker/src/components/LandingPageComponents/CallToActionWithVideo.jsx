@@ -7,12 +7,10 @@ import {
     Text,
     Button,
     Image,
-    useColorModeValue,
-    Center
+    useColorModeValue
 } from '@chakra-ui/react';
 
-import Blob from './Blob';
-import React from "react";
+import Blob from '../../components/LandingPageComponents/Blob';
 import image from "../../assets/group-people-running.jpg";
 
 const CallToActionWithVideo = ({ onGetStartedClick }) => {

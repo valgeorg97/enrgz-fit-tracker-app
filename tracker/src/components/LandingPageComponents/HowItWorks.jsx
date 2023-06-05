@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Box, Button, VStack, Divider, Heading, Text, Image, Flex } from "@chakra-ui/react";
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 import { HOW_IT_WORKS_STEPS } from "../../common/constants";
