@@ -12,7 +12,6 @@ const Workouts = () => {
   const {
     selectedWorkout,
     selectedSharedWorkout,
-    activeWorkoutId,
     handleViewMoreClick,
     handleViewMoreClickShared,
     handleDeleteWorkout,
