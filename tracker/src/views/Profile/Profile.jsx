@@ -1,8 +1,5 @@
-/* eslint-disable react/no-children-prop */
 import {Container,Avatar,Box,Text,Stack,InputGroup,Input,InputLeftElement,Icon,FormLabel,Checkbox,Button,Divider,FormControl,Heading,} from "@chakra-ui/react";
 import { FaRegEnvelope, FaLock, FaRegUser,FaPhoneAlt,FaWeightHanging } from "react-icons/fa";
-import PageContainer from "./PageContainer";
-import PageContent from "./PageContent";
 import { useState, useContext, useRef } from "react";
 import { updateProfile, updateEmail, deleteUser,updatePassword } from "firebase/auth";
 import { storage, auth, db } from "../../config/firebase";
@@ -10,12 +7,12 @@ import { AuthContext } from "../../context/AuthContext";
 import { updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import DeleteUserDialog from "./DeleteUserDialog";
 import { GiBodyHeight } from "react-icons/gi";
-
-
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
+import DeleteUserDialog from "../../components/ProfileComponents/DeleteUserDialog";
+import PageContainer from "../../components/ProfileComponents/PageContainer";
+import PageContent from "../../components/ProfileComponents/PageContent";
 
 export default function Profile() {
   const {name,setName,password,setPassword,email,setEmail,photoURL,setPhotoURL,userID,family,setFamily,userDocID,username,setUsername,weight,setWeight,height,setHeight,phoneNumber,setPhoneNumber} = useContext(AuthContext);
