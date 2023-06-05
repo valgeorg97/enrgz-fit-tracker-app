@@ -8,7 +8,7 @@ import goalheader from "../../assets/goal.png";
 import { Icon } from "@chakra-ui/react";
 import { MdFlashOn } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import CommunityLogic from "../../components/CommunityLogic/CommunityLogic"
+import CommunityLogic from "../../logic/CommunityLogic/CommunityLogic";
 
 const Community = () => {
   const { userDocID, isAdmin } = useContext(AuthContext);

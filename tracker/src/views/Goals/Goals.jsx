@@ -5,7 +5,7 @@ import SingleGoal from "../../components/GoalsComponents/SingleGoal";
 import GoalMenu from "../../components/GoalsComponents/GoalMenu";
 import GoalCard from "../../components/GoalsComponents/GoalCard";
 import goalheader from "../../assets/goal.png";
-import GoalsLogic from "../../components/GoalsLogic/GoalsLogic";
+import GoalsLogic from "../../logic/GoalsLogic/GoalsLogic";
 
 const Goals = () => {
   const {

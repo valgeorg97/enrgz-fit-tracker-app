@@ -6,7 +6,7 @@ import WorkoutCards from "../../components/WorkoutsComponents/WorkoutCards";
 import SharedWorkouts from "../../components/WorkoutsComponents/SharedWorkouts";
 import SingleWorkout from "../../components/WorkoutsComponents/SingleWorkout";
 import goalheader from "../../assets/goal.png";
-import WorkoutsLogic from "../../components/WorkoutsLogic/WorkoutsLogic";
+import WorkoutsLogic from "../../logic/WorkoutsLogic/WorkoutsLogic";
 
 const Workouts = () => {
   const {

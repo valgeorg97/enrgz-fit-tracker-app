@@ -6,7 +6,7 @@ import {BsFillPersonXFill,} from "react-icons/bs";
 import { FriendsContext } from "../../context/FriendsContext";
 import "./Friends.css"
 import user2 from "../../assets/user2.png"
-import FriendsLogic from "../../components/FriendsLogic/FriendsLogic";
+import FriendsLogic from "../../logic/FriendsLogic/FriendsLogic";
 
 const Friends = () => {
   const {requests, friends} = useContext(FriendsContext)

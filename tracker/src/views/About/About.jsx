@@ -3,16 +3,6 @@ import valentinImage from "../../assets/pic.png";
 import samiImage from "../../assets/sami.jpg";
 import logo from "../../assets/logo.png";
 
-/**
- * About Component
- *
- * This component displays information about the development team.
- * It includes individual sections for each team member with a profile picture, name, role, description, email, and a contact button.
- * The images used in this component are imported at the beginning and then used in the JSX.
- *
- * @returns {JSX.Element} About component
- */
-
 const About = () => (
   <Box textAlign="center" mb={"32"}>
     <Image src={logo} alt="Team Image" maxW="230px" mx="auto" my={4} borderRadius="md" />

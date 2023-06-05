@@ -8,7 +8,7 @@ import { useContext } from "react";
 import DeleteUserDialog from "../../components/ProfileComponents/DeleteUserDialog";
 import PageContainer from "../../components/ProfileComponents/PageContainer";
 import PageContent from "../../components/ProfileComponents/PageContent";
-import ProfileLogic from "../../components/ProfileLogic/ProfileLogic";
+import ProfileLogic from "../../logic/ProfileLogic/ProfileLogic";
 
 export default function Profile() {
   const {name,email,photoURL,family,username,weight,height,phoneNumber} = useContext(AuthContext);
