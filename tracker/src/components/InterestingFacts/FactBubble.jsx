@@ -1,4 +1,3 @@
-import React from "react";
 import { Flex, Box, Text, useColorModeValue, Image} from "@chakra-ui/react";
 import displayRandomFact from "./InterestingFacts";
 import { useState, useEffect } from "react";

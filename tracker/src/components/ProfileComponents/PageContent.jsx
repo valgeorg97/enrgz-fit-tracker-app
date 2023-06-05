@@ -1,6 +1,4 @@
-import React from "react";
 import { Container, Stack, Heading, Button } from "@chakra-ui/react";
-
 
 export default function PageContent({
   title = "",

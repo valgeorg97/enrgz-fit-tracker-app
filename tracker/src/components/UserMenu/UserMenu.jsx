@@ -1,4 +1,4 @@
-import { Avatar, Menu, MenuButton, MenuList, MenuItem, MenuDivider, Box, Heading, Text, Flex, Image, Icon, Tooltip, Button, VStack } from '@chakra-ui/react';
+import { Avatar, Menu, MenuButton, MenuList, MenuItem, MenuDivider, Box, Heading, Text, Flex, Icon, Tooltip, Button } from '@chakra-ui/react';
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useContext, useState, useEffect } from 'react';
 import { AuthContext } from "../../context/AuthContext";

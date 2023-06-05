@@ -1,10 +1,4 @@
-import {
-  Box,
-  Container,
-  Text,
-  Image,
-  Flex,
-} from '@chakra-ui/react';
+import {Box,Container,Text,Image,Flex,} from '@chakra-ui/react';
 import logo from "../../assets/logo.png"
 
 const Logo = (props) => {

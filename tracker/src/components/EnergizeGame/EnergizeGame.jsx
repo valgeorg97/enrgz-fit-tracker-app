@@ -1,4 +1,3 @@
-import React from 'react'
 import { useContext } from 'react'
 import { EnergizeGameContext } from '../../context/EnergizeGameContext'
 import { Box } from '@chakra-ui/react';
