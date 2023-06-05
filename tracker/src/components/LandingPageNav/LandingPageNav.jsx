@@ -25,7 +25,7 @@ export default function WithSubnavigation() {
         <Box>
             <Flex
                 pos="sticky"
-                top={0} // you can adjust this value as required
+                top={0} 
                 zIndex={1}
                 bg={useColorModeValue('white', 'gray.800')}
                 color={useColorModeValue('gray.600', 'white')}

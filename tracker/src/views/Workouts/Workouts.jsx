@@ -11,6 +11,7 @@ import SingleWorkout from "./SingleWorkout";
 import WorkoutCards from "./WorkoutCards";
 import goalheader from "../../assets/goal.png"
 import SharedWorkouts from "./SharedWorkouts";
+import { DIFFICULTY_COLORS } from "../../common/constants";
 
 
 const Workouts = () => {
@@ -29,12 +30,6 @@ const Workouts = () => {
   };
   const handleViewMoreClickShared = (workout) => {
     setSelectedSharedWorkout(workout);
-  };
-
-  const difficultyColors = {
-    easy: "green",
-    medium: "orange",
-    hard: "red",
   };
 
   const handleDeleteWorkout = async (id) => {
@@ -169,7 +164,7 @@ const Workouts = () => {
               mb={2}
             >
               <WorkoutCards
-                difficultyColors={difficultyColors}
+                difficultyColors={DIFFICULTY_COLORS}
                 handleDeleteWorkout={handleDeleteWorkout}
                 handleShareWorkout={handleShareWorkout}
                 handleViewMoreClick={handleViewMoreClick}
@@ -184,7 +179,7 @@ const Workouts = () => {
           <Divider w="290px" ml={-4} mb={1} />
           <SharedWorkouts
             handleSetActive={handleSetActive}
-            difficultyColors={difficultyColors}
+            difficultyColors={DIFFICULTY_COLORS}
             handleViewMoreClick={handleViewMoreClickShared}
           />
         </GridItem>

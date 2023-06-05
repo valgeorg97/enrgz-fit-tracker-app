@@ -20,6 +20,8 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { GoalContext } from "../../context/GoalContext";
 import {EnergizeGameContext} from "../../context/EnergizeGameContext"
+import { API_KEY } from "../../common/constants";
+import { MEAL_TYPES_ORDER } from "../../common/constants";
 
 
 const FoodCaloriesIntake = () => {
@@ -46,7 +48,6 @@ const FoodCaloriesIntake = () => {
     Dinner: false,
     Snack: false,
   });
-  const mealTypesOrder = ["Breakfast", "Lunch", "Dinner", "Snack"];
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -121,7 +122,7 @@ const FoodCaloriesIntake = () => {
           {
             method: "GET",
             headers: {
-              "X-Api-Key": "AfAWwp+nw89/859EX9kTYA==FXcxQwZhBYqX3BIK",
+              "X-Api-Key": API_KEY,
             },
           }
         );
@@ -292,7 +293,7 @@ const FoodCaloriesIntake = () => {
           </Flex>
         </Box>
         <Divider mt={5} />
-        {mealTypesOrder.map((mealType) => (
+        {MEAL_TYPES_ORDER.map((mealType) => (
   <VStack key={mealType} align="start" spacing={4} mt={4}>
     <Button
       variant="link"

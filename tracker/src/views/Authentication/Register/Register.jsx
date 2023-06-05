@@ -4,7 +4,6 @@ import { db, auth } from "../../../config/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { addDoc, collection, updateDoc, getDocs, query, where } from 'firebase/firestore';
 import { useNavigate } from "react-router-dom";
-import { EnergizeGameContext } from '../../../context/EnergizeGameContext';
 import Logo from "../../../assets/logo.png"
 import Form1 from './Forms/Form1';
 import Form2 from './Forms/Form2';
@@ -15,11 +14,11 @@ import Form6 from './Forms/Form6';
 import Form7 from './Forms/Form7';
 import Form8 from './Forms/Form8';
 import Loading from '../../../components/Loading/Loading';
+import { FITNESS_CALC_API_KEY } from '../../../common/constants';
 
 
 
 const Register = () => {
-  const { energizePoints } = useContext(EnergizeGameContext)
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -153,7 +152,7 @@ const Register = () => {
     const response = await fetch(`https://fitness-calculator.p.rapidapi.com/dailycalorie?age=${age}&gender=${regGender}&height=${regHeight}&weight=${regWeight}&activitylevel=${apiActivityLevel}`, {
       method: 'GET',
       headers: {
-        'X-RapidAPI-Key': 'c8f88b8e37mshbbcacf51c255978p133a69jsn48d57aca2db6',
+        'X-RapidAPI-Key': FITNESS_CALC_API_KEY,
         'X-RapidAPI-Host': 'fitness-calculator.p.rapidapi.com'
       }
     });

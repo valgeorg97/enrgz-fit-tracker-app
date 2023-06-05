@@ -1,6 +1,7 @@
 import {Box,Heading,Button,Badge,Text,Flex,Modal,ModalOverlay,ModalContent,ModalHeader,ModalCloseButton,ModalBody,Editable,EditablePreview,EditableInput,ButtonGroup,IconButton,useEditableControls,} from "@chakra-ui/react";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { FaTrashAlt } from "react-icons/fa";
+import { DIFFICULTY_COLORS } from "../../common/constants";
 
 const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDeleteWorkout,setSelectedWorkout,shared}) => {
   const EditableControlsExample = () => {
@@ -21,11 +22,6 @@ const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDele
     );
   };
 
-  const difficultyColors = {
-    easy: "green",
-    medium: "orange",
-    hard: "red",
-  };
 
   const handleCloseModal = () => {
     setSelectedWorkout(null);
@@ -86,7 +82,7 @@ const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDele
             <Text>
               <strong>Difficulty:</strong>{" "}
               <Badge
-                colorScheme={difficultyColors[selectedWorkout.difficulty]}
+                colorScheme={DIFFICULTY_COLORS[selectedWorkout.difficulty]}
               >
                 {selectedWorkout.difficulty}
               </Badge>

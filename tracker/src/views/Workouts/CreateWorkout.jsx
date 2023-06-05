@@ -23,6 +23,7 @@ import { difficulties } from '../../common/constants';
 import { db } from "../../config/firebase";
 import { muscles } from '../../common/constants';
 import { WorkoutContext } from "../../context/WorkoutContext";
+import { API_KEY } from "../../common/constants";
 
 
 const CreateWorkout = () => {
@@ -44,7 +45,7 @@ const CreateWorkout = () => {
       const fetchRelatedExercises = async () => {
         const response = await fetch(`https://api.api-ninjas.com/v1/exercises?muscle=${selectedMuscle}`, {
           method: 'GET',
-          headers: { 'X-Api-Key': 'AfAWwp+nw89/859EX9kTYA==FXcxQwZhBYqX3BIK' },
+          headers: { 'X-Api-Key': API_KEY },
         });
         const data = await response.json();
         setRelatedExercises(data);

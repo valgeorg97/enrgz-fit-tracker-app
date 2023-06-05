@@ -30,7 +30,7 @@ const ExpiringGoal = () => {
       setExpiringGoals(sortedGoals);
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000); // Simulating a delay of 2 seconds for demonstration purposes
+    }, 1000); 
   }, [goals]);
 
   const difficultyColors = {
