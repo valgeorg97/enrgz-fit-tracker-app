@@ -1,15 +1,5 @@
 import React from 'react';
-import {
-  Button,
-  useDisclosure,
-  AlertDialog,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogBody,
-  AlertDialogFooter,
-} from '@chakra-ui/react';
-
+import {Button,useDisclosure,AlertDialog,AlertDialogOverlay,AlertDialogContent,AlertDialogHeader,AlertDialogBody,AlertDialogFooter,} from '@chakra-ui/react';
 
 function DeleteUserDialog({ handleDeleteUser }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
