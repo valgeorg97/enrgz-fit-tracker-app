@@ -9,7 +9,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { GoalContext } from "../../context/GoalContext";
+import { GoalContext } from "../../../context/GoalContext";
 
 const ExpiringGoal = () => {
   const [expiringGoals, setExpiringGoals] = useState([]);

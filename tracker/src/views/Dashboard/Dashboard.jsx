@@ -3,15 +3,15 @@ import { useState,useContext,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { WorkoutContext } from "../../context/WorkoutContext";
 
-import WaterCalculator from "../../components/WaterIntake/WaterIntake";
-import FoodCaloriesIntake from "../../components/FoodCaloriesIntake/FoodCaloriesIntake";
-import UserGoals from "../../components/UserGoals.jsx/UserGoals";
-import UserWorkouts from "../../components/UserWorkouts/UserWorkouts";
-import ExpiringGoal from "../../components/ExpiringGoal/ExpiringGoal";
-import CurrentWorkout from "../../components/CurrentWorkout/CurrentWorkout";
-import DashboardGif from "../../components/DashboardGif/DashboardGif";
-import TotalShared from "../../components/TotalShared/TotalShared";
-import Friends from "../../components/Friends/Friends";
+import WaterCalculator from "../../components/DashboardComponents/WaterIntake/WaterIntake";
+import FoodCaloriesIntake from "../../components/DashboardComponents/FoodCaloriesIntake/FoodCaloriesIntake";
+import UserGoals from "../../components/DashboardComponents/UserGoals/UserGoals";
+import UserWorkouts from "../../components/DashboardComponents/UserWorkouts/UserWorkouts";
+import ExpiringGoal from "../../components/DashboardComponents/ExpiringGoal/ExpiringGoal";
+import CurrentWorkout from "../../components/DashboardComponents/CurrentWorkout/CurrentWorkout";
+import DashboardGif from "../../components/DashboardComponents/DashboardGif/DashboardGif";
+import TotalShared from "../../components/DashboardComponents/TotalShared/TotalShared";
+import Friends from "../../components/DashboardComponents/Friends/Friends";
 import goalheader from "../../assets/goal.png";
 
 

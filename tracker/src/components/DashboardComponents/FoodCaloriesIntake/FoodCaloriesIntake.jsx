@@ -14,14 +14,14 @@ import {
   Heading
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
-import { db } from "../../config/firebase";
+import { db } from "../../../config/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import { GoalContext } from "../../context/GoalContext";
-import {EnergizeGameContext} from "../../context/EnergizeGameContext"
-import { API_KEY } from "../../common/constants";
-import { MEAL_TYPES_ORDER } from "../../common/constants";
+import { AuthContext } from "../../../context/AuthContext";
+import { GoalContext } from "../../../context/GoalContext";
+import {EnergizeGameContext} from "../../../context/EnergizeGameContext"
+import { API_KEY } from "../../../common/constants";
+import { MEAL_TYPES_ORDER } from "../../../common/constants";
 
 
 const FoodCaloriesIntake = () => {

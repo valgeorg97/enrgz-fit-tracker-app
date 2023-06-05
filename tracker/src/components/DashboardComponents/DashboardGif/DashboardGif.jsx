@@ -1,9 +1,9 @@
 import { Box, Text, Image } from "@chakra-ui/react";
-import gif1 from "../../assets/gif/gif1.gif";
-import gif2 from "../../assets/gif/gif2.gif";
-import gif3 from "../../assets/gif/gif3.gif";
-import gif4 from "../../assets/gif/gif4.gif";
-import gif5 from "../../assets/gif/gif5.gif";
+import gif1 from "../../../assets/gif/gif1.gif";
+import gif2 from "../../../assets/gif/gif2.gif";
+import gif3 from "../../../assets/gif/gif3.gif";
+import gif4 from "../../../assets/gif/gif4.gif";
+import gif5 from "../../../assets/gif/gif5.gif";
 import { useState } from "react";
 
 const DashboardGif = () => {

@@ -1,21 +1,12 @@
 import { useEffect, useState, useContext, useRef } from "react";
-import { db } from "../../config/firebase";
+import { db } from "../../../config/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { AuthContext } from "../../context/AuthContext";
-import { EnergizeGameContext } from "../../context/EnergizeGameContext"
+import { AuthContext } from "../../../context/AuthContext";
+import { EnergizeGameContext } from "../../../context/EnergizeGameContext"
 import { useToast } from "@chakra-ui/react";
-import {
-  Box,
-  Input,
-  Heading,
-  Text,
-  VStack,
-  Button,
-  Collapse,
-  Flex,
-} from "@chakra-ui/react";
-import water2 from "../../assets/water2.png";
+import {Box,Input,Heading,Text,VStack,Button,Collapse,Flex,} from "@chakra-ui/react";
 import { useColorMode } from "@chakra-ui/react";
+import water2 from "../../../assets/water2.png";
 import "./Water.css";
 
 const WaterCalculator = () => {

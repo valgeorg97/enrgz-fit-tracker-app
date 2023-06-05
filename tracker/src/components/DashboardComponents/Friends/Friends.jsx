@@ -1,17 +1,17 @@
 import { useContext, useState, useEffect } from "react";
 import { Box, Heading, Text, Spinner } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { WorkoutContext } from "../../context/WorkoutContext";
+import { FriendsContext } from "../../../context/FriendsContext";
 
-const TotalShared = () => {
-  const { sharedWorkouts } = useContext(WorkoutContext);
+const Friends = () => {
+  const { friends } = useContext(FriendsContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let timeoutId;
     
-    if (sharedWorkouts) {
+    if (friends) {
       setLoading(false);
     } else {
       timeoutId = setTimeout(() => {
@@ -22,13 +22,13 @@ const TotalShared = () => {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [sharedWorkouts]);
+  }, [friends]);
 
   return (
     <Box
       _hover={{ backgroundColor: "#3a9690", cursor: "pointer" }}
       onClick={() => navigate("/workouts")}
-      background="linear-gradient(to right, rgb(173, 83, 137), rgb(60, 16, 83))"
+      background="linear-gradient(to right, rgb(242, 112, 156), rgb(255, 148, 114))"
       boxShadow="lg"
       p="2"
       rounded="md"
@@ -36,15 +36,15 @@ const TotalShared = () => {
       h="140px"
       textAlign="center"
     >
-      <Heading color="white" fontSize="14px">
-        Shared Workouts
+      <Heading  color="white" fontSize="14px">
+        Friends
       </Heading>
       {loading ? (
         <Spinner mt="37px" color="white" size="xl" />
       ) : (
         <>
           <Text mt={2} color="white" fontSize="40px">
-            {sharedWorkouts.length}
+            {friends.length}
           </Text>
         </>
       )}
@@ -52,4 +52,4 @@ const TotalShared = () => {
   );
 };
 
-export default TotalShared;
+export default Friends;
