@@ -1,12 +1,4 @@
-import React from 'react';
-import {
-  Box,
-  Heading,
-  Image,
-  Text,
-  Button,
-  Flex,
-} from '@chakra-ui/react';
+import {Box,Heading,Image,Text,Button,Flex,} from '@chakra-ui/react';
 import valentinImage from "../../assets/pic.png";
 import samiImage from "../../assets/sami.jpg";
 import logo from "../../assets/logo.png";
