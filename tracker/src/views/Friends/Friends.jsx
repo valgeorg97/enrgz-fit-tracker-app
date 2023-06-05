@@ -13,7 +13,8 @@ const Friends = () => {
   const {
     handleAccept,
     handleRemoveFriend,
-    initialFocusRef
+    initialFocusRef,
+    handleDecline
   } = FriendsLogic();
 
   

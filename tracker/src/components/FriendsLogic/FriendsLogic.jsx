@@ -107,10 +107,24 @@ const FriendsLogic = () => {
       console.log("Error removing friend:", error);
     }
   };
+
+  const handleDecline = async (request) => {
+    try {
+      const userDocRef = doc(db, "users", userDocID);
+      await updateDoc(userDocRef, {
+        requests: requests.filter((req) => req.userDocID !== request.userDocID),
+      });
+      setRequests(requests.filter((req) => req.userDocID !== request.userDocID));
+    } catch (error) {
+      console.log("Error declining request:", error);
+    }
+  };
+
   return {
     handleAccept,
     handleRemoveFriend,
-    initialFocusRef
+    initialFocusRef,
+    handleDecline
   };
 };
 
