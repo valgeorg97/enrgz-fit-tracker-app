@@ -1,13 +1,13 @@
 import { useState, useContext } from "react";
 import {collection,addDoc,serverTimestamp,updateDoc,deleteDoc,doc} from "firebase/firestore";
 import { auth, db } from "../../config/firebase";
-import {Box,Text,Grid,Flex,GridItem} from "@chakra-ui/react";
+import {Box,Text,Grid,GridItem} from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
-import GoalForm from "./GoalForm";
-import SingleGoal from "./SingleGoal";
-import GoalMenu from "./GoalMenu";
-import GoalCard from "./GoalCard";
+import GoalForm from "../../components/GoalsComponents/GoalForm";
+import SingleGoal from "../../components/GoalsComponents/SingleGoal";
+import GoalMenu from "../../components/GoalsComponents/GoalMenu";
+import GoalCard from "../../components/GoalsComponents/GoalCard";
 import "react-toastify/dist/ReactToastify.css";
 import goalheader from "../../assets/goal.png"
 import { GoalContext } from "../../context/GoalContext";
