@@ -29,7 +29,7 @@ const CurrentWorkout = ({ activeWorkout }) => {
     <Box h="340px" >
       <ChakraCard
         background="linear-gradient(to bottom, rgb(173, 83, 137), rgb(60, 16, 83))"
-        boxShadow="dark-lg"
+        boxShadow="lg"
         rounded="md"
         borderColor="gray.50"
         height="100%"

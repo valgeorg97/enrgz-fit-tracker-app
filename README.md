@@ -1,92 +1,102 @@
 # Fitness Tracker App
 
+This is a fitness tracker app that allows users to track their workouts and set goals for themselves. It includes features for managing workouts, goals, friends, and a community.
 
+## Setup
 
-## Getting started
+1. Open "tracker" folder in integrated terminal.
+2. Type ```npm run dev```.
+3. Press "o" on the keyboard to open the app in the browser.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Features
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+### Dark Theme
+- Click the moon icon in the top right corner to change the theme
 
-## Add your files
+### User Menu
+- Click your avatar in the top right corner to sign out or go to profile settings
+- Below your name are your energize point and your role in the website - user or admin.
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+### Dashboard
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/valgeorg/fitness-tracker-app.git
-git branch -M main
-git push -uf origin main
-```
+- View and manage your daily water intake
+- View and chose your workout for the day
+- View the 3 closest to expiry date goals
+- View and manage your daily calories intake
+- View the number of goals and workouts you have created so far
+- View the number of friends you have made
+- View the number of shared workouts 
 
-## Integrate with your tools
+### Workouts
 
-- [ ] [Set up project integrations](https://gitlab.com/valgeorg/fitness-tracker-app/-/settings/integrations)
+- View and manage your personal workouts
+- Create a workout
+- Update workout title
+- Delete a workout
+- Share a workout with others
+- Set a workout as active
 
-## Collaborate with your team
+### Goals
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+- Create goals to track your progress
+- Update goal title and description
+- Delete a goal
+- Mark a goal as finished
 
-## Test and Deploy
+### Friends
 
-Use the built-in continuous integration in GitLab.
+- Accept friend requests from other users
+- Remove friends from your friend list
+- Decline friend requests
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+### Community
 
-***
+- Search for other users by name, email, or username
+- Sort the users by name, energize points,username,email,role,status by clicking on the column header
+- View the profile informtaion of other users in the community
+- Send friend request.Cancel sent friend request (blue icon/red icon)
+- See if a user is in your friends list (green icon)
 
-# Editing this README
+### Profile
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+- Update user profile information such as name, username, family, email, phone number, avatar, weight, and height.
+- Change the user's password.
+- Delete the user's account.
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+### Workouts
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+1. To view your personal workouts, navigate to the "Workouts" section of the app.
+2. To delete a workout, click the "Delete" button next to the workout you want to delete.
+3. To share a workout with others, click the "Share" button next to the workout you want to share. Note that you can only share a workout once.
+4. To set a workout as active, click the "Set as Active" button next to the workout you want to make active.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+### Goals
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+1. To create a new goal, go to the "Goals" section of the app and enter the goal details in the input fields. Click the "Create" button to create the goal.
+2. To update the title or description of a goal, click the "Edit" button next to the goal you want to update. Make the desired changes and click the "Save" button to save the changes.
+3. To delete a goal, click the "Delete" button next to the goal you want to delete.
+4. To mark a goal as finished, click the "Finish" button next to the goal you want to finish.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+### Friends
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+1. To accept a friend request, go to the "Friends" section of the app and click the "Accept" button next to the friend request you want to accept.
+2. To remove a friend from your friend list, click the "Remove" button next to the friend you want to remove.
+3. To decline a friend request, click the "Decline" button next to the friend request you want to decline.
 
-## License
-For open source projects, say how it is licensed.
+### Community
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+1. To search for other users in the community, go to the "Community" section of the app and enter the search term in the search bar. Select the search type (name, email, or username) from the dropdown menu.
+2. To sort the search results, click on the column headers (name, email, or username).
+3. To view the profile of a user in the community, click on the user's name.
+
+### Profile
+
+1. To update your profile information, navigate to the "Profile" section of the app.
+2. Enter the desired changes in the respective input fields.
+3. To update the profile photo, click on the "Choose File" button and select an image file from your device.
+4. To update the password, enter the current password, new password, and confirm the new password in the respective input fields.
+5. To delete the user account, click on the "Delete Account" button. This action is irreversible and will permanently delete the user's account and associated data.
+6. To cancel any changes made, click on the "Cancel" button.
+7. To save changes, click on the "Update settings" button.

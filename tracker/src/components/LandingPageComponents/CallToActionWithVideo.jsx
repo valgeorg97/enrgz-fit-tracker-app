@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 
 import Blob from '../../components/LandingPageComponents/Blob';
-import image from "../../assets/group-people-running.jpg";
+import image from "../../assets/runnin.jpg";
 
 const CallToActionWithVideo = ({ onGetStartedClick }) => {
     return (
