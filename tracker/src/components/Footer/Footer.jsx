@@ -21,6 +21,7 @@ return (
       align={{ base: 'center', md: 'center' }}
       mt={300}
       mb={-80}
+      zIndex={"hide"}
       >
       <Flex align="center" justify="center">
         <Logo boxSize="100px" mt={10}/>

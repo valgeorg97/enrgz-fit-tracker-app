@@ -63,7 +63,7 @@ const Dashboard = () => {
           </Box>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={1} zIndex={"dropdown"}>
           <FoodCaloriesIntake />
         </GridItem>
 
