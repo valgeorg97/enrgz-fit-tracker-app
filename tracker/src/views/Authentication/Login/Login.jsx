@@ -3,7 +3,7 @@ import { Link as RouterLink, Link as ChakraLink, useNavigate } from "react-route
 import { auth } from "../../../config/firebase";
 import { AuthContext } from "../../../context/AuthContext";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Logo from "../../../assets/logo.png"
 import FactBubble from '../../../components/InterestingFacts/FactBubble';
@@ -13,6 +13,10 @@ const Login = () => {
 
   const { setIsLoggedIn, email, setEmail, password, setPassword } = useContext(AuthContext);
   let navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const signIn = (e) => {
     e.preventDefault();
