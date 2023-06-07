@@ -44,35 +44,24 @@ const Dashboard = () => {
   return (
     <Box w="1560px" >
       <Grid h="600px" templateRows="repeat(2, 1fr)" templateColumns="repeat(4, 1fr)" gap={4}>
-
-        <GridItem colSpan={5} rounded="md" borderColor="gray.50" h="140px" w="1600px" bgImage={images[bgImageIndex]}/>
-
+  
+        <GridItem colSpan={5} rounded="md" borderColor="gray.50" h="140px" w="1600px" bgImage={images[bgImageIndex]} />
+  
         <GridItem rowSpan={2} colSpan={1}>
           <Box>
-            <WaterCalculator />
-          </Box>
-        </GridItem>
-
-        <GridItem colSpan={1}>
-          <CurrentWorkout activeWorkout={activeWorkout} />
-        </GridItem>
-
-        <GridItem colSpan={3}>
-          <Box bgColor="blue.800" w="770px" h="340px" boxShadow="lg" rounded="md" _hover={{ cursor: "pointer" }} onClick={()=>navigate('/goals')}>
-            <ExpiringGoal />
+            <FoodCaloriesIntake />
           </Box>
         </GridItem>
 
         <GridItem colSpan={1} zIndex={"dropdown"}>
-          <FoodCaloriesIntake />
+          <WaterCalculator />
         </GridItem>
-
-        <GridItem w="410px" mr={-3} colSpan={1}>
-          <DashboardGif />
-        </GridItem>
-
         <GridItem colSpan={1}>
-          <VStack mr={10}>
+          <CurrentWorkout activeWorkout={activeWorkout} />
+          
+        </GridItem>
+        <GridItem colSpan={1} >
+          <VStack mr={10} ml={"-3.5"}>
             <HStack>
               <UserGoals />
               <UserWorkouts />
@@ -82,8 +71,21 @@ const Dashboard = () => {
               <TotalShared />
             </HStack>
           </VStack>
+          <GridItem colSpan={3}>
+          <Box mt={"20px"} ml={"-400px"} bgColor="blue.800" w="737px" h="300px" boxShadow="lg" rounded="md" _hover={{ cursor: "pointer" }} onClick={()=>navigate('/goals')}>
+            <ExpiringGoal />
+          </Box>
         </GridItem>
-
+        </GridItem>
+  
+        
+  
+        {/* <GridItem w="410px" mr={-3} colSpan={1}>
+          <DashboardGif />
+        </GridItem> */}
+  
+        
+  
       </Grid>
     </Box>
   );

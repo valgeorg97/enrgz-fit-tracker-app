@@ -32,7 +32,7 @@ const CurrentWorkout = ({ activeWorkout }) => {
         boxShadow="lg"
         rounded="md"
         borderColor="gray.50"
-        height="100%"
+        height="85%"
         p={4}
         _hover={{ background: "#5f1854" , cursor: "pointer" }}
         onClick={()=>navigate('/workouts')}

@@ -57,7 +57,7 @@ const ExpiringGoal = () => {
                 _hover={{ background: "blue.400", cursor: "pointer" }}
                 onClick={() => navigate("/goals")}
               >
-                <CardHeader h="314px">
+                <CardHeader h="275px">
                   <Heading color="purple.700" size="auto">
                     Expiring soon!
                   </Heading>
