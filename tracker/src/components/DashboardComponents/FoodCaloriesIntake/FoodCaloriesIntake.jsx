@@ -19,7 +19,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { GoalContext } from "../../../context/GoalContext";
-import {EnergizeGameContext} from "../../../context/EnergizeGameContext"
+import { EnergizeGameContext } from "../../../context/EnergizeGameContext"
 import { API_KEY } from "../../../common/constants";
 import { MEAL_TYPES_ORDER } from "../../../common/constants";
 
@@ -91,7 +91,6 @@ const FoodCaloriesIntake = () => {
         }
       }
     };
-
     fetchUserData();
   }, [userDocID]);
 
@@ -128,62 +127,74 @@ const FoodCaloriesIntake = () => {
         );
         if (response.ok) {
           const data = await response.json();
-  if (Array.isArray(data) && data.length) {
-    let foodItem = {
-      name: query,
-      grams: grams,
-      calories: data[0].calories,
-    };
-    setFoodItems((prevState) => {
-      let updatedFoodItems = {
-        ...prevState,
-        [mealType]: [...prevState[mealType], foodItem],
-      };
-  
-      const newConsumedCalories = consumedCalories + data[0].calories;
-  
-      setConsumedCalories((prevCalories) => prevCalories + data[0].calories);
-  
-      return updatedFoodItems;
-    });
+          if (Array.isArray(data) && data.length) {
+            let foodItem = {
+              name: query,
+              grams: grams,
+              calories: data[0].calories,
+            };
+            setFoodItems((prevState) => {
+              let updatedFoodItems = {
+                ...prevState,
+                [mealType]: [...prevState[mealType], foodItem],
+              };
 
-    const newConsumedCalories = consumedCalories + data[0].calories;
-  
-    if (newConsumedCalories >= currentGoal.calory && newConsumedCalories <= currentGoal.calory + 200 && !isPointsAwarded) {
-      setEnergizePoints(prevPoints => prevPoints + 5); 
-      setIsPointsAwarded(true);
-      toast({
-        title: "Congratulations!",
-        description: "You've earned 5 Energize Points for reaching your calorie goal!",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-        position: "top"
-      });
-      if (userDocID) {
-        const docRef = doc(db, "users", userDocID);
-        await setDoc(docRef, 
-          { 
-            consumedCalories: newConsumedCalories, 
-            energizePoints: energizePoints + 5, 
-            isPointsAwarded: true 
-          }, 
-          { merge: true }
-        ).catch((error) => {
-          console.error("Error updating document: ", error);
-        });
-      }
-    }
-  } else {
-    toast({
-      title: "Food not found",
-      description: `We couldn't find the food item you're looking for. Please try again.`,
-      status: "error",
-      duration: 9000,
-      isClosable: true,
-      position: "top",
-    });
-  }
+              const newConsumedCalories = consumedCalories + data[0].calories;
+
+              setConsumedCalories((prevCalories) => prevCalories + data[0].calories);
+
+              return updatedFoodItems;
+            });
+
+            const newConsumedCalories = consumedCalories + data[0].calories;
+
+            // Save to Firestore every time a food is added
+            if (userDocID) {
+              const docRef = doc(db, "users", userDocID);
+              await setDoc(docRef,
+                {
+                  consumedCalories: newConsumedCalories,
+                },
+                { merge: true }
+              ).catch((error) => {
+                console.error("Error updating document: ", error);
+              });
+            }
+
+            if (newConsumedCalories >= currentGoal.calory && newConsumedCalories <= currentGoal.calory + 200 && !isPointsAwarded) {
+              setEnergizePoints(prevPoints => prevPoints + 5);
+              setIsPointsAwarded(true);
+              toast({
+                title: "Congratulations!",
+                description: "You've earned 5 Energize Points for reaching your calorie goal!",
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+                position: "top"
+              });
+              if (userDocID) {
+                const docRef = doc(db, "users", userDocID);
+                await setDoc(docRef,
+                  {
+                    energizePoints: energizePoints + 5,
+                    isPointsAwarded: true
+                  },
+                  { merge: true }
+                ).catch((error) => {
+                  console.error("Error updating document: ", error);
+                });
+              }
+            }
+          } else {
+            toast({
+              title: "Food not found",
+              description: `We couldn't find the food item you're looking for. Please try again.`,
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+              position: "top",
+            });
+          }
         } else {
           throw new Error("Network response was not ok.");
         }
@@ -193,12 +204,12 @@ const FoodCaloriesIntake = () => {
     }
     setQuery("");
     setGrams("");
-  };
+};
   const resetConsumedCalories = async () => {
     if (userDocID) {
       const userRef = doc(db, "users", userDocID);
       const today = new Date();
-      today.setHours(0, 0, 0, 0); 
+      today.setHours(0, 0, 0, 0);
       await setDoc(
         userRef,
         { consumedCalories: 0, lastUpdate: today },
@@ -206,18 +217,18 @@ const FoodCaloriesIntake = () => {
       );
     }
   };
-  const saveConsumedCalories = async () => {
-    if (userDocID) {
-      const userRef = doc(db, "users", userDocID);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      await setDoc(
-        userRef,
-        { consumedCalories: consumedCalories, lastUpdate: today },
-        { merge: true }
-      );
-    }
-  };
+  // const saveConsumedCalories = async () => {
+  //   if (userDocID) {
+  //     const userRef = doc(db, "users", userDocID);
+  //     const today = new Date();
+  //     today.setHours(0, 0, 0, 0);
+  //     await setDoc(
+  //       userRef,
+  //       { consumedCalories: consumedCalories, lastUpdate: today },
+  //       { merge: true }
+  //     );
+  //   }
+  // };
 
   const calorieProgress = (consumedCalories / currentGoal.calory) * 100;
 
@@ -226,50 +237,51 @@ const FoodCaloriesIntake = () => {
   };
 
   return (
-    <Box
-      background="linear-gradient(15deg, #13547a 0%, #80d0c7 100%)"
-      boxShadow="lg"
-      // shadow="xl"
-      p={4}
-      borderRadius="md"
-      w="400px"
-    >
-      <Heading size="md" textAlign={"center"} mb={3}>Calories Intake</Heading>
-      <Text fontSize="xl" mb={1}>
+  <Flex
+    direction="column"
+    alignItems="center"
+    justifyContent="center"
+    background="linear-gradient(15deg, #13547a 0%, #80d0c7 100%)"
+    boxShadow="lg"
+    p={4}
+    borderRadius="md"
+    w="400px"
+  >
+    <Heading size="md" textAlign={"center"} mb={3}>Calories Intake</Heading>
+    <Text fontSize="xl" mb={1}>
       Base Goal Calories: {currentGoal?.calory?.toFixed(0) ?? 0} kcal
-      </Text>
-      <Text fontSize="xl" mb={1}>
-        Calories consumed today: {consumedCalories.toFixed(0)}{" "}
-        kcal
-      </Text>
+    </Text>
+    <Text fontSize="xl" mb={1}>
+      Calories consumed today: {consumedCalories.toFixed(0)} kcal
+    </Text>
 
-      <CircularProgress value={calorieProgress} color="green.400" size="150px">
-        <CircularProgressLabel>
-          {
-            consumedCalories > currentGoal.calory
-              ? (
-                <Box display="flex" flexDirection="column" alignItems="center">
-                  
-                  <Text fontSize="18px" fontWeight={"semibold"} >Over</Text>
-                  <Text fontSize="18px" fontWeight={"semibold"}>{`${(consumedCalories - currentGoal.calory).toFixed(0)} kcal`}</Text>
-                </Box>
-              )
-              : (
-                <Box display="flex" flexDirection="column" alignItems="center">
-                  <Text fontSize="2xl">{`${(currentGoal.calory - consumedCalories).toFixed(0)} kcal`}</Text>
-                  <Text fontSize="15px" fontWeight={"bold"} color="grey.400">Remaining</Text>
-                </Box>
-              )
-          }
-        </CircularProgressLabel>
-      </CircularProgress>
-      <Button ml={4} colorScheme="linkedin" onClick={handleViewMore}>
+    <CircularProgress value={calorieProgress} color="green.400" size="260px">
+      <CircularProgressLabel>
+        {
+          consumedCalories > currentGoal.calory
+            ? (
+              <Box display="flex" flexDirection="column" alignItems="center">
+
+                <Text fontSize="18px" fontWeight={"semibold"} >Over</Text>
+                <Text fontSize="18px" fontWeight={"semibold"}>{`${(consumedCalories - currentGoal.calory).toFixed(0)} kcal`}</Text>
+              </Box>
+            )
+            : (
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <Text fontSize="2xl">{`${(currentGoal.calory - consumedCalories).toFixed(0)} kcal`}</Text>
+                <Text fontSize="15px" fontWeight={"bold"} color="grey.400">Remaining</Text>
+              </Box>
+            )
+        }
+      </CircularProgressLabel>
+    </CircularProgress>
+      <Button mt={4} colorScheme="linkedin" onClick={handleViewMore}>
         {isViewMore ? "View Less" : "View More"}
       </Button>
-      <Collapse  in={isViewMore}>
+      <Collapse in={isViewMore}>
         <Box >
           <Input
-           textColor="black" 
+            textColor="black"
             mb={1}
             value={query}
             onChange={handleQueryChange}
@@ -295,25 +307,25 @@ const FoodCaloriesIntake = () => {
         </Box>
         <Divider mt={5} />
         {MEAL_TYPES_ORDER.map((mealType) => (
-  <VStack key={mealType} align="start" spacing={4} mt={4}>
-    <Button
-      color="black" 
-      variant="link"
-      onClick={() => handleToggleMealType(mealType)}
-    >
-      {mealType}
-    </Button>
-    <Collapse in={expandedMealTypes[mealType]}>
-      {foodItems[mealType].map((item, index) => (
-        <Text key={index}>
-          {item.name} - {item.grams}g - {item.calories}kcal
-        </Text>
-      ))}
-    </Collapse>
-  </VStack>
-))}
+          <VStack key={mealType} align="start" spacing={4} mt={4}>
+            <Button
+              color="black"
+              variant="link"
+              onClick={() => handleToggleMealType(mealType)}
+            >
+              {mealType}
+            </Button>
+            <Collapse in={expandedMealTypes[mealType]}>
+              {foodItems[mealType].map((item, index) => (
+                <Text key={index}>
+                  {item.name} - {item.grams}g - {item.calories}kcal
+                </Text>
+              ))}
+            </Collapse>
+          </VStack>
+        ))}
       </Collapse>
-    </Box>
+    </Flex>
   );
 };
 
