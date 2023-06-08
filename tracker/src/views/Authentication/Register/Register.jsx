@@ -15,6 +15,7 @@ import Form7 from './Forms/Form7';
 import Form8 from './Forms/Form8';
 import Loading from '../../../components/Loading/Loading';
 import { FITNESS_CALC_API_KEY } from '../../../common/constants';
+import calculateCalories from '../../../services/fitnessCalculatorService';
 
 
 
@@ -131,41 +132,6 @@ const Register = () => {
     return Math.abs(ageDt.getUTCFullYear() - 1970);
   }
 
-  const calculateCalories = async () => {
-    const age = calculateAge(new Date(regYear));
-
-    let apiActivityLevel;
-    switch (regActivityLevel) {
-      case 'lightly-active':
-        apiActivityLevel = 'level_2';
-        break;
-      case 'active':
-        apiActivityLevel = 'level_3';
-        break;
-      case 'very-active':
-        apiActivityLevel = 'level_4';
-        break;
-      default:
-        apiActivityLevel = 'level_1';
-    }
-
-    const response = await fetch(`https://fitness-calculator.p.rapidapi.com/dailycalorie?age=${age}&gender=${regGender}&height=${regHeight}&weight=${regWeight}&activitylevel=${apiActivityLevel}`, {
-      method: 'GET',
-      headers: {
-        'X-RapidAPI-Key': FITNESS_CALC_API_KEY,
-        'X-RapidAPI-Host': 'fitness-calculator.p.rapidapi.com'
-      }
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      return { bmr: data.data.BMR, goals: data.data.goals };
-    } else {
-      console.error('Failed to calculate calories', response.status);
-      return null;
-    }
-  };
-
   const handleGoal = (value) => {
     setRegGoal(value);
   };
@@ -254,7 +220,7 @@ const Register = () => {
     createUserWithEmailAndPassword(auth, regEmail, regPassword)
       .then(() => {
         updateName();
-        return calculateCalories();
+        return calculateCalories(calculateAge(new Date(regYear)), regGender, regHeight, regWeight, regActivityLevel, FITNESS_CALC_API_KEY);
       })
       .then((caloriesData) => {
         if (caloriesData && caloriesData.bmr) {
