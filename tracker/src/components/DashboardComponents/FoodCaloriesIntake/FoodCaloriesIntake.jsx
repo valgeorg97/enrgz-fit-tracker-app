@@ -22,6 +22,7 @@ import { GoalContext } from "../../../context/GoalContext";
 import { EnergizeGameContext } from "../../../context/EnergizeGameContext"
 import { API_KEY } from "../../../common/constants";
 import { MEAL_TYPES_ORDER } from "../../../common/constants";
+import getNutritionData from "../../../services/nutritionService";
 
 
 const FoodCaloriesIntake = () => {
@@ -116,18 +117,9 @@ const FoodCaloriesIntake = () => {
   const handleAddFood = async () => {
     if (query !== "" && grams !== "") {
       try {
-        const response = await fetch(
-          `https://api.api-ninjas.com/v1/nutrition?query=${grams}g ${query}`,
-          {
-            method: "GET",
-            headers: {
-              "X-Api-Key": API_KEY,
-            },
-          }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          if (Array.isArray(data) && data.length) {
+        const data = await getNutritionData(query, grams, API_KEY);
+  
+        if (Array.isArray(data) && data.length) {
             let foodItem = {
               name: query,
               grams: grams,
@@ -195,9 +187,6 @@ const FoodCaloriesIntake = () => {
               position: "top",
             });
           }
-        } else {
-          throw new Error("Network response was not ok.");
-        }
       } catch (error) {
         console.log("Error fetching data: ", error);
       }
