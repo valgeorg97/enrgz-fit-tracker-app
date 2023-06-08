@@ -24,6 +24,7 @@ import { db } from "../../config/firebase";
 import { muscles } from '../../common/constants';
 import { WorkoutContext } from "../../context/WorkoutContext";
 import { API_KEY } from "../../common/constants";
+import getWorkoutExercises from "../../services/workoutsService"
 
 
 const CreateWorkout = () => {
@@ -43,11 +44,7 @@ const CreateWorkout = () => {
   useEffect(() => {
     if (selectedMuscle !== '') {
       const fetchRelatedExercises = async () => {
-        const response = await fetch(`https://api.api-ninjas.com/v1/exercises?muscle=${selectedMuscle}`, {
-          method: 'GET',
-          headers: { 'X-Api-Key': API_KEY },
-        });
-        const data = await response.json();
+        const data = await getWorkoutExercises(selectedMuscle, API_KEY);
         setRelatedExercises(data);
       };
       fetchRelatedExercises();
