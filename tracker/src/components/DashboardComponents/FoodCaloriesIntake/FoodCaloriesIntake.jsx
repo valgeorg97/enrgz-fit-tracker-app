@@ -63,7 +63,7 @@ const FoodCaloriesIntake = () => {
 
           if (!lastUpdate || lastUpdate.getTime() !== today.getTime()) {
             setConsumedCalories(0);
-            setFoodItems({
+            setFoodItems(docSnap.data().foodItems || {
               Breakfast: [],
               Lunch: [],
               Dinner: [],
@@ -120,39 +120,34 @@ const FoodCaloriesIntake = () => {
         const data = await getNutritionData(query, grams, API_KEY);
   
         if (Array.isArray(data) && data.length) {
-            let foodItem = {
-              name: query,
-              grams: grams,
-              calories: data[0].calories,
+          let foodItem = {
+            name: query,
+            grams: grams,
+            calories: data[0].calories,
+          };
+  
+          setFoodItems((prevState) => {
+            let updatedFoodItems = {
+              ...prevState,
+              [mealType]: [...prevState[mealType], foodItem],
             };
-            setFoodItems((prevState) => {
-              let updatedFoodItems = {
-                ...prevState,
-                [mealType]: [...prevState[mealType], foodItem],
-              };
-
-              const newConsumedCalories = consumedCalories + data[0].calories;
-
-              setConsumedCalories((prevCalories) => prevCalories + data[0].calories);
-
-              return updatedFoodItems;
-            });
-
+  
             const newConsumedCalories = consumedCalories + data[0].calories;
-
-            // Save to Firestore every time a food is added
+            setConsumedCalories(newConsumedCalories);
+  
             if (userDocID) {
               const docRef = doc(db, "users", userDocID);
-              await setDoc(docRef,
+              setDoc(docRef,
                 {
                   consumedCalories: newConsumedCalories,
+                  foodItems: updatedFoodItems
                 },
                 { merge: true }
               ).catch((error) => {
                 console.error("Error updating document: ", error);
               });
             }
-
+  
             if (newConsumedCalories >= currentGoal.calory && newConsumedCalories <= currentGoal.calory + 200 && !isPointsAwarded) {
               setEnergizePoints(prevPoints => prevPoints + 5);
               setIsPointsAwarded(true);
@@ -166,7 +161,7 @@ const FoodCaloriesIntake = () => {
               });
               if (userDocID) {
                 const docRef = doc(db, "users", userDocID);
-                await setDoc(docRef,
+                setDoc(docRef,
                   {
                     energizePoints: energizePoints + 5,
                     isPointsAwarded: true
@@ -177,23 +172,26 @@ const FoodCaloriesIntake = () => {
                 });
               }
             }
-          } else {
-            toast({
-              title: "Food not found",
-              description: `We couldn't find the food item you're looking for. Please try again.`,
-              status: "error",
-              duration: 9000,
-              isClosable: true,
-              position: "top",
-            });
-          }
+  
+            return updatedFoodItems;
+          });
+        } else {
+          toast({
+            title: "Food not found",
+            description: `We couldn't find the food item you're looking for. Please try again.`,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top",
+          });
+        }
       } catch (error) {
         console.log("Error fetching data: ", error);
       }
     }
     setQuery("");
     setGrams("");
-};
+  };
   const resetConsumedCalories = async () => {
     if (userDocID) {
       const userRef = doc(db, "users", userDocID);
