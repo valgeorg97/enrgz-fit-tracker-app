@@ -206,18 +206,6 @@ const FoodCaloriesIntake = () => {
       );
     }
   };
-  // const saveConsumedCalories = async () => {
-  //   if (userDocID) {
-  //     const userRef = doc(db, "users", userDocID);
-  //     const today = new Date();
-  //     today.setHours(0, 0, 0, 0);
-  //     await setDoc(
-  //       userRef,
-  //       { consumedCalories: consumedCalories, lastUpdate: today },
-  //       { merge: true }
-  //     );
-  //   }
-  // };
 
   const calorieProgress = (consumedCalories / currentGoal.calory) * 100;
 
