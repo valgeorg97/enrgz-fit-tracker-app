@@ -59,9 +59,11 @@ const FoodCaloriesIntake = () => {
         if (docSnap.exists()) {
           const lastUpdate = docSnap.data().lastUpdate?.toDate();
           const today = new Date();
-          today.setHours(0, 0, 0, 0);
 
-          if (!lastUpdate || lastUpdate.getTime() !== today.getTime()) {
+          if (!lastUpdate ||
+            lastUpdate.getDate() !== today.getDate() ||
+            lastUpdate.getMonth() !== today.getMonth() ||
+            lastUpdate.getFullYear() !== today.getFullYear()) {
             setConsumedCalories(0);
             setFoodItems(docSnap.data().foodItems || {
               Breakfast: [],
@@ -118,23 +120,23 @@ const FoodCaloriesIntake = () => {
     if (query !== "" && grams !== "") {
       try {
         const data = await getNutritionData(query, grams, API_KEY);
-  
+
         if (Array.isArray(data) && data.length) {
           let foodItem = {
             name: query,
             grams: grams,
             calories: data[0].calories,
           };
-  
+
           setFoodItems((prevState) => {
             let updatedFoodItems = {
               ...prevState,
               [mealType]: [...prevState[mealType], foodItem],
             };
-  
+
             const newConsumedCalories = consumedCalories + data[0].calories;
             setConsumedCalories(newConsumedCalories);
-  
+
             if (userDocID) {
               const docRef = doc(db, "users", userDocID);
               setDoc(docRef,
@@ -147,7 +149,7 @@ const FoodCaloriesIntake = () => {
                 console.error("Error updating document: ", error);
               });
             }
-  
+
             if (newConsumedCalories >= currentGoal.calory && newConsumedCalories <= currentGoal.calory + 200 && !isPointsAwarded) {
               setEnergizePoints(prevPoints => prevPoints + 5);
               setIsPointsAwarded(true);
@@ -172,7 +174,7 @@ const FoodCaloriesIntake = () => {
                 });
               }
             }
-  
+
             return updatedFoodItems;
           });
         } else {
@@ -212,44 +214,44 @@ const FoodCaloriesIntake = () => {
   };
 
   return (
-  <Flex
-    direction="column"
-    alignItems="center"
-    justifyContent="center"
-    background="linear-gradient(15deg, #13547a 0%, #80d0c7 100%)"
-    boxShadow="lg"
-    p={4}
-    borderRadius="md"
-    w="400px"
-  >
-    <Heading size="md" textAlign={"center"} mb={3}>Calories Intake</Heading>
-    <Text fontSize="xl" mb={1}>
-      Base Goal Calories: {currentGoal?.calory?.toFixed(0) ?? 0} kcal
-    </Text>
-    <Text fontSize="xl" mb={1}>
-      Calories consumed today: {consumedCalories.toFixed(0)} kcal
-    </Text>
+    <Flex
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      background="linear-gradient(15deg, #13547a 0%, #80d0c7 100%)"
+      boxShadow="lg"
+      p={4}
+      borderRadius="md"
+      w="400px"
+    >
+      <Heading size="md" textAlign={"center"} mb={3}>Calories Intake</Heading>
+      <Text fontSize="xl" mb={1}>
+        Base Goal Calories: {currentGoal?.calory?.toFixed(0) ?? 0} kcal
+      </Text>
+      <Text fontSize="xl" mb={1}>
+        Calories consumed today: {consumedCalories.toFixed(0)} kcal
+      </Text>
 
-    <CircularProgress value={calorieProgress} color="green.400" size="260px">
-      <CircularProgressLabel>
-        {
-          consumedCalories > currentGoal.calory
-            ? (
-              <Box display="flex" flexDirection="column" alignItems="center">
+      <CircularProgress value={calorieProgress} color="green.400" size="260px">
+        <CircularProgressLabel>
+          {
+            consumedCalories > currentGoal.calory
+              ? (
+                <Box display="flex" flexDirection="column" alignItems="center">
 
-                <Text fontSize="18px" fontWeight={"semibold"} >Over</Text>
-                <Text fontSize="18px" fontWeight={"semibold"}>{`${(consumedCalories - currentGoal.calory).toFixed(0)} kcal`}</Text>
-              </Box>
-            )
-            : (
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <Text fontSize="2xl">{`${(currentGoal.calory - consumedCalories).toFixed(0)} kcal`}</Text>
-                <Text fontSize="15px" fontWeight={"bold"} color="grey.400">Remaining</Text>
-              </Box>
-            )
-        }
-      </CircularProgressLabel>
-    </CircularProgress>
+                  <Text fontSize="18px" fontWeight={"semibold"} >Over</Text>
+                  <Text fontSize="18px" fontWeight={"semibold"}>{`${(consumedCalories - currentGoal.calory).toFixed(0)} kcal`}</Text>
+                </Box>
+              )
+              : (
+                <Box display="flex" flexDirection="column" alignItems="center">
+                  <Text fontSize="2xl">{`${(currentGoal.calory - consumedCalories).toFixed(0)} kcal`}</Text>
+                  <Text fontSize="15px" fontWeight={"bold"} color="grey.400">Remaining</Text>
+                </Box>
+              )
+          }
+        </CircularProgressLabel>
+      </CircularProgress>
       <Button mt={4} colorScheme="linkedin" onClick={handleViewMore}>
         {isViewMore ? "View Less" : "View More"}
       </Button>
