@@ -1,10 +1,11 @@
 import { useState, useContext } from "react";
-import { collection, addDoc, serverTimestamp, updateDoc, deleteDoc, doc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, updateDoc, deleteDoc, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../config/firebase";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { GoalContext } from "../../context/GoalContext";
+import { EnergizeGameContext } from "../../context/EnergizeGameContext";
 
 const GoalsLogic = () => {
   const [goalName, setGoalName] = useState("");
@@ -14,6 +15,8 @@ const GoalsLogic = () => {
   const [goalCategory, setGoalCategory] = useState("");
   const [selectedGoal, setSelectedGoal] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { energizePoints, setEnergizePoints } = useContext(EnergizeGameContext);
+
 
   const { userID, userDocID } = useContext(AuthContext);
   const { goalDocRef, goals, setGoals, currentGoal, finishedGoals, setFinishedGoals, setCurrentGoal, mainGoals } = useContext(GoalContext);
@@ -127,13 +130,37 @@ const GoalsLogic = () => {
       const goalRef = doc(db, `users/${userDocID}/goals`, goal.id);
       await updateDoc(goalRef, { status: "finished" });
       closeModal();
-      toast.success("Goal finished successfully!");
 
       setGoals((prevGoals) => prevGoals.filter((g) => g.id !== goal.id));
       setFinishedGoals((prevFinishedGoals) => [
         ...prevFinishedGoals,
         { ...goal, status: "finished" },
       ]);
+
+      const newEnergizePoints = energizePoints + 5;
+     
+      setEnergizePoints(newEnergizePoints);
+
+      toast("Congratulations! You've earned 5 Energize Points for completing your goal!", {
+        type: "success",
+        autoClose: 9000,
+        position: toast.POSITION.TOP_CENTER,
+      });
+
+      
+      if (userDocID) {
+        const docRef = doc(db, "users", userDocID);
+        await setDoc(
+          docRef,
+          {
+            energizePoints: newEnergizePoints,
+          },
+          { merge: true }
+        ).catch((error) => {
+          console.error("Error updating document: ", error);
+        });
+      }
+
     } catch (error) {
       console.error("Error finishing goal:", error);
     }
