@@ -55,16 +55,18 @@ const SingleGoal = ({isModalOpen,closeModal,selectedGoal,updateGoalTitle,updateG
           defaultValue={selectedGoal.text}
           onSubmit={(newText) => updateGoalText(selectedGoal.id, newText)}
         >
-          <VStack spacing={2} float="right" alignItems="flex-end">
-            <Button
-              colorScheme="green"
-              size="md"
-              onClick={() => handleFinishGoal(selectedGoal)}
-            >
-              <Flex align="center">
-                <FaCheck />
-              </Flex>
-            </Button>
+           <VStack spacing={2} float="right" alignItems="flex-end">
+            {selectedGoal.status !== "finished" && (
+              <Button
+                colorScheme="green"
+                size="md"
+                onClick={() => handleFinishGoal(selectedGoal)}
+              >
+                <Flex align="center">
+                  <FaCheck />
+                </Flex>
+              </Button>
+            )}
             <Button
               colorScheme="red"
               size="md"
@@ -74,11 +76,7 @@ const SingleGoal = ({isModalOpen,closeModal,selectedGoal,updateGoalTitle,updateG
                 <FaTrashAlt />
               </Flex>
             </Button>
-            <Button
-              colorScheme="linkedin"
-              size="md"
-              onClick={closeModal}
-            >
+            <Button colorScheme="linkedin" size="md" onClick={closeModal}>
               <Flex align="center">
                 <BsArrowReturnRight />
               </Flex>
