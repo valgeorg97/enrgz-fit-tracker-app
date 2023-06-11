@@ -50,7 +50,7 @@ const ExpiringGoal = () => {
             </Text>
           )}
           {expiringGoals.map((goal) => (
-            <Box key={goal.id} height="270px" w="240px" >
+            <Box key={goal.id} height="270px" w="236px" >
               <ChakraCard
                 background="linear-gradient(15deg, #13547a, #80d0c7)"
                 boxShadow="dark-lg"

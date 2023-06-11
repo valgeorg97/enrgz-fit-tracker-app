@@ -33,7 +33,7 @@ const CurrentWorkout = ({ activeWorkout }) => {
         rounded="md"
         borderColor="gray.50"
         height="85%"
-        p={4}
+        p={1}
         _hover={{ background: "#5f1854" , cursor: "pointer" }}
         onClick={()=>navigate('/workouts')}
         
@@ -50,8 +50,8 @@ const CurrentWorkout = ({ activeWorkout }) => {
               </Text>
             )}
             {activeWorkout && (
-              <Box mt={2}>
-                <Heading textAlign="center" fontSize="xl" mb={6} color="white">Today's workout</Heading>
+              <Box mt={3}>
+                <Heading textAlign="center" fontSize="xl" mb={2} color="white">Today's workout</Heading>
                 <CardHeader ml="60px" color="white" height="160px">
                   <Heading as="h2" color="white" size="md" mb={3}>
                     {activeWorkout.name}
@@ -80,7 +80,7 @@ const CurrentWorkout = ({ activeWorkout }) => {
                   </Text>
                 </CardHeader>
                 <CardFooter justifyContent="right">
-                  <Button mt={6} float="right" size="md">
+                  <Button float="right" size="md">
                     <Flex align="center">
                       <FaStopwatch />
                     </Flex>
