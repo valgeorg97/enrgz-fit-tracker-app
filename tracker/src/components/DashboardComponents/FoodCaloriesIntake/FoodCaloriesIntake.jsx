@@ -65,7 +65,7 @@ const FoodCaloriesIntake = () => {
             lastUpdate.getMonth() !== today.getMonth() ||
             lastUpdate.getFullYear() !== today.getFullYear()) {
             setConsumedCalories(0);
-            setFoodItems(docSnap.data().foodItems || {
+            setFoodItems({
               Breakfast: [],
               Lunch: [],
               Dinner: [],
@@ -74,7 +74,17 @@ const FoodCaloriesIntake = () => {
             setIsPointsAwarded(false);
             await setDoc(
               docRef,
-              { consumedCalories: 0, isPointsAwarded: false, lastUpdate: today },
+              { 
+                consumedCalories: 0, 
+                foodItems: {
+                  Breakfast: [],
+                  Lunch: [],
+                  Dinner: [],
+                  Snack: [],
+                }, 
+                isPointsAwarded: false, 
+                lastUpdate: today 
+              },
               { merge: true }
             );
           } else {
