@@ -1,6 +1,6 @@
 import { Box, Text, Button, ButtonGroup, Flex, Heading, } from "@chakra-ui/react";
 import { useContext } from "react";
-import { Popover, Tooltip, Avatar, Td, Th, Tbody, Thead, Table, Tr, Grid, PopoverTrigger, PopoverContent, GridItem, PopoverHeader, PopoverArrow, PopoverCloseButton, PopoverBody, PopoverFooter } from "@chakra-ui/react";
+import { Popover, Tooltip, Avatar, Td, Th, Tbody, Thead,Center, Table,Divider, Tr, Grid, PopoverTrigger, PopoverContent, GridItem, PopoverHeader, PopoverArrow, PopoverCloseButton, PopoverBody, PopoverFooter } from "@chakra-ui/react";
 import goalheader from "../../assets/goal.png"
 import { BsFillPersonXFill, } from "react-icons/bs";
 import { FriendsContext } from "../../context/FriendsContext";
@@ -27,7 +27,7 @@ const Friends = () => {
 
         <GridItem colSpan={4}>
           <Text ml={2} mb={4} fontSize="2xl" fontWeight="bold">Friends</Text>
-          <Table key={friends.userDocID} variant="simple">
+          <Table key={friends.userDocID} variant="unstyled">
             <Thead>
               <Tr>
                 <Th>Name</Th>
@@ -76,52 +76,57 @@ const Friends = () => {
               </Tbody>
             ) : (
               <Tbody>
-                <Tr>
                   <Td colSpan={5}>
                     <Heading as="div" mt={10}>
                       Your friend list is empty.
                     </Heading>
                   </Td>
-                </Tr>
               </Tbody>
             )}
           </Table>
         </GridItem>
 
         <GridItem colSpan={1}>
-          <Text ml={2} mb={4} fontSize="2xl" fontWeight="bold">Friend requests</Text>
-          {requests.map((request) => (
-            <Popover
-              key={request.userDocID}
-              initialFocusRef={initialFocusRef}
-              placement="bottom"
-              closeOnBlur={false}
-            >
-              <PopoverTrigger>
-                <Button bgColor="blue.500" mt={3} className="reqbutton">{request.name} wants to be friends.</Button>
-              </PopoverTrigger>
-              <PopoverContent color="white" bg="blue.800" borderColor="blue.800">
-                <PopoverHeader pt={4} fontWeight="bold" border="0">
-                  {request.name} {request.family}
-                </PopoverHeader>
-                <PopoverArrow />
-                <PopoverCloseButton />
-                <PopoverBody>Hello, can we be friends ?</PopoverBody>
-                <PopoverFooter border="0" display="flex" alignItems="center" justifyContent="space-between" pb={4}>
-                  <ButtonGroup size="sm">
-                    <Button onClick={() => handleAccept(request)} ref={initialFocusRef} colorScheme="whatsapp">
-                      Accept
-                    </Button>
-                    <Button onClick={() => handleDecline(request)} colorScheme="red">
-                      Decline
-                    </Button>
-                  </ButtonGroup>
-                </PopoverFooter>
-              </PopoverContent>
-            </Popover>
-          ))}
-        </GridItem>
+          <Divider orientation='vertical' float="left" />
 
+          <Box ml="60px">
+          <Text ml={2} mb={4} fontSize="2xl" fontWeight="bold">Friend requests</Text>
+          {requests.length < 1  ? (
+            <Text ml={6}>No friend requests.</Text>
+          ) : (
+            requests.map((request) => (
+              <Popover
+                key={request.userDocID}
+                initialFocusRef={initialFocusRef}
+                placement="bottom"
+                closeOnBlur={false}
+              >
+                <PopoverTrigger>
+                  <Button bgColor="blue.500" mt={3} className="reqbutton">{request.name} wants to be friends.</Button>
+                </PopoverTrigger>
+                <PopoverContent color="white" bg="blue.800" borderColor="blue.800">
+                  <PopoverHeader pt={4} fontWeight="bold" border="0">
+                    {request.name} {request.family}
+                  </PopoverHeader>
+                  <PopoverArrow />
+                  <PopoverCloseButton />
+                  <PopoverBody>Hello, can we be friends ?</PopoverBody>
+                  <PopoverFooter border="0" display="flex" alignItems="center" justifyContent="space-between" pb={4}>
+                    <ButtonGroup size="sm">
+                      <Button onClick={() => handleAccept(request)} ref={initialFocusRef} colorScheme="whatsapp">
+                        Accept
+                      </Button>
+                      <Button onClick={() => handleDecline(request)} colorScheme="red">
+                        Decline
+                      </Button>
+                    </ButtonGroup>
+                  </PopoverFooter>
+                </PopoverContent>
+              </Popover>
+            ))
+          )}
+          </Box>
+        </GridItem>
       </Grid>
     </Box>
 

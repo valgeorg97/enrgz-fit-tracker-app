@@ -167,7 +167,7 @@ const Community = () => {
                         </Button>
                       </Tooltip>
                     ) : user.docID === userDocID ? (
-                      <Tooltip label="Red Dot Button">
+                      <Tooltip label="You">
                         <Button
                           className="reddotbutton"
                           size="md"
