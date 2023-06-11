@@ -27,7 +27,7 @@ const Friends = () => {
   return (
     <Box
       _hover={{ backgroundColor: "#3a9690", cursor: "pointer" }}
-      onClick={() => navigate("/workouts")}
+      onClick={() => navigate("/friends")}
       background="linear-gradient(to right, rgb(242, 112, 156), rgb(255, 148, 114))"
       boxShadow="lg"
       p="2"

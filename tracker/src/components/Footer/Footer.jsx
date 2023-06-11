@@ -13,15 +13,8 @@ export default function SmallWithLogoLeft() {
 return (
   <Box>
     <Container
-      maxW={'6xl'}
-      py={4}
-      direction={{ base: 'column', md: 'row' }}
-      spacing={8}
-      justify={{ base: 'center', md: 'space-between' }}
-      align={{ base: 'center', md: 'center' }}
       mt={300}
       mb={-80}
-      zIndex={"hide"}
       >
       <Flex align="center" justify="center">
         <Logo boxSize="100px" mt={10}/>
