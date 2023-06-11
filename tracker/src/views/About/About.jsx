@@ -8,11 +8,11 @@ const About = () => (
   <Box maxWidth="960px" mx="auto" p={6} bg="white" >
     <Box textAlign="center" mb={"32"}>
       <Image src={logo} alt="Team Image" maxW="230px" mx="auto" my={4} borderRadius="md" />
-      <Text fontSize="sm" textAlign="center" maxW="600px" mx="auto">
-        <Text fontSize="md" textAlign="center" maxW="600px" mx="auto">
+      <Box fontSize="sm" textAlign="center" maxW="600px" mx="auto">
+        <Text fontSize="md">
           Meet us, two Junior JavaScript developers with a shared passion for fitness. Energize isn't just a fitness tracker; it's a platform that helps you manage workouts, track your goals, and even rewards your progress. Our vision? To make Energize your reliable fitness buddy, inspiring and supporting you through every step of your wellness journey. Don't just dream it, achieve it. Unleash your potential. Get Energized!
         </Text>
-      </Text>
+      </Box>
       <Heading as="h2" fontSize="2xl" my={4}>
         Creators of ENERGIZE App
       </Heading>

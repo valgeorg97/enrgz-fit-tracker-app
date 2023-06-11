@@ -1,4 +1,4 @@
-import { Flex, FormControl, FormLabel, Input, Checkbox, Stack, Link, Button, Heading, Text, useColorModeValue, Box, Image, Center } from '@chakra-ui/react';
+import { Flex, FormControl, FormLabel, Input, Checkbox, Stack, Link, Button, Heading, Text, useColorModeValue, Box, Image, Center, Tooltip } from '@chakra-ui/react';
 import { Link as RouterLink, Link as ChakraLink, useNavigate } from "react-router-dom";
 import { auth } from "../../../config/firebase";
 import { AuthContext } from "../../../context/AuthContext";
@@ -37,16 +37,18 @@ const Login = () => {
   };
 
   return (
-    
+
     <Flex
       minH={'100vh'}
       align={'center'}
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}>
-        <FactBubble />
+      <FactBubble />
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Center>
-          <Image src={Logo} alt="Energize Logo" w={64} />
+            <ChakraLink as={RouterLink} to="/">
+              <Image src={Logo} alt="Energize Logo" w={64} />
+            </ChakraLink>
         </Center>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'}>Sign in to your account</Heading>
