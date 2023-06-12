@@ -120,6 +120,7 @@ const GoalsLogic = () => {
       closeModal();
       toast.success("Goal deleted successfully!");
       setGoals((prevGoals) => prevGoals.filter((g) => g.id !== goal.id));
+      setFinishedGoals((prevGoals) => prevGoals.filter((g) => g.id !== goal.id));
     } catch (error) {
       toast.error("Error deleting goal:", error);
     }
