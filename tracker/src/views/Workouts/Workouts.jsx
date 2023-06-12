@@ -1,6 +1,7 @@
-import { Box, Divider, Grid, GridItem, Text } from "@chakra-ui/react";
+import { Box, Divider, Grid, GridItem, Text,Spinner } from "@chakra-ui/react";
 import { DIFFICULTY_COLORS } from "../../common/constants";
 import { ToastContainer } from "react-toastify";
+import { useState,useEffect } from "react";
 import CreateWorkout from "../../components/WorkoutsComponents/CreateWorkout";
 import WorkoutCards from "../../components/WorkoutsComponents/WorkoutCards";
 import SharedWorkouts from "../../components/WorkoutsComponents/SharedWorkouts";
@@ -9,6 +10,7 @@ import goalheader from "../../assets/goal.png";
 import WorkoutsLogic from "../../logic/WorkoutsLogic/WorkoutsLogic";
 
 const Workouts = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const {
     selectedWorkout,
     selectedSharedWorkout,
@@ -22,6 +24,14 @@ const Workouts = () => {
     setSelectedWorkout,
     setSelectedSharedWorkout
   } = WorkoutsLogic();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <Box w="1560px">
@@ -39,13 +49,20 @@ const Workouts = () => {
               ml="15px"
               mb={2}
             >
-              <WorkoutCards
+              {isLoading ? (
+            <Box ml="700px" mt="280px" display="flex" justifyContent="center" alignItems="center" height="70%">
+            <Spinner size="xl" />
+          </Box>
+          ) : (
+            <WorkoutCards
                 difficultyColors={DIFFICULTY_COLORS}
                 handleDeleteWorkout={handleDeleteWorkout}
                 handleShareWorkout={handleShareWorkout}
                 handleViewMoreClick={handleViewMoreClick}
                 handleSetActive={handleSetActive}
               />
+          )}
+              
             </Box>
           </Box>
         </GridItem>

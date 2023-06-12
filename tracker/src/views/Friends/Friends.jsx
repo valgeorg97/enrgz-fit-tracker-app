@@ -1,6 +1,6 @@
-import { Box, Text, Button, ButtonGroup, Flex, Heading, } from "@chakra-ui/react";
-import { useContext } from "react";
-import { Popover, Tooltip, Avatar, Td, Th, Tbody, Thead,Center, Table,Divider, Tr, Grid, PopoverTrigger, PopoverContent, GridItem, PopoverHeader, PopoverArrow, PopoverCloseButton, PopoverBody, PopoverFooter } from "@chakra-ui/react";
+import { Box, Text, Button, ButtonGroup, Flex, Heading,Spinner } from "@chakra-ui/react";
+import { useContext,useState,useEffect } from "react";
+import { Popover, Tooltip, Avatar, Td, Th, Tbody, Thead, Table,Divider, Tr, Grid, PopoverTrigger, PopoverContent, GridItem, PopoverHeader, PopoverArrow, PopoverCloseButton, PopoverBody, PopoverFooter } from "@chakra-ui/react";
 import goalheader from "../../assets/goal.png"
 import { BsFillPersonXFill, } from "react-icons/bs";
 import { FriendsContext } from "../../context/FriendsContext";
@@ -8,8 +8,11 @@ import "./Friends.css"
 import user2 from "../../assets/user2.png"
 import FriendsLogic from "../../logic/FriendsLogic/FriendsLogic";
 
+
 const Friends = () => {
   const { requests, friends } = useContext(FriendsContext)
+  const [isLoading, setIsLoading] = useState(true);
+
   const {
     handleAccept,
     handleRemoveFriend,
@@ -17,7 +20,13 @@ const Friends = () => {
     handleDecline
   } = FriendsLogic();
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 900);
 
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <Box w="1560px">
@@ -36,7 +45,13 @@ const Friends = () => {
                 <Th>Phone</Th>
               </Tr>
             </Thead>
-            {friends.length > 0 ? (
+            {isLoading ? (
+            <Box ml="700px" mt="100px" display="flex" justifyContent="center" alignItems="center" height="70%">
+            <Spinner size="xl" />
+          </Box>
+          ) : (
+            <>
+                {friends.length > 0 ? (
               <Tbody>
                 {friends.map((user) => (
                   <Tr key={user.docID}>
@@ -83,6 +98,8 @@ const Friends = () => {
                   </Td>
               </Tbody>
             )}
+            </>
+          )}
           </Table>
         </GridItem>
 

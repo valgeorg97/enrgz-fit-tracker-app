@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { Box, Button, Text, Tooltip, Avatar, FormControl, FormLabel, Input, Select, Flex, Td, Th, Tbody, Thead, Table, Tr, Grid, GridItem } from "@chakra-ui/react";
+import { useContext,useState,useEffect } from "react";
+import { Box, Button, Text, Tooltip,Spinner, Avatar, FormControl, FormLabel, Input, Select, Flex, Td, Th, Tbody, Thead, Table, Tr, Grid, GridItem } from "@chakra-ui/react";
 import { AiFillLock, AiFillUnlock } from "react-icons/ai";
 import { AuthContext } from "../../context/AuthContext";
 import { MdDeleteForever } from "react-icons/md";
@@ -13,6 +13,7 @@ import CommunityLogic from "../../logic/CommunityLogic/CommunityLogic";
 const Community = () => {
   const { userDocID, isAdmin } = useContext(AuthContext);
   const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(true);
   const {
     userList,
     searchTerm,
@@ -28,6 +29,14 @@ const Community = () => {
     handleCancelFriendRequest,
     onSort
   } = CommunityLogic()
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 600);
+
+    return () => clearTimeout(timer);
+  }, []);
   
 
   return (
@@ -84,16 +93,21 @@ const Community = () => {
         <GridItem colSpan={1}>
           <Table variant="simple">
           <Thead>
-  <Tr>
-    <Th onClick={() => onSort('name')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'name' ? 'blue.500' : 'black'}>{'Name '}{sortConfig?.field === 'name' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
-    <Th onClick={() => onSort('energizePoints')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'energizePoints' ? 'blue.500' : 'black'}>{'Energize Points '}{sortConfig?.field === 'energizePoints' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
-    <Th onClick={() => onSort('username')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'username' ? 'blue.500' : 'black'}>{'Username '}{sortConfig?.field === 'username' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
-    <Th onClick={() => onSort('email')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'email' ? 'blue.500' : 'black'}>{'Email '}{sortConfig?.field === 'email' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
-    <Th onClick={() => onSort('role')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'role' ? 'blue.500' : 'black'}>{'Role '}{sortConfig?.field === 'role' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
-    <Th onClick={() => onSort('phoneNumber')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'phoneNumber' ? 'blue.500' : 'black'}>{'Phone '}{sortConfig?.field === 'phoneNumber' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
-    <Th onClick={() => onSort('isBlocked')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'isBlocked' ? 'blue.500' : 'black'}>{'Status '}{sortConfig?.field === 'isBlocked' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
-  </Tr>
-</Thead>
+            <Tr>
+              <Th onClick={() => onSort('name')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'name' ? 'blue.500' : 'black'}>{'Name '}{sortConfig?.field === 'name' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
+              <Th onClick={() => onSort('energizePoints')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'energizePoints' ? 'blue.500' : 'black'}>{'Energize Points '}{sortConfig?.field === 'energizePoints' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
+              <Th onClick={() => onSort('username')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'username' ? 'blue.500' : 'black'}>{'Username '}{sortConfig?.field === 'username' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
+              <Th onClick={() => onSort('email')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'email' ? 'blue.500' : 'black'}>{'Email '}{sortConfig?.field === 'email' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
+              <Th onClick={() => onSort('role')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'role' ? 'blue.500' : 'black'}>{'Role '}{sortConfig?.field === 'role' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
+              <Th onClick={() => onSort('phoneNumber')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'phoneNumber' ? 'blue.500' : 'black'}>{'Phone '}{sortConfig?.field === 'phoneNumber' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
+              <Th onClick={() => onSort('isBlocked')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'isBlocked' ? 'blue.500' : 'black'}>{'Status '}{sortConfig?.field === 'isBlocked' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>
+            </Tr>
+          </Thead>
+          {isLoading ? (
+            <Box ml="700px" mt="200px" display="flex" justifyContent="center" alignItems="center" height="70%">
+            <Spinner size="xl" />
+          </Box>
+          ) : (
             <Tbody>
               {userList.map((user) => (
                 <Tr key={user.id}>
@@ -249,6 +263,8 @@ const Community = () => {
                 </Tr>
               ))}
             </Tbody>
+)}
+            
           </Table>
         </GridItem>
       </Grid>

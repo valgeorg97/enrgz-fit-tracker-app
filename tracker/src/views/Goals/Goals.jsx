@@ -1,4 +1,4 @@
-import { Box, Text, Grid, GridItem } from "@chakra-ui/react";
+import { Box, Text, Grid, GridItem,Spinner } from "@chakra-ui/react";
 import { ToastContainer } from "react-toastify";
 import GoalForm from "../../components/GoalsComponents/GoalForm";
 import SingleGoal from "../../components/GoalsComponents/SingleGoal";
@@ -6,8 +6,10 @@ import GoalMenu from "../../components/GoalsComponents/GoalMenu";
 import GoalCard from "../../components/GoalsComponents/GoalCard";
 import goalheader from "../../assets/goal.png";
 import GoalsLogic from "../../logic/GoalsLogic/GoalsLogic";
+import { useEffect,useState } from "react";
 
 const Goals = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const {
     goalName,
     setGoalName,
@@ -36,6 +38,14 @@ const Goals = () => {
     difficultyColors,
   } = GoalsLogic();
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 600);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <Box w="1560px">
       <Grid
@@ -53,7 +63,12 @@ const Goals = () => {
         </GridItem>
 
         <GridItem colSpan={4}>
-          <Box display="flex" flexDirection="column" mt={30}>
+        {isLoading ? (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+              <Spinner size="xl" />
+            </Box>
+          ) : (
+            <Box display="flex" flexDirection="column" mt={30}>
             <Text mb={4} fontSize="2xl" fontWeight="bold">
               Personal Goals
             </Text>
@@ -68,6 +83,9 @@ const Goals = () => {
               ))}
             </Box>
           </Box>
+          )}
+
+          
 
           {finishedGoals.length > 0 && (
             <Box display="flex" flexDirection="column" mt={30}>
