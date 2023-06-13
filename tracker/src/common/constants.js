@@ -82,10 +82,10 @@ export const TESTIMONIALS = [
       'https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80',
   },
   {
-    name: 'Krysta B.',
+    name: 'Kristina P',
     role: 'User',
     content:
-      "Never have I come across a more efficient fitness tracker. It’s streamlined, user-friendly, and offers a wealth of information about my workouts and calorie burn. A real game-changer in personal fitness technology!",
+    'Energize turned my workout and diet into a game. Now, instead of hunting monsters in video games, I hunt for calories and fitness goals. My muscles get a workout, and the only thing getting slayed are my bad eating habits. Watch out, double cheeseburger, you\'re next!',
     avatar:
       'https://images.unsplash.com/photo-1598550874175-4d0ef436c909?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80',
   },
@@ -101,7 +101,7 @@ export const TESTIMONIALS = [
     name: 'Daniel T.',
     role: 'User',
     content:
-      "The goal tracking feature on this fitness tracker has been a major asset. I've seen significant progress in my fitness level, and the precise calorie count has helped keep my diet in check.",
+      "Before Energize, I used to debate with my conscience over every extra slice of pizza. But now, Energize and my conscience are in cahoots! Each 'Extra Cheese' comes with 'Extra Goals and Workouts' the next morning. I still have the pizza, but now, I earn it!",
     avatar:
       'https://images.unsplash.com/photo-1606513542745-97629752a13b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80',
   },
