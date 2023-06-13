@@ -34,9 +34,9 @@ const EnergizeGame = () => {
             <Text mb="4">
                 Each activity you complete gets you closer to the top.
                 - Meet your daily water intake goal: Earn 3 points
-                - Reach your daily calorie intake goal: Earn 5 points
-                - Finish a workout: Earn points based on difficulty (Easy - 3, Medium - 4, Hard - 5)
-                - Achieve a fitness goal: Again, earn points based on difficulty (Easy - 3, Medium - 4, Hard - 5)
+                - Reach your calorie intake goal: Earn 5 points! Note, these points are awarded when you reach your calorie goal and continue up to 200 calories above it. Beyond that, well, it's time to hit the treadmill!
+                - Finish a workout: Earn 5 points
+                - Achieve a fitness goal: Earn 5 points
             </Text>
             <Text fontWeight={"bold"}>
                 Energize Conquest is more than a game - it's a lifestyle, an exciting journey towards a fitter, healthier you. Are you ready to conquer your goals and lead the conquest?
