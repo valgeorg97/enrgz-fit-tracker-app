@@ -45,9 +45,13 @@ function App() {
   const [weight, setWeight] = useState("")
   const [height, setHeight] = useState("")
   const [friends, setFriends] = useState([]);
+
   const [workouts, setWorkouts] = useState([]);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
   const [sharedWorkouts, setSharedWorkouts] = useState([]);
+  const [finishedWorkouts, setFinishedWorkouts] = useState([]);
+
+
   const [userGoal, setUserGoal] = useState("")
   const [currentGoal, setCurrentGoal] = useState({ calory: 0 });
   const [mainGoals, setMainGoals] = useState([]);
@@ -146,10 +150,18 @@ function App() {
           );
           const querySnapshot = await getDocs(q);
           const workoutData = [];
+          const finishedWorkoutsData = [];
+          
           querySnapshot.forEach((doc) => {
-            workoutData.push({ id: doc.id, ...doc.data() });
+            const workout = { id: doc.id, ...doc.data() };
+            if (workout.status === "finished") {
+              finishedWorkoutsData.push(workout);
+            } else {
+              workoutData.push(workout);
+            }
           });
           setWorkouts(workoutData);
+          setFinishedWorkouts(finishedWorkoutsData);
         } catch (error) {
           console.error("Error fetching workouts:", error);
         }
@@ -186,6 +198,7 @@ function App() {
           const querySnapshot = await getDocs(q);
           const goalsData = [];
           const finishedGoalsData = [];
+
           querySnapshot.forEach((doc) => {
             const goal = { id: doc.id, ...doc.data() };
             if (goal.status === "finished") {
@@ -318,6 +331,8 @@ function App() {
           setSelectedWorkout,
           sharedWorkouts,
           setSharedWorkouts,
+          finishedWorkouts,
+          setFinishedWorkouts
         }}
       >
         <GoalContext.Provider

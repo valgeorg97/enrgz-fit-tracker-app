@@ -1,15 +1,19 @@
 import { useState, useContext, useEffect } from "react";
-import { collection, getDocs, deleteDoc, doc, addDoc, getDoc, updateDoc, writeBatch } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc, addDoc, getDoc, updateDoc, writeBatch,setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { db } from "../../config/firebase";
 import { AuthContext } from "../../context/AuthContext";
 import { WorkoutContext } from "../../context/WorkoutContext";
+import { EnergizeGameContext } from "../../context/EnergizeGameContext";
+
 
 const WorkoutsLogic = () => {
   const { userID, userDocID } = useContext(AuthContext);
-  const { workouts, setWorkouts, selectedWorkout, setSelectedWorkout, setSharedWorkouts, sharedWorkouts } = useContext(WorkoutContext);
+  const { workouts, setWorkouts, selectedWorkout, setSelectedWorkout, setSharedWorkouts, sharedWorkouts,finishedWorkouts,setFinishedWorkouts } = useContext(WorkoutContext);
   const [selectedSharedWorkout, setSelectedSharedWorkout] = useState(null);
   const [activeWorkoutId, setActiveWorkoutId] = useState(null);
+  const { energizePoints, setEnergizePoints } = useContext(EnergizeGameContext);
+
 
   useEffect(() => {
     const activeWorkout = workouts.find((workout) => workout.isActive) || sharedWorkouts.find((workout) => workout.isActive);
@@ -136,6 +140,46 @@ const WorkoutsLogic = () => {
     }
   };
 
+  const handleFinishWorkout = async (workout) => {
+    console.log(workout);
+    try {
+      const workoutRef = doc(db, `users/${userDocID}/workouts`, workout.id);
+      await updateDoc(workoutRef, { status: "finished" });
+
+      setWorkouts((prevWorkouts) => prevWorkouts.filter((g) => g.id !== workout.id));
+      setFinishedWorkouts((prevFinishedWorkouts) => [
+        ...prevFinishedWorkouts,
+        { ...workout, status: "finished" },
+      ]);
+
+      const newEnergizePoints = energizePoints + 5;
+      setEnergizePoints(newEnergizePoints);
+
+      toast("Congratulations! You've earned 5 Energize Points for completing your workout!", {
+        type: "success",
+        autoClose: 9000,
+        position: toast.POSITION.TOP_CENTER,
+      });
+
+      
+      if (userDocID) {
+        const docRef = doc(db, "users", userDocID);
+        await setDoc(
+          docRef,
+          {
+            energizePoints: newEnergizePoints,
+          },
+          { merge: true }
+        ).catch((error) => {
+          console.error("Error updating document: ", error);
+        });
+      }
+
+    } catch (error) {
+      console.error("Error finishing goal:", error);
+    }
+  };
+
   return {
     selectedWorkout,
     selectedSharedWorkout,
@@ -148,7 +192,10 @@ const WorkoutsLogic = () => {
     handleSetActive,
     userID,
     setSelectedWorkout,
-    setSelectedSharedWorkout
+    setSelectedSharedWorkout,
+    handleFinishWorkout,
+    finishedWorkouts,
+    workouts
   };
 };
 

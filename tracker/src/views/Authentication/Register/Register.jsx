@@ -16,6 +16,8 @@ import Form8 from './Forms/Form8';
 import Loading from '../../../components/Loading/Loading';
 import { FITNESS_CALC_API_KEY } from '../../../common/constants';
 import calculateCalories from '../../../services/fitnessCalculatorService';
+import { toast } from "react-toastify";
+
 
 
 
@@ -160,10 +162,6 @@ const Register = () => {
     setRegGoalWeight(event);
   };
 
-  // const handleCountryCode =(value) => {
-  //   setCountryCode(value)
-  // }
-
   const addUser = async (bmr, goals) => {
     const usersCollection = collection(db, "users")
 
@@ -226,15 +224,15 @@ const Register = () => {
         if (caloriesData && caloriesData.bmr) {
           return addUser(caloriesData.bmr, caloriesData.goals);
         } else {
-          throw new Error('Failed to calculate calories');
+          throw new Error('Failed to calculate calories due to inconsistent choices in the register form');
         }
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error);
       })
       .finally(() => {
         setIsLoading(false);
-        navigate("/profile")
+        navigate("/dashboard")
       });
   };
 

@@ -82,6 +82,7 @@ const SingleGoal = ({isModalOpen,closeModal,selectedGoal,updateGoalTitle,updateG
               </Flex>
             </Button>
           </VStack>
+          
           <EditablePreview w="280px" />
           <EditableTextarea w="250px" />
           <EditableControlsExample />

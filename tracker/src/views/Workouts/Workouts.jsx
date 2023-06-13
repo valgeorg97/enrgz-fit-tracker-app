@@ -22,7 +22,10 @@ const Workouts = () => {
     handleSetActive,
     userID,
     setSelectedWorkout,
-    setSelectedSharedWorkout
+    setSelectedSharedWorkout,
+    handleFinishWorkout,
+    finishedWorkouts,
+    workouts
   } = WorkoutsLogic();
 
   useEffect(() => {
@@ -54,17 +57,45 @@ const Workouts = () => {
             <Spinner size="xl" />
           </Box>
           ) : (
-            <WorkoutCards
-                difficultyColors={DIFFICULTY_COLORS}
-                handleDeleteWorkout={handleDeleteWorkout}
-                handleShareWorkout={handleShareWorkout}
-                handleViewMoreClick={handleViewMoreClick}
-                handleSetActive={handleSetActive}
-              />
+            <Box display="flex" flexWrap="wrap" justifyContent="left" mb={2}>
+                {workouts.map((workout, index) => (
+                  <WorkoutCards
+                    key={index}
+                    workout={workout}
+                    difficultyColors={DIFFICULTY_COLORS}
+                    handleDeleteWorkout={handleDeleteWorkout}
+                    handleShareWorkout={handleShareWorkout}
+                    handleViewMoreClick={handleViewMoreClick}
+                    handleSetActive={handleSetActive}
+                  />
+                ))}
+              </Box>
           )}
               
             </Box>
           </Box>
+
+          {finishedWorkouts.length > 0 && (
+            <Box display="flex" flexDirection="column" mt={30}>
+              <Text mb={4} fontSize="2xl" fontWeight="bold">
+                Finished Workouts
+              </Text>
+              <Box display="flex" flexWrap="wrap" justifyContent="left" mb={2}>
+                {finishedWorkouts.map((workout) => (
+                  <WorkoutCards
+                    key={workout.id}
+                    workout={workout}
+                    difficultyColors={DIFFICULTY_COLORS}
+                    handleDeleteWorkout={handleDeleteWorkout}
+                    handleShareWorkout={handleShareWorkout}
+                    handleViewMoreClick={handleViewMoreClick}
+                    handleSetActive={handleSetActive}
+                  />
+                ))}
+              </Box>
+            </Box>
+          )}
+
         </GridItem>
 
         <GridItem colSpan={1}>
@@ -84,6 +115,7 @@ const Workouts = () => {
             updateWorkoutTitle={updateWorkoutTitle}
             handleDeleteWorkout={handleDeleteWorkout}
             setSelectedWorkout={setSelectedWorkout}
+            handleFinishWorkout={handleFinishWorkout}
           />
         )}
         {selectedSharedWorkout && (

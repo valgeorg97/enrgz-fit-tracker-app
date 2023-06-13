@@ -36,6 +36,7 @@ const Friends = () => {
 
         <GridItem colSpan={4}>
           <Text ml={2} mb={4} fontSize="2xl" fontWeight="bold">Friends</Text>
+
           <Table key={friends.userDocID} variant="unstyled">
             <Thead>
               <Tr>
@@ -46,9 +47,15 @@ const Friends = () => {
               </Tr>
             </Thead>
             {isLoading ? (
-            <Box ml="700px" mt="100px" display="flex" justifyContent="center" alignItems="center" height="70%">
-            <Spinner size="xl" />
-          </Box>
+              <Tbody>
+              <Tr>
+                <Td colSpan={5}>
+                  <Box ml="700px" mt="100px" display="flex" justifyContent="center" alignItems="center" height="70%">
+                    <Spinner size="xl" />
+                  </Box>
+                </Td>
+              </Tr>
+            </Tbody>
           ) : (
             <>
                 {friends.length > 0 ? (

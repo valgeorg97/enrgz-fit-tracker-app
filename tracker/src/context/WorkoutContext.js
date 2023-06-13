@@ -12,4 +12,7 @@ export const WorkoutContext = createContext({
 
     sharedWorkouts: "", 
     setSharedWorkouts: () => {},
+
+    finishedWorkouts: [],
+    setFinishedWorkouts: () => {},
 });

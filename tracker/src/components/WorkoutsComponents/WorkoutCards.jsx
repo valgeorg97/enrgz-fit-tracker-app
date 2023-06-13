@@ -5,7 +5,7 @@ import {FaPlay,FaStopwatch}from "react-icons/fa";
 import { useEffect,useState,useContext } from "react";
 import { WorkoutContext } from "../../context/WorkoutContext";
 
-const WorkoutCards = ({shared,handleViewMoreClick,handleShareWorkout,difficultyColors,handleSetActive}) => {
+const WorkoutCards = ({workout,shared,handleViewMoreClick,handleShareWorkout,difficultyColors,handleSetActive}) => {
 
   const [activeWorkoutId, setActiveWorkoutId] = useState(null);
   const {workouts,setWorkouts} = useContext(WorkoutContext);
@@ -30,12 +30,8 @@ const WorkoutCards = ({shared,handleViewMoreClick,handleShareWorkout,difficultyC
   };
 
   return (
-    <Flex flexWrap="wrap" justifyContent="flex-start" mt={5} ml={-4}>
-      {workouts.map((workout, index) => {
-        if (!workout.name) return null;
-        return (
           <Box
-          key={index}
+          key={workout.id}
           mr={4}
           mb={5}
           width="290px"
@@ -86,9 +82,6 @@ const WorkoutCards = ({shared,handleViewMoreClick,handleShareWorkout,difficultyC
             </CardFooter>
           </ChakraCard>
         </Box>
-      )
-    })}
-    </Flex>
   );
 }
 export default WorkoutCards

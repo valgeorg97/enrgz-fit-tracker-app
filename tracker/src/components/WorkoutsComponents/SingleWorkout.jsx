@@ -1,9 +1,9 @@
-import {Box,Heading,Button,Badge,Text,Flex,Modal,ModalOverlay,ModalContent,ModalHeader,ModalCloseButton,ModalBody,Editable,EditablePreview,EditableInput,ButtonGroup,IconButton,useEditableControls,} from "@chakra-ui/react";
+import {Box,Heading,Button,Badge,Text,VStack,Flex,Modal,ModalOverlay,ModalContent,ModalHeader,ModalCloseButton,ModalBody,Editable,EditablePreview,EditableInput,ButtonGroup,IconButton,useEditableControls,} from "@chakra-ui/react";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt,FaCheck } from "react-icons/fa";
 import { DIFFICULTY_COLORS } from "../../common/constants";
 
-const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDeleteWorkout,setSelectedWorkout,shared}) => {
+const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDeleteWorkout,setSelectedWorkout,shared,handleFinishWorkout}) => {
   const EditableControlsExample = () => {
     const {
       isEditing,
@@ -29,6 +29,11 @@ const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDele
 
   const handleDeleteAndCloseModal = (workoutId) => {
     handleDeleteWorkout(workoutId);
+    handleCloseModal();
+  };
+
+  const handleFinishWorkoutAndCloseModal = (workoutId) => {
+    handleFinishWorkout(workoutId);
     handleCloseModal();
   };
 
@@ -87,19 +92,34 @@ const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDele
                 {selectedWorkout.difficulty}
               </Badge>
             </Text>
-            {selectedWorkout.owner === userID && !shared && (
-              <Button
-                float="right"
-                size="xs"
-                mb="10px"
-                colorScheme="red"
-                onClick={() => handleDeleteAndCloseModal(selectedWorkout.id)}
-              >
-                <Flex align="center">
-                  <FaTrashAlt />
-                </Flex>
-              </Button>
-            )}
+
+            <VStack mt={-9} spacing={1} float="right" alignItems="flex-end">
+              {selectedWorkout.status !== "finished" && (
+                <Button
+                  colorScheme="green"
+                  float="right"
+                  size="md"
+                  onClick={() => handleFinishWorkoutAndCloseModal(selectedWorkout)}
+                >
+                  <Flex align="center">
+                    <FaCheck />
+                  </Flex>
+                </Button>
+              )}
+              {selectedWorkout.owner === userID && !shared && (
+                <Button
+                  float="right"
+                  size="md"
+                  colorScheme="red"
+                  onClick={() => handleDeleteAndCloseModal(selectedWorkout.id)}
+                >
+                  <Flex align="center">
+                    <FaTrashAlt />
+                  </Flex>
+                </Button>
+              )}
+            </VStack>
+
           </Box>
         </ModalBody>
       </ModalContent>
