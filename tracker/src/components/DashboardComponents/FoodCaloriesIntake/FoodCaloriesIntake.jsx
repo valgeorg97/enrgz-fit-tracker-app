@@ -74,16 +74,16 @@ const FoodCaloriesIntake = () => {
             setIsPointsAwarded(false);
             await setDoc(
               docRef,
-              { 
-                consumedCalories: 0, 
+              {
+                consumedCalories: 0,
                 foodItems: {
                   Breakfast: [],
                   Lunch: [],
                   Dinner: [],
                   Snack: [],
-                }, 
-                isPointsAwarded: false, 
-                lastUpdate: today 
+                },
+                isPointsAwarded: false,
+                lastUpdate: today
               },
               { merge: true }
             );
@@ -273,12 +273,23 @@ const FoodCaloriesIntake = () => {
             value={query}
             onChange={handleQueryChange}
             placeholder="Enter food item"
+            sx={{
+              '::placeholder': {
+                color: 'white',
+              },
+            }}
           />
+
           <Input
             mb={1}
             value={grams}
             onChange={handleGramsChange}
             placeholder="Enter grams"
+            sx={{
+              '::placeholder': {
+                color: 'white',
+              },
+            }}
           />
           <Select mb={1} value={mealType} onChange={handleMealTypeChange}>
             <option value="Breakfast">Breakfast</option>
