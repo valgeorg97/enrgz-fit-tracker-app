@@ -1,7 +1,7 @@
-import { Box, Divider, Grid, GridItem, Text,Spinner } from "@chakra-ui/react";
+import { Box, Divider, Grid, GridItem, Text, Spinner } from "@chakra-ui/react";
 import { DIFFICULTY_COLORS } from "../../common/constants";
 import { ToastContainer } from "react-toastify";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import CreateWorkout from "../../components/WorkoutsComponents/CreateWorkout";
 import WorkoutCards from "../../components/WorkoutsComponents/WorkoutCards";
 import SharedWorkouts from "../../components/WorkoutsComponents/SharedWorkouts";
@@ -25,7 +25,7 @@ const Workouts = () => {
     setSelectedSharedWorkout,
     handleFinishWorkout,
     finishedWorkouts,
-    workouts
+    workouts,
   } = WorkoutsLogic();
 
   useEffect(() => {
@@ -38,45 +38,40 @@ const Workouts = () => {
 
   return (
     <Box w="1560px">
-      <Grid gap={4} templateRows="repeat(2, 1fr)" templateColumns="repeat(5, 1fr)" h="600px">
-
-        <GridItem colSpan={5} rounded="md" borderColor="gray.50" h="140px" w="1600px" bgImage={goalheader} p={8} />
+      <Grid
+        gap={4}
+        templateRows="repeat(2, 1fr)"
+        templateColumns="repeat(5, 1fr)"
+        h="600px"
+      >
+        <GridItem colSpan={5} rounded="md" borderColor="gray.50" h="140px" w="1600px" bgImage={goalheader} p={8}/>
 
         <GridItem colSpan={4}>
-          <Box display="flex" flexDirection="column" mt={30}>
-            <Text mb={4} fontSize="2xl" fontWeight="bold">{" "}Workouts{" "}<CreateWorkout/></Text>
-            <Box
-              display="flex"
-              flexWrap="wrap"
-              justifyContent="left"
-              ml="15px"
-              mb={2}
-            >
-              {isLoading ? (
-            <Box ml="700px" mt="280px" display="flex" justifyContent="center" alignItems="center" height="70%">
-            <Spinner size="xl" />
-          </Box>
-          ) : (
-            <Box display="flex" flexWrap="wrap" justifyContent="left" mb={2}>
-                {workouts.map((workout, index) => (
-                  <WorkoutCards
-                    key={index}
-                    workout={workout}
-                    difficultyColors={DIFFICULTY_COLORS}
-                    handleDeleteWorkout={handleDeleteWorkout}
-                    handleShareWorkout={handleShareWorkout}
-                    handleViewMoreClick={handleViewMoreClick}
-                    handleSetActive={handleSetActive}
-                  />
-                ))}
-              </Box>
-          )}
-              
+        {isLoading ? (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+              <Spinner size="xl" />
             </Box>
-          </Box>
+          ) : (
+            <Box display="flex" flexDirection="column" mt={10}>
+                  <Text mb={4} fontSize="2xl" fontWeight="bold">{" "}Workouts <CreateWorkout /></Text>
+                  <Box display="flex" flexWrap="wrap" justifyContent="left" mb={2}>
+                    {workouts.map((workout, index) => (
+                      <WorkoutCards
+                        key={index}
+                        workout={workout}
+                        difficultyColors={DIFFICULTY_COLORS}
+                        handleDeleteWorkout={handleDeleteWorkout}
+                        handleShareWorkout={handleShareWorkout}
+                        handleViewMoreClick={handleViewMoreClick}
+                        handleSetActive={handleSetActive}
+                      />
+                    ))}
+                  </Box>
+                </Box>
+              )}
 
           {finishedWorkouts.length > 0 && (
-            <Box display="flex" flexDirection="column" mt={30}>
+            <Box display="flex" flexDirection="column" mt="20px">
               <Text mb={4} fontSize="2xl" fontWeight="bold">
                 Finished Workouts
               </Text>
@@ -95,11 +90,10 @@ const Workouts = () => {
               </Box>
             </Box>
           )}
-
         </GridItem>
 
         <GridItem colSpan={1}>
-        <Text ml={6} mt={8} mb={4} fontSize="2xl" fontWeight="bold">{" "}Shared workouts{" "}</Text>
+          <Text ml={6} mt={8} mb={4} fontSize="2xl" fontWeight="bold">{" "}Shared workouts{" "}</Text>
           <Divider w="290px" ml={-4} mb={1} />
           <SharedWorkouts
             handleSetActive={handleSetActive}

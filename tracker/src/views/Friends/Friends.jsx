@@ -1,12 +1,12 @@
 import { Box, Text, Button, ButtonGroup, Flex, Heading,Spinner } from "@chakra-ui/react";
 import { useContext,useState,useEffect } from "react";
 import { Popover, Tooltip, Avatar, Td, Th, Tbody, Thead, Table,Divider, Tr, Grid, PopoverTrigger, PopoverContent, GridItem, PopoverHeader, PopoverArrow, PopoverCloseButton, PopoverBody, PopoverFooter } from "@chakra-ui/react";
-import goalheader from "../../assets/goal.png"
 import { BsFillPersonXFill, } from "react-icons/bs";
 import { FriendsContext } from "../../context/FriendsContext";
-import "./Friends.css"
-import user2 from "../../assets/user2.png"
 import FriendsLogic from "../../logic/FriendsLogic/FriendsLogic";
+import user2 from "../../assets/user2.png"
+import goalheader from "../../assets/goal.png"
+import "./Friends.css"
 
 
 const Friends = () => {
@@ -50,7 +50,7 @@ const Friends = () => {
               <Tbody>
               <Tr>
                 <Td colSpan={5}>
-                  <Box ml="700px" mt="100px" display="flex" justifyContent="center" alignItems="center" height="70%">
+                  <Box mt="100px" display="flex" justifyContent="center" alignItems="center" height="70%">
                     <Spinner size="xl" />
                   </Box>
                 </Td>

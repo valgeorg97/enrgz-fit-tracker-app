@@ -73,10 +73,23 @@ const WorkoutCards = ({workout,shared,handleViewMoreClick,handleShareWorkout,dif
                 <Flex align="center"><RxEyeOpen /></Flex>
               </Button>
 
+              {workout.status !== "finished" && (
+  activeWorkoutId === workout.id ? (
+    <Button variant="ghost" float="right" size="md">
+      <Flex align="center">
+        <FaStopwatch />
+      </Flex>
+    </Button>
+  ) : (
+    <Button variant="ghost" float="right" size="md" onClick={() => {handleSetActiveAndUpdate(workout.id)}}>
+      <Flex align="center">
+        <FaPlay />
+      </Flex>
+    </Button>
+  )
+)}
 
-              {activeWorkoutId === workout.id ? (
-                <Button variant="ghost" float="right" size="md"  ><Flex align="center"><FaStopwatch /></Flex></Button>
-              ) : (<Button variant="ghost" float="right" size="md" onClick={() => {handleSetActiveAndUpdate(workout.id)}}><Flex align="center"><FaPlay /></Flex></Button>)}
+              
 
               
             </CardFooter>

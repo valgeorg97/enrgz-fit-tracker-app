@@ -69,20 +69,20 @@ const Goals = () => {
             </Box>
           ) : (
             <Box display="flex" flexDirection="column" mt={30}>
-            <Text mb={4} fontSize="2xl" fontWeight="bold">
-              Personal Goals
-            </Text>
-            <Box display="flex" flexWrap="wrap" justifyContent="left" mb={2}>
-              {goals.map((goal, index) => (
-                <GoalCard
-                  key={index}
-                  goal={goal}
-                  openModal={openModal}
-                  difficultyColors={difficultyColors}
-                />
-              ))}
+              <Text mb={4} fontSize="2xl" fontWeight="bold">
+                Personal Goals
+              </Text>
+              <Box display="flex" flexWrap="wrap" justifyContent="left" mb={2}>
+                {goals.map((goal, index) => (
+                  <GoalCard
+                    key={index}
+                    goal={goal}
+                    openModal={openModal}
+                    difficultyColors={difficultyColors}
+                  />
+                ))}
+              </Box>
             </Box>
-          </Box>
           )}
 
           
