@@ -94,7 +94,7 @@ const Community = () => {
         </GridItem>
 
         <GridItem colSpan={1}>
-          <Table variant="simple">
+          <Table variant="simple" mb={"56"}>
           <Thead>
             <Tr>
               <Th onClick={() => onSort('name')} _hover={{ cursor: "pointer" }} color={sortConfig?.field === 'name' ? 'blue.500' : 'black'}>{'Name '}{sortConfig?.field === 'name' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}</Th>

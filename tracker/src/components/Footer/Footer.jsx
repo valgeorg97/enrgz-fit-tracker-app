@@ -38,7 +38,7 @@ export default function SmallWithLogoLeft() {
 return (
   <Box>
     <Container
-      mt={300}
+      mt={"300px"}
       mb={-80}
       >
       <Flex align="center" justify="center">

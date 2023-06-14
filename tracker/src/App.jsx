@@ -390,7 +390,7 @@ function App() {
                       <Route path="energizeConquest" element={<EnergizeGame/>}/>
                       <Route path="*" element={<NotFound />} />
                     </Routes>
-                    {location.pathname !== "/" ? <Footer /> : null}
+                    {location.pathname !== "/" && location.pathname !== "/community" ? <Footer /> : null}
                   </Flex>
                 </Flex>
                 <ThemeButton />
