@@ -1,9 +1,12 @@
-import { Box, Heading, Image, Text, Button, Flex, Icon, Link } from '@chakra-ui/react';
+import { Box, Heading, Image, Text, Flex, Icon, Link } from '@chakra-ui/react';
 import { FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import valentinImage from "../../assets/pic.png";
-import samiImage from "../../assets/sami.jpg";
+import samiImage from "../../assets/sami.jpeg";
 import logo from "../../assets/logo.png";
 
+/**
+ * Renders the About component.
+ */
 const About = () => (
   <Box maxWidth="960px" mx="auto" p={6} bg="white" >
     <Box textAlign="center" mb={"32"}>
@@ -25,11 +28,11 @@ const About = () => (
           </Text>
           <Heading as="h4" fontSize="md" my={2}>Contacts:</Heading>
           <Flex alignItems="center" ml={"24"} mt={5}>
-            <Link href="mailto:example.com" isExternal>
+            <Link href="mailto:samuilmnt@gmail.com" isExternal>
               <Icon as={FaEnvelope} boxSize={6} mr={2} />
 
             </Link>
-            <Link href="memberLinkedIn" isExternal ml={4}>
+            <Link href="https://www.linkedin.com/in/samuil-yoshkov-35a269278" isExternal ml={4}>
               <Icon as={FaLinkedin} boxSize={6} mr={2} />
 
             </Link>

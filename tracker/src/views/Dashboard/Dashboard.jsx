@@ -20,6 +20,9 @@ import img5 from "../../assets/img5.png";
 
 const images = [img1, img2, img3, img4, img5];
 
+/**
+ * Renders the Dashboard component.
+ */
 const Dashboard = () => {
   const { workouts } = useContext(WorkoutContext);
   const [activeWorkout, setActiveWorkout] = useState(null);

@@ -7,6 +7,9 @@ import HowItWorks from '../../components/LandingPageComponents/HowItWorks';
 import LandingPageFooter from '../../components/LandingPageComponents/LandingPageFooter'
 import About from "../About/About"
 
+/**
+ * Renders the LandingPage component.
+ */
 const LandingPage = () => {
     const navigate = useNavigate();
 

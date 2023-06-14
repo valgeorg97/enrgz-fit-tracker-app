@@ -10,6 +10,9 @@ import { useNavigate } from "react-router-dom";
 import CommunityLogic from "../../logic/CommunityLogic/CommunityLogic";
 import goalheader from "../../assets/goal.png";
 
+/**
+ * Renders the Community component.
+ */
 const Community = () => {
   const { userDocID, isAdmin } = useContext(AuthContext);
   const navigate = useNavigate()

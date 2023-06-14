@@ -66,7 +66,10 @@ export default function ProfileLogic() {
     const handleConfirmPassword = (event) => {
       setConfirmPassword(event.target.value);
     };
-  
+
+  /**
+ * Handles the deletion of a user.
+ */
     const handleDeleteUser = () => {
       deleteUser(auth.currentUser)
       .then(() => {
@@ -80,6 +83,9 @@ export default function ProfileLogic() {
       });
     }
   
+    /**
+ * Resets the input fields for avatar, name, username, family, email, password, phone, weight, and height.
+ */
     const handleCancel = () => {
       avatarInputRef.current.value = null;
       nameInputRef.current.value = null;
@@ -92,6 +98,10 @@ export default function ProfileLogic() {
       heightInputRef.current.value = null;
     };
   
+    /**
+ * Updates the user's information.
+ * @param {Event} event - The event object.
+ */
     const updateInfo = (event) => {
       event.preventDefault();
       const userRef = doc(db, "users", userDocID);
@@ -108,7 +118,13 @@ export default function ProfileLogic() {
         toast.error("No information to update");
         return;
       }
-  
+      
+      /**
+ * Uploads the user's photo to the storage.
+ * @param {File} file - The file object representing the photo.
+ * @param {string} currentUser - The ID of the current user.
+ * @returns {Promise<string>} - A promise that resolves to the photo URL.
+ */
       async function uploadPhoto(file, currentUser) {
         const fileRef = ref(storage, `${currentUser}.png`);
         const snapshot = await uploadBytes(fileRef, file);

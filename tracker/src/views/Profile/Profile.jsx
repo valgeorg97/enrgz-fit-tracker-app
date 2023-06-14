@@ -10,6 +10,9 @@ import PageContainer from "../../components/ProfileComponents/PageContainer";
 import PageContent from "../../components/ProfileComponents/PageContent";
 import ProfileLogic from "../../logic/ProfileLogic/ProfileLogic";
 
+/**
+ * Renders the Profile component.
+ */
 export default function Profile() {
   const {name,email,photoURL,family,username,weight,height,phoneNumber} = useContext(AuthContext);
   const {

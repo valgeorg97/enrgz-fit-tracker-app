@@ -48,6 +48,11 @@ const Register = () => {
   const usersCollectionRef = collection(db, 'users');
   const usersQuery = query(usersCollectionRef);
 
+  /**
+ * Validates the username.
+ * @param {string} username - The username to be validated.
+ * @returns {Promise<void>}
+ */
   const validateUsername = async (username) => {
     if (username.length < 2 || username.length > 20) {
       setUsernameError("Username must be between 2 and 20 characters");
@@ -65,6 +70,11 @@ const Register = () => {
     }
   };
 
+  /**
+ * Validates the email address.
+ * @param {string} email - The email address to be validated.
+ * @returns {Promise<void>}
+ */
   const validateEmail = async (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -82,6 +92,11 @@ const Register = () => {
     }
   };
 
+  /**
+ * Validates the password.
+ * @param {string} password - The password to be validated.
+ * @returns {Promise<void>}
+ */
   const validatePassword = async (password) => {
     if (password.length < 6) {
       setPasswordError('Password must be at least 6 characters');
@@ -91,6 +106,11 @@ const Register = () => {
     }
   }
 
+  /**
+ * Validates the phone number.
+ * @param {string} phone - The phone number to be validated.
+ * @returns {Promise<void>}
+ */
   const validatePhone = async (phone) => {
     if (phone.length !== 10) {
       setPhoneError('Phone number must be 10 characters');
@@ -105,6 +125,11 @@ const Register = () => {
     }
   };
 
+  /**
+ * Validates the name.
+ * @param {string} name - The name to be validated.
+ * @returns {Promise<void>}
+ */
   const validateName = async (name) => {
     if (name.length < 3) {
       setNameError('Name must be at least 3 characters');
@@ -114,6 +139,11 @@ const Register = () => {
     }
   }
 
+  /**
+ * Validates the family.
+ * @param {string} family - The family name to be validated.
+ * @returns {Promise<void>}
+ */
   const validateFamily = async (family) => {
     if (family.length < 3) {
       setFamilyError('Family must be at least 3 characters');
@@ -123,6 +153,11 @@ const Register = () => {
     }
   }
 
+  /**
+ * Calculates the age based on the birthdate.
+ * @param {Date} birthdate - The birthdate to calculate the age from.
+ * @returns {number} - The calculated age.
+ */
   const calculateAge = (birthdate) => {
     const diffMs = Date.now() - birthdate.getTime();
     const ageDt = new Date(diffMs);
@@ -157,6 +192,12 @@ const Register = () => {
     setRegGoalWeight(event);
   };
 
+  /**
+ * Adds a user to the database.
+ * @param {number} bmr - The Basal Metabolic Rate (BMR) of the user.
+ * @param {object} goals - The user's goals object.
+ * @returns {Promise<void>}
+ */
   const addUser = async (bmr, goals) => {
     const usersCollection = collection(db, "users")
 
@@ -201,12 +242,21 @@ const Register = () => {
     await addDoc(mainGoalsCollection, userMainGoals);
   }
 
+  /**
+ * Updates the name of the current user's profile.
+ * @returns {void}
+ */
   const updateName = () => {
     updateProfile(auth.currentUser, {
       displayName: `${regName} ${regFamily}`
     })
   }
 
+  /**
+ * Sign up a new user.
+ * @param {Event} e - The event object from the form submission.
+ * @returns {void}
+ */
   const signUp = (e) => {
     e.preventDefault();
     setIsLoading(true);

@@ -8,7 +8,9 @@ import user2 from "../../assets/user2.png"
 import goalheader from "../../assets/goal.png"
 import "./Friends.css"
 
-
+/**
+ * Renders the Friends component.
+ */
 const Friends = () => {
   const { requests, friends } = useContext(FriendsContext)
   const [isLoading, setIsLoading] = useState(true);

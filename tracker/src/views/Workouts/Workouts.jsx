@@ -9,6 +9,9 @@ import SingleWorkout from "../../components/WorkoutsComponents/SingleWorkout";
 import goalheader from "../../assets/goal.png";
 import WorkoutsLogic from "../../logic/WorkoutsLogic/WorkoutsLogic";
 
+/**
+ * Renders the Workouts component.
+ */
 const Workouts = () => {
   const [isLoading, setIsLoading] = useState(true);
   const {

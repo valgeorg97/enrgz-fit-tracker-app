@@ -3,9 +3,9 @@ import { collection, addDoc, serverTimestamp, updateDoc, deleteDoc, doc, setDoc 
 import { auth, db } from "../../config/firebase";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { GoalContext } from "../../context/GoalContext";
 import { EnergizeGameContext } from "../../context/EnergizeGameContext";
+import "react-toastify/dist/ReactToastify.css";
 
 const GoalsLogic = () => {
   const [goalName, setGoalName] = useState("");
@@ -22,12 +22,21 @@ const GoalsLogic = () => {
   const { goalDocRef, goals, setGoals, currentGoal, finishedGoals, setFinishedGoals, setCurrentGoal, mainGoals } = useContext(GoalContext);
   const user = auth.currentUser;
 
+  /**
+Updates the current goal.
+@param {Object} goal - The goal to set as the current goal.
+@returns {Promise<void>}
+ */
   const updateCurrentGoal = async (goal) => {
     setCurrentGoal(goal);
     const dataWithDocID = { currentGoal: goal };
     await updateDoc(goalDocRef, dataWithDocID);
   };
 
+  /**
+Creates a new goal.
+@returns {Promise<void>}
+*/
   const createGoal = async () => {
     if (user) {
       try {
@@ -67,16 +76,31 @@ const GoalsLogic = () => {
     }
   };
 
+  /**
+Opens the goal modal.
+@param {Object} goal - The goal to be displayed in the modal.
+@returns {void}
+*/
   const openModal = (goal) => {
     setSelectedGoal(goal);
     setIsModalOpen(true);
   };
 
+  /**
+Closes the goal modal.
+@returns {void}
+*/
   const closeModal = () => {
     setSelectedGoal(null);
     setIsModalOpen(false);
   };
 
+  /**
+Updates the title of a goal.
+@param {string} goalId - The ID of the goal to update.
+@param {string} newTitle - The new title for the goal.
+@returns {Promise<void>}
+*/
   const updateGoalTitle = async (goalId, newTitle) => {
     try {
       const goalRef = doc(db, `users/${userDocID}/goals`, goalId);
@@ -95,6 +119,12 @@ const GoalsLogic = () => {
     }
   };
 
+  /**
+Updates the text of a goal.
+@param {string} goalId - The ID of the goal to update.
+@param {string} newText - The new text for the goal.
+@returns {Promise<void>}
+*/
   const updateGoalText = async (goalId, newText) => {
     try {
       const goalRef = doc(db, `users/${userDocID}/goals`, goalId);
@@ -113,6 +143,11 @@ const GoalsLogic = () => {
     }
   };
 
+  /**
+Handles deleting a goal.
+@param {Object} goal - The goal to delete.
+@returns {Promise<void>}
+*/
   const handleDeleteGoal = async (goal) => {
     try {
       const goalRef = doc(db, `users/${userDocID}/goals`, goal.id);
@@ -126,6 +161,11 @@ const GoalsLogic = () => {
     }
   };
 
+  /**
+Handles finishing a goal.
+@param {Object} goal - The goal to finish.
+@returns {Promise<void>}
+*/
   const handleFinishGoal = async (goal) => {
     try {
       const goalRef = doc(db, `users/${userDocID}/goals`, goal.id);

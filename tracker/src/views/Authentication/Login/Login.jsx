@@ -18,6 +18,11 @@ const Login = () => {
     window.scrollTo(0, 0);
   }, []);
 
+
+  /**
+   * Handles the sign-in process.
+   * @param {Event} e - The event object.
+   */
   const signIn = (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)

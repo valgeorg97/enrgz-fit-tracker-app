@@ -15,19 +15,34 @@ const WorkoutsLogic = () => {
   const { energizePoints, setEnergizePoints } = useContext(EnergizeGameContext);
 
 
+  /**
+ * Sets the active workout ID based on the workouts and sharedWorkouts arrays.
+ */
   useEffect(() => {
     const activeWorkout = workouts.find((workout) => workout.isActive) || sharedWorkouts.find((workout) => workout.isActive);
     setActiveWorkoutId(activeWorkout ? activeWorkout.id : null);
   }, [workouts, sharedWorkouts]);
 
+  /**
+ * Handles the "View More" click for a workout.
+ * @param {Object} workout - The workout object.
+ */
   const handleViewMoreClick = (workout) => {
     setSelectedWorkout(workout);
   };
   
+  /**
+ * Handles the "View More" click for a shared workout.
+ * @param {Object} workout - The shared workout object.
+ */
   const handleViewMoreClickShared = (workout) => {
     setSelectedSharedWorkout(workout);
   };
 
+  /**
+ * Handles the deletion of a workout.
+ * @param {string} id - The ID of the workout to delete.
+ */
   const handleDeleteWorkout = async (id) => {
     try {
       await deleteDoc(doc(db, `users/${userDocID}/workouts/${id}`));
@@ -39,6 +54,10 @@ const WorkoutsLogic = () => {
     }
   };
 
+  /**
+ * Handles the sharing of a workout.
+ * @param {string} id - The ID of the workout to share.
+ */
   const handleShareWorkout = async (id) => {
     try {
       const workoutRef = doc(db, `users/${userDocID}/workouts/${id}`);
@@ -66,6 +85,11 @@ const WorkoutsLogic = () => {
     }
   };
 
+  /**
+ * Updates the title of a workout.
+ * @param {string} workoutId - The ID of the workout.
+ * @param {string} newTitle - The new title value.
+ */
   const updateWorkoutTitle = async (workoutId, newTitle) => {
     try {
       const workoutRef = doc(db, `users/${userDocID}/workouts/${workoutId}`);
@@ -85,6 +109,10 @@ const WorkoutsLogic = () => {
     }
   };
 
+  /**
+ * Handles setting a workout as active.
+ * @param {string} id - The ID of the workout to set as active.
+ */
   const handleSetActive = async (id) => {
     try {
       const workoutFolderRef = collection(db, `users/${userDocID}/workouts`);
@@ -140,6 +168,10 @@ const WorkoutsLogic = () => {
     }
   };
 
+  /**
+ * Handles finishing a workout.
+ * @param {Object} workout - The finished workout object.
+ */
   const handleFinishWorkout = async (workout) => {
     console.log(workout);
     try {

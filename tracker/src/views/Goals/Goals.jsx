@@ -8,6 +8,9 @@ import goalheader from "../../assets/goal.png";
 import GoalsLogic from "../../logic/GoalsLogic/GoalsLogic";
 import { useEffect,useState } from "react";
 
+/**
+ * Renders the Goals component.
+ */
 const Goals = () => {
   const [isLoading, setIsLoading] = useState(true);
   const {
@@ -84,8 +87,6 @@ const Goals = () => {
               </Box>
             </Box>
           )}
-
-          
 
           {finishedGoals.length > 0 && (
             <Box display="flex" flexDirection="column" mt={30}>
