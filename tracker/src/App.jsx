@@ -10,6 +10,7 @@ import { WorkoutContext } from "./context/WorkoutContext";
 import { GoalContext } from "./context/GoalContext";
 import { FriendsContext } from "./context/FriendsContext";
 import { EnergizeGameContext } from "./context/EnergizeGameContext";
+import ThemeButton from "./components/ThemeButton/ColorModeButton";
 
 import userimage from "./assets/user.png"
 import Navigation from "./components/Navigation/Navigation";
@@ -24,7 +25,6 @@ import LandingPage from "./views/LandingPage/LandingPage";
 import Dashboard from "./views/Dashboard/Dashboard";
 import UserMenu from "./components/UserMenu/UserMenu";
 import Friends from "./views/Friends/Friends";
-import ThemeButton from "./components/ThemeButton/ColorModeButton";
 import Footer from "./components/Footer/Footer";
 import EnergizeGame from "./components/EnergizeGame/EnergizeGame";
 
@@ -391,9 +391,9 @@ function App() {
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                     {location.pathname !== "/" && location.pathname !== "/community" ? <Footer /> : null}
+                    {location.pathname === "/" ? <ThemeButton/> : null}
                   </Flex>
                 </Flex>
-                <ThemeButton />
               </Flex>
             </ChakraProvider>
             </EnergizeGameContext.Provider>

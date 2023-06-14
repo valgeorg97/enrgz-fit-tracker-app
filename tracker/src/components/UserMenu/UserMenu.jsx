@@ -6,6 +6,8 @@ import { EnergizeGameContext } from '../../context/EnergizeGameContext';
 import { useNavigate } from 'react-router-dom';
 import { Spinner } from '@chakra-ui/react'
 import { MdFlashOn } from 'react-icons/md';
+import ThemeButton from "../ThemeButton/ColorModeButton";
+
 
 /**
  * UserMenu component.
@@ -35,8 +37,8 @@ const UserMenu = () => {
   }
 
   return (
-    <Flex position="fixed" top={1} mr={12} right={6}>
-      <Box mr={3}>
+    <Flex position="fixed" right={0} backgroundColor={"gray.100"} w={"1675px"} zIndex={"sticky"} borderRadius={"md"} h={"70px"}>
+      <Box ml="1430px" paddingTop={"2"}>
         <Heading as="h3" size="sm">{`${name} ${family}`}</Heading>
         <Flex color="gray" alignItems="center">
           <Tooltip hasArrow arrowSize={10} bg="orange.500" borderRadius={10} label="Energize points! You can earn Energize points by completing your goals. Click to learn more." fontSize="md">
@@ -47,9 +49,10 @@ const UserMenu = () => {
           </Tooltip>
           <Text textAlign="right">{isAdmin ? '| Admin' : '| User'}</Text>
         </Flex>
+        <ThemeButton />
       </Box>
       <Menu>
-        <MenuButton mt={1} as={Avatar} size="md" src={photoURL} _hover={{ cursor: 'pointer' }}>
+        <MenuButton ml={"2"} mt={1} as={Avatar} size="md" src={photoURL} _hover={{ cursor: 'pointer' }}>
           <ChevronDownIcon />
         </MenuButton>
         <MenuList>

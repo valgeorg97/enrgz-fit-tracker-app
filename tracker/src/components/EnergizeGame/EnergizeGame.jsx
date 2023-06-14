@@ -24,6 +24,7 @@ const EnergizeGame = () => {
             borderRadius="md"
             margin="auto"
             textAlign="center"
+            mt={"10"}
         >
             <Heading as="h1" mb="4">Energize Conquest - Your Fitness Adventure!</Heading>
             <Text mb="4">
