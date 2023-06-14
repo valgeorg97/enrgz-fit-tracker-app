@@ -1,5 +1,5 @@
 import { Box,Radio, RadioGroup,Heading, Stack,Text } from '@chakra-ui/react';
-
+import PropTypes from 'prop-types';
 
 const Form3 = ({ handleGoal,regGoal,regName,regFamily }) => {
 
@@ -30,6 +30,13 @@ const Form3 = ({ handleGoal,regGoal,regName,regFamily }) => {
         </Box>
       </>
     );
+  };
+
+  Form3.propTypes = {
+    handleGoal: PropTypes.func.isRequired,
+    regGoal: PropTypes.string.isRequired,
+    regName: PropTypes.string.isRequired,
+    regFamily: PropTypes.string.isRequired,
   };
 
 export default Form3

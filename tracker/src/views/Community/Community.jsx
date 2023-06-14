@@ -4,11 +4,11 @@ import { AiFillLock, AiFillUnlock } from "react-icons/ai";
 import { AuthContext } from "../../context/AuthContext";
 import { MdDeleteForever } from "react-icons/md";
 import { BsFillPersonCheckFill, BsFillPersonPlusFill, BsFillPersonXFill, BsFillPersonBadgeFill, } from "react-icons/bs";
-import goalheader from "../../assets/goal.png";
 import { Icon } from "@chakra-ui/react";
 import { MdFlashOn } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import CommunityLogic from "../../logic/CommunityLogic/CommunityLogic";
+import goalheader from "../../assets/goal.png";
 
 const Community = () => {
   const { userDocID, isAdmin } = useContext(AuthContext);

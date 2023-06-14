@@ -1,4 +1,5 @@
 import { Flex } from "@chakra-ui/react";
+import PropTypes from 'prop-types';
 
 export default function PageContainer(props) {
   return (
@@ -15,3 +16,8 @@ export default function PageContainer(props) {
     </Flex>
   );
 }
+
+PageContainer.propTypes = {
+  isFixedNav: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+};

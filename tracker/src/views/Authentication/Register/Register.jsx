@@ -1,4 +1,4 @@
-import { useState, useContext} from 'react';
+import { useState} from 'react';
 import { Flex, Box, Progress, Image, Button, Stack, useColorModeValue, ButtonGroup } from '@chakra-ui/react';
 import { db, auth } from "../../../config/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -17,9 +17,6 @@ import Loading from '../../../components/Loading/Loading';
 import { FITNESS_CALC_API_KEY } from '../../../common/constants';
 import calculateCalories from '../../../services/fitnessCalculatorService';
 import { toast } from "react-toastify";
-
-
-
 
 const Register = () => {
   const [step, setStep] = useState(1);
@@ -47,8 +44,6 @@ const Register = () => {
   const [phoneError, setPhoneError] = useState('');
   const [nameError, setNameError] = useState('');
   const [familyError, setFamilyError] = useState('');
-
-
 
   const usersCollectionRef = collection(db, 'users');
   const usersQuery = query(usersCollectionRef);
@@ -312,7 +307,6 @@ const Register = () => {
                 handleYear={handleYear}
                 validatePhone={validatePhone}
                 phoneError={phoneError}
-              // handleCountryCode={handleCountryCode}
               />
             ) : step === 7 ? (
               <Form7

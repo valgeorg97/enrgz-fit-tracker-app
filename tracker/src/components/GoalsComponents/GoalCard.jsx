@@ -1,5 +1,6 @@
 import { Box, Button, Text, Card as ChakraCard, CardHeader, Heading, CardFooter, Flex, Badge } from "@chakra-ui/react";
 import { HiOutlinePencilAlt } from 'react-icons/hi';
+import PropTypes from 'prop-types';
 
 const GoalCard = ({ goal, openModal, difficultyColors }) => {
   return (
@@ -68,6 +69,20 @@ const GoalCard = ({ goal, openModal, difficultyColors }) => {
       </ChakraCard>
     </Box>
   );
+};
+
+GoalCard.propTypes = {
+  goal: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+    from: PropTypes.string.isRequired,
+    to: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+  }),
+  openModal: PropTypes.func.isRequired,
+  difficultyColors: PropTypes.object.isRequired,
 };
 
 export default GoalCard;

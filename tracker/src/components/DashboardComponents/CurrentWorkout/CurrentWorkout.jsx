@@ -2,6 +2,7 @@ import { Box, Heading, Text, Badge, Flex, Button, Card as ChakraCard, CardHeader
 import { FaStopwatch } from "react-icons/fa";
 import { useState, useEffect } from 'react';
 import {useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 
 const CurrentWorkout = ({ activeWorkout }) => {
@@ -96,3 +97,15 @@ const CurrentWorkout = ({ activeWorkout }) => {
 };
 
 export default CurrentWorkout;
+
+CurrentWorkout.propTypes = {
+  activeWorkout: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    muscle: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    reps: PropTypes.number.isRequired,
+    weight: PropTypes.number.isRequired,
+    exercises: PropTypes.array,
+    difficulty: PropTypes.string.isRequired,
+  }),
+};

@@ -1,6 +1,5 @@
 import { Box,Radio, RadioGroup, FormControl, FormLabel, Heading, Stack } from '@chakra-ui/react';
-
-
+import PropTypes from 'prop-types';
 
 const Form5 = ({handleActivityLevel,regActivityLevel }) => {
 
@@ -29,6 +28,11 @@ const Form5 = ({handleActivityLevel,regActivityLevel }) => {
         </Box>
       </>
     );
+  };
+
+  Form5.propTypes = {
+    handleActivityLevel: PropTypes.func.isRequired,
+    regActivityLevel: PropTypes.string.isRequired,
   };
 
   export default Form5

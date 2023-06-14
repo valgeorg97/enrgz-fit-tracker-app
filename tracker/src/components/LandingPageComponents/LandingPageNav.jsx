@@ -1,6 +1,8 @@
 import {Box,Flex,Text,IconButton,Link,Collapse,useColorModeValue,useBreakpointValue,useDisclosure,Stack,Image} from '@chakra-ui/react';
 import {HamburgerIcon,CloseIcon,} from '@chakra-ui/icons';
 import logo from "../../assets/logo.png"
+import PropTypes from 'prop-types';
+
 
 export default function WithSubnavigation() {
     const { isOpen, onToggle } = useDisclosure();
@@ -142,3 +144,8 @@ const NAV_ITEMS = [
         href: '#howItWorks'
     }
 ];
+
+MobileNavItem.propTypes = {
+    label: PropTypes.string.isRequired,
+    href: PropTypes.string.isRequired,
+  };

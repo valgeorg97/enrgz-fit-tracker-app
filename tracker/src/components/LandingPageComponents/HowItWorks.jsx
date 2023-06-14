@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Box, Button, VStack, Divider, Heading, Text, Image, Flex } from "@chakra-ui/react";
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 import { HOW_IT_WORKS_STEPS } from "../../common/constants";
+import PropTypes from 'prop-types';
 
 const HowItWorks = ({ onGetStartedClick }) => {
     const [activeStep, setActiveStep] = useState(0);
@@ -119,5 +120,9 @@ const HowItWorks = ({ onGetStartedClick }) => {
         </Box>
     );
 };
+
+HowItWorks.propTypes = {
+    onGetStartedClick: PropTypes.func.isRequired,
+  };
 
 export default HowItWorks;

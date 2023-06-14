@@ -7,6 +7,7 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
+import PropTypes from 'prop-types';
 
 
 const Form2 = ({ validateName, validateFamily, nameError, familyError }) => {
@@ -61,6 +62,13 @@ const Form2 = ({ validateName, validateFamily, nameError, familyError }) => {
       
     </Box>
   );
+};
+
+Form2.propTypes = {
+  validateName: PropTypes.func.isRequired,
+  validateFamily: PropTypes.func.isRequired,
+  nameError: PropTypes.string,
+  familyError: PropTypes.string,
 };
 
 export default Form2;

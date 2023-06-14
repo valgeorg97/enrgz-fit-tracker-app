@@ -6,7 +6,6 @@ const ThemeButton = () => {
 
     return (
         <IconButton
-          // <Switch
             position="fixed"
             top={4}
             right={4}

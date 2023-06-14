@@ -5,7 +5,6 @@ import { AuthContext } from "../../../context/AuthContext";
 import { EnergizeGameContext } from "../../../context/EnergizeGameContext"
 import { useToast } from "@chakra-ui/react";
 import {Box,Input,Heading,Text,VStack,Button,Collapse,Flex,} from "@chakra-ui/react";
-import { useColorMode } from "@chakra-ui/react";
 import water2 from "../../../assets/water2.png";
 import "./Water.css";
 
@@ -16,13 +15,11 @@ const WaterCalculator = () => {
   const [savedWater, setSavedWater] = useState(0);
   const { userDocID } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
-  const { colorMode } = useColorMode();
   const waterRef = useRef(null);
   const toast = useToast();
   let [awardedWaterPoints, setWaterPoints] = useState(false)
 
   const handleToggle = () => setIsOpen(!isOpen);
-  const waterBground = colorMode === "dark" ? "gray.800" : "white";
 
   useEffect(() => {
     const fetchUserData = async () => {

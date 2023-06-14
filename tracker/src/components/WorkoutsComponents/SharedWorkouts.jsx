@@ -3,6 +3,7 @@ import { RxEyeOpen } from "react-icons/rx";
 import {FaPlay,FaStopwatch}from "react-icons/fa";
 import { useEffect,useState,useContext } from "react";
 import { WorkoutContext } from "../../context/WorkoutContext";
+import PropTypes from 'prop-types';
 
 const SharedWorkouts = ({handleSetActive,difficultyColors,handleViewMoreClick}) => {
 
@@ -83,4 +84,11 @@ const handleSetActiveAndUpdate = (workoutRef) => {
     </Flex>
   );
 }
+
+SharedWorkouts.propTypes = {
+  handleSetActive: PropTypes.func.isRequired,
+  difficultyColors: PropTypes.object.isRequired,
+  handleViewMoreClick: PropTypes.func.isRequired,
+};
+
 export default SharedWorkouts

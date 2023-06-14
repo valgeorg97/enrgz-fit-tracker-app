@@ -1,4 +1,5 @@
 import {Textarea,Button,FormControl,FormLabel,Input,Stack,Select} from "@chakra-ui/react";
+import PropTypes from 'prop-types';
 
 const GoalForm = ({createGoal,goalName,setGoalName,goalNote,setGoalNote,goalFrom,setGoalFrom,goalTo,setGoalTo,goalCategory,setGoalCategory,}) => {
     return (
@@ -70,6 +71,20 @@ const GoalForm = ({createGoal,goalName,setGoalName,goalNote,setGoalNote,goalFrom
         </Button>
       </Stack>
     );
+  };
+
+  GoalForm.propTypes = {
+    createGoal: PropTypes.func.isRequired,
+    goalName: PropTypes.string.isRequired,
+    setGoalName: PropTypes.func.isRequired,
+    goalNote: PropTypes.string.isRequired,
+    setGoalNote: PropTypes.func.isRequired,
+    goalFrom: PropTypes.string.isRequired,
+    setGoalFrom: PropTypes.func.isRequired,
+    goalTo: PropTypes.string.isRequired,
+    setGoalTo: PropTypes.func.isRequired,
+    goalCategory: PropTypes.string.isRequired,
+    setGoalCategory: PropTypes.func.isRequired,
   };
 
   export default GoalForm

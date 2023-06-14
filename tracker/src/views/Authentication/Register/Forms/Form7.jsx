@@ -1,7 +1,6 @@
 import { Box, FormControl, FormLabel, Input, FormErrorMessage } from '@chakra-ui/react';
 import { useState } from 'react';
-
-
+import PropTypes from 'prop-types';
 
 const Form7 = ({ handleHeight, handleWeight, handleGoalWeight, goal, currentWeight }) => {
   const [weightError, setWeightError] = useState(null);
@@ -30,21 +29,11 @@ const Form7 = ({ handleHeight, handleWeight, handleGoalWeight, goal, currentWeig
         <FormControl isRequired>
           <FormLabel fontSize={18} fontWeight="normal">How tall are you?</FormLabel>
           <Input type="number" placeholder="Height" onChange={(e) => handleHeight(e.target.value)} />
-          {/* <RadioGroup mt={2}> 
-              <Stack spacing={2}>
-                <Radio value="inches">Inches</Radio>
-                <Radio value="centimeters">Centimeters</Radio>
-              </Stack>
-            </RadioGroup> */}
         </FormControl>
 
         <FormControl mt={4} isRequired>
           <FormLabel fontSize={18} fontWeight="normal">How much do you weigh?</FormLabel>
           <Input type="number" placeholder="Current weight" onChange={(e) => handleWeight(e.target.value)} />
-          {/* <Select mt={2} placeholder="Select unit">
-              <option value="kg">kg</option>
-              <option value="lbs">lbs</option>
-            </Select> */}
         </FormControl>
 
         <FormControl mt={4} isRequired isInvalid={weightError}>
@@ -56,6 +45,14 @@ const Form7 = ({ handleHeight, handleWeight, handleGoalWeight, goal, currentWeig
       </Box>
     </>
   );
+};
+
+Form7.propTypes = {
+  handleHeight: PropTypes.func.isRequired,
+  handleWeight: PropTypes.func.isRequired,
+  handleGoalWeight: PropTypes.func.isRequired,
+  goal: PropTypes.string.isRequired,
+  currentWeight: PropTypes.string.isRequired,
 };
 
 export default Form7

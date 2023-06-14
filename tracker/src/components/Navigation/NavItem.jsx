@@ -1,6 +1,7 @@
 import { Flex, Text, Icon, Link, Menu, MenuButton, MenuList, Badge } from '@chakra-ui/react'
+import PropTypes from 'prop-types';
 
-export default function NavItem({ icon, title, description, active, navSize, link, friendRequestCount }) {
+export default function NavItem({ icon, title, active, navSize, link, friendRequestCount }) {
     return (
         <Flex
             mt={30}
@@ -53,3 +54,12 @@ export default function NavItem({ icon, title, description, active, navSize, lin
         </Flex>
     )
 }
+
+NavItem.propTypes = {
+    icon: PropTypes.elementType.isRequired,
+    title: PropTypes.string.isRequired,
+    active: PropTypes.bool.isRequired,
+    navSize: PropTypes.oneOf(["small", "large"]).isRequired,
+    link: PropTypes.string.isRequired,
+    friendRequestCount: PropTypes.number.isRequired,
+  };

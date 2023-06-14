@@ -1,5 +1,6 @@
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import {Menu,Button,Text,MenuButton,MenuList,MenuItem,Box,Heading,} from "@chakra-ui/react";
+import PropTypes from 'prop-types';
 
 const GoalMenu = ({ mainGoals, updateCurrentGoal, currentGoal }) => {
   
@@ -56,6 +57,15 @@ const GoalMenu = ({ mainGoals, updateCurrentGoal, currentGoal }) => {
       </Menu>
     </Box>
   );
+};
+
+GoalMenu.propTypes = {
+  mainGoals: PropTypes.object.isRequired,
+  updateCurrentGoal: PropTypes.func.isRequired,
+  currentGoal: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    calory: PropTypes.number.isRequired,
+  }),
 };
 
 export default GoalMenu;

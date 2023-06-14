@@ -1,8 +1,8 @@
-
 import {Modal,ModalOverlay,ModalContent,ModalHeader,ModalCloseButton,ModalBody,ModalFooter,Button,Text,VStack,Editable,EditablePreview,EditableInput,useEditableControls,EditableTextarea,Flex,ButtonGroup,IconButton,} from "@chakra-ui/react";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { FaCheck, FaTrashAlt } from "react-icons/fa";
 import { BsArrowReturnRight } from "react-icons/bs";
+import PropTypes from 'prop-types';
 
 const SingleGoal = ({isModalOpen,closeModal,selectedGoal,updateGoalTitle,updateGoalText,handleFinishGoal,handleDeleteGoal,}) => {
 
@@ -101,6 +101,24 @@ const SingleGoal = ({isModalOpen,closeModal,selectedGoal,updateGoalTitle,updateG
       </ModalContent>
     </Modal>
   );
+};
+
+SingleGoal.propTypes = {
+  isModalOpen: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  selectedGoal: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    category: PropTypes.string,
+    from: PropTypes.string,
+    to: PropTypes.string,
+  }).isRequired,
+  updateGoalTitle: PropTypes.func.isRequired,
+  updateGoalText: PropTypes.func.isRequired,
+  handleFinishGoal: PropTypes.func.isRequired,
+  handleDeleteGoal: PropTypes.func.isRequired,
 };
 
 export default SingleGoal;

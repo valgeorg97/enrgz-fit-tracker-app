@@ -2,6 +2,7 @@ import {Box,Heading,Button,Badge,Text,VStack,Flex,Modal,ModalOverlay,ModalConten
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { FaTrashAlt,FaCheck } from "react-icons/fa";
 import { DIFFICULTY_COLORS } from "../../common/constants";
+import PropTypes from 'prop-types';
 
 const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDeleteWorkout,setSelectedWorkout,shared,handleFinishWorkout}) => {
   const EditableControlsExample = () => {
@@ -125,6 +126,16 @@ const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDele
       </ModalContent>
     </Modal>
   );
+};
+
+SingleWorkout.propTypes = {
+  selectedWorkout: PropTypes.object.isRequired,
+  userID: PropTypes.string.isRequired,
+  updateWorkoutTitle: PropTypes.func.isRequired,
+  handleDeleteWorkout: PropTypes.func.isRequired,
+  setSelectedWorkout: PropTypes.func.isRequired,
+  shared: PropTypes.bool.isRequired,
+  handleFinishWorkout: PropTypes.func.isRequired,
 };
 
 export default SingleWorkout;

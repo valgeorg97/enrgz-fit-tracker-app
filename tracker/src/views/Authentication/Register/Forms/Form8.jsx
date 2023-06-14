@@ -1,5 +1,5 @@
 import { Box, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
-
+import PropTypes from 'prop-types';
 
 const Form8 = ({
   validateUsername,
@@ -60,6 +60,15 @@ const Form8 = ({
       </Box>
     </>
   );
+};
+
+Form8.propTypes = {
+  validateUsername: PropTypes.func.isRequired,
+  validateEmail: PropTypes.func.isRequired,
+  validatePassword: PropTypes.func.isRequired,
+  usernameError: PropTypes.string,
+  emailError: PropTypes.string,
+  passwordError: PropTypes.string,
 };
 
 export default Form8;

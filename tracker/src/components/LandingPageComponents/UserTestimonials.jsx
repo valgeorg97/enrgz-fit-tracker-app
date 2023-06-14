@@ -2,13 +2,12 @@ import {
     Avatar,
     Box,
     chakra,
-    Container,
     Flex,
-    Icon,
     SimpleGrid,
     useColorModeValue,
   } from '@chakra-ui/react';
   import { TESTIMONIALS } from '../../common/constants';
+  import PropTypes from 'prop-types';
   
   
   const backgrounds = [
@@ -142,3 +141,11 @@ import {
       </Flex>
     );
   }
+
+  TestimonialCard.propTypes = {
+    name: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+    index: PropTypes.number.isRequired,
+  };

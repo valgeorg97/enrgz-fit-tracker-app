@@ -1,5 +1,6 @@
 import {Box,Container,Stack,Text,useColorModeValue,Image, Link} from '@chakra-ui/react';
 import logo from "../../assets/logo.png"
+import PropTypes from 'prop-types';
   
   
   const Logo = (props) => {
@@ -25,6 +26,7 @@ import logo from "../../assets/logo.png"
       </Link>
     );
   };
+  
   
   export default function SmallWithLogoLeft() {
     return (
@@ -52,3 +54,8 @@ import logo from "../../assets/logo.png"
       </Box>
     );
   }
+
+  MenuButton.propTypes = {
+    label: PropTypes.string.isRequired,
+    href: PropTypes.string.isRequired,
+  };

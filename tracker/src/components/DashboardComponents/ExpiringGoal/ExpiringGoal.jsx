@@ -1,13 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import {
-  Text,
-  Box,
-  Heading,
-  Card as ChakraCard,
-  CardHeader,
-  Badge,
-  Spinner,
-} from "@chakra-ui/react";
+import {Text,Box,Heading,Card as ChakraCard,CardHeader,Badge,Spinner,} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { GoalContext } from "../../../context/GoalContext";
 

@@ -9,6 +9,8 @@ import {
     Image,
     useColorModeValue
 } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+
 
 import Blob from '../../components/LandingPageComponents/Blob';
 import image from "../../assets/runnin.jpg";
@@ -71,15 +73,6 @@ const CallToActionWithVideo = ({ onGetStartedClick }) => {
                         >
                             Get started
                         </Button>
-                        {/* <Button
-                            rounded={'full'}
-                            size={'lg'}
-                            fontWeight={'normal'}
-                            px={6}
-                            onClick={() => navigate('#howItWorks')}
-                        >
-                            How It Works
-                        </Button> */}
                     </Stack>
                 </Stack>
                 <Flex
@@ -119,4 +112,9 @@ const CallToActionWithVideo = ({ onGetStartedClick }) => {
         </Container>
     );
 }
+
+CallToActionWithVideo.propTypes = {
+    onGetStartedClick: PropTypes.func.isRequired,
+  };
+
 export default CallToActionWithVideo;

@@ -4,6 +4,7 @@ import { FiShare2 } from "react-icons/fi";
 import {FaPlay,FaStopwatch}from "react-icons/fa";
 import { useEffect,useState,useContext } from "react";
 import { WorkoutContext } from "../../context/WorkoutContext";
+import PropTypes from 'prop-types';
 
 const WorkoutCards = ({workout,shared,handleViewMoreClick,handleShareWorkout,difficultyColors,handleSetActive}) => {
 
@@ -31,15 +32,15 @@ const WorkoutCards = ({workout,shared,handleViewMoreClick,handleShareWorkout,dif
 
   return (
           <Box
-          key={workout.id}
-          mr={4}
-          mb={5}
-          width="290px"
-          height="250px"
-          display="flex"
-          flexDirection="column"
-          justifyContent="space-between"
-        >
+            key={workout.id}
+            mr={4}
+            mb={5}
+            width="290px"
+            height="250px"
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+          >
           <ChakraCard
             background="linear-gradient(15deg, #13547a 0%, #80d0c7 100%)"
             boxShadow="dark-lg"
@@ -74,27 +75,33 @@ const WorkoutCards = ({workout,shared,handleViewMoreClick,handleShareWorkout,dif
               </Button>
 
               {workout.status !== "finished" && (
-  activeWorkoutId === workout.id ? (
-    <Button variant="ghost" float="right" size="md">
-      <Flex align="center">
-        <FaStopwatch />
-      </Flex>
-    </Button>
-  ) : (
-    <Button variant="ghost" float="right" size="md" onClick={() => {handleSetActiveAndUpdate(workout.id)}}>
-      <Flex align="center">
-        <FaPlay />
-      </Flex>
-    </Button>
-  )
-)}
-
-              
-
-              
+                activeWorkoutId === workout.id ? (
+                  <Button variant="ghost" float="right" size="md">
+                    <Flex align="center">
+                      <FaStopwatch />
+                    </Flex>
+                  </Button>
+                ) : (
+                  <Button variant="ghost" float="right" size="md" onClick={() => {handleSetActiveAndUpdate(workout.id)}}>
+                    <Flex align="center">
+                      <FaPlay />
+                    </Flex>
+                  </Button>
+                )
+              )}
             </CardFooter>
           </ChakraCard>
         </Box>
   );
 }
+
+WorkoutCards.propTypes = {
+  workout: PropTypes.object.isRequired,
+  shared: PropTypes.bool.isRequired,
+  handleViewMoreClick: PropTypes.func.isRequired,
+  handleShareWorkout: PropTypes.func.isRequired,
+  difficultyColors: PropTypes.object.isRequired,
+  handleSetActive: PropTypes.func.isRequired,
+};
+
 export default WorkoutCards

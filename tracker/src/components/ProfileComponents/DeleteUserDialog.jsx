@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button,useDisclosure,AlertDialog,AlertDialogOverlay,AlertDialogContent,AlertDialogHeader,AlertDialogBody,AlertDialogFooter,} from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 
 function DeleteUserDialog({ handleDeleteUser }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -45,5 +46,9 @@ function DeleteUserDialog({ handleDeleteUser }) {
       </>
     )
   }
+
+  DeleteUserDialog.propTypes = {
+    handleDeleteUser: PropTypes.func.isRequired,
+  };
 
   export default DeleteUserDialog

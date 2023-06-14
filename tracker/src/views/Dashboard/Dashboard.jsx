@@ -9,7 +9,6 @@ import UserGoals from "../../components/DashboardComponents/UserGoals/UserGoals"
 import UserWorkouts from "../../components/DashboardComponents/UserWorkouts/UserWorkouts";
 import ExpiringGoal from "../../components/DashboardComponents/ExpiringGoal/ExpiringGoal";
 import CurrentWorkout from "../../components/DashboardComponents/CurrentWorkout/CurrentWorkout";
-import DashboardGif from "../../components/DashboardComponents/DashboardGif/DashboardGif";
 import TotalShared from "../../components/DashboardComponents/TotalShared/TotalShared";
 import Friends from "../../components/DashboardComponents/Friends/Friends";
 
@@ -58,8 +57,8 @@ const Dashboard = () => {
         </GridItem>
         <GridItem colSpan={1}>
           <CurrentWorkout activeWorkout={activeWorkout} />
-          
         </GridItem>
+
         <GridItem colSpan={1} >
           <VStack>
             <HStack>
@@ -72,20 +71,12 @@ const Dashboard = () => {
             </HStack>
           </VStack>
           <GridItem colSpan={3}>
-          <Box mt={"20px"} ml={"-395px"} bgColor="blue.800" w="750px" h="300px" boxShadow="lg" rounded="md" _hover={{ cursor: "pointer" }} onClick={()=>navigate('/goals')}>
-            <ExpiringGoal />
-          </Box>
+            <Box mt={"20px"} ml={"-395px"} bgColor="blue.800" w="750px" h="300px" boxShadow="lg" rounded="md" _hover={{ cursor: "pointer" }} onClick={()=>navigate('/goals')}>
+              <ExpiringGoal />
+            </Box>
+          </GridItem>
         </GridItem>
-        </GridItem>
-  
-        
-  
-        {/* <GridItem w="410px" mr={-3} colSpan={1}>
-          <DashboardGif />
-        </GridItem> */}
-  
-        
-  
+
       </Grid>
     </Box>
   );

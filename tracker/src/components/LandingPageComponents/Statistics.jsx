@@ -3,6 +3,7 @@ import { useState, useEffect,useContext } from 'react';
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { WorkoutContext } from "../../context/WorkoutContext";
+import PropTypes from 'prop-types';
 
 import { BsPerson } from 'react-icons/bs';
 import { CgGym } from 'react-icons/cg';
@@ -84,3 +85,9 @@ export default function BasicStatistics() {
         </Box>
     );
 }
+
+StatsCard.propTypes = {
+    title: PropTypes.string.isRequired,
+    stat: PropTypes.number.isRequired,
+    icon: PropTypes.node.isRequired,
+  };

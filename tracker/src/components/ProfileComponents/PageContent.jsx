@@ -1,4 +1,5 @@
 import { Container, Stack, Heading, Button } from "@chakra-ui/react";
+import PropTypes from 'prop-types';
 
 export default function PageContent({
   title = "",
@@ -57,3 +58,19 @@ export default function PageContent({
     </Container>
   );
 }
+
+PageContent.propTypes = {
+  title: PropTypes.string,
+  primaryAction: PropTypes.shape({
+    onClick: PropTypes.func.isRequired,
+    content: PropTypes.node.isRequired,
+  }),
+  secondaryActions: PropTypes.arrayOf(
+    PropTypes.shape({
+      onClick: PropTypes.func.isRequired,
+      content: PropTypes.node.isRequired,
+    })
+  ),
+  centerContent: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+};

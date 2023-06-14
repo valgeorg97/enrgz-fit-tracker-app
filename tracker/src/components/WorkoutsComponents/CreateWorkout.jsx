@@ -1,22 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  HStack,
-  Input,
-  ListItem,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  NumberInput,
-  NumberInputField,
-  Select,
-  Stack,
-  UnorderedList,
-} from '@chakra-ui/react';
+import {Button,FormControl,FormLabel,HStack,Input,ListItem,Modal,ModalBody,ModalContent,ModalHeader,ModalOverlay,NumberInput,NumberInputField,Select,Stack,UnorderedList,} from '@chakra-ui/react';
 import { collection, addDoc } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
 import { difficulties } from '../../common/constants';
