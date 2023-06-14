@@ -161,7 +161,8 @@ const FoodCaloriesIntake = () => {
             }
 
             if (newConsumedCalories >= currentGoal.calory && newConsumedCalories <= currentGoal.calory + 200 && !isPointsAwarded) {
-              setEnergizePoints(prevPoints => prevPoints + 5);
+              const newPoints = energizePoints + 5;
+              setEnergizePoints(newPoints);
               setIsPointsAwarded(true);
               toast({
                 title: "Congratulations!",
@@ -173,15 +174,20 @@ const FoodCaloriesIntake = () => {
               });
               if (userDocID) {
                 const docRef = doc(db, "users", userDocID);
-                setDoc(docRef,
-                  {
-                    energizePoints: energizePoints + 5,
-                    isPointsAwarded: true
-                  },
-                  { merge: true }
-                ).catch((error) => {
-                  console.error("Error updating document: ", error);
-                });
+                const updatePoints = async () => {
+                  try {
+                    await setDoc(docRef,
+                      {
+                        energizePoints: newPoints,
+                        isPointsAwarded: true
+                      },
+                      { merge: true }
+                    );
+                  } catch (error) {
+                    console.error("Error updating document: ", error);
+                  }
+                };
+                updatePoints();
               }
             }
 
