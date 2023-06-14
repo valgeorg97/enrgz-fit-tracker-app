@@ -42,7 +42,7 @@ const About = () => (
           <Image src={valentinImage} alt="Valentin" objectFit="cover" h="300px" borderRadius="md" />
           <Heading as="h3" fontSize="xl" my={2}>Valentin Georgiev</Heading>
           <Text fontWeight="bold" mb={4}>
-            Junior JavaScript developer with a passion for fitness, sports and hiking.
+            Junior JavaScript developer with a passion for fitness, football and traveling.
           </Text>
           <Heading as="h4" fontSize="md" my={2}>Contacts:</Heading>
           <Flex alignItems="center" ml={"24"} mt={5}>
