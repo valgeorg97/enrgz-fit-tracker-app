@@ -3,6 +3,10 @@ import goalIcon from "../assets/goalIcon.png"
 import progressIcon from "../assets/pace.png"
 import profileGirlIcon from "../assets/177687.png"
 import leadboard from "../assets/leadboard.png"
+import terminator from "../assets/terminator.png"
+import doner from "../assets/doner.png"
+import andrewT from "../assets/andrewT.png"
+import serena from "../assets/serena.png"
   
 export const difficulties = [
   { label: 'Easy', value: 'easy', color: 'green.500' },
@@ -25,33 +29,29 @@ export const TESTIMONIALS = [
     name: 'Mitio Dunera',
     role: 'User',
     content:
-      'Since using ENERGIZE fitness tracker, I no longer wonder if I can indulge in a DONER today. Instead, I simply check the number of calories I\'ve consumed and make an informed decision based on that. ENERGIZE helps me maintain a balanced approach to my diet and empowers me to make mindful choices.',
-    avatar:
-      'https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80',
+      "Since using ENERGIZE fitness tracker, I no longer wonder if I can indulge in a DONER today. Instead, I simply check the number of calories I\'ve consumed and make an informed decision based on that. ENERGIZE helps me maintain a balanced approach to my diet and empowers me to make mindful choices.",
+    avatar: doner,
   },
   {
-    name: 'Kristina P',
-    role: 'User',
+    name: 'Arnold Schwarzenegger',
+    role: 'The Terminator',
     content:
-    'Energize turned my workout and diet into a game. Now, instead of hunting monsters in video games, I hunt for calories and fitness goals. My muscles get a workout, and the only thing getting slayed are my bad eating habits. Watch out, double cheeseburger, you\'re next!',
-    avatar:
-      'https://images.unsplash.com/photo-1598550874175-4d0ef436c909?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80',
+    "Hasta la vista, lazy days! Energize has transformed my fitness routine into an epic battle against calories and weak muscles. I track every move, conquer my workouts, and crush my goals.  Get ready to say 'I'll be back' to those extra pounds because with Energize, victory is inevitable!",
+    avatar: terminator,
   },
   {
-    name: 'Darcy L.',
-    role: 'User',
+    name: 'Andrew Tate',
+    role: 'Top G',
     content:
-      "This fitness tracker has been a revelation, meticulously keeping track of my goals and workouts. It's my daily motivator, always pushing me to hit that extra step or burn that extra calorie.",
-    avatar:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=334&q=80',
+    "Hey there, Andrew Tate here! Energize and its Top G features have totally leveled up my fitness game. It's like having a personal cheerleader in my pocket, pushing me to dominate the gym.  So if you're ready to unleash your inner beast and join the Top G squad, grab your workout gear and let's conquer the fitness world with Energize!",
+    avatar: andrewT,
   },
   {
-    name: 'Daniel T.',
-    role: 'User',
+    name: 'Serena Williams',
+    role: 'Tennis player',
     content:
-      "Before Energize, I used to debate with my conscience over every extra slice of pizza. But now, Energize and my conscience are in cahoots! Each 'Extra Cheese' comes with 'Extra Goals and Workouts' the next morning. I still have the pizza, but now, I earn it!",
-    avatar:
-      'https://images.unsplash.com/photo-1606513542745-97629752a13b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80',
+    "Hey y'all, Serena Williams here! Energize is my secret weapon for keeping up with my toddler and dominating my workouts. It's like a power boost that helps me tackle tantrums and still have energy to spare. With Energize, I'm acing motherhood and tennis, one day at a time!",
+    avatar: serena
   },
 ];
 
