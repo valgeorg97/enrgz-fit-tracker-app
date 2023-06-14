@@ -1,5 +1,18 @@
 import { Box, Text, Heading, Link} from '@chakra-ui/react';
 
+/**
+ * EnergizeGame Component.
+ * 
+ * This is a functional component that provides the user with an overview of the Energize Conquest game, 
+ * how to earn points, leaderboard information, and more.
+ * 
+ * @component
+ * @example
+ * return (
+ *   <EnergizeGame />
+ * )
+ */
+
 const EnergizeGame = () => {
 
     return (

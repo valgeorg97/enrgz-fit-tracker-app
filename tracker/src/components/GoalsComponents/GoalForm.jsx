@@ -1,6 +1,31 @@
 import {Textarea,Button,FormControl,FormLabel,Input,Stack,Select} from "@chakra-ui/react";
 import PropTypes from 'prop-types';
 
+/**
+ * GoalForm Component.
+ *
+ * This is a functional component that displays a form to create a new goal.
+ * It includes inputs for goal title, note, category, start and end dates.
+ * 
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Function} props.createGoal - Callback function to create a goal.
+ * @param {string} props.goalName - Name of the goal.
+ * @param {Function} props.setGoalName - Setter function for goal name.
+ * @param {string} props.goalNote - Additional notes for the goal.
+ * @param {Function} props.setGoalNote - Setter function for goal note.
+ * @param {string} props.goalFrom - The starting date or time of the goal.
+ * @param {Function} props.setGoalFrom - Setter function for the starting date or time of the goal.
+ * @param {string} props.goalTo - The ending date or time of the goal.
+ * @param {Function} props.setGoalTo - Setter function for the ending date or time of the goal.
+ * @param {string} props.goalCategory - Category of the goal.
+ * @param {Function} props.setGoalCategory - Setter function for the category of the goal.
+ * @example
+ * return (
+ *   <GoalForm {...props}/>
+ * )
+ */
+
 const GoalForm = ({createGoal,goalName,setGoalName,goalNote,setGoalNote,goalFrom,setGoalFrom,goalTo,setGoalTo,goalCategory,setGoalCategory,}) => {
     return (
       <Stack

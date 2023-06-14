@@ -3,6 +3,12 @@ import {HamburgerIcon,CloseIcon,} from '@chakra-ui/icons';
 import logo from "../../assets/logo.png"
 import PropTypes from 'prop-types';
 
+/**
+ * WithSubnavigation component.
+ *
+ * @component
+ * @returns {JSX.Element} WithSubnavigation component.
+ */
 
 export default function WithSubnavigation() {
     const { isOpen, onToggle } = useDisclosure();
@@ -66,6 +72,13 @@ export default function WithSubnavigation() {
     );
 }
 
+/**
+ * Desktop navigation component.
+ *
+ * @component
+ * @returns {JSX.Element} DesktopNav component.
+ */
+
 const DesktopNav = () => {
     const linkColor = useColorModeValue('gray.600', 'gray.200');
     const linkHoverColor = useColorModeValue('gray.800', 'white');
@@ -91,6 +104,12 @@ const DesktopNav = () => {
         </Stack>
     );
 };
+/**
+ * Mobile navigation component.
+ *
+ * @component
+ * @returns {JSX.Element} MobileNav component.
+ */
 
 const MobileNav = () => {
     return (
@@ -104,6 +123,16 @@ const MobileNav = () => {
         </Stack>
     );
 };
+
+/**
+ * Mobile navigation item component.
+ *
+ * @component
+ * @param {object} props - The component props.
+ * @param {string} props.label - The label of the navigation item.
+ * @param {string} props.href - The URL the navigation item links to.
+ * @returns {JSX.Element} MobileNavItem component.
+ */
 
 const MobileNavItem = ({ label, href }) => {
     return (

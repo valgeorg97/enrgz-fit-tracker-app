@@ -4,6 +4,23 @@ import { useState, useEffect } from 'react';
 import {useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+/**
+ * `CurrentWorkout` is a React Component used for displaying the current active workout to the user. 
+ * It shows a loading state while it waits for the workout data and then shows the workout details.
+ *
+ * @component
+ * @param {Object} props - Props passed to the component.
+ * @param {Object} props.activeWorkout - The active workout object.
+ * @param {string} props.activeWorkout.name - Name of the workout.
+ * @param {string} props.activeWorkout.muscle - The targeted muscle group of the workout.
+ * @param {string} props.activeWorkout.type - The type of the workout.
+ * @param {number} props.activeWorkout.reps - The number of repetitions in the workout.
+ * @param {number} props.activeWorkout.weight - The weight used in the workout.
+ * @param {Array} props.activeWorkout.exercises - An array of exercises included in the workout.
+ * @param {string} props.activeWorkout.difficulty - The difficulty level of the workout.
+ *
+ * @returns {JSX.Element} CurrentWorkout Component
+ */
 
 const CurrentWorkout = ({ activeWorkout }) => {
   const [loading, setLoading] = useState(true);

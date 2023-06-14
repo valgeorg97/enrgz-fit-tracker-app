@@ -6,6 +6,20 @@ import { useEffect,useState,useContext } from "react";
 import { WorkoutContext } from "../../context/WorkoutContext";
 import PropTypes from 'prop-types';
 
+/**
+ * WorkoutCards component.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Object} props.workout - Workout object.
+ * @param {boolean} props.shared - Boolean indicating if the workout is shared.
+ * @param {Function} props.handleViewMoreClick - Function to handle the "View More" click event.
+ * @param {Function} props.handleShareWorkout - Function to handle sharing a workout.
+ * @param {Object} props.difficultyColors - Object containing color schemes for different workout difficulties.
+ * @param {Function} props.handleSetActive - Function to handle setting the active workout.
+ * @returns {JSX.Element} WorkoutCards component.
+ */
+
 const WorkoutCards = ({workout,shared,handleViewMoreClick,handleShareWorkout,difficultyColors,handleSetActive}) => {
 
   const [activeWorkoutId, setActiveWorkoutId] = useState(null);

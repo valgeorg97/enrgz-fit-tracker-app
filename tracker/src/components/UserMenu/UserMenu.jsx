@@ -7,6 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import { Spinner } from '@chakra-ui/react'
 import { MdFlashOn } from 'react-icons/md';
 
+/**
+ * UserMenu component.
+ *
+ * @component
+ * @returns {JSX.Element} UserMenu component.
+ */
+
 const UserMenu = () => {
   const { name, family, isAdmin, signOut, photoURL } = useContext(AuthContext);
   const { energizePoints } = useContext(EnergizeGameContext)

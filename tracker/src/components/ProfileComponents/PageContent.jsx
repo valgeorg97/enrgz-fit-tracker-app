@@ -1,6 +1,23 @@
 import { Container, Stack, Heading, Button } from "@chakra-ui/react";
 import PropTypes from 'prop-types';
 
+/**
+ * PageContent component.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} [props.title] - The title of the page content.
+ * @param {Object} [props.primaryAction] - The primary action to be displayed as a button.
+ * @param {Function} props.primaryAction.onClick - The click event handler for the primary action button.
+ * @param {ReactNode} props.primaryAction.content - The content of the primary action button.
+ * @param {Object[]} [props.secondaryActions] - An array of secondary actions to be displayed as buttons.
+ * @param {Function} props.secondaryActions[].onClick - The click event handler for the secondary action button.
+ * @param {ReactNode} props.secondaryActions[].content - The content of the secondary action button.
+ * @param {boolean} [props.centerContent=false] - Determines if the content should be centered.
+ * @param {ReactNode} props.children - The content to render inside the page content container.
+ * @returns {JSX.Element} PageContent component.
+ */
+
 export default function PageContent({
   title = "",
   primaryAction = null,

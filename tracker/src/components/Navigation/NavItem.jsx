@@ -1,6 +1,21 @@
 import { Flex, Text, Icon, Link, Menu, MenuButton, MenuList, Badge } from '@chakra-ui/react'
 import PropTypes from 'prop-types';
 
+
+/**
+ * NavItem component.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {React.ElementType} props.icon - The icon component.
+ * @param {string} props.title - The title of the NavItem.
+ * @param {boolean} props.active - Whether the NavItem is active.
+ * @param {("small" | "large")} props.navSize - The size of the navigation.
+ * @param {string} props.link - The link associated with the NavItem.
+ * @param {number} props.friendRequestCount - The number of friend requests.
+ * @returns {JSX.Element} NavItem component.
+ */
+
 export default function NavItem({ icon, title, active, navSize, link, friendRequestCount }) {
     return (
         <Flex

@@ -1,5 +1,12 @@
 import { Spinner } from "@chakra-ui/react";
 
+/**
+ * Loading component.
+ *
+ * @component
+ * @returns {JSX.Element} Loading component.
+ */
+
 const Loading = () => {
   return (
     <Spinner
@@ -12,4 +19,4 @@ const Loading = () => {
   );
 };
 
-export default Loading
+export default Loading;

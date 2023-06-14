@@ -24,6 +24,39 @@ import { API_KEY } from "../../../common/constants";
 import { MEAL_TYPES_ORDER } from "../../../common/constants";
 import getNutritionData from "../../../services/nutritionService";
 
+/**
+ * FoodCaloriesIntake is a component that allows users to log the food they consume 
+ * and track their total calorie intake against their set calorie goal.
+ * 
+ * It utilizes the GoalContext to access the user's set calorie goal, and the 
+ * EnergizeGameContext to update the user's energize points. It fetches nutrition data 
+ * of the food item inputted by the user using the getNutritionData service, and it 
+ * updates the user's data in firebase with the updated food items and consumed calories.
+ * 
+ * State variables:
+ *  - `energizePoints` is a state variable from the EnergizeGameContext.
+ *  - `setEnergizePoints` is a function to update energizePoints.
+ *  - `currentGoal` is a state variable from the GoalContext, representing the user's current calorie goal.
+ *  - `userDocID` is a state variable from the AuthContext, representing the document id of the user in the firebase database.
+ *  - `consumedCalories` is a state variable representing the total number of calories the user has consumed.
+ *  - `setQuery` is a function to update query.
+ *  - `grams` is a state variable representing the weight in grams of the food item inputted by the user.
+ *  - `setGrams` is a function to update grams.
+ *  - `isViewMore` is a state variable that determines whether the 'view more' button has been pressed, to display more info.
+ *  - `setIsViewMore` is a function to update isViewMore.
+ *  - `mealType` is a state variable representing the type of meal (e.g. Breakfast, Lunch, Dinner, Snack).
+ *  - `setMealType` is a function to update mealType.
+ *  - `toast` is a function from the @chakra-ui/react library to display toast notifications.
+ *  - `isPointsAwarded` is a state variable that determines whether energize points have already been awarded for reaching the calorie goal.
+ *  - `setIsPointsAwarded` is a function to update isPointsAwarded.
+ *  - `foodItems` is a state variable representing the food items consumed by the user.
+ *  - `setFoodItems` is a function to update foodItems.
+ *  - `expandedMealTypes` is a state variable representing the meal types that are expanded.
+ *  - `setExpandedMealTypes` is a function to update expandedMealTypes.
+ *
+ * @component
+ * @returns {JSX.Element}
+ */
 
 const FoodCaloriesIntake = () => {
   const { energizePoints, setEnergizePoints } = useContext(EnergizeGameContext);

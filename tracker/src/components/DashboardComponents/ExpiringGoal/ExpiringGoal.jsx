@@ -3,6 +3,17 @@ import {Text,Box,Heading,Card as ChakraCard,CardHeader,Badge,Spinner,} from "@ch
 import { useNavigate } from "react-router-dom";
 import { GoalContext } from "../../../context/GoalContext";
 
+/**
+ * `ExpiringGoal` is a React Component that displays up to three goals sorted by their expiration date. 
+ * The component fetches goals from the GoalContext and filters out the finished ones. The remaining goals are sorted by the expiration date,
+ * and the top three are displayed. Goals can be clicked to navigate to the goals page.
+ * While the component is fetching and sorting the goals, it displays a loading spinner. 
+ * If no goals are found, it displays a message prompting the user to add goals.
+ *
+ * @component
+ * @returns {JSX.Element} The ExpiringGoal component.
+ */
+
 const ExpiringGoal = () => {
   const [expiringGoals, setExpiringGoals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);

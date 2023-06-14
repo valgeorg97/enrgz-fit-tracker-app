@@ -18,6 +18,19 @@ import {
   ];
   
   
+  /**
+ * Testimonial Card component.
+ *
+ * @component
+ * @param {object} props - The component props.
+ * @param {string} props.name - The name of the person providing the testimonial.
+ * @param {string} props.role - The role or position of the person.
+ * @param {string} props.content - The content of the testimonial.
+ * @param {string} props.avatar - The URL of the avatar image.
+ * @param {number} props.index - The index of the testimonial in the list.
+ * @returns {JSX.Element} TestimonialCard component.
+ */
+
   function TestimonialCard(props) {
     const { name, role, content, avatar, index } = props;
     return (
@@ -89,6 +102,13 @@ import {
       </Flex>
     );
   }
+
+  /**
+ * User Testimonials component.
+ *
+ * @component
+ * @returns {JSX.Element} UserTestimonials component.
+ */
   
   export default function UserTestimonials() {
     return (

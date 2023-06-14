@@ -15,6 +15,15 @@ import PropTypes from 'prop-types';
 import Blob from '../../components/LandingPageComponents/Blob';
 import image from "../../assets/runnin.jpg";
 
+/**
+ * CallToActionWithVideo component.
+ *
+ * @component
+ * @param {object} props - The component props.
+ * @param {function} props.onGetStartedClick - The function to be called when the "Get started" button is clicked.
+ * @returns {JSX.Element} CallToActionWithVideo component.
+ */
+
 const CallToActionWithVideo = ({ onGetStartedClick }) => {
     return (
         <Container maxW={'7xl'} mb={-15}>

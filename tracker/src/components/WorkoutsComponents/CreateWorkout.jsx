@@ -9,6 +9,12 @@ import { WorkoutContext } from "../../context/WorkoutContext";
 import { API_KEY } from "../../common/constants";
 import getWorkoutExercises from "../../services/workoutsService"
 
+/**
+ * CreateWorkout component.
+ *
+ * @component
+ * @returns {JSX.Element} CreateWorkout component.
+ */
 
 const CreateWorkout = () => {
   const [selectedMuscle, setSelectedMuscle] = useState('');

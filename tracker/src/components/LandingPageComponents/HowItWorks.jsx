@@ -4,14 +4,31 @@ import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 import { HOW_IT_WORKS_STEPS } from "../../common/constants";
 import PropTypes from 'prop-types';
 
+/**
+ * HowItWorks component.
+ *
+ * @component
+ * @param {object} props - The component props.
+ * @param {function} props.onGetStartedClick - The function to be called when the "Get Started" button is clicked.
+ * @returns {JSX.Element} HowItWorks component.
+ */
+
 const HowItWorks = ({ onGetStartedClick }) => {
     const [activeStep, setActiveStep] = useState(0);
 
+    /**
+     * Handle next step click.
+     */
+    
     const handleNext = () => {
         if (activeStep !== HOW_IT_WORKS_STEPS.length - 1) {
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
         }
     };
+
+    /**
+     * Handle previous step click.
+     */
 
     const handleBack = () => {
         if (activeStep !== 0) {

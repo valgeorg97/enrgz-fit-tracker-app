@@ -1,5 +1,15 @@
 import { Icon } from '@chakra-ui/react';
 
+import { Icon } from '@chakra-ui/react';
+
+/**
+ * Blob component.
+ *
+ * @component
+ * @param {object} props - The component props.
+ * @returns {JSX.Element} Blob component.
+ */
+
 const Blob = (props) => {
     return (
         <Icon

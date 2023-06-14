@@ -1,6 +1,16 @@
 import { Flex } from "@chakra-ui/react";
 import PropTypes from 'prop-types';
 
+/**
+ * PageContainer component.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {boolean} [props.isFixedNav] - Determines if the navigation is fixed.
+ * @param {ReactNode} props.children - The content to render inside the page container.
+ * @returns {JSX.Element} PageContainer component.
+ */
+
 export default function PageContainer(props) {
   return (
     <Flex

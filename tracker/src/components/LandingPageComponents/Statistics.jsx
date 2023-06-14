@@ -9,6 +9,17 @@ import { BsPerson } from 'react-icons/bs';
 import { CgGym } from 'react-icons/cg';
 import {GiStairsGoal} from 'react-icons/gi'
 
+/**
+ * Stats Card component.
+ *
+ * @component
+ * @param {object} props - The component props.
+ * @param {string} props.title - The title of the stat card.
+ * @param {number} props.stat - The value of the stat.
+ * @param {node} props.icon - The icon to be displayed on the stat card.
+ * @returns {JSX.Element} StatsCard component.
+ */
+
 function StatsCard(props) {
     const { title, stat, icon } = props;
     return (
@@ -38,6 +49,13 @@ function StatsCard(props) {
         </Stat>
     );
 }
+
+/**
+ * Basic Statistics component.
+ *
+ * @component
+ * @returns {JSX.Element} BasicStatistics component.
+ */
 
 export default function BasicStatistics() {
     const [userCount, setUserCount] = useState(0);

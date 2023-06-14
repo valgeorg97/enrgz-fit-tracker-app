@@ -1,6 +1,19 @@
 import {Box,Container,Text,Image,Flex,} from '@chakra-ui/react';
 import logo from "../../assets/logo.png"
 
+/**
+ * Logo Component.
+ * 
+ * This is a functional component that displays the application's logo image.
+ * 
+ * @component
+ * @param {object} props - Component props
+ * @example
+ * return (
+ *   <Logo boxSize="100px" mt={10}/>
+ * )
+ */
+
 const Logo = (props) => {
 return (
   <Box {...props}>
@@ -8,6 +21,18 @@ return (
   </Box>
 );
 };
+
+/**
+ * SmallWithLogoLeft Component.
+ * 
+ * This is a functional component that displays a small footer with the logo aligned to the left.
+ * 
+ * @component
+ * @example
+ * return (
+ *   <SmallWithLogoLeft />
+ * )
+ */
 
 export default function SmallWithLogoLeft() {
 return (

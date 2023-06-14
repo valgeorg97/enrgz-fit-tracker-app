@@ -8,6 +8,51 @@ import {Box,Input,Heading,Text,VStack,Button,Collapse,Flex,} from "@chakra-ui/re
 import water2 from "../../../assets/water2.png";
 import "./Water.css";
 
+/**
+ * `WaterCalculator` is a functional React component that calculates and displays user's water intake.
+ * This component uses firebase to retrieve and update user's data related to water consumption.
+ * 
+ * @component
+ * @example
+ * <WaterCalculator />
+ * 
+ * @returns {ReactElement} The UI DOM object for the `WaterCalculator` component.
+ *
+ * @property {Object} userDocID - Document ID of the current user in the Firestore database.
+ * @property {Object} weight - Weight of the user to calculate recommended water intake.
+ * @property {Number} consumedWater - The amount of water consumed by the user.
+ * @property {Number} savedWater - The amount of water saved by the user.
+ * @property {Object} energizePoints - The number of points earned by the user in the Energize Game.
+ * @property {Boolean} awardedWaterPoints - A boolean indicating whether the user has been awarded points for water intake.
+ * 
+ * Hooks:
+ * @see useContext (https://reactjs.org/docs/hooks-reference.html#usecontext) - Accepts a context object (the value returned from `React.createContext`) and returns the current context value for that context.
+ * @see useState (https://reactjs.org/docs/hooks-state.html) - Allows adding React state to function components.
+ * @see useEffect (https://reactjs.org/docs/hooks-effect.html) - Accepts a function that contains imperative, possibly effectful code.
+ * @see useRef (https://reactjs.org/docs/hooks-reference.html#useref) - Returns a mutable ref object whose `.current` property is initialized to the passed argument (`null` in this case).
+ *
+ * Contexts:
+ * @see AuthContext - A context that provides the user document ID from the authentication process.
+ * @see EnergizeGameContext - A context that provides the number of points earned by the user in the Energize Game.
+ *
+ * Components:
+ * @see Box - Chakra UI component that renders a `div` and is often used as a layout component.
+ * @see Heading - Chakra UI component for rendering headings.
+ * @see Text - Chakra UI component for rendering text.
+ * @see VStack - Chakra UI component for vertically stacking child components.
+ * @see Button - Chakra UI component for rendering a button.
+ * @see Collapse - Chakra UI component for showing and hiding content with a sliding animation.
+ * @see Flex - Chakra UI component for creating layouts using the CSS Flexbox model.
+ * @see Input - Chakra UI component for inputting data.
+ * 
+ * Functions:
+ * @see handleToggle - Toggles the isOpen state.
+ * @see calculateWaterIntake - Calculates the user's recommended water intake based on their weight.
+ * @see calculatePercentage - Calculates the percentage of the recommended water intake that the user has consumed.
+ * @see saveWaterIntake - Saves the user's current water intake to Firestore and updates the number of Energize Game points.
+ * @see resetConsumedWater - Resets the user's water consumption if a new day has started.
+ */
+
 const WaterCalculator = () => {
   const { energizePoints, setEnergizePoints } = useContext(EnergizeGameContext)
   const [weight, setWeight] = useState(null);

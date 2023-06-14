@@ -16,6 +16,13 @@ import { useColorMode } from "@chakra-ui/react";
 
 const MotionBox = motion(Box);
 
+/**
+ * Navigation component.
+ *
+ * @component
+ * @returns {JSX.Element} Navigation component.
+ */
+
 const Navigation = () => {
     const location = useLocation();
     const navigate = useNavigate()

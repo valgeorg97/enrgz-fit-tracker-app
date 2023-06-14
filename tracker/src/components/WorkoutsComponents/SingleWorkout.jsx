@@ -4,6 +4,21 @@ import { FaTrashAlt,FaCheck } from "react-icons/fa";
 import { DIFFICULTY_COLORS } from "../../common/constants";
 import PropTypes from 'prop-types';
 
+/**
+ * SingleWorkout component.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Object} props.selectedWorkout - Selected workout object.
+ * @param {string} props.userID - User ID.
+ * @param {Function} props.updateWorkoutTitle - Function to update workout title.
+ * @param {Function} props.handleDeleteWorkout - Function to handle deleting a workout.
+ * @param {Function} props.setSelectedWorkout - Function to set the selected workout.
+ * @param {boolean} props.shared - Boolean indicating if the workout is shared.
+ * @param {Function} props.handleFinishWorkout - Function to handle finishing a workout.
+ * @returns {JSX.Element} SingleWorkout component.
+ */
+
 const SingleWorkout = ({ selectedWorkout, userID, updateWorkoutTitle, handleDeleteWorkout,setSelectedWorkout,shared,handleFinishWorkout}) => {
   const EditableControlsExample = () => {
     const {

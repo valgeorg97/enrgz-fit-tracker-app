@@ -4,6 +4,18 @@ import { useState, useEffect } from "react";
 import fitnessIcon from '../../assets/fitnessIcon.png';
 import girlFitnessIcon from '../../assets/177687.png'
 
+/**
+ * FactBubble Component.
+ *
+ * This is a component that displays a bubble with a random fact and an icon.
+ *
+ * @component
+ * @example
+ * return (
+ *   <FactBubble />
+ * )
+ */
+
 const FactBubble = () => {
   const [randomFact, setRandomFact] = useState("");
   const [randomIcon, setRandomIcon] = useState("");

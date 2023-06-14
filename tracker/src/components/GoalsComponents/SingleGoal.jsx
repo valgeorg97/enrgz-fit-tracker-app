@@ -4,6 +4,33 @@ import { FaCheck, FaTrashAlt } from "react-icons/fa";
 import { BsArrowReturnRight } from "react-icons/bs";
 import PropTypes from 'prop-types';
 
+/**
+ * SingleGoal Component.
+ *
+ * This is a component that displays a modal for editing and managing a single goal.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {boolean} props.isModalOpen - Flag indicating whether the modal is open or not.
+ * @param {Function} props.closeModal - Callback function to close the modal.
+ * @param {Object} props.selectedGoal - Selected goal object.
+ * @param {string} props.selectedGoal.id - ID of the selected goal.
+ * @param {string} props.selectedGoal.name - Name of the selected goal.
+ * @param {string} props.selectedGoal.text - Text of the selected goal.
+ * @param {string} props.selectedGoal.status - Status of the selected goal.
+ * @param {string} props.selectedGoal.category - Category of the selected goal.
+ * @param {string} props.selectedGoal.from - Starting date of the selected goal.
+ * @param {string} props.selectedGoal.to - Ending date of the selected goal.
+ * @param {Function} props.updateGoalTitle - Callback function to update the title of the selected goal.
+ * @param {Function} props.updateGoalText - Callback function to update the text of the selected goal.
+ * @param {Function} props.handleFinishGoal - Callback function to handle finishing the selected goal.
+ * @param {Function} props.handleDeleteGoal - Callback function to handle deleting the selected goal.
+ * @example
+ * return (
+ *   <SingleGoal {...props}/>
+ * )
+ */
+
 const SingleGoal = ({isModalOpen,closeModal,selectedGoal,updateGoalTitle,updateGoalText,handleFinishGoal,handleDeleteGoal,}) => {
 
     const EditableControlsExample = () => {
