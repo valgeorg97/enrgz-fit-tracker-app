@@ -1,4 +1,4 @@
-import { Box, Text, Heading, Link} from '@chakra-ui/react';
+import { Box, Text, Heading, Link } from '@chakra-ui/react';
 
 /**
  * EnergizeGame Component.
@@ -44,13 +44,23 @@ const EnergizeGame = () => {
             <Text mb="4" fontWeight="bold">
                 Earning Points:
             </Text>
-            <Text mb="4">
-                Each activity you complete gets you closer to the top.
-                - Meet your daily water intake goal: Earn 3 points
-                - Reach your calorie intake goal: Earn 5 points! Note, these points are awarded when you reach your calorie goal and continue up to 200 calories above it. Beyond that, well, it's time to hit the treadmill!
-                - Finish a workout: Earn 5 points
-                - Achieve a fitness goal: Earn 5 points
-            </Text>
+            <Box mb="4">
+                <Box mb="3">
+                Each activity you complete gets you closer to the top:
+                </Box>
+                <Box as="div">
+                    - Meet your daily water intake goal: Earn 3 points
+                </Box>
+                <Box as="div">
+                    - Reach your calorie intake goal: Earn 5 points! Note, these points are awarded when you reach your calorie goal and continue up to 200 calories above it. Beyond that, well, it's time to hit the treadmill!
+                </Box>
+                <Box as="div">
+                    - Finish a workout: Earn 5 points
+                </Box>
+                <Box as="div">
+                    - Achieve a fitness goal: Earn 5 points
+                </Box>
+            </Box>
             <Text fontWeight={"bold"}>
                 Energize Conquest is more than a game - it's a lifestyle, an exciting journey towards a fitter, healthier you. Are you ready to conquer your goals and lead the conquest?
             </Text>
