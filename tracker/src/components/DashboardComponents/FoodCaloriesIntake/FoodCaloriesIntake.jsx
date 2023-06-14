@@ -163,67 +163,73 @@ const FoodCaloriesIntake = () => {
     if (query !== "" && grams !== "") {
       try {
         const data = await getNutritionData(query, grams, API_KEY);
-
+  
         if (Array.isArray(data) && data.length) {
           let foodItem = {
             name: query,
             grams: grams,
             calories: data[0].calories,
           };
-
+  
+          let newEnergizePoints = energizePoints;
+          let isPointsAwarded = false;
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+  
+          if (userDocID) {
+            const docRef = doc(db, "users", userDocID);
+            const docSnap = await getDoc(docRef);
+    
+            if (docSnap.exists()) {
+              const lastUpdate = docSnap.data().lastUpdate?.toDate();
+              if (!lastUpdate || lastUpdate.getDate() !== today.getDate() || lastUpdate.getMonth() !== today.getMonth() || lastUpdate.getFullYear() !== today.getFullYear()) {
+                isPointsAwarded = false;
+              } else {
+                isPointsAwarded = docSnap.data().isPointsAwarded || false;
+              }
+            }
+          }
+  
           setFoodItems((prevState) => {
             let updatedFoodItems = {
               ...prevState,
               [mealType]: [...prevState[mealType], foodItem],
             };
-
+  
             const newConsumedCalories = consumedCalories + data[0].calories;
             setConsumedCalories(newConsumedCalories);
-
-            if (userDocID) {
+  
+            if (userDocID && !isPointsAwarded) {
               const docRef = doc(db, "users", userDocID);
-              setDoc(docRef,
-                {
-                  consumedCalories: newConsumedCalories,
-                  foodItems: updatedFoodItems
-                },
-                { merge: true }
-              ).catch((error) => {
+              if (newConsumedCalories >= currentGoal.calory && newConsumedCalories <= currentGoal.calory + 200) {
+                newEnergizePoints += 5;
+                isPointsAwarded = true;
+  
+                toast({
+                  title: "Congratulations!",
+                  description: "You've earned 5 Energize Points for reaching your calorie goal!",
+                  status: "success",
+                  duration: 9000,
+                  isClosable: true,
+                  position: "top",
+                });
+              }
+  
+              const updateData = {
+                consumedCalories: newConsumedCalories,
+                foodItems: updatedFoodItems,
+                lastUpdate: today,
+                energizePoints: newEnergizePoints,
+                isPointsAwarded: isPointsAwarded,
+              };
+  
+              setEnergizePoints(newEnergizePoints);
+              setIsPointsAwarded(isPointsAwarded);
+              setDoc(docRef, updateData, { merge: true }).catch((error) => {
                 console.error("Error updating document: ", error);
               });
             }
-
-            if (newConsumedCalories >= currentGoal.calory && newConsumedCalories <= currentGoal.calory + 200 && !isPointsAwarded) {
-              const newPoints = energizePoints + 5;
-              setEnergizePoints(newPoints);
-              setIsPointsAwarded(true);
-              toast({
-                title: "Congratulations!",
-                description: "You've earned 5 Energize Points for reaching your calorie goal!",
-                status: "success",
-                duration: 9000,
-                isClosable: true,
-                position: "top"
-              });
-              if (userDocID) {
-                const docRef = doc(db, "users", userDocID);
-                const updatePoints = async () => {
-                  try {
-                    await setDoc(docRef,
-                      {
-                        energizePoints: newPoints,
-                        isPointsAwarded: true
-                      },
-                      { merge: true }
-                    );
-                  } catch (error) {
-                    console.error("Error updating document: ", error);
-                  }
-                };
-                updatePoints();
-              }
-            }
-
+  
             return updatedFoodItems;
           });
         } else {
@@ -242,18 +248,6 @@ const FoodCaloriesIntake = () => {
     }
     setQuery("");
     setGrams("");
-  };
-  const resetConsumedCalories = async () => {
-    if (userDocID) {
-      const userRef = doc(db, "users", userDocID);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      await setDoc(
-        userRef,
-        { consumedCalories: 0, lastUpdate: today },
-        { merge: true }
-      );
-    }
   };
 
   const calorieProgress = (consumedCalories / currentGoal.calory) * 100;

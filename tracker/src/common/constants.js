@@ -3,7 +3,7 @@ import goalIcon from "../assets/goalIcon.png"
 import progressIcon from "../assets/pace.png"
 import profileGirlIcon from "../assets/177687.png"
 import leadboard from "../assets/leadboard.png"
-// import terminator from "../assets/terminator.png"
+import terminator from "../assets/terminator.png"
 import doner from "../assets/doner.png"
 import andrewT from "../assets/andrewT.png"
 import serena from "../assets/serena.png"
@@ -37,7 +37,7 @@ export const TESTIMONIALS = [
     role: 'The Terminator',
     content:
     "Hasta la vista, lazy days! Energize has transformed my fitness routine into an epic battle against calories and weak muscles. I track every move, conquer my workouts, and crush my goals.  Get ready to say 'I'll be back' to those extra pounds because with Energize, victory is inevitable!",
-    // avatar: terminator,
+    avatar: terminator,
   },
   {
     name: 'Andrew Tate',
