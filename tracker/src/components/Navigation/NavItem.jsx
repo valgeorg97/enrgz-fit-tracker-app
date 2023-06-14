@@ -76,5 +76,5 @@ NavItem.propTypes = {
     active: PropTypes.bool.isRequired,
     navSize: PropTypes.oneOf(["small", "large"]).isRequired,
     link: PropTypes.string.isRequired,
-    friendRequestCount: PropTypes.number.isRequired,
+    friendRequestCount: PropTypes.number,
   };

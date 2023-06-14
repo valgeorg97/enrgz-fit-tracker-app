@@ -82,7 +82,7 @@ GoalMenu.propTypes = {
   mainGoals: PropTypes.object.isRequired,
   updateCurrentGoal: PropTypes.func.isRequired,
   currentGoal: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     calory: PropTypes.number.isRequired,
   }),
 };

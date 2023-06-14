@@ -1,7 +1,5 @@
 import { Icon } from '@chakra-ui/react';
 
-import { Icon } from '@chakra-ui/react';
-
 /**
  * Blob component.
  *

@@ -111,7 +111,7 @@ const WorkoutCards = ({workout,shared,handleViewMoreClick,handleShareWorkout,dif
 
 WorkoutCards.propTypes = {
   workout: PropTypes.object.isRequired,
-  shared: PropTypes.bool.isRequired,
+  shared: PropTypes.bool,
   handleViewMoreClick: PropTypes.func.isRequired,
   handleShareWorkout: PropTypes.func.isRequired,
   difficultyColors: PropTypes.object.isRequired,
