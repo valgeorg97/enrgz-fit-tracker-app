@@ -37,7 +37,7 @@ const UserMenu = () => {
   }
 
   return (
-    <Flex position="fixed" right={0} backgroundColor={"gray.100"} w={"1675px"} zIndex={"sticky"} borderRadius={"md"} h={"70px"}>
+    <Flex position="fixed" right={0} backgroundColor={"white"} w={"1675px"} zIndex={"sticky"} borderRadius={"md"} h={"70px"}>
       <Box ml="1430px" paddingTop={"2"}>
         <Heading as="h3" size="sm">{`${name} ${family}`}</Heading>
         <Flex color="gray" alignItems="center">
