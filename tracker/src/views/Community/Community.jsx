@@ -44,7 +44,7 @@ const Community = () => {
 
   return (
     <Box w="1560px">
-      <Grid templateColumns="repeat(1, 1fr)" h="600px">
+      <Grid templateColumns="repeat(1, 1fr)" h="700px">
 
         <GridItem colSpan={1} rounded="md" borderColor="gray.50" h="140px" w="1600px" bgImage={goalheader} p={8} />
 

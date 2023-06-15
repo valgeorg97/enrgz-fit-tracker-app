@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { Spinner } from '@chakra-ui/react'
 import { MdFlashOn } from 'react-icons/md';
 import ThemeButton from "../ThemeButton/ColorModeButton";
+import { useColorMode } from "@chakra-ui/react";
+
 
 
 /**
@@ -21,6 +23,9 @@ const UserMenu = () => {
   const { energizePoints } = useContext(EnergizeGameContext)
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { colorMode } = useColorMode();
+  const bg = (colorMode) === "dark" ? "gray.800" : "white";
+
 
   const handleSignOut = () => {
     signOut();
@@ -37,7 +42,7 @@ const UserMenu = () => {
   }
 
   return (
-    <Flex position="fixed" right={0} backgroundColor={"white"} w={"1675px"} zIndex={"sticky"} borderRadius={"md"} h={"70px"}>
+    <Flex position="fixed" right={0} backgroundColor={bg} w={"1675px"} zIndex={"sticky"} borderRadius={"md"} h={"70px"}>
       <Box ml="1430px" paddingTop={"2"}>
         <Heading as="h3" size="sm">{`${name} ${family}`}</Heading>
         <Flex color="gray" alignItems="center">

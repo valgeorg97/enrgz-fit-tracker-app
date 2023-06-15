@@ -14,6 +14,7 @@ import WorkoutsLogic from "../../logic/WorkoutsLogic/WorkoutsLogic";
  */
 const Workouts = () => {
   const [isLoading, setIsLoading] = useState(true);
+  
   const {
     selectedWorkout,
     selectedSharedWorkout,
@@ -45,7 +46,7 @@ const Workouts = () => {
         gap={4}
         templateRows="repeat(2, 1fr)"
         templateColumns="repeat(5, 1fr)"
-        h="600px"
+        h="700px"
       >
         <GridItem colSpan={5} rounded="md" borderColor="gray.50" h="140px" w="1600px" bgImage={goalheader} p={8}/>
 
